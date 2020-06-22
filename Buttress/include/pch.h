@@ -12,5 +12,7 @@
 #include <string>
 #include <iostream>
 #include <functional>
-
+#include <algorithm>
+#include <set>
+#include <unordered_map>
 #endif //PCH_H

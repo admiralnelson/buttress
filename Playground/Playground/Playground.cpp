@@ -4,7 +4,6 @@
 #include <iostream>
 
 #include <Buttress.h>
-
 int main()
 {
     Buttress b;

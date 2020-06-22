@@ -21,10 +21,12 @@
   <ItemGroup>
     <ClCompile Include="include\pch.cpp" />
     <ClCompile Include="src\Buttress.cpp" />
+    <ClCompile Include="src\Shader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Buttress.h" />
     <ClInclude Include="include\Logger.h" />
+    <ClInclude Include="include\Shader.h" />
     <ClInclude Include="include\pch.h" />
   </ItemGroup>
   <ItemGroup>
