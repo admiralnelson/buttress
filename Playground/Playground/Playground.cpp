@@ -4,11 +4,16 @@
 #include <iostream>
 
 #include <Buttress.h>
+#include <Texture.h>
 int main()
 {
+    
     Buttress b;
     b.Init(800, 600, "tetst");
+    Texture t("test", "../../resource/media/test.jpg");
+    t.Debug();
     b.Start();
+
     return 0;
 }
 

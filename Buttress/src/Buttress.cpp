@@ -5,7 +5,7 @@
 #include "Logger.h"
 #include "Buttress.h"
 #include "Shader.h"
-
+#include "Util.h"
 
 Buttress::Buttress()
 {
@@ -50,9 +50,15 @@ bool Buttress::Init(int width, int height, std::string title)
 	return true;
 }
 
-
 void Buttress::Start()
 {
+	using convert_type = std::codecvt_utf8<wchar_t>;
+	std::wstring_convert<convert_type, wchar_t> converter;
+
+	//use converter (.to_bytes: wstr->str, .from_bytes: str->wstr)
+	m_currentDirectory = converter.to_bytes(std::filesystem::current_path().c_str());
+
+	PRINT("CURRENT DIRECTORY:", m_currentDirectory);
 	float vertices[] = {
 		// positions         // colors
 		 0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,   // bottom right
@@ -64,17 +70,6 @@ void Buttress::Start()
 		1, 2, 3   // second Triangle
 	};
 
-	const char* vertexShaderSource = 
-	"#version 330 core\n"
-	"layout(location = 0) in vec3 aPos;\n"   // the position variable has attribute position 0
-	"layout(location = 1) in vec3 aColor;\n" // the color variable has attribute position 1
-	"out vec3 ourColor;\n" // output a color to the fragment shader
-	"void main()\n"
-	"{\n"
-	"	gl_Position = vec4(aPos, 1.0);\n"
-		"ourColor = aColor;\n" // set ourColor to the input color we got from the vertex data
-	"}\n\0";
-
 	const char* fragmentShaderSource = 
 	"#version 330 core\n"
 	"out vec4 FragColor;\n"
@@ -85,7 +80,7 @@ void Buttress::Start()
 	"}\n\0";
 
 	Shader s("test");
-	s.AddVertexShader(vertexShaderSource);
+	s.AddVertexShader(ReadFileAsString("../../resource/shader/core.txt"));
 	s.AddFragmentShader(fragmentShaderSource);
 	s.CompileShader();
 	s.AddAttribute("aPos");

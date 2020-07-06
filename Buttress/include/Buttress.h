@@ -5,6 +5,13 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+struct DestroyglfwWin {
+	void operator()(GLFWwindow* ptr)
+	{
+		glfwDestroyWindow(ptr);
+	}
+};
+
 
 class Buttress
 {
@@ -16,6 +23,7 @@ public:
 	~Buttress();
 
 private:
-	std::shared_ptr<GLFWwindow> m_window;
+	std::unique_ptr<GLFWwindow, DestroyglfwWin> m_window;
 	int m_width = 0, m_height = 0;
+	std::string m_currentDirectory;
 };

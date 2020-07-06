@@ -14,5 +14,12 @@
 #include <functional>
 #include <algorithm>
 #include <set>
+#include <array>
 #include <unordered_map>
+#include <filesystem>
+#include <locale>
+#include <codecvt>
+#include <fstream>
+#include <sstream>
+#include "Logger.h"
 #endif //PCH_H

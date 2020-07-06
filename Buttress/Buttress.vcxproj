@@ -22,12 +22,16 @@
     <ClCompile Include="include\pch.cpp" />
     <ClCompile Include="src\Buttress.cpp" />
     <ClCompile Include="src\Shader.cpp" />
+    <ClCompile Include="src\Texture.cpp" />
+    <ClCompile Include="src\Util.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Buttress.h" />
     <ClInclude Include="include\Logger.h" />
     <ClInclude Include="include\Shader.h" />
     <ClInclude Include="include\pch.h" />
+    <ClInclude Include="include\Texture.h" />
+    <ClInclude Include="include\Util.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\external\glfw_project_and_configs\src\glfw.vcxproj">
@@ -118,10 +122,11 @@
       <PrecompiledHeader>Create</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\Buttress\include;$(SolutionDir)..\external\glfw\include\;$(SolutionDir)..\external\glad_project_and_configs\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\Buttress\include;$(SolutionDir)..\external\glfw\include\;$(SolutionDir)..\external\glad_project_and_configs\include\;$(SolutionDir)..\external\stb;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
