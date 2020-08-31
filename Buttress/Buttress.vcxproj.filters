@@ -38,6 +38,9 @@
     <ClCompile Include="src\Util.cpp">
       <Filter>util</Filter>
     </ClCompile>
+    <ClCompile Include="src\Model.cpp">
+      <Filter>resource</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\pch.h">
@@ -57,6 +60,15 @@
     </ClInclude>
     <ClInclude Include="include\Util.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Model.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Geometry.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Object.h">
+      <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

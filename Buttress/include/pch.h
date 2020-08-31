@@ -21,5 +21,6 @@
 #include <codecvt>
 #include <fstream>
 #include <sstream>
+#include "Geometry.h"
 #include "Logger.h"
 #endif //PCH_H

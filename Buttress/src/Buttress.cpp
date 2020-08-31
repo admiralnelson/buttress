@@ -70,18 +70,29 @@ void Buttress::Start()
 		1, 2, 3   // second Triangle
 	};
 
-	const char* fragmentShaderSource = 
+	/*const char* fragmentShaderSource = 
 	"#version 330 core\n"
 	"out vec4 FragColor;\n"
 	"in vec3 ourColor;\n"
 	"void main()\n"
 	"{\n"
 		"FragColor = vec4(ourColor, 1.0);\n"
-	"}\n\0";
+	"}\n\0";*/
+
+	if (OnStart)
+	{
+		if (!OnStart())
+		{
+			Shutdown();
+			PRINT("ERROR", "OnStart returns false, closing program....");
+			return;
+		}
+	}
+
 
 	Shader s("test");
 	s.AddVertexShader(ReadFileAsString("../../resource/shader/core.txt"));
-	s.AddFragmentShader(fragmentShaderSource);
+	s.AddFragmentShader(ReadFileAsString("../../resource/shader/core_fragment.txt"));
 	s.CompileShader();
 	s.AddAttribute("aPos");
 	s.AddAttribute("aColor");
@@ -113,6 +124,15 @@ void Buttress::Start()
 	}
 	glDeleteVertexArrays(1, &vao);
 	glDeleteBuffers(1, &vbo);
+	Shutdown();
+}
+
+void Buttress::Shutdown()
+{
+	if (OnShutdown)
+	{
+		OnShutdown();
+	}
 	glfwTerminate();
 }
 

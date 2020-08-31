@@ -46,6 +46,13 @@ Texture::Texture(std::string simpleName, std::array<std::string, 6> paths)
 {
 }
 
+void Texture::Use()
+{
+	//todo: for multiple texture!
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, m_textureNo);
+}
+
 Texture::~Texture()
 {
 

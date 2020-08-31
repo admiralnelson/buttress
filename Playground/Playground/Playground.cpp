@@ -11,6 +11,10 @@ int main()
     Buttress b;
     b.Init(800, 600, "tetst");
     Texture t("test", "../../resource/media/test.jpg");
+    b.OnStart = []()
+    {
+        return true;
+    };
     t.Debug();
     b.Start();
 

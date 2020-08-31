@@ -19,7 +19,10 @@ public:
 	Buttress();
 	bool Init(int width, int height, std::string title);
 	void Start();
+	void Shutdown();
 	std::function<void(int width, int height)> OnResize;
+	std::function<bool()> OnStart;
+	std::function<void()> OnShutdown;
 	~Buttress();
 
 private:

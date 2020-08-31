@@ -6,6 +6,7 @@ class Texture
 public:
 	Texture(std::string simpleName, std::string path);
 	Texture(std::string simpleName, std::array<std::string, 6> paths);
+	void Use();
 	~Texture();
 	void Debug();
 private:
