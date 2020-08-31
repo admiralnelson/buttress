@@ -4,7 +4,7 @@
 #include <utility>
 #include <iomanip>
 
-#define PRINT(...) std::cout << "[" __FUNCTION__":" << __LINE__ << "]  " , __VA_ARGS__ , std::endl
+#define PRINT(...) std::cout << "[" << __FUNCTION__ << " " <<  __FILE__ << ":" << __LINE__ << "]  " , __VA_ARGS__ , std::endl
 
 template <typename T>
 inline std::ostream& operator,(std::ostream& out, const T& t) {

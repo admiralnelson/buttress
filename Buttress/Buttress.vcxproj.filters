@@ -41,6 +41,9 @@
     <ClCompile Include="src\Model.cpp">
       <Filter>resource</Filter>
     </ClCompile>
+    <ClCompile Include="src\PrimitiveDraw.cpp">
+      <Filter>main</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\pch.h">
@@ -68,6 +71,9 @@
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="include\Object.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\PrimitiveDraw.h">
       <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>

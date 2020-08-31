@@ -7,8 +7,8 @@ class Shader
 public:
 	Shader(std::string name);
 	void Use();
-	void AddUniform(std::string name);
-	void AddAttribute(std::string name);
+	bool AddUniform(std::string name);
+	bool AddAttribute(std::string name);
 	GLint GetAttributeLocation(std::string name);
 	GLint GetUniformLocation(std::string name);
 	void SetUniformValueF(std::string name, float x);

@@ -33,24 +33,28 @@ void Shader::Use()
 
 
 //TODO: automatic parse list of uniform and vertex
-void Shader::AddUniform(std::string name)
+bool Shader::AddUniform(std::string name)
 {
 	int uniformLocation = glGetUniformLocation(m_program, name.c_str());
 	if (uniformLocation == -1)
 	{
 		PRINT("WARNING", "unable to locate uniform in the shader:", name, "from shader:", m_name);
+		return false;
 	}
 	m_uniforms[name] =  uniformLocation;
+	return true;
 }
 
-void Shader::AddAttribute(std::string name)
+bool Shader::AddAttribute(std::string name)
 {
 	int uniformLocation = glGetAttribLocation(m_program, name.c_str());
 	if (uniformLocation == -1)
 	{
 		PRINT("WARNING", "unable to locate attribute in the shader:", name, "from shader:", m_name);
+		return false;
 	}
 	m_attributes[name] = uniformLocation;
+	return true;
 }
 
 GLint Shader::GetAttributeLocation(std::string name) 

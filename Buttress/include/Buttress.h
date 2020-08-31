@@ -4,6 +4,7 @@
 #include "pch.h"
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include "PrimitiveDraw.h"
 
 struct DestroyglfwWin {
 	void operator()(GLFWwindow* ptr)
@@ -24,9 +25,13 @@ public:
 	std::function<bool()> OnStart;
 	std::function<void()> OnShutdown;
 	~Buttress();
-
+	PrimitiveDraw * PrimitiveDrawInstance() const
+	{
+		return m_primitiveDraw.get();
+	}
 private:
 	std::unique_ptr<GLFWwindow, DestroyglfwWin> m_window;
+	std::unique_ptr<PrimitiveDraw> m_primitiveDraw;
 	int m_width = 0, m_height = 0;
 	std::string m_currentDirectory;
 };
