@@ -6,7 +6,7 @@
 
 Shader::Shader(std::string name)
 {
-	m_name = name;
+	this->name = name;
 	if (shaderList.find(name) != shaderList.end())
 	{
 		PRINT("ERROR", "shader", name, "has been created already!");
@@ -17,15 +17,15 @@ Shader::Shader(std::string name)
 		throw new std::exception("shader error", -1);
 	}
 	m_program = glCreateProgram();
-	PRINT("INFO", "shader program has been created:", m_name, "program nr:", m_program);
-	shaderList[m_name] = this;
+	PRINT("INFO", "shader program has been created:", this->name, "program nr:", m_program);
+	shaderList[this->name] = this;
 }
 
 void Shader::Use()
 {
 	if (!IsShaderReady())
 	{
-		PRINT("ERROR", "shader is not compiled", m_name);
+		PRINT("ERROR", "shader is not compiled", this->name);
 		throw new std::exception("shader error", -1);
 	}
 	glUseProgram(m_program);
@@ -38,7 +38,7 @@ bool Shader::AddUniform(std::string name, std::string type, GLint arraySize)
 	int uniformLocation = glGetUniformLocation(m_program, name.c_str());
 	if (uniformLocation == -1)
 	{
-		PRINT("WARNING", "unable to locate uniform in the shader:", name, "from shader:", m_name);
+		PRINT("WARNING", "unable to locate uniform in the shader:", name, "from shader:", this->name);
 		return false;
 	}
 	m_uniforms[name] = { type, uniformLocation, arraySize };
@@ -50,7 +50,7 @@ bool Shader::AddAttribute(std::string name, std::string type)
 	int uniformLocation = glGetAttribLocation(m_program, name.c_str());
 	if (uniformLocation == -1)
 	{
-		PRINT("WARNING", "unable to locate attribute in the shader:", name, "from shader:", m_name);
+		PRINT("WARNING", "unable to locate attribute in the shader:", name, "from shader:", this->name);
 		return false;
 	}
 	m_attributes[name] = { type, uniformLocation };
@@ -61,7 +61,7 @@ GLint Shader::GetAttributeLocation(std::string name)
 {
 	if (!IsAttributeDefined(name))
 	{
-		PRINT("WARNING", "undefined attribute", name, "shader source:", m_name);
+		PRINT("WARNING", "undefined attribute", name, "shader source:", this->name);
 		return -1;
 	}
 	return m_attributes[name].valuePos;
@@ -71,7 +71,7 @@ GLint Shader::GetUniformLocation(std::string name)
 {
 	if (!IsUniformDefined(name))
 	{
-		PRINT("WARNING", "undefined uniform", name, "shader source:", m_name);
+		PRINT("WARNING", "undefined uniform", name, "shader source:", this->name);
 		return -1;
 	}
 	return m_uniforms[name].valuePos;
@@ -81,7 +81,7 @@ bool Shader::SetUniformValueF(std::string name, float x)
 {
 	if (!IsUniformDefined(name))
 	{
-		PRINT("WARNING", "undefined uniform", name, "shader source:", m_name);
+		PRINT("WARNING", "undefined uniform", name, "shader source:", this->name);
 		return false;
 	}
 	glUniform1f(m_uniforms[name].valuePos, x);
@@ -93,7 +93,7 @@ bool Shader::SetUniformValueF(std::string name, float x, float y)
 {
 	if (!IsUniformDefined(name))
 	{
-		PRINT("WARNING", "undefined uniform", name, "shader source:", m_name);
+		PRINT("WARNING", "undefined uniform", name, "shader source:", this->name);
 		return false;
 	}
 	//DEFINE HERE:::
@@ -104,7 +104,7 @@ bool Shader::SetUniformValueF(std::string name, float x, float y, float z)
 {
 	if (!IsUniformDefined(name))
 	{
-		PRINT("WARNING", "undefined uniform", name, "shader source:", m_name);
+		PRINT("WARNING", "undefined uniform", name, "shader source:", this->name);
 		return false;
 	}
 	//DEFINE HERE:::
@@ -115,7 +115,7 @@ bool Shader::SetUniformValueF(std::string name, float x, float y, float z, float
 {
 	if (!IsUniformDefined(name))
 	{
-		PRINT("WARNING", "undefined uniform", name, "shader source:", m_name);
+		PRINT("WARNING", "undefined uniform", name, "shader source:", this->name);
 		return false;
 	}
 	//DEFINE HERE:::
@@ -126,7 +126,7 @@ bool Shader::SetUniformValueF(std::string name, std::vector<float> v)
 {
 	if (!IsUniformDefined(name))
 	{
-		PRINT("WARNING", "undefined uniform", name, "shader source:", m_name);
+		PRINT("WARNING", "undefined uniform", name, "shader source:", this->name);
 		return false;
 	}
 	//DEFINE HERE:::
@@ -137,7 +137,7 @@ bool Shader::SetUniformValueI(std::string name, int x)
 {
 	if (!IsUniformDefined(name))
 	{
-		PRINT("WARNING", "undefined uniform", name, "shader source:", m_name);
+		PRINT("WARNING", "undefined uniform", name, "shader source:", this->name);
 		return false;
 	}
 	glUniform1i(m_uniforms[name].valuePos, x);
@@ -149,7 +149,7 @@ bool Shader::SetUniformValueI(std::string name, int x, int y)
 {
 	if (!IsUniformDefined(name))
 	{
-		PRINT("WARNING", "undefined uniform", name, "shader source:", m_name);
+		PRINT("WARNING", "undefined uniform", name, "shader source:", this->name);
 		return false;
 	}
 	//DEFINE HERE
@@ -160,7 +160,7 @@ bool Shader::SetUniformValueI(std::string name, int x, int y, int z)
 {
 	if (!IsUniformDefined(name))
 	{
-		PRINT("WARNING", "undefined uniform", name, "shader source:", m_name);
+		PRINT("WARNING", "undefined uniform", name, "shader source:", this->name);
 		return false;
 	}
 	//DEFINE HERE:::
@@ -171,7 +171,7 @@ bool Shader::SetUniformValueI(std::string name, int x, int y, int z, int w)
 {
 	if (!IsUniformDefined(name))
 	{
-		PRINT("WARNING", "undefined uniform", name, "shader source:", m_name);
+		PRINT("WARNING", "undefined uniform", name, "shader source:", this->name);
 		return false;
 	}
 	//DEFINE HERE:::
@@ -182,7 +182,7 @@ bool Shader::SetUniformValueI(std::string name, std::vector<int> v)
 {
 	if (!IsUniformDefined(name))
 	{
-		PRINT("WARNING", "undefined uniform", name, "shader source:", m_name);
+		PRINT("WARNING", "undefined uniform", name, "shader source:", this->name);
 		return false;
 	}
 	//DEFINE HERE:::
@@ -192,7 +192,7 @@ bool Shader::SetUniformValueI(std::string name, std::vector<int> v)
 void Shader::Debug()
 {
 	PRINT("INFO", "-----------------");
-	PRINT("INFO", "shader name:", m_name);
+	PRINT("INFO", "shader name:", this->name);
 	PRINT("INFO", "is shader ready: ", m_isReady ? "yes" : "no");
 	PRINT("INFO", "shader program nr:", m_program);
 	PRINT("INFO", "registered uniforms:");
@@ -236,7 +236,7 @@ void Shader::CompileShader()
 	glGetProgramiv(m_program, GL_LINK_STATUS, &status);
 	if (!status)
 	{
-		PRINT("ERROR", "shader", m_name, "is not linkable.");
+		PRINT("ERROR", "shader", this->name, "is not linkable.");
 		GLint maxLength = 0;
 		glGetProgramiv(m_program, GL_INFO_LOG_LENGTH, &maxLength);
 		std::vector<GLchar> errorLog(maxLength);
@@ -249,7 +249,7 @@ void Shader::CompileShader()
 	glGetProgramiv(m_program, GL_VALIDATE_STATUS, &status);
 	if (!status)
 	{
-		PRINT("ERROR", "shader", m_name, "is not valid.");
+		PRINT("ERROR", "shader", this->name, "is not valid.");
 		GLint maxLength = 0;
 		glGetProgramiv(m_program, GL_INFO_LOG_LENGTH, &maxLength);
 		std::vector<GLchar> errorLog(maxLength);
@@ -271,7 +271,7 @@ bool Shader::Validate()
 {
 	if (!m_isReady)
 	{
-		PRINT("WARNING", "shader", m_name, "is not ready to validate");
+		PRINT("WARNING", "shader", this->name, "is not ready to validate");
 		return false;
 	}
 	bool result = true;
@@ -281,7 +281,7 @@ bool Shader::Validate()
 		std::string type= s.second.type;
 		if (!AddAttribute(name, type))
 		{
-			PRINT("WARNING","attribute is optimised away:", name, "- type", s.second.type, "from shader:", m_name);
+			PRINT("WARNING","attribute is optimised away:", name, "- type", s.second.type, "from shader:", this->name);
 			result = false;
 		}
 	}
@@ -293,7 +293,7 @@ bool Shader::Validate()
 		GLint arraySize = s.second.arraySize;
 		if (!AddUniform(name, type, arraySize))
 		{
-			PRINT("WARNING", "uniform is optimised away:", name, "- type", s.second.type, "from shader:", m_name);
+			PRINT("WARNING", "uniform is optimised away:", name, "- type", s.second.type, "from shader:", this->name);
 			result = false;
 		}
 	}
@@ -312,9 +312,9 @@ bool Shader::IsAttributeDefined(std::string name)
 
 Shader::~Shader()
 {
-	shaderList.erase(m_name);
+	shaderList.erase(this->name);
 	glDeleteProgram(m_program);
-	PRINT("INFO", "shader has been erased", m_name);
+	PRINT("INFO", "shader has been erased", this->name);
 }
 
 void Shader::AddProgram(std::string source, int type)
@@ -322,7 +322,7 @@ void Shader::AddProgram(std::string source, int type)
 	int shader = glCreateShader(type);
 	if (!shader)
 	{
-		PRINT("ERROR", "shader type", type, "is not compilable.", "faulting shader:", m_name);
+		PRINT("ERROR", "shader type", type, "is not compilable.", "faulting shader:", this->name);
 		throw new std::exception("shader error", -1);
 	}
 	const char* data[1] = { source.c_str() };
@@ -333,7 +333,7 @@ void Shader::AddProgram(std::string source, int type)
 	glGetShaderiv(shader, GL_COMPILE_STATUS, &isCompiled);
 	if (!isCompiled)
 	{
-		PRINT("ERROR", "shader type", type, "is not compilable due to compilation error.", "faulting shader:", m_name);
+		PRINT("ERROR", "shader type", type, "is not compilable due to compilation error.", "faulting shader:", this->name);
 		GLint maxLength = 0;
 		glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &maxLength);
 		std::vector<GLchar> errorLog(maxLength);
@@ -414,7 +414,7 @@ bool Shader::CheckError(std::string lastOperationName, std::vector<std::string> 
 		{
 			paramString += s + " ";
 		}
-		PRINT("WARNING", "error", std::to_string(error) ,"operation in shader:", m_name ,"last operation:", lastOperationName, "params:", paramString);
+		PRINT("WARNING", "error", std::to_string(error) ,"operation in shader:", this->name ,"last operation:", lastOperationName, "params:", paramString);
 	}
 	return false;
 }

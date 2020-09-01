@@ -2,26 +2,31 @@
 #include "pch.h"
 #include <glad/glad.h>
 
+#define ATTRIBUTE_POS "aPos"
+#define ATTRIBUTE_COLOR "aColor"
+#define ATTRIBUTE_UV "aUv"
+
 class Shader
 {
 public:
-	Shader(std::string name);
+	Shader(std::string _name);
+	std::string name;
 	void Use();
-	bool AddUniform(std::string name, std::string type = "", GLint arraySize = 0);
-	bool AddAttribute(std::string name, std::string type = "");
-	GLint GetAttributeLocation(std::string name);
-	GLint GetUniformLocation(std::string name);
-	bool SetUniformValueF(std::string name, float x);
-	bool SetUniformValueF(std::string name, float x, float y);
-	bool SetUniformValueF(std::string name, float x, float y, float z);
-	bool SetUniformValueF(std::string name, float x, float y, float z, float w);
-	bool SetUniformValueF(std::string name, std::vector<float> v);
+	bool AddUniform(std::string _name, std::string type = "", GLint arraySize = 0);
+	bool AddAttribute(std::string _name, std::string type = "");
+	GLint GetAttributeLocation(std::string _name);
+	GLint GetUniformLocation(std::string _name);
+	bool SetUniformValueF(std::string _name, float x);
+	bool SetUniformValueF(std::string _name, float x, float y);
+	bool SetUniformValueF(std::string _name, float x, float y, float z);
+	bool SetUniformValueF(std::string _name, float x, float y, float z, float w);
+	bool SetUniformValueF(std::string _name, std::vector<float> v);
 
-	bool SetUniformValueI(std::string name, int x);
-	bool SetUniformValueI(std::string name, int x, int y);
-	bool SetUniformValueI(std::string name, int x, int y, int z);
-	bool SetUniformValueI(std::string name, int x, int y, int z, int w);
-	bool SetUniformValueI(std::string name, std::vector<int> v);
+	bool SetUniformValueI(std::string _name, int x);
+	bool SetUniformValueI(std::string _name, int x, int y);
+	bool SetUniformValueI(std::string _name, int x, int y, int z);
+	bool SetUniformValueI(std::string _name, int x, int y, int z, int w);
+	bool SetUniformValueI(std::string _name, std::vector<int> v);
 
 	void Debug();
 	void AddVertexShader(std::string source);
@@ -29,8 +34,8 @@ public:
 	void CompileShader();
 	bool IsShaderReady();
 	bool Validate();
-	bool IsUniformDefined(std::string name);
-	bool IsAttributeDefined(std::string name);
+	bool IsUniformDefined(std::string _name);
+	bool IsAttributeDefined(std::string _name);
 	~Shader();
 private:
 	void AddProgram(std::string source, int type);
@@ -38,7 +43,7 @@ private:
 	void FindAndLocateUniforms(std::string source);
 	void CheckVaryings(std::string source);
 	std::vector<std::string> SplitToVector(std::string input);
-	bool CheckError(std::string lastOperationName, std::vector<std::string> params);
+	bool CheckError(std::string lastOperation_name, std::vector<std::string> params);
 private:
 	struct ShaderParam 
 	{
@@ -46,7 +51,6 @@ private:
 		GLint valuePos;
 		GLint arraySize; 
 	};
-	std::string m_name;
 	std::unordered_map<std::string, ShaderParam> m_uniforms;
 	std::unordered_map<std::string, ShaderParam> m_attributes;
 	std::unordered_map<std::string, ShaderParam> m_varyings;

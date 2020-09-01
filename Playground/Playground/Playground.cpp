@@ -7,7 +7,7 @@
 #include <Texture.h>
 #include <Util.h>
 #include <Geometry.h>
-#include <tcppLibrary.hpp>
+#include <Model.h>
 int main()
 {
     
@@ -20,7 +20,8 @@ int main()
 	{
 		PRINT("xxx");
 	}
-	Vertex vert[] =
+
+	std::vector<Vertex> vert =
 	{
 		// positions          // colors           // texture coords
 		{ Vec3( 0.5f,  0.5f, 0.0f), Vec3(1.0f, 0.0f, 0.0f), Vec2(1.0f, 1.0f) }, // top right
@@ -29,54 +30,29 @@ int main()
 		{ Vec3(-0.5f,  0.5f, 0.0f), Vec3(1.0f, 0.0f, 0.0f), Vec2(0.0f, 1.0f) }, // top left 
 	};
 
-    unsigned int indices[] = {
+    std::vector<unsigned int> indices = {
         0, 1, 3, // first triangle
         1, 2, 3  // second triangle
     };
 
 	GLuint vbo, vao, ebo ;
 	Shader s("test");
+	s.AddVertexShader(ReadFileAsString("../../resource/shader/core.txt"));
+	s.AddFragmentShader(ReadFileAsString("../../resource/shader/core_fragment.txt"));
+	s.CompileShader();
+	s.Validate();
+	s.Debug();
+
+	Model m("a square", &s, vert, indices);
+
 	DrawCommand startup;
 	startup.Description = "Startup procedures";
 	startup.Command = [&]()
 	{
 		int err;
-		s.AddVertexShader(ReadFileAsString("../../resource/shader/core.txt"));
-		s.AddFragmentShader(ReadFileAsString("../../resource/shader/core_fragment.txt"));
-		s.CompileShader();
-		s.Validate();
-		s.Debug();
 
 
-		glGenVertexArrays(1, &vao);
-		glGenBuffers(1, &vbo);
-		glGenBuffers(1, &ebo);
-
-		glBindVertexArray(vao);
-		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(vert), vert, GL_STATIC_DRAW);
-
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
-		glEnableVertexArrayAttrib(vao, s.GetAttributeLocation("aPos"));
-		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(1 * sizeof(Vec3)));
-		glEnableVertexArrayAttrib(vao, s.GetAttributeLocation("aColor"));
-		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(2 * sizeof(Vec3)));
-		glEnableVertexArrayAttrib(vao, s.GetAttributeLocation("aUv"));
-
-
-		err = glGetError();
-		if (err != 0)
-		{
-			PRINT("xxx");
-		}
-
-		glBindVertexArray(0);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-
+		
 
 		s.Use();
 		s.SetUniformValueI("texture1", 0);
@@ -91,9 +67,7 @@ int main()
 	loop.Command = [&]()
 	{
 		s.Use();
-		glBindVertexArray(vao);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		m.Draw();
 	};
 
 	b.PrimitiveDrawInstance()->PushBegin(startup);
