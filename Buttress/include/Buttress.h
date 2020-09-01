@@ -24,6 +24,7 @@ public:
 	std::function<void(int width, int height)> OnResize;
 	std::function<bool()> OnStart;
 	std::function<void()> OnShutdown;
+	std::function<void()> OnLoop;
 	~Buttress();
 	PrimitiveDraw * PrimitiveDrawInstance() const
 	{

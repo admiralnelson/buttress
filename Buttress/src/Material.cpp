@@ -45,3 +45,13 @@ bool Material::IsReady()
 {
 	return (shader != nullptr && shader->IsShaderReady() && diffuse != nullptr);
 }
+
+void Material::Debug()
+{
+	PRINT("INFO", "material ready:", IsReady() ? "yes" : "no");
+	PRINT("    ", "material name:", name);
+	PRINT("    ", "shader name:", shader->name);
+	PRINT("    ", "diffuse name:", diffuse != nullptr ? diffuse->m_name : "none");
+	PRINT("    ", "specular name:", specular != nullptr ? specular->m_name : "none");
+
+}

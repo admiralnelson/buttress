@@ -14,6 +14,7 @@ public:
 	std::string name;
 	void Use();
 	bool IsReady();
+	void Debug();
 private:
 	
 };

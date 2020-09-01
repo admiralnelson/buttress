@@ -38,31 +38,14 @@ int main()
 	s.Debug();
 	Material material("test material", std::shared_ptr<Shader>(&s));
 	material.diffuse = std::shared_ptr<Texture>(&t);
-	if (material.IsReady())
-	{
-		PRINT("yes it is");
-	}
+	material.Debug();
 	Model model("a square", std::shared_ptr<Material>(&material), vert, indices);
 
-	DrawCommand startup;
-	startup.Description = "Startup procedures";
-	startup.Command = [&]()
-	{
-		
-	};
 
-
-	DrawCommand loop;
-	loop.Description = "Draw loop";
-	loop.Command = [&]()
+	b.OnLoop = [&]()
 	{
 		model.Draw();
 	};
-
-	b.PrimitiveDrawInstance()->PushBegin(startup);
-	b.PrimitiveDrawInstance()->PushLoop(loop);
-	b.PrimitiveDrawInstance()->Debug();
-
 
 
 	b.OnShutdown = [&]()
@@ -74,6 +57,9 @@ int main()
     {
         return true;
     };
+
+	
+
     b.Start();
 
     return 0;

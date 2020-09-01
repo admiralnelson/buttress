@@ -92,6 +92,10 @@ void Buttress::Start()
 	{
 		glClearColor(0.3, 0.4, 0.3, 1.0);
 		glClear(GL_COLOR_BUFFER_BIT);
+		if (OnLoop)
+		{
+			OnLoop();
+		}
 		if (m_primitiveDraw->GetLoopQueueSize() > 0)
 		{
 			DrawCommand cmd = m_primitiveDraw->GetCurrentLoopQueue();

@@ -77,7 +77,7 @@ void Texture::UseWith(std::vector<Texture*> textures, bool is3DTexture)
 
 Texture::~Texture()
 {
-
+	glDeleteTextures(1, &m_textureNo);
 }
 
 void Texture::Debug()
