@@ -33,7 +33,7 @@ void Shader::Use()
 
 
 //TODO: automatic parse list of uniform and vertex
-bool Shader::AddUniform(std::string name)
+bool Shader::AddUniform(std::string name, std::string type, GLint arraySize)
 {
 	int uniformLocation = glGetUniformLocation(m_program, name.c_str());
 	if (uniformLocation == -1)
@@ -41,11 +41,11 @@ bool Shader::AddUniform(std::string name)
 		PRINT("WARNING", "unable to locate uniform in the shader:", name, "from shader:", m_name);
 		return false;
 	}
-	m_uniforms[name] =  uniformLocation;
+	m_uniforms[name] = { type, uniformLocation, arraySize };
 	return true;
 }
 
-bool Shader::AddAttribute(std::string name)
+bool Shader::AddAttribute(std::string name, std::string type)
 {
 	int uniformLocation = glGetAttribLocation(m_program, name.c_str());
 	if (uniformLocation == -1)
@@ -53,58 +53,140 @@ bool Shader::AddAttribute(std::string name)
 		PRINT("WARNING", "unable to locate attribute in the shader:", name, "from shader:", m_name);
 		return false;
 	}
-	m_attributes[name] = uniformLocation;
+	m_attributes[name] = { type, uniformLocation };
 	return true;
 }
 
 GLint Shader::GetAttributeLocation(std::string name) 
 {
-	return m_attributes[name];
+	if (!IsAttributeDefined(name))
+	{
+		PRINT("WARNING", "undefined attribute", name, "shader source:", m_name);
+		return -1;
+	}
+	return m_attributes[name].valuePos;
 }
 
 GLint Shader::GetUniformLocation(std::string name)
 {
-	return m_attributes[name];
+	if (!IsUniformDefined(name))
+	{
+		PRINT("WARNING", "undefined uniform", name, "shader source:", m_name);
+		return -1;
+	}
+	return m_uniforms[name].valuePos;
 }
 
-void Shader::SetUniformValueF(std::string name, float x)
+bool Shader::SetUniformValueF(std::string name, float x)
 {
+	if (!IsUniformDefined(name))
+	{
+		PRINT("WARNING", "undefined uniform", name, "shader source:", m_name);
+		return false;
+	}
+	glUniform1f(m_uniforms[name].valuePos, x);
+	CheckError(__FUNCTION__, { "x:", std::to_string(x) });
+	return true;
 }
 
-void Shader::SetUniformValueF(std::string name, float x, float y)
+bool Shader::SetUniformValueF(std::string name, float x, float y)
 {
+	if (!IsUniformDefined(name))
+	{
+		PRINT("WARNING", "undefined uniform", name, "shader source:", m_name);
+		return false;
+	}
+	//DEFINE HERE:::
+	return true;
 }
 
-void Shader::SetUniformValueF(std::string name, float x, float y, float z)
+bool Shader::SetUniformValueF(std::string name, float x, float y, float z)
 {
+	if (!IsUniformDefined(name))
+	{
+		PRINT("WARNING", "undefined uniform", name, "shader source:", m_name);
+		return false;
+	}
+	//DEFINE HERE:::
+	return true;
 }
 
-void Shader::SetUniformValueF(std::string name, float x, float y, float z, float w)
+bool Shader::SetUniformValueF(std::string name, float x, float y, float z, float w)
 {
+	if (!IsUniformDefined(name))
+	{
+		PRINT("WARNING", "undefined uniform", name, "shader source:", m_name);
+		return false;
+	}
+	//DEFINE HERE:::
+	return true;
 }
 
-void Shader::SetUniformValueF(std::string name, std::vector<float> v)
+bool Shader::SetUniformValueF(std::string name, std::vector<float> v)
 {
+	if (!IsUniformDefined(name))
+	{
+		PRINT("WARNING", "undefined uniform", name, "shader source:", m_name);
+		return false;
+	}
+	//DEFINE HERE:::
+	return true;
 }
 
-void Shader::SetUniformValueI(std::string name, int x)
+bool Shader::SetUniformValueI(std::string name, int x)
 {
+	if (!IsUniformDefined(name))
+	{
+		PRINT("WARNING", "undefined uniform", name, "shader source:", m_name);
+		return false;
+	}
+	glUniform1i(m_uniforms[name].valuePos, x);
+	CheckError(__FUNCTION__, { "x:", std::to_string(x) });
+	return true;
 }
 
-void Shader::SetUniformValueI(std::string name, int x, int y)
+bool Shader::SetUniformValueI(std::string name, int x, int y)
 {
+	if (!IsUniformDefined(name))
+	{
+		PRINT("WARNING", "undefined uniform", name, "shader source:", m_name);
+		return false;
+	}
+	//DEFINE HERE
+	return true;
 }
 
-void Shader::SetUniformValueI(std::string name, int x, int y, int z)
+bool Shader::SetUniformValueI(std::string name, int x, int y, int z)
 {
+	if (!IsUniformDefined(name))
+	{
+		PRINT("WARNING", "undefined uniform", name, "shader source:", m_name);
+		return false;
+	}
+	//DEFINE HERE:::
+	return true;
 }
 
-void Shader::SetUniformValueI(std::string name, int x, int y, int z, int w)
+bool Shader::SetUniformValueI(std::string name, int x, int y, int z, int w)
 {
+	if (!IsUniformDefined(name))
+	{
+		PRINT("WARNING", "undefined uniform", name, "shader source:", m_name);
+		return false;
+	}
+	//DEFINE HERE:::
+	return true;
 }
 
-void Shader::SetUniformValueI(std::string name, std::vector<int> v)
+bool Shader::SetUniformValueI(std::string name, std::vector<int> v)
 {
+	if (!IsUniformDefined(name))
+	{
+		PRINT("WARNING", "undefined uniform", name, "shader source:", m_name);
+		return false;
+	}
+	//DEFINE HERE:::
+	return true;
 }
 
 void Shader::Debug()
@@ -116,12 +198,19 @@ void Shader::Debug()
 	PRINT("INFO", "registered uniforms:");
 	for (auto& i : m_uniforms)
 	{
-		PRINT("    ", i.first);
+		if (i.second.arraySize > 0)
+		{
+			PRINT("    ", i.first, "type", i.second.type, "array size", i.second.arraySize , "location at shader:", GetUniformLocation(i.first));
+		}
+		else
+		{
+			PRINT("    ", i.first, "type", i.second.type, "location at shader:", GetUniformLocation(i.first));
+		}
 	}
 	PRINT("INFO", "registered attributes:");
-	for (auto& i : m_attributes)
+	for (auto& j : m_attributes)
 	{
-		PRINT("    ", i.first, "location at shader:", GetAttributeLocation(i.first));
+		PRINT("    ",j.first, "type", j.second.type , "location at shader:", GetAttributeLocation(j.first));
 	}
 	
 
@@ -130,11 +219,14 @@ void Shader::Debug()
 void Shader::AddVertexShader(std::string source)
 {
 	AddProgram(source, GL_VERTEX_SHADER);
+	FindAndLocateAttributes(source);
+	FindAndLocateUniforms(source);
 }
 
 void Shader::AddFragmentShader(std::string source)
 {
 	AddProgram(source, GL_FRAGMENT_SHADER);
+	FindAndLocateUniforms(source);
 }
 
 void Shader::CompileShader()
@@ -175,6 +267,49 @@ bool Shader::IsShaderReady()
 	return m_isReady;
 }
 
+bool Shader::Validate()
+{
+	if (!m_isReady)
+	{
+		PRINT("WARNING", "shader", m_name, "is not ready to validate");
+		return false;
+	}
+	bool result = true;
+	for (auto &s : m_attributes)
+	{
+		std::string name = s.first;
+		std::string type= s.second.type;
+		if (!AddAttribute(name, type))
+		{
+			PRINT("WARNING","attribute is optimised away:", name, "- type", s.second.type, "from shader:", m_name);
+			result = false;
+		}
+	}
+
+	for (auto& s : m_uniforms)
+	{
+		std::string name = s.first;
+		std::string type = s.second.type;
+		GLint arraySize = s.second.arraySize;
+		if (!AddUniform(name, type, arraySize))
+		{
+			PRINT("WARNING", "uniform is optimised away:", name, "- type", s.second.type, "from shader:", m_name);
+			result = false;
+		}
+	}
+	return result;
+}
+
+bool Shader::IsUniformDefined(std::string name)
+{
+	return m_uniforms.find(name) != m_uniforms.end();
+}
+
+bool Shader::IsAttributeDefined(std::string name)
+{
+	return m_attributes.find(name) != m_attributes.end();
+}
+
 Shader::~Shader()
 {
 	shaderList.erase(m_name);
@@ -210,4 +345,76 @@ void Shader::AddProgram(std::string source, int type)
 	}
 	glAttachShader(m_program, shader);
 	glDeleteShader(shader);
+}
+
+void Shader::FindAndLocateAttributes(std::string source)
+{
+	std::regex reg("layout\\(location = \\d\\) in (\\w+) (\\w+).*");
+	std::vector<std::string> processed = SplitToVector(source);
+	for (std::string& s : processed)
+	{
+		std::smatch result;
+		if (std::regex_match(s, result, reg))
+		{
+			m_attributes[result[2]] = { result[1], -1, 0 };
+		}
+		
+	}
+
+}
+
+void Shader::FindAndLocateUniforms(std::string source)
+{
+	std::regex reg("uniform (\\w+) (\\w+)\\[?(\\d+)?\\]?.*");
+	std::vector<std::string> processed = SplitToVector(source);
+	for (std::string& s : processed)
+	{
+		std::smatch result;
+		if (std::regex_match(s, result, reg))
+		{
+			if (result.length() == 3)
+			{
+				m_uniforms[result[2]] = { result[1], -1, 0 };
+			}
+			else
+			{
+				GLint arraySize = atoi(std::string(result[3]).c_str());
+				m_uniforms[result[2]] = { result[1], -1, arraySize };
+			}
+		}
+
+	}
+
+}
+
+std::vector<std::string> Shader::SplitToVector(std::string input)
+{
+	std::string token;
+	std::vector<std::string> output;
+	std::string delim = "\n";
+	size_t pos = input.find(delim);
+	while (pos != std::string::npos)
+	{
+		token = input.substr(0, pos);
+		output.push_back(token);
+		input.erase(0, pos + delim.length());
+		pos = input.find("\n");
+	}
+	return output;
+}
+
+bool Shader::CheckError(std::string lastOperationName, std::vector<std::string> params)
+{
+	int error = glGetError();
+	if (error == 0) return false;
+	else
+	{
+		std::string paramString;
+		for (std::string& s : params)
+		{
+			paramString += s + " ";
+		}
+		PRINT("WARNING", "error", std::to_string(error) ,"operation in shader:", m_name ,"last operation:", lastOperationName, "params:", paramString);
+	}
+	return false;
 }

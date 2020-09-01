@@ -7,13 +7,19 @@
 #include <Texture.h>
 #include <Util.h>
 #include <Geometry.h>
+#include <tcppLibrary.hpp>
 int main()
 {
     
     Buttress b;
     b.Init(800, 600, "tetst");
     Texture t("test", "../../resource/media/test.jpg");
-
+	Texture t2("test 2", "../../resource/media/Wood_Wall_002_basecolor.jpg");
+	int xerr = glGetError();
+	if (xerr != 0)
+	{
+		PRINT("xxx");
+	}
 	Vertex vert[] =
 	{
 		// positions          // colors           // texture coords
@@ -34,13 +40,13 @@ int main()
 	startup.Description = "Startup procedures";
 	startup.Command = [&]()
 	{
+		int err;
 		s.AddVertexShader(ReadFileAsString("../../resource/shader/core.txt"));
 		s.AddFragmentShader(ReadFileAsString("../../resource/shader/core_fragment.txt"));
 		s.CompileShader();
-		s.AddAttribute("aPos");
-		s.AddAttribute("aColor");
-		s.AddAttribute("aUv");
+		s.Validate();
 		s.Debug();
+
 
 		glGenVertexArrays(1, &vao);
 		glGenBuffers(1, &vbo);
@@ -61,9 +67,22 @@ int main()
 		glEnableVertexArrayAttrib(vao, s.GetAttributeLocation("aUv"));
 
 
+		err = glGetError();
+		if (err != 0)
+		{
+			PRINT("xxx");
+		}
+
+		glBindVertexArray(0);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
-		glBindVertexArray(0);
+
+
+		s.Use();
+		s.SetUniformValueI("texture1", 0);
+		s.SetUniformValueI("texture2", 1);
+		s.SetUniformValueF("mixFactor", 0.5);
+		t.UseWith(std::vector<Texture*> { &t2 });
 	};
 
 
@@ -94,7 +113,6 @@ int main()
     {
         return true;
     };
-    t.Debug();
     b.Start();
 
     return 0;

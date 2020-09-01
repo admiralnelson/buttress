@@ -23,6 +23,7 @@
 #include <sstream>
 #include <queue>
 #include <deque>
+#include <regex>
 #include "Geometry.h"
 #include "Logger.h"
 #endif //PCH_H

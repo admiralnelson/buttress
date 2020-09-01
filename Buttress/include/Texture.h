@@ -7,6 +7,7 @@ public:
 	Texture(std::string simpleName, std::string path);
 	Texture(std::string simpleName, std::array<std::string, 6> paths);
 	void Use();
+	void UseWith(std::vector<Texture*> textures, bool is3DTexture = false);
 	~Texture();
 	void Debug();
 private:
@@ -14,7 +15,6 @@ private:
 	GLuint m_textureNo;
 	std::string m_path;
 	std::string m_name;
-	std::array<std::string, 6> m_paths;
 	bool m_is3DTexture = false;
 };
 
