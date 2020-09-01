@@ -15,11 +15,6 @@ int main()
     b.Init(800, 600, "tetst");
     Texture t("test", "../../resource/media/test.jpg");
 	Texture t2("test 2", "../../resource/media/Wood_Wall_002_basecolor.jpg");
-	int xerr = glGetError();
-	if (xerr != 0)
-	{
-		PRINT("xxx");
-	}
 
 	std::vector<Vertex> vert =
 	{
@@ -35,30 +30,25 @@ int main()
         1, 2, 3  // second triangle
     };
 
-	GLuint vbo, vao, ebo ;
 	Shader s("test");
 	s.AddVertexShader(ReadFileAsString("../../resource/shader/core.txt"));
-	s.AddFragmentShader(ReadFileAsString("../../resource/shader/core_fragment.txt"));
+	s.AddFragmentShader(ReadFileAsString("../../resource/shader/core_material.txt"));
 	s.CompileShader();
 	s.Validate();
 	s.Debug();
-
-	Model m("a square", &s, vert, indices);
+	Material material("test material", std::shared_ptr<Shader>(&s));
+	material.diffuse = std::shared_ptr<Texture>(&t);
+	if (material.IsReady())
+	{
+		PRINT("yes it is");
+	}
+	Model model("a square", std::shared_ptr<Material>(&material), vert, indices);
 
 	DrawCommand startup;
 	startup.Description = "Startup procedures";
 	startup.Command = [&]()
 	{
-		int err;
-
-
 		
-
-		s.Use();
-		s.SetUniformValueI("texture1", 0);
-		s.SetUniformValueI("texture2", 1);
-		s.SetUniformValueF("mixFactor", 0.5);
-		t.UseWith(std::vector<Texture*> { &t2 });
 	};
 
 
@@ -66,8 +56,7 @@ int main()
 	loop.Description = "Draw loop";
 	loop.Command = [&]()
 	{
-		s.Use();
-		m.Draw();
+		model.Draw();
 	};
 
 	b.PrimitiveDrawInstance()->PushBegin(startup);
@@ -78,9 +67,7 @@ int main()
 
 	b.OnShutdown = [&]()
 	{
-		glDeleteVertexArrays(1, &vao);
-		glDeleteBuffers(1, &ebo);
-		glDeleteBuffers(1, &vbo);
+
 	};
 
     b.OnStart = []()

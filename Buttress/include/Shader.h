@@ -6,6 +6,11 @@
 #define ATTRIBUTE_COLOR "aColor"
 #define ATTRIBUTE_UV "aUv"
 
+#define UNIFORM_SAMPLER2D_DIFFUSE "diffuse"
+#define UNIFORM_SAMPLER2D_SPECULAR "specular"
+#define UNIFORM_FLOAT_SHININESS "shininess"
+
+
 class Shader
 {
 public:

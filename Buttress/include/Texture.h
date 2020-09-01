@@ -3,6 +3,7 @@
 #include <glad/glad.h>
 class Texture
 {
+friend class Material;
 public:
 	Texture(std::string simpleName, std::string path);
 	Texture(std::string simpleName, std::array<std::string, 6> paths);

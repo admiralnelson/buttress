@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="include\pch.cpp" />
     <ClCompile Include="src\Buttress.cpp" />
+    <ClCompile Include="src\Material.cpp" />
     <ClCompile Include="src\Model.cpp" />
     <ClCompile Include="src\PrimitiveDraw.cpp" />
     <ClCompile Include="src\Shader.cpp" />
@@ -31,6 +32,7 @@
     <ClInclude Include="include\Buttress.h" />
     <ClInclude Include="include\Geometry.h" />
     <ClInclude Include="include\Logger.h" />
+    <ClInclude Include="include\Material.h" />
     <ClInclude Include="include\Model.h" />
     <ClInclude Include="include\Object.h" />
     <ClInclude Include="include\PrimitiveDraw.h" />
