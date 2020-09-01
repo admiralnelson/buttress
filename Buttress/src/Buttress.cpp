@@ -7,12 +7,15 @@
 #include "Shader.h"
 #include "Util.h"
 
+std::shared_ptr<Buttress> Buttress::m_thisInstance;
+
 Buttress::Buttress()
 {
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	m_thisInstance.reset(this);
 }
 
 bool Buttress::Init(int width, int height, std::string title)
@@ -33,6 +36,9 @@ bool Buttress::Init(int width, int height, std::string title)
 		glfwTerminate();
 		return false;
 	}
+	//Bus::Instance();
+	Input::Instance();
+	m_primitiveDraw.reset(new PrimitiveDraw());
 	glViewport(0, 0, m_width, m_height);
 	glfwMakeContextCurrent(m_window.get());
 	glfwSetWindowUserPointer(m_window.get(), reinterpret_cast<void*>(this));
@@ -46,8 +52,13 @@ bool Buttress::Init(int width, int height, std::string title)
 		}
 	};
 	glfwSetFramebufferSizeCallback(m_window.get(), resizeCallback);
-
-	m_primitiveDraw.reset(new PrimitiveDraw());
+	
+	auto mouseEvent = [](GLFWwindow* window, double x, double y)
+	{
+		Buttress* instance = reinterpret_cast<Buttress*>(glfwGetWindowUserPointer(window));
+		Input::Instance().Tick(window, x, y);
+	};
+	glfwSetCursorPosCallback(m_window.get(), mouseEvent);
 
 	return true;
 }
@@ -59,7 +70,9 @@ void Buttress::Start()
 
 	//use converter (.to_bytes: wstr->str, .from_bytes: str->wstr)
 	m_currentDirectory = converter.to_bytes(std::filesystem::current_path().c_str());
-	
+
+	//Bus::Instance().Debug();
+
 	PRINT("CURRENT DIRECTORY:", m_currentDirectory);
 	
 	if (OnStart)
@@ -85,8 +98,15 @@ void Buttress::Start()
 			PRINT("WARN", "EMPTY command at index ", i, "desc: ", cmd.Description);
 		}
 	}
-
-
+	
+	m_running = true;
+	m_logicLoop = std::thread([&]()
+	{
+		while (m_running)
+		{
+			Bus::Instance().Tick();
+		}
+	});
 
 	while (!glfwWindowShouldClose(m_window.get()))
 	{
@@ -111,7 +131,8 @@ void Buttress::Start()
 		glfwSwapBuffers(m_window.get());
 		glfwPollEvents();
 	}
-
+	m_running = false;
+	m_logicLoop.join();
 	Shutdown();
 }
 

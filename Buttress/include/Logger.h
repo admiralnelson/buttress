@@ -4,7 +4,11 @@
 #include <utility>
 #include <iomanip>
 
-#define PRINT(...) std::cout << "[" << __FUNCTION__ << " " <<  __FILE__ << ":" << __LINE__ << "]  " , __VA_ARGS__ , std::endl
+
+#define PRINT(...) {  std::lock_guard<std::mutex> guard(mutexLogger); std::cout << "[" << __FUNCTION__ << " " << __FILE__ << ":" << __LINE__ << "]  ", __VA_ARGS__, std::endl; }
+
+
+inline std::mutex mutexLogger;
 
 template <typename T>
 inline std::ostream& operator,(std::ostream& out, const T& t) {

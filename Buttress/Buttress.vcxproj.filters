@@ -5,9 +5,6 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
-    <Filter Include="shader">
-      <UniqueIdentifier>{fa936d1f-e7c1-4291-9cab-4ddb47293ac8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="main">
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
@@ -15,19 +12,25 @@
     <Filter Include="include">
       <UniqueIdentifier>{0121747a-eedc-4dab-9b69-476c6cc50fa4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="util">
+      <UniqueIdentifier>{602af0c8-a51b-4188-bf2c-4b6e2f1555cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="event">
+      <UniqueIdentifier>{92b31863-fa89-4689-958a-a63c35e502a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="debug">
+      <UniqueIdentifier>{c8add01c-995a-4882-bdf8-916992f2d260}</UniqueIdentifier>
+    </Filter>
     <Filter Include="resource">
       <UniqueIdentifier>{6fc7817f-4b9b-49e3-82e8-538144d8e03f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="util">
-      <UniqueIdentifier>{602af0c8-a51b-4188-bf2c-4b6e2f1555cd}</UniqueIdentifier>
+    <Filter Include="renderer">
+      <UniqueIdentifier>{1174786e-1878-454d-b979-9cf1222e9b68}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Buttress.cpp">
       <Filter>main</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Shader.cpp">
-      <Filter>shader</Filter>
     </ClCompile>
     <ClCompile Include="include\pch.cpp">
       <Filter>Header Files</Filter>
@@ -41,10 +44,19 @@
     <ClCompile Include="src\Model.cpp">
       <Filter>resource</Filter>
     </ClCompile>
-    <ClCompile Include="src\PrimitiveDraw.cpp">
-      <Filter>main</Filter>
-    </ClCompile>
     <ClCompile Include="src\Material.cpp">
+      <Filter>resource</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Input.cpp">
+      <Filter>event</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Bus.cpp">
+      <Filter>event</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PrimitiveDraw.cpp">
+      <Filter>debug</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Shader.cpp">
       <Filter>resource</Filter>
     </ClCompile>
   </ItemGroup>
@@ -80,6 +92,12 @@
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="include\Material.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Input.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Bus.h">
       <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>

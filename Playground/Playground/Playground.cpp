@@ -8,60 +8,71 @@
 #include <Util.h>
 #include <Geometry.h>
 #include <Model.h>
+#include <Bus.h>
+#include <Input.h>
 int main()
 {
-    
-    Buttress b;
-    b.Init(800, 600, "tetst");
-    Texture t("test", "../../resource/media/test.jpg");
-	Texture t2("test 2", "../../resource/media/Wood_Wall_002_basecolor.jpg");
-
-	std::vector<Vertex> vert =
 	{
-		// positions          // colors           // texture coords
-		{ Vec3( 0.5f,  0.5f, 0.0f), Vec3(1.0f, 0.0f, 0.0f), Vec2(1.0f, 1.0f) }, // top right
-		{ Vec3( 0.5f, -0.5f, 0.0f), Vec3(1.0f, 0.0f, 0.0f), Vec2(1.0f, 0.0f) }, // bottom right
-		{ Vec3(-0.5f, -0.5f, 0.0f), Vec3(1.0f, 0.0f, 0.0f), Vec2(0.0f, 0.0f) }, // bottom left
-		{ Vec3(-0.5f,  0.5f, 0.0f), Vec3(1.0f, 0.0f, 0.0f), Vec2(0.0f, 1.0f) }, // top left 
-	};
+		Buttress b;
+		b.Init(800, 600, "tetst");
+		Texture* t = new Texture("test", "../../resource/media/test.jpg");
+		//Texture* t2 = new Texture("test 2", "../../resource/media/Wood_Wall_002_basecolor.jpg");
 
-    std::vector<unsigned int> indices = {
-        0, 1, 3, // first triangle
-        1, 2, 3  // second triangle
-    };
+		std::vector<Vertex> vert =
+		{
+			// positions          // colors           // texture coords
+			{ Vec3(0.5f,  0.5f, 0.0f), Vec3(1.0f, 0.0f, 0.0f), Vec2(1.0f, 1.0f) }, // top right
+			{ Vec3(0.5f, -0.5f, 0.0f), Vec3(1.0f, 0.0f, 0.0f), Vec2(1.0f, 0.0f) }, // bottom right
+			{ Vec3(-0.5f, -0.5f, 0.0f), Vec3(1.0f, 0.0f, 0.0f), Vec2(0.0f, 0.0f) }, // bottom left
+			{ Vec3(-0.5f,  0.5f, 0.0f), Vec3(1.0f, 0.0f, 0.0f), Vec2(0.0f, 1.0f) }, // top left 
+		};
 
-	Shader s("test");
-	s.AddVertexShader(ReadFileAsString("../../resource/shader/core.txt"));
-	s.AddFragmentShader(ReadFileAsString("../../resource/shader/core_material.txt"));
-	s.CompileShader();
-	s.Validate();
-	s.Debug();
-	Material material("test material", std::shared_ptr<Shader>(&s));
-	material.diffuse = std::shared_ptr<Texture>(&t);
-	material.Debug();
-	Model model("a square", std::shared_ptr<Material>(&material), vert, indices);
+		std::vector<unsigned int> indices = {
+			0, 1, 3, // first triangle
+			1, 2, 3  // second triangle
+		};
+
+		Shader* s = new Shader("test");
+		s->AddVertexShader(ReadFileAsString("../../resource/shader/core.txt"));
+		s->AddFragmentShader(ReadFileAsString("../../resource/shader/core_material.txt"));
+		s->CompileShader();
+		s->Validate();
+		s->Debug();
+		Material* material = new Material("test material", std::shared_ptr<Shader>(s));
+		material->diffuse = std::shared_ptr<Texture>(t);
+		material->Debug();
+		Model model("a square", std::shared_ptr<Material>(material), vert, indices);
 
 
-	b.OnLoop = [&]()
-	{
-		model.Draw();
-	};
+		b.OnLoop = [&]()
+		{
+			model.Draw();
+		};
 
 
-	b.OnShutdown = [&]()
-	{
+		b.OnShutdown = [&]()
+		{
 
-	};
+		};
 
-    b.OnStart = []()
-    {
-        return true;
-    };
+		b.OnStart = []()
+		{
+			Bus::Instance().AddReceiver("key", [](Message& m)
+			{
+				if (m.tag == "mouse")
+				{
+					MouseEvent *evt = dynamic_cast<MouseEvent*>(m.event);
+					PRINT("mouse", evt->x);
+					PRINT("mouse", evt->y);
+				}
+			});
+			return true;
+		};
 
+		b.Start();
+	}
+	_CrtDumpMemoryLeaks();
 	
-
-    b.Start();
-
     return 0;
 }
 

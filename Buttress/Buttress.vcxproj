@@ -20,7 +20,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="include\pch.cpp" />
+    <ClCompile Include="src\Bus.cpp" />
     <ClCompile Include="src\Buttress.cpp" />
+    <ClCompile Include="src\Input.cpp" />
     <ClCompile Include="src\Material.cpp" />
     <ClCompile Include="src\Model.cpp" />
     <ClCompile Include="src\PrimitiveDraw.cpp" />
@@ -29,8 +31,10 @@
     <ClCompile Include="src\Util.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Bus.h" />
     <ClInclude Include="include\Buttress.h" />
     <ClInclude Include="include\Geometry.h" />
+    <ClInclude Include="include\Input.h" />
     <ClInclude Include="include\Logger.h" />
     <ClInclude Include="include\Material.h" />
     <ClInclude Include="include\Model.h" />

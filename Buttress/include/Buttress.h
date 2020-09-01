@@ -5,6 +5,8 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include "PrimitiveDraw.h"
+#include "Bus.h"
+#include "Input.h"
 
 struct DestroyglfwWin {
 	void operator()(GLFWwindow* ptr)
@@ -24,15 +26,18 @@ public:
 	std::function<void(int width, int height)> OnResize;
 	std::function<bool()> OnStart;
 	std::function<void()> OnShutdown;
-	std::function<void()> OnLoop;
-	~Buttress();
-	PrimitiveDraw * PrimitiveDrawInstance() const
+	std::function<void()> OnLoop;	
+	static std::shared_ptr<Buttress> ButtressInstance() 
 	{
-		return m_primitiveDraw.get();
+		return m_thisInstance;
 	}
+	~Buttress();
 private:
 	std::unique_ptr<GLFWwindow, DestroyglfwWin> m_window;
-	std::unique_ptr<PrimitiveDraw> m_primitiveDraw;
-	int m_width = 0, m_height = 0;
+	std::shared_ptr<PrimitiveDraw> m_primitiveDraw;
+	static std::shared_ptr<Buttress> m_thisInstance;
 	std::string m_currentDirectory;
+	std::thread m_logicLoop;
+	int m_width = 0, m_height = 0;
+	bool m_running = false;
 };
