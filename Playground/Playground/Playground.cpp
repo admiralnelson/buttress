@@ -10,7 +10,7 @@
 #include <Model.h>
 #include <Bus.h>
 #include <Input.h>
-
+#include <Object.h>
 int main()
 {
 	{
@@ -39,15 +39,17 @@ int main()
 		s->CompileShader();
 		s->Validate();
 		s->Debug();
-		Material* material = new Material("test material", std::shared_ptr<Shader>(s));
+		std::shared_ptr<Material> material;
+		material.reset(new Material("test material", std::shared_ptr<Shader>(s)));
 		material->diffuse = std::shared_ptr<Texture>(t);
 		material->Debug();
-		Model model("a square", std::shared_ptr<Material>(material), vert, indices);
-		//Object object{ "test", std::vector<Model> {model}, Transformation() };
+		std::shared_ptr<Model> model;
+		model.reset(new Model("a square", material, vert, indices));
+		Object object{ "test", std::vector<std::shared_ptr<Model>> {model}, Transformation() };
 
 		b.OnLoop = [&]()
 		{
-			model.Draw();
+			object.Draw();
 		};
 
 

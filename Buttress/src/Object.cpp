@@ -5,7 +5,7 @@ void Object::Draw()
 {
 	if (models.size() > 0)
 	{
-		models[0].Draw();
+		models[0]->Draw();
 	}
 	else
 	{

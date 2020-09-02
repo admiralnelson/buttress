@@ -6,7 +6,7 @@ class Object
 {
 public:
 	std::string name;
-	std::vector<Model> models;
+	std::vector<std::shared_ptr<Model>> models;
 	Transformation transform;
 	void Draw();
 };
