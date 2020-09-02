@@ -41,7 +41,7 @@ public:
 	}
 	void Start();
 	void Stop();
-	void AddReceiver(std::string name, std::function<void(Message&)> onReceive);
+	void AddReceiver(std::string name, std::string triggerOnTag, std::function<void(Message&)> onReceive);
 	void RemoveReceiver(std::string name);
 	void SendMessage(Message message);
 	void Debug();
@@ -55,6 +55,7 @@ private:
 	struct Node 
 	{
 		std::string name;
+		std::string triggerOnTag;
 		std::function<void(Message&)> onReceive;
 		//~Node() { PRINT("cleared"); }
 	};

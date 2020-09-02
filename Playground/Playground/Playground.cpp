@@ -10,6 +10,7 @@
 #include <Model.h>
 #include <Bus.h>
 #include <Input.h>
+
 int main()
 {
 	{
@@ -42,7 +43,7 @@ int main()
 		material->diffuse = std::shared_ptr<Texture>(t);
 		material->Debug();
 		Model model("a square", std::shared_ptr<Material>(material), vert, indices);
-
+		//Object object{ "test", std::vector<Model> {model}, Transformation() };
 
 		b.OnLoop = [&]()
 		{
@@ -57,13 +58,10 @@ int main()
 
 		b.OnStart = []()
 		{
-			Bus::Instance().AddReceiver("key", [](Message& m)
+			Bus::Instance().AddReceiver("key", "mouse " , [](Message& m)
 			{
-				if (m.tag == "mouse")
-				{
-					PRINT("mouse", m.inputEvent.x);
-					PRINT("mouse", m.inputEvent.y);
-				}
+				PRINT("mouse", m.inputEvent.x);
+				PRINT("mouse", m.inputEvent.y);
 			});
 			return true;
 		};

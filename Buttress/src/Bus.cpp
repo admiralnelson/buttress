@@ -27,7 +27,7 @@ void Bus::Stop()
 	if (!m_started) return;
 }
 
-void Bus::AddReceiver(std::string name, std::function<void(Message&)> onReceive)
+void Bus::AddReceiver(std::string name, std::string triggerOnTag, std::function<void(Message&)> onReceive)
 {
 	std::lock_guard<std::mutex> guard(m_mutex);
 	if (IsSubscriberExist(name))
@@ -35,7 +35,7 @@ void Bus::AddReceiver(std::string name, std::function<void(Message&)> onReceive)
 		PRINT("ERROR", "subscriber", name, "is in the bus!");
 		return;
 	}
-	Node* node = new Node{ name, onReceive };
+	Node* node = new Node{ name,  triggerOnTag, onReceive };
 	m_nodes.push_back(node);
 }
 
@@ -67,6 +67,7 @@ void Bus::Tick()
 	{
 		for (auto& i : m_nodes)
 		{
+			if (i->triggerOnTag != m_messages.front().tag) continue;
 			if (i->onReceive)
 			{
 				Message& msg = m_messages.front();

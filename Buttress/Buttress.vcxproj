@@ -22,9 +22,11 @@
     <ClCompile Include="include\pch.cpp" />
     <ClCompile Include="src\Bus.cpp" />
     <ClCompile Include="src\Buttress.cpp" />
+    <ClCompile Include="src\Geometry.cpp" />
     <ClCompile Include="src\Input.cpp" />
     <ClCompile Include="src\Material.cpp" />
     <ClCompile Include="src\Model.cpp" />
+    <ClCompile Include="src\Object.cpp" />
     <ClCompile Include="src\PrimitiveDraw.cpp" />
     <ClCompile Include="src\Shader.cpp" />
     <ClCompile Include="src\Texture.cpp" />

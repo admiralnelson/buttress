@@ -27,6 +27,9 @@
     <Filter Include="renderer">
       <UniqueIdentifier>{1174786e-1878-454d-b979-9cf1222e9b68}</UniqueIdentifier>
     </Filter>
+    <Filter Include="core">
+      <UniqueIdentifier>{6569c80c-7932-443b-8317-293948c65a82}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Buttress.cpp">
@@ -58,6 +61,12 @@
     </ClCompile>
     <ClCompile Include="src\Shader.cpp">
       <Filter>resource</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Geometry.cpp">
+      <Filter>util</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Object.cpp">
+      <Filter>core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

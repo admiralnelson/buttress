@@ -36,7 +36,6 @@ bool Buttress::Init(int width, int height, std::string title)
 		glfwTerminate();
 		return false;
 	}
-	//Bus::Instance();
 	Input::Instance();
 	m_primitiveDraw.reset(new PrimitiveDraw());
 	glViewport(0, 0, m_width, m_height);
@@ -123,7 +122,6 @@ void Buttress::Start()
 		glfwSwapBuffers(m_window.get());
 		glfwPollEvents();
 	}
-	//Bus::Instance().Stop();
 	Shutdown();
 }
 

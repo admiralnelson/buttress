@@ -79,6 +79,7 @@ GLint Shader::GetUniformLocation(std::string name)
 
 bool Shader::SetUniformValueF(std::string name, float x)
 {
+	
 	if (!IsUniformDefined(name))
 	{
 		PRINT("WARNING", "undefined uniform", name, "shader source:", this->name);
@@ -91,6 +92,7 @@ bool Shader::SetUniformValueF(std::string name, float x)
 
 bool Shader::SetUniformValueF(std::string name, float x, float y)
 {
+	
 	if (!IsUniformDefined(name))
 	{
 		PRINT("WARNING", "undefined uniform", name, "shader source:", this->name);
@@ -102,6 +104,7 @@ bool Shader::SetUniformValueF(std::string name, float x, float y)
 
 bool Shader::SetUniformValueF(std::string name, float x, float y, float z)
 {
+	
 	if (!IsUniformDefined(name))
 	{
 		PRINT("WARNING", "undefined uniform", name, "shader source:", this->name);
@@ -113,6 +116,7 @@ bool Shader::SetUniformValueF(std::string name, float x, float y, float z)
 
 bool Shader::SetUniformValueF(std::string name, float x, float y, float z, float w)
 {
+	
 	if (!IsUniformDefined(name))
 	{
 		PRINT("WARNING", "undefined uniform", name, "shader source:", this->name);
@@ -124,6 +128,7 @@ bool Shader::SetUniformValueF(std::string name, float x, float y, float z, float
 
 bool Shader::SetUniformValueF(std::string name, std::vector<float> v)
 {
+	
 	if (!IsUniformDefined(name))
 	{
 		PRINT("WARNING", "undefined uniform", name, "shader source:", this->name);
@@ -135,6 +140,7 @@ bool Shader::SetUniformValueF(std::string name, std::vector<float> v)
 
 bool Shader::SetUniformValueI(std::string name, int x)
 {
+	
 	if (!IsUniformDefined(name))
 	{
 		PRINT("WARNING", "undefined uniform", name, "shader source:", this->name);
@@ -147,6 +153,7 @@ bool Shader::SetUniformValueI(std::string name, int x)
 
 bool Shader::SetUniformValueI(std::string name, int x, int y)
 {
+	
 	if (!IsUniformDefined(name))
 	{
 		PRINT("WARNING", "undefined uniform", name, "shader source:", this->name);
@@ -158,6 +165,7 @@ bool Shader::SetUniformValueI(std::string name, int x, int y)
 
 bool Shader::SetUniformValueI(std::string name, int x, int y, int z)
 {
+	
 	if (!IsUniformDefined(name))
 	{
 		PRINT("WARNING", "undefined uniform", name, "shader source:", this->name);
@@ -169,6 +177,7 @@ bool Shader::SetUniformValueI(std::string name, int x, int y, int z)
 
 bool Shader::SetUniformValueI(std::string name, int x, int y, int z, int w)
 {
+	
 	if (!IsUniformDefined(name))
 	{
 		PRINT("WARNING", "undefined uniform", name, "shader source:", this->name);
@@ -180,6 +189,7 @@ bool Shader::SetUniformValueI(std::string name, int x, int y, int z, int w)
 
 bool Shader::SetUniformValueI(std::string name, std::vector<int> v)
 {
+	
 	if (!IsUniformDefined(name))
 	{
 		PRINT("WARNING", "undefined uniform", name, "shader source:", this->name);
