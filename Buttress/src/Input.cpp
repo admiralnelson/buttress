@@ -9,15 +9,14 @@ Input::Input()
 void Input::Tick(GLFWwindow* window, double xpos, double ypos)
 {
 	Message m;
-	MouseEvent mouse;
-	mouse.x = xpos;
-	mouse.y = ypos;
-	m.event = &mouse;
+	InputEvent input;
+	input.x = xpos;
+	input.y = ypos;
+	m.inputEvent = input;
 	m.tag = "mouse";
 	PRINT("x", xpos, "y", ypos);
 	PRINT("got event! sending to the bus!");
 	Bus::Instance().SendMessage(m);
-	PRINT(m.event->ToString());
 }
 
 Input::~Input()

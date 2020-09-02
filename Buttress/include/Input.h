@@ -18,15 +18,3 @@ private:
 	Input();
 };
 
-struct MouseEvent : public Event
-{
-	double x;
-	double y;
-	std::string ToString()
-	{
-		std::string out;
-		out += "x " + std::to_string(x) + " y " + std::to_string(y);
-		return out;
-	
-	}
-};

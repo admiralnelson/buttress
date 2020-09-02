@@ -1,6 +1,32 @@
 #include "pch.h"
 #include "Bus.h"
 
+void Bus::Start()
+{
+	if (!m_started)
+	{
+		PRINT("INFO","Bus is started");
+		m_started = true;
+		m_thread = std::thread(&Bus::ThreadTick, this);
+		m_thread.detach();
+	}
+}
+
+void Bus::Stop()
+{
+	m_started = false;
+	for (auto& i : m_nodes)
+	{
+		delete i;
+	}
+	if (!m_messages.empty())
+	{
+			m_messages.erase(m_messages.begin() + m_messages.size() - 1);
+	}
+	m_nodes.clear();
+	if (!m_started) return;
+}
+
 void Bus::AddReceiver(std::string name, std::function<void(Message&)> onReceive)
 {
 	std::lock_guard<std::mutex> guard(m_mutex);
@@ -29,7 +55,7 @@ void Bus::RemoveReceiver(std::string name)
 	m_nodes.erase(m_nodes.begin() + i);
 }
 
-void Bus::SendMessage(Message& message)
+void Bus::SendMessage(Message message)
 {
 	std::lock_guard<std::mutex> guard(m_mutex);
 	m_messages.push_back(message);
@@ -55,6 +81,14 @@ void Bus::Tick()
 	}
 }
 
+void Bus::ThreadTick()
+{
+	while (m_started)
+	{
+		Tick();
+	}
+}
+
 void Bus::Debug()
 {
 	PRINT("INFO", "subscriber count", m_nodes.size());
@@ -76,4 +110,5 @@ bool Bus::IsSubscriberExist(std::string name)
 
 Bus::~Bus()
 {
+	Stop();
 }

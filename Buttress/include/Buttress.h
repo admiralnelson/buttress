@@ -27,7 +27,7 @@ public:
 	std::function<bool()> OnStart;
 	std::function<void()> OnShutdown;
 	std::function<void()> OnLoop;	
-	static std::shared_ptr<Buttress> ButtressInstance() 
+	static Buttress* const ButtressInstance()
 	{
 		return m_thisInstance;
 	}
@@ -35,9 +35,8 @@ public:
 private:
 	std::unique_ptr<GLFWwindow, DestroyglfwWin> m_window;
 	std::shared_ptr<PrimitiveDraw> m_primitiveDraw;
-	static std::shared_ptr<Buttress> m_thisInstance;
+	static Buttress* m_thisInstance;
 	std::string m_currentDirectory;
-	std::thread m_logicLoop;
 	int m_width = 0, m_height = 0;
 	bool m_running = false;
 };

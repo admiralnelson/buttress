@@ -61,9 +61,8 @@ int main()
 			{
 				if (m.tag == "mouse")
 				{
-					MouseEvent *evt = dynamic_cast<MouseEvent*>(m.event);
-					PRINT("mouse", evt->x);
-					PRINT("mouse", evt->y);
+					PRINT("mouse", m.inputEvent.x);
+					PRINT("mouse", m.inputEvent.y);
 				}
 			});
 			return true;

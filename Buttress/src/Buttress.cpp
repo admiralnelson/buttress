@@ -7,7 +7,7 @@
 #include "Shader.h"
 #include "Util.h"
 
-std::shared_ptr<Buttress> Buttress::m_thisInstance;
+Buttress* Buttress::m_thisInstance;
 
 Buttress::Buttress()
 {
@@ -15,7 +15,7 @@ Buttress::Buttress()
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	m_thisInstance.reset(this);
+	m_thisInstance = this;
 }
 
 bool Buttress::Init(int width, int height, std::string title)
@@ -98,16 +98,8 @@ void Buttress::Start()
 			PRINT("WARN", "EMPTY command at index ", i, "desc: ", cmd.Description);
 		}
 	}
-	
-	m_running = true;
-	m_logicLoop = std::thread([&]()
-	{
-		while (m_running)
-		{
-			Bus::Instance().Tick();
-		}
-	});
 
+	Bus::Instance().Start();
 	while (!glfwWindowShouldClose(m_window.get()))
 	{
 		glClearColor(0.3, 0.4, 0.3, 1.0);
@@ -131,8 +123,7 @@ void Buttress::Start()
 		glfwSwapBuffers(m_window.get());
 		glfwPollEvents();
 	}
-	m_running = false;
-	m_logicLoop.join();
+	//Bus::Instance().Stop();
 	Shutdown();
 }
 
