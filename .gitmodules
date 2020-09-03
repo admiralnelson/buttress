@@ -10,3 +10,6 @@
 [submodule "external/tcpp"]
 	path = external/tcpp
 	url = https://github.com/bnoazx005/tcpp.git
+[submodule "external/obj-loader"]
+	path = external/obj-loader
+	url = https://github.com/Bly7/OBJ-Loader.git

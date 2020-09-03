@@ -3,10 +3,11 @@
 #include "Texture.h"
 #include "Shader.h"
 #include "Material.h"
+
 class Model
 {
 public:
-	Model(std::string name, std::string path);
+	Model(std::string name, std::shared_ptr<Shader> shader, std::string path);
 	Model(std::string name, std::shared_ptr<Shader> shader, std::vector<Vertex> &verts, std::vector<unsigned int> &indices);
 	Model(std::string name, std::shared_ptr<Material> material, std::vector<Vertex>& verts, std::vector<unsigned int>& indices);
 	void DrawTexture(std::shared_ptr<Texture> tex = nullptr);

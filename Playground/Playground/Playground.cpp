@@ -19,37 +19,25 @@ int main()
 		Texture* t = new Texture("test", "../../resource/media/test.jpg");
 		//Texture* t2 = new Texture("test 2", "../../resource/media/Wood_Wall_002_basecolor.jpg");
 
-		std::vector<Vertex> vert =
-		{
-			// positions          // colors           // texture coords
-			{ Vec3(0.5f,  0.5f, 0.0f), Vec3(1.0f, 0.0f, 0.0f), Vec2(1.0f, 1.0f) }, // top right
-			{ Vec3(0.5f, -0.5f, 0.0f), Vec3(1.0f, 0.0f, 0.0f), Vec2(1.0f, 0.0f) }, // bottom right
-			{ Vec3(-0.5f, -0.5f, 0.0f), Vec3(1.0f, 0.0f, 0.0f), Vec2(0.0f, 0.0f) }, // bottom left
-			{ Vec3(-0.5f,  0.5f, 0.0f), Vec3(1.0f, 0.0f, 0.0f), Vec2(0.0f, 1.0f) }, // top left 
-		};
 
-		std::vector<unsigned int> indices = {
-			0, 1, 3, // first triangle
-			1, 2, 3  // second triangle
-		};
-
-		Shader* s = new Shader("test");
+		std::shared_ptr<Shader> s;
+		s.reset(new Shader("test"));
 		s->AddVertexShader(ReadFileAsString("../../resource/shader/core.txt"));
 		s->AddFragmentShader(ReadFileAsString("../../resource/shader/core_material.txt"));
 		s->CompileShader();
 		s->Validate();
 		s->Debug();
 		std::shared_ptr<Material> material;
-		material.reset(new Material("test material", std::shared_ptr<Shader>(s)));
+		material.reset(new Material("test material", s));
 		material->diffuse = std::shared_ptr<Texture>(t);
 		material->Debug();
 		std::shared_ptr<Model> model;
-		model.reset(new Model("a square", material, vert, indices));
+		model.reset(new Model("a box", s,"../../resource/obj/test.obj"));
+		model->material = material;
 		Object object{ "test", std::vector<std::shared_ptr<Model>> {model}, Transformation() };
-
 		b.OnLoop = [&]()
 		{
-			object.Draw();
+			model->Draw();
 		};
 
 

@@ -11,7 +11,7 @@ typedef glm::mat4x4 Matrix4;
 struct Vertex
 {
 	Vec3 position;
-	Vec3 colour;
+	Vec3 normal;
 	Vec2 uv;
 };
 
