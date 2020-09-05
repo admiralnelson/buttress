@@ -18,5 +18,6 @@ public:
 	std::string name;
 	~Model();
 private:
-	GLuint m_vbo = 0, m_vao = 0, m_ibo = 0, m_elementCounts = 0;
+	GLuint m_vbo = 0, m_vao = 0, m_ibo = 0;
+	GLsizei m_elementCounts = 0;
 };

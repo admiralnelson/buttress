@@ -11,6 +11,7 @@
 #include <Bus.h>
 #include <Input.h>
 #include <Object.h>
+#include <Camera.h>
 int main()
 {
 	{
@@ -35,9 +36,21 @@ int main()
 		model.reset(new Model("a box", s,"../../resource/obj/test.obj"));
 		model->material = material;
 		Object object{ "test", std::vector<std::shared_ptr<Model>> {model}, Transformation() };
+		Transformation camTransform;
+		camTransform.position = Vec3(0.0f, 0.0f, 3.0f);
+		Camera cam("main", s, 60, Vec2{ Buttress::ButtressInstance()->Width(), Buttress::ButtressInstance()->Height() }, camTransform );
+		int err = 0;
+
+		
 		b.OnLoop = [&]()
 		{
-			model->Draw();
+			cam.Use();
+			object.Draw();
+			err = glGetError();
+			if (err)
+			{
+				PRINT("error");
+			}
 		};
 
 

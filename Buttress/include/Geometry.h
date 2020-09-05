@@ -1,10 +1,13 @@
 #pragma once
+#define GLM_ENABLE_EXPERIMENTAL 1
 #include "glm/common.hpp"
 #include "glm/gtc/quaternion.hpp"
 #include "glm/gtx/quaternion.hpp"
+#include "glm/gtx/string_cast.hpp"
 
 typedef glm::tvec2<float> Vec2;
 typedef glm::tvec3<float> Vec3;
+
 typedef glm::quat Quarternion;
 typedef glm::mat4x4 Matrix4;
 
@@ -20,12 +23,12 @@ Matrix4 Rotate(Matrix4 &input, Vec3 axis);
 struct Transformation
 {
 	Vec3 position = {0,0,0};
-	Vec3 scale = {1,1,1};
+	Vec3 scale = { 1.0f,1.0f,1.0f };
 	Vec3 rotation = { 0,0,0 };
 
 	Matrix4 GetTransformation()
 	{
-		Matrix4 modelMatrix = Matrix4(1);
+		Matrix4 modelMatrix = Matrix4(1.0f);
 		modelMatrix = glm::translate(modelMatrix, position);
 		modelMatrix = Rotate(modelMatrix, rotation);
 		modelMatrix = glm::scale(modelMatrix, scale);

@@ -1,5 +1,14 @@
 #include "pch.h"
 #include "Util.h"
+#include "Logger.h"
+
+static std::mutex mutexLogger;
+
+void Print(std::stringstream& s)
+{
+	std::lock_guard<std::mutex> guard(mutexLogger);
+	std::cout << s.str() << std::endl;
+}
 
 std::string ReadFileAsString(std::string path)
 {

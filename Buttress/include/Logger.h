@@ -5,19 +5,18 @@
 #include <iomanip>
 
 
-#define PRINT(...) {  std::lock_guard<std::mutex> guard(mutexLogger); std::cout << "[" << __FUNCTION__ << " " << __FILE__ << ":" << __LINE__ << "]  ", __VA_ARGS__, std::endl; }
-
-
-inline std::mutex mutexLogger;
+#define PRINT(...) { std::stringstream ss; ss , "[" , __FUNCTION__ , " " , __FILE__ ,":" , __LINE__ , "] ", __VA_ARGS__; Print(ss); }
+void Print(std::stringstream& s);
 
 template <typename T>
-inline std::ostream& operator,(std::ostream& out, const T& t) {
-    out << " " << t;
-    return out;
+inline std::stringstream& operator,(std::stringstream& out, const T& t) {
+	//std::lock_guard<std::mutex> guard(mutexLogger);
+	out << " " << t;
+	return out;
 }
 
-//overloaded version to handle all those special std::endl and others...
-inline std::ostream& operator,(std::ostream& out, std::ostream& (*f)(std::ostream&)) {
-    out  << f;
-    return out;
+inline std::stringstream& operator,(std::stringstream& out, std::stringstream& (*f)(std::stringstream&)) {
+	//std::lock_guard<std::mutex> guard(mutexLogger);
+	out << f;
+	return out;
 }

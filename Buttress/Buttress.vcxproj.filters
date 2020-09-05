@@ -68,6 +68,9 @@
     <ClCompile Include="src\Object.cpp">
       <Filter>core</Filter>
     </ClCompile>
+    <ClCompile Include="src\Camera.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\pch.h">
@@ -107,6 +110,9 @@
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="include\Bus.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Camera.h">
       <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>

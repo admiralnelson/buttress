@@ -25,13 +25,15 @@ public:
 	bool SetUniformValueF(std::string _name, float x, float y);
 	bool SetUniformValueF(std::string _name, float x, float y, float z);
 	bool SetUniformValueF(std::string _name, float x, float y, float z, float w);
-	bool SetUniformValueF(std::string _name, std::vector<float> v);
+	bool SetUniformValueF(std::string _name, std::vector<float> &v);
+
+	bool SetUniformMat4x4(std::string _name, Matrix4 &mat);
 
 	bool SetUniformValueI(std::string _name, int x);
 	bool SetUniformValueI(std::string _name, int x, int y);
 	bool SetUniformValueI(std::string _name, int x, int y, int z);
 	bool SetUniformValueI(std::string _name, int x, int y, int z, int w);
-	bool SetUniformValueI(std::string _name, std::vector<int> v);
+	bool SetUniformValueI(std::string _name, std::vector<int>& v);
 
 	void Debug();
 	void AddVertexShader(std::string source);

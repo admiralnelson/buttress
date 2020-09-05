@@ -27,11 +27,14 @@ public:
 	std::function<bool()> OnStart;
 	std::function<void()> OnShutdown;
 	std::function<void()> OnLoop;	
+	int Width() { return m_width; };
+	int Height() { return m_height; };
 	static Buttress* const ButtressInstance()
 	{
 		return m_thisInstance;
 	}
 	~Buttress();
+	
 private:
 	std::unique_ptr<GLFWwindow, DestroyglfwWin> m_window;
 	std::shared_ptr<PrimitiveDraw> m_primitiveDraw;

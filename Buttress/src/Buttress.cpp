@@ -48,6 +48,11 @@ bool Buttress::Init(int width, int height, std::string title)
 		if (instance->OnResize != nullptr)
 		{
 			instance->OnResize(width, height);
+			Message msg;
+			msg.windowEvent = { 0, 0, width, height, true };
+			msg.tag = "OnResize";
+			msg.msg = "Buttress";
+			Bus::Instance().SendMessage(msg);
 		}
 	};
 	glfwSetFramebufferSizeCallback(m_window.get(), resizeCallback);

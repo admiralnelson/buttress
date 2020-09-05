@@ -19,12 +19,22 @@ struct InputEvent
 	Button key;
 };
 
+struct WindowEvent
+{
+	int x;
+	int y;
+	int width;
+	int height;
+	bool focus = true;
+};
+
 struct Message
 {
 	std::string tag;
 	std::string msg;
 	std::shared_ptr<Event> event;
 	InputEvent inputEvent;
+	WindowEvent windowEvent;
 };
 
 

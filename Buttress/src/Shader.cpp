@@ -126,7 +126,7 @@ bool Shader::SetUniformValueF(std::string name, float x, float y, float z, float
 	return true;
 }
 
-bool Shader::SetUniformValueF(std::string name, std::vector<float> v)
+bool Shader::SetUniformValueF(std::string name, std::vector<float> &v)
 {
 	
 	if (!IsUniformDefined(name))
@@ -135,6 +135,18 @@ bool Shader::SetUniformValueF(std::string name, std::vector<float> v)
 		return false;
 	}
 	//DEFINE HERE:::
+	return true;
+}
+
+bool Shader::SetUniformMat4x4(std::string name, Matrix4 &mat)
+{
+	if (!IsUniformDefined(name))
+	{
+		PRINT("WARNING", "undefined uniform", name, "shader source:", this->name);
+		return false;
+	}
+	glUniformMatrix4fv(m_uniforms[name].valuePos, 1, GL_FALSE, &mat[0][0]);
+	CheckError(__FUNCTION__, { "x:", glm::to_string(mat) });
 	return true;
 }
 
@@ -187,7 +199,7 @@ bool Shader::SetUniformValueI(std::string name, int x, int y, int z, int w)
 	return true;
 }
 
-bool Shader::SetUniformValueI(std::string name, std::vector<int> v)
+bool Shader::SetUniformValueI(std::string name, std::vector<int> &v)
 {
 	
 	if (!IsUniformDefined(name))
@@ -312,7 +324,11 @@ bool Shader::Validate()
 
 bool Shader::IsUniformDefined(std::string name)
 {
-	return m_uniforms.find(name) != m_uniforms.end();
+	if (m_uniforms.find(name) != m_uniforms.end())
+	{
+		return m_uniforms[name].valuePos != -1;
+	}
+	return false;
 }
 
 bool Shader::IsAttributeDefined(std::string name)
