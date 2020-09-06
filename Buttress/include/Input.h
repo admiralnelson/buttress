@@ -11,7 +11,8 @@ public:
 		static Input instance;
 		return instance;
 	}
-	void Tick(GLFWwindow* window, double xpos, double ypos);
+	void TickMouse(GLFWwindow* window, double xpos, double ypos);
+	void TickKey(GLFWwindow* window, int key, int scancode, int action, int mods);
 	~Input();
 
 private:

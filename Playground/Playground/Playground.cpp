@@ -59,12 +59,41 @@ int main()
 
 		};
 
-		b.OnStart = []()
+		bool firstMouse = false;
+		float x = 0, y = 0;
+		b.OnStart = [&]()
 		{
-			Bus::Instance().AddReceiver("key", "mouse " , [](Message& m)
+			Camera& camera = cam;
+			bool& mouse = firstMouse;
+			float& lastX = x, &lastY = y;
+			Bus::Instance().AddReceiver("key", "mouse" , [&](Message& m)
 			{
 				PRINT("mouse", m.inputEvent.x);
 				PRINT("mouse", m.inputEvent.y);
+				
+				if (firstMouse)
+				{
+					lastX = m.inputEvent.x;
+					lastY = m.inputEvent.y;
+					firstMouse = false;
+				}
+
+				float xoffset = m.inputEvent.x - lastX;
+				float yoffset = lastY - m.inputEvent.y; // reversed since y-coordinates go from bottom to top
+
+				lastX = m.inputEvent.x;
+				lastY = m.inputEvent.y;
+
+				cam.MouseLook(Vec2((float)xoffset, (float)yoffset));
+				cam.Debug();
+			});
+
+			Bus::Instance().AddReceiver("key1", "keyboard", [&](Message& m) 
+			{
+				if (m.inputEvent.keyAction == KeyboardButtonState::TAP || m.inputEvent.keyAction == KeyboardButtonState::HOLD)
+				{
+					PRINT("tap ", glfwGetKeyName(m.inputEvent.key, m.inputEvent.scanCode));
+				}
 			});
 			return true;
 		};

@@ -9,7 +9,7 @@ void Object::Draw()
 		Matrix4 modelMatrix;
 		modelMatrix = transform.GetTransformation();
 		models[0]->shader->SetUniformMat4x4("model", modelMatrix);
-		PRINT("model set");
+		//PRINT("model set");
 		models[0]->Draw();
 	}
 	else

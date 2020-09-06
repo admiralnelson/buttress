@@ -8,3 +8,32 @@ Matrix4 Rotate(Matrix4 &input, Vec3 rotation)
 	input = glm::rotate(input, rotation.x, Vec3(0, 0, 1)); //rotate z
 	return input;
 }
+
+Vec3 Quaternion2RotationEuler(Quaternion& input)
+{
+	return Vec3{ glm::eulerAngles(input) };
+}
+
+Vec3 Quaternion2RotationEulerDeg(Quaternion& input)
+{
+	return Vec3{ glm::degrees(glm::eulerAngles(input)) };
+}
+
+Matrix4 Transformation::GetTransformation()
+{
+	Matrix4 modelMatrix = Matrix4(1.0f);
+	modelMatrix = glm::translate(modelMatrix, position);
+	modelMatrix = modelMatrix * glm::toMat4(localRotation);
+	modelMatrix = glm::scale(modelMatrix, scale);
+	return modelMatrix;
+}
+
+void Transformation::Rotate(Vec3 rotation)
+{
+	localRotation = glm::quat(glm::vec3(rotation.x, rotation.y, rotation.z));
+}
+
+Vec3 Transformation::RotationEulerDeg()
+{
+	return Vec3{ glm::degrees(glm::eulerAngles(localRotation)) };
+}

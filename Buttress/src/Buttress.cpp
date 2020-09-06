@@ -59,10 +59,17 @@ bool Buttress::Init(int width, int height, std::string title)
 	
 	auto mouseEvent = [](GLFWwindow* window, double x, double y)
 	{
-		Buttress* instance = reinterpret_cast<Buttress*>(glfwGetWindowUserPointer(window));
-		Input::Instance().Tick(window, x, y);
+		Input::Instance().TickMouse(window, x, y);
 	};
 	glfwSetCursorPosCallback(m_window.get(), mouseEvent);
+
+	auto keyEvent = [](GLFWwindow* window, int key, int scancode, int action, int mods)
+	{
+		Input::Instance().TickKey(window, key, scancode, action, mods);
+	};
+
+	glfwSetKeyCallback(m_window.get(), keyEvent);
+
 
 	return true;
 }

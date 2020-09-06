@@ -7,16 +7,18 @@ struct Event
 	virtual std::string ToString() { return "an event"; };
 };
 
-enum Button
+enum KeyboardButtonState
 {
-
+	NONE, TAP, HOLD
 };
 
 struct InputEvent
 {
 	double x;
 	double y;
-	Button key;
+	int key;
+	KeyboardButtonState keyAction;
+	int scanCode;
 };
 
 struct WindowEvent
