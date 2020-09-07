@@ -17,7 +17,7 @@ Camera::Camera(std::string name, std::shared_ptr<Shader> shader, float fov, Vec2
 		PRINT("ERROR", "camera", name, "has no assigned shader");
 	}
 	this->fov = fov;
-	eulerAngle = Vec3(0.0f, 0.0f, -90.0f );
+	eulerAngle = Vec3(-90.0f, 0.0f, 0.0f );
 	UpdateVectors();
 }
 
@@ -45,7 +45,7 @@ void Camera::MouseLook(Vec2 deltaPos, bool lockPitch)
 	deltaPos.y *= sensitivity;
 
 	eulerAngle.y += deltaPos.x;
-	eulerAngle.z += deltaPos.y;
+	eulerAngle.x += deltaPos.y;
 
 	// make sure that when eulerAngle.y is out of bounds, screen doesn't get flipped
 	if (eulerAngle.y > 89.0f)
@@ -104,13 +104,13 @@ Matrix4 Camera::View()
 
 void Camera::UpdateVectors()
 {
-	//X = ROLL
+	//X = PITCH
 	//Y = YAW
-	//Z = PITCH
+	//Z = ROLL
 	glm::vec3 front;
-	front.x = cos(glm::radians(eulerAngle.z)) * cos(glm::radians(eulerAngle.y));
+	front.x = cos(glm::radians(eulerAngle.x)) * cos(glm::radians(eulerAngle.y));
 	front.y = sin(glm::radians(eulerAngle.y));
-	front.z = sin(glm::radians(eulerAngle.z)) * cos(glm::radians(eulerAngle.y));
+	front.z = sin(glm::radians(eulerAngle.x)) * cos(glm::radians(eulerAngle.y));
 	transform.front = glm::normalize(front);
 
 	transform.right = glm::normalize(glm::cross(transform.front, transform.worldUp));  // normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.

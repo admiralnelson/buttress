@@ -36,6 +36,9 @@ int main()
 		model.reset(new Model("a box", s,"../../resource/obj/test.obj"));
 		model->material = material;
 		Object object{ "test", std::vector<std::shared_ptr<Model>> {model}, Transformation() };
+		Object object2{ "test2", std::vector<std::shared_ptr<Model>> {model}, Transformation() };
+		object.transform.position = Vec3(1.0f, 0.0f, 0.0);
+		object.transform.Rotate(Vec3(90, 0, 0));
 		Transformation camTransform;
 		camTransform.position = Vec3(0.0f, 0.0f, 3.0f);
 		Camera cam("main", s, 60, Vec2{ Buttress::ButtressInstance()->Width(), Buttress::ButtressInstance()->Height() }, camTransform );
@@ -46,6 +49,7 @@ int main()
 		{
 			cam.Use();
 			object.Draw();
+			object2.Draw();
 			err = glGetError();
 			if (err)
 			{
@@ -92,7 +96,7 @@ int main()
 			{
 				if (m.inputEvent.keyAction == KeyboardButtonState::TAP || m.inputEvent.keyAction == KeyboardButtonState::HOLD)
 				{
-					PRINT("tap ", glfwGetKeyName(m.inputEvent.key, m.inputEvent.scanCode), "dt", m.inputEvent.deltaT);
+					//PRINT("tap ", glfwGetKeyName(m.inputEvent.key, m.inputEvent.scanCode), "dt", m.inputEvent.deltaT);
 					if (m.inputEvent.key == GLFW_KEY_W)
 					{
 						cam.Move(Camera::FORWARD, m.inputEvent.deltaT);
