@@ -38,6 +38,7 @@ int main()
 		Object object{ "test", std::vector<std::shared_ptr<Model>> {model}, Transformation() };
 		Object object2{ "test2", std::vector<std::shared_ptr<Model>> {model}, Transformation() };
 		object.transform.position = Vec3(1.0f, 0.0f, 0.0);
+		object2.transform.position = Vec3(0.0f, 1.0f, 0.0);
 		object.transform.Rotate(Vec3(90, 0, 0));
 		Transformation camTransform;
 		camTransform.position = Vec3(0.0f, 0.0f, 3.0f);
