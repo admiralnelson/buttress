@@ -7,18 +7,16 @@ struct Event
 	virtual std::string ToString() { return "an event"; };
 };
 
-enum KeyboardButtonState
+enum class KeyboardButtonState
 {
-	NONE, TAP, HOLD
+	RELEASE, TAP, HOLD
 };
 
 struct InputEvent
 {
 	double x;
 	double y;
-	int key;
-	KeyboardButtonState keyAction;
-	int scanCode;
+	int lastKey;
 	float deltaT;
 };
 
@@ -59,6 +57,7 @@ public:
 	void SendMessage(Message message);
 	void Debug();
 	void SetDeltaTime(float dt) { m_dt = dt; }
+	float GetDeltaTime() { return m_dt; }
 	bool IsSubscriberExist(std::string name);
 	bool spoolToConsole = true;
 	~Bus();
@@ -73,7 +72,7 @@ private:
 		std::function<void(Message&)> onReceive;
 		//~Node() { PRINT("cleared"); }
 	};
-	std::vector<Node*> m_nodes;
+	std::vector<Node> m_nodes;
 	std::deque<Message> m_messages;
 	std::mutex m_mutex;
 	std::thread m_thread;

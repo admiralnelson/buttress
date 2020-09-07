@@ -65,6 +65,7 @@ int main()
 
 		bool firstMouse = false;
 		float x = 0, y = 0;
+		int tapKey = 0;
 		b.OnStart = [&]()
 		{
 			Camera& camera = cam;
@@ -92,29 +93,25 @@ int main()
 				//cam.Debug(); //causes input lag!
 			});
 
-			Bus::Instance().AddReceiver("key1", "keyboard", [&](Message& m) 
+			int& key = tapKey;
+			//TODO: PROPER DIRECTION EVENT
+			Input::Instance().RegisterKey("pressW", GLFW_KEY_W, [&](int key, float dT)
 			{
-				if (m.inputEvent.keyAction == KeyboardButtonState::TAP || m.inputEvent.keyAction == KeyboardButtonState::HOLD)
-				{
-					//PRINT("tap ", glfwGetKeyName(m.inputEvent.key, m.inputEvent.scanCode), "dt", m.inputEvent.deltaT);
-					if (m.inputEvent.key == GLFW_KEY_W)
-					{
-						cam.Move(Camera::FORWARD, m.inputEvent.deltaT);
-					}
-					else if (m.inputEvent.key == GLFW_KEY_A)
-					{
-						cam.Move(Camera::LEFT, m.inputEvent.deltaT);
-					}
-					else if (m.inputEvent.key == GLFW_KEY_D)
-					{
-						cam.Move(Camera::RIGHT, m.inputEvent.deltaT);
-					}
-					else if (m.inputEvent.key == GLFW_KEY_S)
-					{
-						cam.Move(Camera::BACKWARD, m.inputEvent.deltaT);
-					}
-				}
+				cam.Move(Camera::FORWARD, dT);
 			});
+			Input::Instance().RegisterKey("pressA", GLFW_KEY_A, [&](int key, float dT)
+			{
+				cam.Move(Camera::LEFT, dT);
+			});
+			Input::Instance().RegisterKey("pressD", GLFW_KEY_D, [&](int key, float dT)
+			{
+				cam.Move(Camera::RIGHT, dT);
+			});
+			Input::Instance().RegisterKey("pressS", GLFW_KEY_S, [&](int key, float dT)
+			{
+				cam.Move(Camera::BACKWARD, dT);
+			});
+			
 			return true;
 		};
 

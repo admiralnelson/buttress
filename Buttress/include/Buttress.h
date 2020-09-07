@@ -8,13 +8,6 @@
 #include "Bus.h"
 #include "Input.h"
 
-struct DestroyglfwWin {
-	void operator()(GLFWwindow* ptr)
-	{
-		glfwDestroyWindow(ptr);
-	}
-};
-
 
 class Buttress
 {
@@ -36,10 +29,19 @@ public:
 	~Buttress();
 	
 private:
+	struct DestroyglfwWin {
+		void operator()(GLFWwindow* ptr)
+		{
+			glfwDestroyWindow(ptr);
+		}
+	};
+
 	std::unique_ptr<GLFWwindow, DestroyglfwWin> m_window;
 	std::shared_ptr<PrimitiveDraw> m_primitiveDraw;
 	static Buttress* m_thisInstance;
 	std::string m_currentDirectory;
 	int m_width = 0, m_height = 0;
 	bool m_running = false;
+
+
 };

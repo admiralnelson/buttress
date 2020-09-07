@@ -113,6 +113,7 @@ void Buttress::Start()
 	Bus::Instance().Start();
 	float frameBegin = 0;
 	float frameEnd = 0;
+	double lasttime = glfwGetTime();
 	glEnable(GL_DEPTH_TEST);
 	while (!glfwWindowShouldClose(m_window.get()))
 	{
@@ -140,6 +141,9 @@ void Buttress::Start()
 		Bus::Instance().SetDeltaTime(deltaTime);
 		glfwSwapBuffers(m_window.get());
 		glfwPollEvents();
+		while (glfwGetTime() < lasttime + 1.0 / 60) {
+		}
+		lasttime += 1.0 / 60;
 	}
 	Shutdown();
 }

@@ -15,15 +15,16 @@ void Bus::Start()
 void Bus::Stop()
 {
 	m_started = false;
-	for (auto& i : m_nodes)
-	{
-		delete i;
-	}
 	if (!m_messages.empty())
 	{
-			m_messages.erase(m_messages.begin() + m_messages.size() - 1);
+		m_messages.erase(m_messages.begin() + m_messages.size() - 1);
+	}
+	if (!m_nodes.empty())
+	{
+		m_nodes.erase(m_nodes.begin() + m_nodes.size() - 1);
 	}
 	m_nodes.clear();
+	m_messages.clear();
 	if (!m_started) return;
 }
 
@@ -35,22 +36,13 @@ void Bus::AddReceiver(std::string name, std::string triggerOnTag, std::function<
 		PRINT("ERROR", "subscriber", name, "is in the bus!");
 		return;
 	}
-	Node* node = new Node{ name,  triggerOnTag, onReceive };
-	m_nodes.push_back(node);
+	m_nodes.push_back(Node { name,  triggerOnTag, onReceive });
 }
 
 void Bus::RemoveReceiver(std::string name)
 {
 	std::lock_guard<std::mutex> guard(m_mutex);
 	size_t i = 0;
-	for (i = 0; i < m_nodes.size(); i++)
-	{
-		if (m_nodes[i]->name == name)
-		{
-			delete m_nodes[i];
-			break;
-		}
-	}
 	if (i == m_nodes.size() - 1) return;
 	m_nodes.erase(m_nodes.begin() + i);
 }
@@ -68,15 +60,15 @@ void Bus::Tick()
 	{
 		for (auto& i : m_nodes)
 		{
-			if (i->triggerOnTag != m_messages.front().tag) continue;
-			if (i->onReceive)
+			if (i.triggerOnTag != m_messages.front().tag) continue;
+			if (i.onReceive)
 			{
 				Message& msg = m_messages.front();
 				if (spoolToConsole)
 				{
 					PRINT("EVENT", "tag:", msg.tag, "message:", msg.msg);
 				}
-				i->onReceive(msg);
+				i.onReceive(msg);
 			}
 		}
 		m_messages.pop_front();
@@ -96,8 +88,8 @@ void Bus::Debug()
 	PRINT("INFO", "subscriber count", m_nodes.size());
 	for (auto& i : m_nodes)
 	{
-		auto* x = &i->onReceive;
-		PRINT("  - ", x, i->name);
+		auto* x = &i.onReceive;
+		PRINT("  - ", x, i.name);
 	}
 }
 
@@ -105,7 +97,7 @@ bool Bus::IsSubscriberExist(std::string name)
 {
 	for (auto& i : m_nodes)
 	{
-		if (i->name == name) return true;
+		if (i.name == name) return true;
 	}
 	return false;
 }

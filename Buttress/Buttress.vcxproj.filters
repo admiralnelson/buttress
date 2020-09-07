@@ -30,6 +30,18 @@
     <Filter Include="core">
       <UniqueIdentifier>{6569c80c-7932-443b-8317-293948c65a82}</UniqueIdentifier>
     </Filter>
+    <Filter Include="include\core">
+      <UniqueIdentifier>{81f38fd3-df6e-4e9d-a1b2-28574192646f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\resource">
+      <UniqueIdentifier>{a9f86025-cd01-458f-9592-dcc6b536e8fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\event">
+      <UniqueIdentifier>{8ff12927-ab92-4864-a1b5-14f15d623596}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\util">
+      <UniqueIdentifier>{83c5e507-4fd3-46f0-9852-1796f4d0de8f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Buttress.cpp">
@@ -38,17 +50,8 @@
     <ClCompile Include="include\pch.cpp">
       <Filter>Header Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Texture.cpp">
-      <Filter>resource</Filter>
-    </ClCompile>
     <ClCompile Include="src\Util.cpp">
       <Filter>util</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Model.cpp">
-      <Filter>resource</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Material.cpp">
-      <Filter>resource</Filter>
     </ClCompile>
     <ClCompile Include="src\Input.cpp">
       <Filter>event</Filter>
@@ -59,16 +62,25 @@
     <ClCompile Include="src\PrimitiveDraw.cpp">
       <Filter>debug</Filter>
     </ClCompile>
-    <ClCompile Include="src\Shader.cpp">
-      <Filter>resource</Filter>
-    </ClCompile>
     <ClCompile Include="src\Geometry.cpp">
       <Filter>util</Filter>
     </ClCompile>
-    <ClCompile Include="src\Object.cpp">
-      <Filter>core</Filter>
+    <ClCompile Include="src\Material.cpp">
+      <Filter>resource</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Model.cpp">
+      <Filter>resource</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Shader.cpp">
+      <Filter>resource</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Texture.cpp">
+      <Filter>resource</Filter>
     </ClCompile>
     <ClCompile Include="src\Camera.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Object.cpp">
       <Filter>core</Filter>
     </ClCompile>
   </ItemGroup>
@@ -76,44 +88,44 @@
     <ClInclude Include="include\pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Shader.h">
-      <Filter>include</Filter>
-    </ClInclude>
     <ClInclude Include="include\Buttress.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\Logger.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Texture.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Util.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="include\Object.h">
+      <Filter>include\core</Filter>
     </ClInclude>
     <ClInclude Include="include\Model.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Geometry.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Object.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\PrimitiveDraw.h">
-      <Filter>include</Filter>
+      <Filter>include\resource</Filter>
     </ClInclude>
     <ClInclude Include="include\Material.h">
-      <Filter>include</Filter>
+      <Filter>include\resource</Filter>
     </ClInclude>
-    <ClInclude Include="include\Input.h">
-      <Filter>include</Filter>
+    <ClInclude Include="include\Texture.h">
+      <Filter>include\resource</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Shader.h">
+      <Filter>include\resource</Filter>
     </ClInclude>
     <ClInclude Include="include\Bus.h">
-      <Filter>include</Filter>
+      <Filter>include\event</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Input.h">
+      <Filter>include\event</Filter>
     </ClInclude>
     <ClInclude Include="include\Camera.h">
-      <Filter>include</Filter>
+      <Filter>include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Geometry.h">
+      <Filter>include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Logger.h">
+      <Filter>include\util</Filter>
+    </ClInclude>
+    <ClInclude Include="include\PrimitiveDraw.h">
+      <Filter>include\util</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Util.h">
+      <Filter>include\util</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
