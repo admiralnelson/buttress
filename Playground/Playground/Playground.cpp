@@ -66,6 +66,26 @@ int main()
 		bool firstMouse = false;
 		float x = 0, y = 0;
 		int tapKey = 0;
+
+		//TODO: PROPER DIRECTION EVENT
+		Input::Instance().RegisterKey("pressW", GLFW_KEY_W, [&](int key, float dT)
+		{
+			cam.Move(Camera::FORWARD, dT);
+		});
+		Input::Instance().RegisterKey("pressA", GLFW_KEY_A, [&](int key, float dT)
+		{
+			cam.Move(Camera::LEFT, dT);
+		});
+		Input::Instance().RegisterKey("pressD", GLFW_KEY_D, [&](int key, float dT)
+		{
+			cam.Move(Camera::RIGHT, dT);
+		});
+		Input::Instance().RegisterKey("pressS", GLFW_KEY_S, [&](int key, float dT)
+		{
+			cam.Move(Camera::BACKWARD, dT);
+		});
+
+
 		b.OnStart = [&]()
 		{
 			Camera& camera = cam;
@@ -93,25 +113,6 @@ int main()
 				//cam.Debug(); //causes input lag!
 			});
 
-			int& key = tapKey;
-			//TODO: PROPER DIRECTION EVENT
-			Input::Instance().RegisterKey("pressW", GLFW_KEY_W, [&](int key, float dT)
-			{
-				cam.Move(Camera::FORWARD, dT);
-			});
-			Input::Instance().RegisterKey("pressA", GLFW_KEY_A, [&](int key, float dT)
-			{
-				cam.Move(Camera::LEFT, dT);
-			});
-			Input::Instance().RegisterKey("pressD", GLFW_KEY_D, [&](int key, float dT)
-			{
-				cam.Move(Camera::RIGHT, dT);
-			});
-			Input::Instance().RegisterKey("pressS", GLFW_KEY_S, [&](int key, float dT)
-			{
-				cam.Move(Camera::BACKWARD, dT);
-			});
-			
 			return true;
 		};
 
