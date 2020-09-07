@@ -3,7 +3,7 @@
 #include <glad/glad.h>
 
 #define ATTRIBUTE_POS "aPos"
-#define ATTRIBUTE_COLOR "aColor"
+#define ATTRIBUTE_NORMAL "aNormal"
 #define ATTRIBUTE_UV "aUv"
 
 #define UNIFORM_SAMPLER2D_DIFFUSE "diffuse"

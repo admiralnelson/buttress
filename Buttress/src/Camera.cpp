@@ -44,8 +44,8 @@ void Camera::MouseLook(Vec2 deltaPos, bool lockPitch)
 	deltaPos.x *= sensitivity;
 	deltaPos.y *= sensitivity;
 
-	eulerAngle.y += deltaPos.x;
-	eulerAngle.x += deltaPos.y;
+	eulerAngle.z += deltaPos.x;
+	eulerAngle.y += deltaPos.y;
 
 	// make sure that when eulerAngle.y is out of bounds, screen doesn't get flipped
 	if (eulerAngle.y > 89.0f)
@@ -108,9 +108,9 @@ void Camera::UpdateVectors()
 	//Y = YAW
 	//Z = ROLL
 	glm::vec3 front;
-	front.x = cos(glm::radians(eulerAngle.x)) * cos(glm::radians(eulerAngle.y));
+	front.x = cos(glm::radians(eulerAngle.z)) * cos(glm::radians(eulerAngle.y));
 	front.y = sin(glm::radians(eulerAngle.y));
-	front.z = sin(glm::radians(eulerAngle.x)) * cos(glm::radians(eulerAngle.y));
+	front.z = sin(glm::radians(eulerAngle.z)) * cos(glm::radians(eulerAngle.y));
 	transform.front = glm::normalize(front);
 
 	transform.right = glm::normalize(glm::cross(transform.front, transform.worldUp));  // normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.

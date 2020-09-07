@@ -41,6 +41,8 @@ bool Buttress::Init(int width, int height, std::string title)
 	glViewport(0, 0, m_width, m_height);
 	glfwMakeContextCurrent(m_window.get());
 	glfwSetWindowUserPointer(m_window.get(), reinterpret_cast<void*>(this));
+	glfwSetInputMode(m_window.get(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	glfwSetCursorPos(m_window.get(), m_width/ 2, m_height/ 2);
 	auto resizeCallback = [](GLFWwindow* window, int width, int height)
 	{
 		glViewport(0, 0, width, height);

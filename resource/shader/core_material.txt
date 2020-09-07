@@ -1,7 +1,7 @@
 #version 330 core
 out vec4 FragColor;
 
-in vec3 passedColor;
+in vec3 passedNormal;
 in vec2 passedTexCoord;
 
 uniform sampler2D diffuse;

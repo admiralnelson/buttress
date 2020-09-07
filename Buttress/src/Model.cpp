@@ -9,7 +9,7 @@ Model::Model(std::string name, std::shared_ptr<Shader> shader, std::string path)
 	this->name = name;
 	this->shader = shader;
 	objl::Loader load;
-	if (!this->shader->IsShaderReady())
+	if (!this->shader && !this->shader->IsShaderReady())
 	{
 		PRINT("WARNING", "shader", this->shader->name, " is not ready");
 		return;
@@ -43,7 +43,7 @@ Model::Model(std::string name, std::shared_ptr<Shader> shader, std::string path)
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
 		glEnableVertexArrayAttrib(handle.m_vao, this->shader->GetAttributeLocation(ATTRIBUTE_POS));
 		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(1 * sizeof(Vec3)));
-		glEnableVertexArrayAttrib(handle.m_vao, this->shader->GetAttributeLocation(ATTRIBUTE_COLOR));
+		glEnableVertexArrayAttrib(handle.m_vao, this->shader->GetAttributeLocation(ATTRIBUTE_NORMAL));
 		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(2 * sizeof(Vec3)));
 		glEnableVertexArrayAttrib(handle.m_vao, this->shader->GetAttributeLocation(ATTRIBUTE_UV));
 
@@ -55,11 +55,41 @@ Model::Model(std::string name, std::shared_ptr<Shader> shader, std::string path)
 	modelList[this->name] = this;
 }
 
+Model::Model(std::string name, std::shared_ptr<Shader> shader, std::vector<Vertex>& verts)
+{
+	this->name = name;
+	this->shader = shader;
+	if (!this->shader && !this->shader->IsShaderReady())
+	{
+		PRINT("WARNING", "shader", this->shader->name, " is not ready");
+		return;
+	}
+
+	ModelHandle handle;
+	glGenVertexArrays(1, &handle.m_vao);
+	glGenBuffers(1, &handle.m_vbo);
+
+	glBindVertexArray(handle.m_vao);
+
+	glBindBuffer(GL_ARRAY_BUFFER, handle.m_vbo);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * verts.size(), verts.data(), GL_STATIC_DRAW);
+
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
+	glEnableVertexArrayAttrib(handle.m_vao, this->shader->GetAttributeLocation(ATTRIBUTE_POS));
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(1 * sizeof(Vec3)));
+	glEnableVertexArrayAttrib(handle.m_vao, this->shader->GetAttributeLocation(ATTRIBUTE_NORMAL));
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(2 * sizeof(Vec3)));
+	glEnableVertexArrayAttrib(handle.m_vao, this->shader->GetAttributeLocation(ATTRIBUTE_UV));
+
+
+
+}
+
 Model::Model(std::string name, std::shared_ptr<Shader> shader, std::vector<Vertex>& verts, std::vector<unsigned int>& indices)
 {
 	this->name = name;
 	this->shader = shader;
-	if (!this->shader->IsShaderReady())
+	if (!this->shader && !this->shader->IsShaderReady())
 	{
 		PRINT("WARNING", "shader", this->shader->name, " is not ready");
 		return;
@@ -81,7 +111,7 @@ Model::Model(std::string name, std::shared_ptr<Shader> shader, std::vector<Verte
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
 	glEnableVertexArrayAttrib(handle.m_vao, this->shader->GetAttributeLocation(ATTRIBUTE_POS));
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(1 * sizeof(Vec3)));
-	glEnableVertexArrayAttrib(handle.m_vao, this->shader->GetAttributeLocation(ATTRIBUTE_COLOR));
+	glEnableVertexArrayAttrib(handle.m_vao, this->shader->GetAttributeLocation(ATTRIBUTE_NORMAL));
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(2 * sizeof(Vec3)));
 	glEnableVertexArrayAttrib(handle.m_vao, this->shader->GetAttributeLocation(ATTRIBUTE_UV));
 
@@ -119,7 +149,7 @@ Model::Model(std::string name, std::shared_ptr<Material> material, std::vector<V
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
 	glEnableVertexArrayAttrib(handle.m_vao, this->material->shader->GetAttributeLocation(ATTRIBUTE_POS));
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(1 * sizeof(Vec3)));
-	glEnableVertexArrayAttrib(handle.m_vao, this->material->shader->GetAttributeLocation(ATTRIBUTE_COLOR));
+	glEnableVertexArrayAttrib(handle.m_vao, this->material->shader->GetAttributeLocation(ATTRIBUTE_NORMAL));
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(2 * sizeof(Vec3)));
 	glEnableVertexArrayAttrib(handle.m_vao, this->material->shader->GetAttributeLocation(ATTRIBUTE_UV));
 
