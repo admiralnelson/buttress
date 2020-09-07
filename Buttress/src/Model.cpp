@@ -21,33 +21,37 @@ Model::Model(std::string name, std::shared_ptr<Shader> shader, std::string path)
 		return;
 	}
 
-	//TODO: LOAD MULTIPLE MODELS!
+	//TODO: LOAD MULTIPLE MATERIALS FROM FILE!
 
-	m_elementCounts = load.LoadedMeshes[0].Indices.size();
+	for (size_t i = 0; i < load.LoadedMeshes.size(); i++)
+	{
+		ModelHandle handle;
+		m_elementCounts = load.LoadedMeshes[i].Indices.size();
 
-	glGenVertexArrays(1, &m_vao);
-	glGenBuffers(1, &m_vbo);
-	glGenBuffers(1, &m_ibo);
+		glGenVertexArrays(1, &handle.m_vao);
+		glGenBuffers(1, &handle.m_vbo);
+		glGenBuffers(1, &handle.m_ibo);
 
-	glBindVertexArray(m_vao);
+		glBindVertexArray(handle.m_vao);
 
-	glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * load.LoadedMeshes[0].Vertices.size(), load.LoadedMeshes[0].Vertices.data(), GL_STATIC_DRAW);
+		glBindBuffer(GL_ARRAY_BUFFER, handle.m_vbo);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * load.LoadedMeshes[i].Vertices.size(), load.LoadedMeshes[i].Vertices.data(), GL_STATIC_DRAW);
 
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(int) * load.LoadedMeshes[0].Indices.size(), load.LoadedMeshes[0].Indices.data(), GL_STATIC_DRAW);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, handle.m_ibo);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(int) * load.LoadedMeshes[i].Indices.size(), load.LoadedMeshes[i].Indices.data(), GL_STATIC_DRAW);
 
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
-	glEnableVertexArrayAttrib(m_vao, this->shader->GetAttributeLocation(ATTRIBUTE_POS));
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(1 * sizeof(Vec3)));
-	glEnableVertexArrayAttrib(m_vao, this->shader->GetAttributeLocation(ATTRIBUTE_COLOR));
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(2 * sizeof(Vec3)));
-	glEnableVertexArrayAttrib(m_vao, this->shader->GetAttributeLocation(ATTRIBUTE_UV));
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
+		glEnableVertexArrayAttrib(handle.m_vao, this->shader->GetAttributeLocation(ATTRIBUTE_POS));
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(1 * sizeof(Vec3)));
+		glEnableVertexArrayAttrib(handle.m_vao, this->shader->GetAttributeLocation(ATTRIBUTE_COLOR));
+		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(2 * sizeof(Vec3)));
+		glEnableVertexArrayAttrib(handle.m_vao, this->shader->GetAttributeLocation(ATTRIBUTE_UV));
 
-	glBindVertexArray(0);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
+		glBindVertexArray(0);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		m_handle.push_back(handle);
+	}
 	modelList[this->name] = this;
 }
 
@@ -61,25 +65,25 @@ Model::Model(std::string name, std::shared_ptr<Shader> shader, std::vector<Verte
 		return;
 	}
 	m_elementCounts = indices.size();
+	ModelHandle handle;
+	glGenVertexArrays(1, &handle.m_vao);
+	glGenBuffers(1, &handle.m_vbo);
+	glGenBuffers(1, &handle.m_ibo);
 
-	glGenVertexArrays(1, &m_vao);
-	glGenBuffers(1, &m_vbo);
-	glGenBuffers(1, &m_ibo);
+	glBindVertexArray(handle.m_vao);
 
-	glBindVertexArray(m_vao);
-
-	glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
+	glBindBuffer(GL_ARRAY_BUFFER, handle.m_vbo);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * verts.size(), verts.data(), GL_STATIC_DRAW);
 
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, handle.m_ibo);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(int) * indices.size(), indices.data(), GL_STATIC_DRAW);
 
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
-	glEnableVertexArrayAttrib(m_vao, this->shader->GetAttributeLocation(ATTRIBUTE_POS));
+	glEnableVertexArrayAttrib(handle.m_vao, this->shader->GetAttributeLocation(ATTRIBUTE_POS));
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(1 * sizeof(Vec3)));
-	glEnableVertexArrayAttrib(m_vao, this->shader->GetAttributeLocation(ATTRIBUTE_COLOR));
+	glEnableVertexArrayAttrib(handle.m_vao, this->shader->GetAttributeLocation(ATTRIBUTE_COLOR));
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(2 * sizeof(Vec3)));
-	glEnableVertexArrayAttrib(m_vao, this->shader->GetAttributeLocation(ATTRIBUTE_UV));
+	glEnableVertexArrayAttrib(handle.m_vao, this->shader->GetAttributeLocation(ATTRIBUTE_UV));
 
 	glBindVertexArray(0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
@@ -99,84 +103,94 @@ Model::Model(std::string name, std::shared_ptr<Material> material, std::vector<V
 		return;
 	}
 	m_elementCounts = indices.size();
+	ModelHandle handle;
+	glGenVertexArrays(1, &handle.m_vao);
+	glGenBuffers(1, &handle.m_vbo);
+	glGenBuffers(1, &handle.m_ibo);
 
-	glGenVertexArrays(1, &m_vao);
-	glGenBuffers(1, &m_vbo);
-	glGenBuffers(1, &m_ibo);
+	glBindVertexArray(handle.m_vao);
 
-	glBindVertexArray(m_vao);
-
-	glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
+	glBindBuffer(GL_ARRAY_BUFFER, handle.m_vbo);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * verts.size(), verts.data(), GL_STATIC_DRAW);
 
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, handle.m_ibo);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(int) * indices.size(), indices.data(), GL_STATIC_DRAW);
 
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
-	glEnableVertexArrayAttrib(m_vao, this->material->shader->GetAttributeLocation(ATTRIBUTE_POS));
+	glEnableVertexArrayAttrib(handle.m_vao, this->material->shader->GetAttributeLocation(ATTRIBUTE_POS));
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(1 * sizeof(Vec3)));
-	glEnableVertexArrayAttrib(m_vao, this->material->shader->GetAttributeLocation(ATTRIBUTE_COLOR));
+	glEnableVertexArrayAttrib(handle.m_vao, this->material->shader->GetAttributeLocation(ATTRIBUTE_COLOR));
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(2 * sizeof(Vec3)));
-	glEnableVertexArrayAttrib(m_vao, this->material->shader->GetAttributeLocation(ATTRIBUTE_UV));
+	glEnableVertexArrayAttrib(handle.m_vao, this->material->shader->GetAttributeLocation(ATTRIBUTE_UV));
 
 	glBindVertexArray(0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	modelList[this->name] = this;
+	m_handle.push_back(handle);
 }
 
 
 void Model::DrawTexture(std::shared_ptr<Texture> tex)
 {
-	if (tex != nullptr)
+	for (ModelHandle& handle : m_handle)
 	{
-		tex->Use();
-	}
-	else
-	{
-		if (texture != nullptr)
+		if (tex != nullptr)
 		{
-			texture->Use();
+			tex->Use();
 		}
+		else
+		{
+			if (texture != nullptr)
+			{
+				texture->Use();
+			}
+		}
+		if (shader == nullptr)
+		{
+			PRINT("WARNING", "model", name, "has no shader assigned");
+			return;
+		}
+		shader->Use();
+		glBindVertexArray(handle.m_vao);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, handle.m_ibo);
+		glDrawElements(GL_TRIANGLES, m_elementCounts, GL_UNSIGNED_INT, nullptr);
 	}
-	if (shader == nullptr)
-	{
-		PRINT("WARNING", "model", name, "has no shader assigned");
-		return;
-	}
-	shader->Use();
-	glBindVertexArray(m_vao);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo);
-	glDrawElements(GL_TRIANGLES, m_elementCounts, GL_UNSIGNED_INT, nullptr);
 }
 
 void Model::Draw(std::shared_ptr<Material> mat)
 {
-	if (mat != nullptr)
+	for (ModelHandle& handle : m_handle)
 	{
-		mat->Use();
-	}
-	else
-	{
-		if (material != nullptr)
+		if (mat != nullptr)
 		{
-			material->Use();
+			mat->Use();
 		}
 		else
 		{
-			PRINT("WARNING", "model", name, "has no material assigned");
-			return;
+			if (material != nullptr)
+			{
+				material->Use();
+			}
+			else
+			{
+				PRINT("WARNING", "model", name, "has no material assigned");
+				return;
+			}
 		}
+		glBindVertexArray(handle.m_vao);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, handle.m_ibo);
+		glDrawElements(GL_TRIANGLES, m_elementCounts, GL_UNSIGNED_INT, nullptr);
 	}
-	glBindVertexArray(m_vao);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo);
-	glDrawElements(GL_TRIANGLES, m_elementCounts, GL_UNSIGNED_INT, nullptr);
 }
 
 Model::~Model()
 {
-	glDeleteVertexArrays(1, &m_vao);
-	glDeleteBuffers(1, &m_ibo);
-	glDeleteBuffers(1, &m_vbo);
+	for (ModelHandle& handle : m_handle)
+	{
+		glDeleteVertexArrays(1, &handle.m_vao);
+		glDeleteBuffers(1, &handle.m_ibo);
+		glDeleteBuffers(1, &handle.m_vbo);
+	}
 }

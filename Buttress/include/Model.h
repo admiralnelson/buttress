@@ -18,6 +18,10 @@ public:
 	std::string name;
 	~Model();
 private:
-	GLuint m_vbo = 0, m_vao = 0, m_ibo = 0;
+	struct ModelHandle
+	{
+		GLuint m_vbo = 0, m_vao = 0, m_ibo = 0;
+	};
+	std::vector<ModelHandle> m_handle;
 	GLsizei m_elementCounts = 0;
 };
