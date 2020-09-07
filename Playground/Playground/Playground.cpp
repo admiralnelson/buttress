@@ -85,7 +85,7 @@ int main()
 				lastY = m.inputEvent.y;
 
 				cam.MouseLook(Vec2((float)xoffset, (float)yoffset));
-				cam.Debug();
+				//cam.Debug(); //causes input lag!
 			});
 
 			Bus::Instance().AddReceiver("key1", "keyboard", [&](Message& m) 

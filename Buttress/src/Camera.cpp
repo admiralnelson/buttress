@@ -18,7 +18,6 @@ Camera::Camera(std::string name, std::shared_ptr<Shader> shader, float fov, Vec2
 	}
 	this->fov = fov;
 	eulerAngle = Vec3(0.0f, 0.0f, -90.0f );
-	Debug();
 	UpdateVectors();
 }
 
@@ -77,7 +76,6 @@ void Camera::Move(Direction dir, float dt)
 	default:
 		break;
 	}
-	Debug();
 }
 
 void Camera::MouseZoom(float dy)

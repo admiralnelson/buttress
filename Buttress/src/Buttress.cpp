@@ -113,14 +113,14 @@ void Buttress::Start()
 	Bus::Instance().Start();
 	float frameBegin = 0;
 	float frameEnd = 0;
+	glEnable(GL_DEPTH_TEST);
 	while (!glfwWindowShouldClose(m_window.get()))
 	{
 		frameBegin = glfwGetTime();
 		float deltaTime = frameBegin - frameEnd;
 		frameEnd = frameBegin;
 		glClearColor(0.3, 0.4, 0.3, 1.0);
-		glClear(GL_COLOR_BUFFER_BIT);
-		glClear(GL_DEPTH_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		if (OnLoop)
 		{
 			OnLoop();
