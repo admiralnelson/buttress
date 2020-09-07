@@ -2,6 +2,7 @@
 #include "Camera.h"
 
 
+
 Camera::Camera(std::string name, std::shared_ptr<Shader> shader, float fov, Vec2 windowDimension, Transformation transform)
 {
 	this->name = name;
@@ -16,7 +17,8 @@ Camera::Camera(std::string name, std::shared_ptr<Shader> shader, float fov, Vec2
 		PRINT("ERROR", "camera", name, "has no assigned shader");
 	}
 	this->fov = fov;
-	eulerAngle = Vec3(0);
+	eulerAngle = Vec3(0.0f, 0.0f, -90.0f );
+	Debug();
 	UpdateVectors();
 }
 
@@ -43,8 +45,8 @@ void Camera::MouseLook(Vec2 deltaPos, bool lockPitch)
 	deltaPos.x *= sensitivity;
 	deltaPos.y *= sensitivity;
 
-	eulerAngle.x   += deltaPos.x;
-	eulerAngle.y += deltaPos.y;
+	eulerAngle.y += deltaPos.x;
+	eulerAngle.z += deltaPos.y;
 
 	// make sure that when eulerAngle.y is out of bounds, screen doesn't get flipped
 	if (eulerAngle.y > 89.0f)
@@ -52,12 +54,7 @@ void Camera::MouseLook(Vec2 deltaPos, bool lockPitch)
 	if (eulerAngle.y < -89.0f)
 		eulerAngle.y = -89.0f;
 
-	glm::vec3 front;
-	front.x = cos(glm::radians(eulerAngle.x)) * cos(glm::radians(eulerAngle.y));
-	front.y = sin(glm::radians(eulerAngle.y));
-	front.z = sin(glm::radians(eulerAngle.x)) * cos(glm::radians(eulerAngle.y));
-	transform.front = glm::normalize(front);
-
+	UpdateVectors();
 }
 
 void Camera::Move(Direction dir, float dt)
@@ -80,6 +77,7 @@ void Camera::Move(Direction dir, float dt)
 	default:
 		break;
 	}
+	Debug();
 }
 
 void Camera::MouseZoom(float dy)
@@ -92,6 +90,8 @@ void Camera::Debug()
 {
 	PRINT("camera:", name);
 	PRINT("rotation euler:", glm::to_string(eulerAngle));
+	PRINT("transform.position:", glm::to_string(transform.position));
+	PRINT("transform.front:", glm::to_string(transform.front));
 }
 
 Matrix4 Camera::Projection()
@@ -106,11 +106,15 @@ Matrix4 Camera::View()
 
 void Camera::UpdateVectors()
 {
-	//Vec3 front;
-	//front.x = cos(glm::radians(eulerAngle.x)) * cos(glm::radians(eulerAngle.y));
-	//front.y = sin(glm::radians(eulerAngle.x));
-	//front.z = sin(glm::radians(eulerAngle.x)) * cos(glm::radians(eulerAngle.y));
-	//transform.front = glm::normalize(front);
-	//transform.right = glm::normalize(glm::cross(transform.front, transform.worldUp));
-	//transform.up = glm::normalize(glm::cross(transform.right, transform.front));
+	//X = ROLL
+	//Y = YAW
+	//Z = PITCH
+	glm::vec3 front;
+	front.x = cos(glm::radians(eulerAngle.z)) * cos(glm::radians(eulerAngle.y));
+	front.y = sin(glm::radians(eulerAngle.y));
+	front.z = sin(glm::radians(eulerAngle.z)) * cos(glm::radians(eulerAngle.y));
+	transform.front = glm::normalize(front);
+
+	transform.right = glm::normalize(glm::cross(transform.front, transform.worldUp));  // normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.
+	transform.up = glm::normalize(glm::cross(transform.right, transform.front));
 }

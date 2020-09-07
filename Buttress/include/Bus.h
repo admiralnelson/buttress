@@ -19,6 +19,7 @@ struct InputEvent
 	int key;
 	KeyboardButtonState keyAction;
 	int scanCode;
+	float deltaT;
 };
 
 struct WindowEvent
@@ -57,6 +58,7 @@ public:
 	void RemoveReceiver(std::string name);
 	void SendMessage(Message message);
 	void Debug();
+	void SetDeltaTime(float dt) { m_dt = dt; }
 	bool IsSubscriberExist(std::string name);
 	bool spoolToConsole = true;
 	~Bus();
@@ -76,4 +78,5 @@ private:
 	std::mutex m_mutex;
 	std::thread m_thread;
 	bool m_started = false;
+	float m_dt = 0;
 };

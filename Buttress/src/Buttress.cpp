@@ -111,10 +111,16 @@ void Buttress::Start()
 	}
 
 	Bus::Instance().Start();
+	float frameBegin = 0;
+	float frameEnd = 0;
 	while (!glfwWindowShouldClose(m_window.get()))
 	{
+		frameBegin = glfwGetTime();
+		float deltaTime = frameBegin - frameEnd;
+		frameEnd = frameBegin;
 		glClearColor(0.3, 0.4, 0.3, 1.0);
 		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_DEPTH_BUFFER_BIT);
 		if (OnLoop)
 		{
 			OnLoop();
@@ -131,6 +137,7 @@ void Buttress::Start()
 				PRINT("WARN", "EMPTY command ", "desc: ", cmd.Description);
 			}
 		}
+		Bus::Instance().SetDeltaTime(deltaTime);
 		glfwSwapBuffers(m_window.get());
 		glfwPollEvents();
 	}

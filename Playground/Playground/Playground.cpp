@@ -40,7 +40,7 @@ int main()
 		camTransform.position = Vec3(0.0f, 0.0f, 3.0f);
 		Camera cam("main", s, 60, Vec2{ Buttress::ButtressInstance()->Width(), Buttress::ButtressInstance()->Height() }, camTransform );
 		int err = 0;
-
+		cam.speed = 30;
 		
 		b.OnLoop = [&]()
 		{
@@ -92,7 +92,23 @@ int main()
 			{
 				if (m.inputEvent.keyAction == KeyboardButtonState::TAP || m.inputEvent.keyAction == KeyboardButtonState::HOLD)
 				{
-					PRINT("tap ", glfwGetKeyName(m.inputEvent.key, m.inputEvent.scanCode));
+					PRINT("tap ", glfwGetKeyName(m.inputEvent.key, m.inputEvent.scanCode), "dt", m.inputEvent.deltaT);
+					if (m.inputEvent.key == GLFW_KEY_W)
+					{
+						cam.Move(Camera::FORWARD, m.inputEvent.deltaT);
+					}
+					else if (m.inputEvent.key == GLFW_KEY_A)
+					{
+						cam.Move(Camera::LEFT, m.inputEvent.deltaT);
+					}
+					else if (m.inputEvent.key == GLFW_KEY_D)
+					{
+						cam.Move(Camera::RIGHT, m.inputEvent.deltaT);
+					}
+					else if (m.inputEvent.key == GLFW_KEY_S)
+					{
+						cam.Move(Camera::BACKWARD, m.inputEvent.deltaT);
+					}
 				}
 			});
 			return true;

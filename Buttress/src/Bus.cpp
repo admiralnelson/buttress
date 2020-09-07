@@ -58,6 +58,7 @@ void Bus::RemoveReceiver(std::string name)
 void Bus::SendMessage(Message message)
 {
 	std::lock_guard<std::mutex> guard(m_mutex);
+	message.inputEvent.deltaT = m_dt;
 	m_messages.push_back(message);
 }
 
