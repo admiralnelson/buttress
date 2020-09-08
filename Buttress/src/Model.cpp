@@ -81,7 +81,10 @@ Model::Model(std::string name, std::shared_ptr<Shader> shader, std::vector<Verte
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(2 * sizeof(Vec3)));
 	glEnableVertexArrayAttrib(handle.m_vao, this->shader->GetAttributeLocation(ATTRIBUTE_UV));
 
-
+	glBindVertexArray(0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	m_handle.push_back(handle);
 
 }
 
@@ -184,8 +187,12 @@ void Model::DrawTexture(std::shared_ptr<Texture> tex)
 		}
 		shader->Use();
 		glBindVertexArray(handle.m_vao);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, handle.m_ibo);
-		glDrawElements(GL_TRIANGLES, m_elementCounts, GL_UNSIGNED_INT, nullptr);
+		if (handle.m_ibo != 0)
+		{
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, handle.m_ibo);
+			glDrawElements(GL_TRIANGLES, m_elementCounts, GL_UNSIGNED_INT, nullptr);
+		}
+		
 	}
 }
 
@@ -210,8 +217,11 @@ void Model::Draw(std::shared_ptr<Material> mat)
 			}
 		}
 		glBindVertexArray(handle.m_vao);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, handle.m_ibo);
-		glDrawElements(GL_TRIANGLES, m_elementCounts, GL_UNSIGNED_INT, nullptr);
+		if (handle.m_ibo != 0)
+		{
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, handle.m_ibo);
+			glDrawElements(GL_TRIANGLES, m_elementCounts, GL_UNSIGNED_INT, nullptr);
+		}
 	}
 }
 
@@ -220,7 +230,10 @@ Model::~Model()
 	for (ModelHandle& handle : m_handle)
 	{
 		glDeleteVertexArrays(1, &handle.m_vao);
-		glDeleteBuffers(1, &handle.m_ibo);
+		if (handle.m_ibo != 0)
+		{
+			glDeleteBuffers(1, &handle.m_ibo);
+		}
 		glDeleteBuffers(1, &handle.m_vbo);
 	}
 }

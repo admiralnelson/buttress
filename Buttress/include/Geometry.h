@@ -32,8 +32,9 @@ struct Transformation
 	Vec3 front = { 0.0f, 0.0f, -1.0f };
 	Vec3 up = { 0.0f, 1.0f, 0.0f };
 	Vec3 right = { 1.0f, 0.0f, 0.0f };
-	Vec3 worldUp = { 0.0f, 1.0f, 0.0f };
+	Vec3 worldUp { 0.0f, 1.0f, 0.0f };
 	Matrix4 GetTransformation();
 	void Rotate(Vec3 rotation);
+	void RotateDeg(Vec3 rotation);
 	Vec3 RotationEulerDeg();
 };

@@ -33,6 +33,11 @@ void Transformation::Rotate(Vec3 rotation)
 	localRotation = glm::quat(glm::vec3(rotation.x, rotation.y, rotation.z));
 }
 
+void Transformation::RotateDeg(Vec3 rotation)
+{
+	localRotation = glm::quat(glm::vec3(glm::radians(rotation.x), glm::radians(rotation.y), glm::radians(rotation.z)));
+}
+
 Vec3 Transformation::RotationEulerDeg()
 {
 	return Vec3{ glm::degrees(glm::eulerAngles(localRotation)) };

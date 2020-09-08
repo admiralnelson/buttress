@@ -17,8 +17,7 @@ Camera::Camera(std::string name, std::shared_ptr<Shader> shader, float fov, Vec2
 		PRINT("ERROR", "camera", name, "has no assigned shader");
 	}
 	this->fov = fov;
-	eulerAngle = Vec3(-0.0f, 0.0f, -00.0f );
-
+	transform.RotateDeg(Vec3(0));
 	UpdateVectors();
 }
 
@@ -45,12 +44,14 @@ void Camera::MouseLook(Vec2 deltaPos, bool lockPitch)
 	deltaPos.x *= sensitivity;
 	deltaPos.y *= sensitivity;
 
-	eulerAngle.z += deltaPos.x; // have to flip this from z to y WHY>
-	eulerAngle.y += deltaPos.y;
+	Vec3 rotation = transform.RotationEulerDeg();
+	rotation.x += deltaPos.x;
+	rotation.y += deltaPos.y;
 
-	eulerAngle.z = ClampAngle(eulerAngle.z, minimumX, maximumX);
-	eulerAngle.y = ClampAngle(eulerAngle.y, minimumY, maximumY);
-
+	rotation.x = ClampAngle(rotation.x, minimumX, maximumX);
+	rotation.y = ClampAngle(rotation.y, minimumY, maximumY);
+	
+	transform.RotateDeg(rotation);
 
 	UpdateVectors();
 	Debug();
@@ -87,7 +88,7 @@ void Camera::MouseZoom(float dy)
 void Camera::Debug()
 {
 	PRINT("camera:", name);
-	PRINT("rotation euler:", glm::to_string(eulerAngle));
+	PRINT("rotation euler:", glm::to_string(transform.RotationEulerDeg()));
 	PRINT("transform.position:", glm::to_string(transform.position));
 	PRINT("transform.front:", glm::to_string(transform.front));
 }
@@ -105,9 +106,10 @@ Matrix4 Camera::View()
 void Camera::UpdateVectors()
 {
 	glm::vec3 front;
-	front.x = cos(glm::radians(eulerAngle.z)) * cos(glm::radians(eulerAngle.y));
-	front.y = sin(glm::radians(eulerAngle.y));
-	front.z = sin(glm::radians(eulerAngle.z)) * cos(glm::radians(eulerAngle.y));
+	Vec3 rotation = transform.RotationEulerDeg();
+	front.x = cos(glm::radians(rotation.x)) * cos(glm::radians(rotation.y));
+	front.y = sin(glm::radians(rotation.y));
+	front.z = sin(glm::radians(rotation.x)) * cos(glm::radians(rotation.y));
 	transform.front = glm::normalize(front);
 	// also re-calculate the Right and Up vector
 	transform.right = glm::normalize(glm::cross(transform.front, transform.worldUp));  // normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.

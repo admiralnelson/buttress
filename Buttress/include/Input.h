@@ -15,6 +15,7 @@ public:
 	void TickMouse(GLFWwindow* window, double xpos, double ypos);
 	void TickKey(GLFWwindow* window, int key, int scancode, int action, int mods);
 	void RegisterKey(std::string name, int key, std::function<void(int key, float dT)> callback);
+	void RegisterMouse(std::string name, std::function<void(Vec2 pos, float dT)> callback);
 	bool IsKeyHandlerRegistered(std::string name);
 	bool forwardToBus = true;
 	~Input();

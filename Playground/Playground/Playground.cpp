@@ -20,20 +20,19 @@ int main()
 		Texture* t = new Texture("test", "../../resource/media/test.jpg");
 		//Texture* t2 = new Texture("test 2", "../../resource/media/Wood_Wall_002_basecolor.jpg");
 
-
-		std::shared_ptr<Shader> s;
-		s.reset(new Shader("test"));
-		s->AddVertexShader(ReadFileAsString("../../resource/shader/core.txt"));
-		s->AddFragmentShader(ReadFileAsString("../../resource/shader/core_material.txt"));
-		s->CompileShader();
-		s->Validate();
-		s->Debug();
+		std::shared_ptr<Shader> baseShader;
+		baseShader.reset(new Shader("test"));
+		baseShader->AddVertexShader(ReadFileAsString("../../resource/shader/core.txt"));
+		baseShader->AddFragmentShader(ReadFileAsString("../../resource/shader/core_material.txt"));
+		baseShader->CompileShader();
+		baseShader->Validate();
+		baseShader->Debug();
 		std::shared_ptr<Material> material;
-		material.reset(new Material("test material", s));
+		material.reset(new Material("test material", baseShader));
 		material->diffuse = std::shared_ptr<Texture>(t);
 		material->Debug();
 		std::shared_ptr<Model> model;
-		model.reset(new Model("a box", s,"../../resource/obj/test.obj"));
+		model.reset(new Model("a box", baseShader,"../../resource/obj/test.obj"));
 		model->material = material;
 		Object object{ "test", std::vector<std::shared_ptr<Model>> {model}, Transformation() };
 		Object object2{ "test2", std::vector<std::shared_ptr<Model>> {model}, Transformation() };
@@ -42,7 +41,7 @@ int main()
 		object.transform.Rotate(Vec3(90, 0, 0));
 		Transformation camTransform;
 		camTransform.position = Vec3(0.0f, 0.0f, 3.0f);
-		Camera cam("main", s, 60, Vec2{ Buttress::ButtressInstance()->Width(), Buttress::ButtressInstance()->Height() }, camTransform );
+		Camera cam("main", baseShader, 60, Vec2{ Buttress::ButtressInstance()->Width(), Buttress::ButtressInstance()->Height() }, camTransform );
 		int err = 0;
 		cam.speed = 30;
 		

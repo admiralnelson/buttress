@@ -27,11 +27,7 @@ public:
 	std::string name;
 	float sensitivity = 0.1;
 	float speed = 2.5;
-	float yaw = -90;
-	float pitch = 0;
 	float fov = 45;
-
-	Vec3 eulerAngle = { 0 , 0, 0};
 private:
 	void UpdateVectors();
 	static float ClampAngle(float angle, float min, float max)
