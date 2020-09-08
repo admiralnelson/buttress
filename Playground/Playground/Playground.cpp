@@ -17,7 +17,8 @@ int main()
 	{
 		Buttress b;
 		b.Init(800, 600, "tetst");
-		Texture* t = new Texture("test", "../../resource/media/test.jpg");
+		std::shared_ptr<Texture> t;
+		t.reset(new Texture("test", "../../resource/media/test.jpg"));
 		//Texture* t2 = new Texture("test 2", "../../resource/media/Wood_Wall_002_basecolor.jpg");
 
 		std::shared_ptr<Shader> baseShader;
@@ -27,29 +28,56 @@ int main()
 		baseShader->CompileShader();
 		baseShader->Validate();
 		baseShader->Debug();
+
+		std::shared_ptr<Shader> lampIndicatorShader;
+		lampIndicatorShader.reset(new Shader("lamp indicator"));
+		lampIndicatorShader->AddVertexShader(ReadFileAsString("../../resource/shader/core.txt"));
+		lampIndicatorShader->AddFragmentShader(ReadFileAsString("../../resource/shader/core_lamp_indicator.txt"));
+		lampIndicatorShader->CompileShader();
+		lampIndicatorShader->Validate();
+		lampIndicatorShader->Debug();
+
 		std::shared_ptr<Material> material;
 		material.reset(new Material("test material", baseShader));
-		material->diffuse = std::shared_ptr<Texture>(t);
+		material->diffuse = t;
 		material->Debug();
+
+		std::shared_ptr<Material> materialLamp;
+		materialLamp.reset(new Material("test lamp", lampIndicatorShader));
+		materialLamp->Debug();
+
+
 		std::shared_ptr<Model> model;
 		model.reset(new Model("a box", baseShader,"../../resource/obj/test.obj"));
 		model->material = material;
-		Object object{ "test", std::vector<std::shared_ptr<Model>> {model}, Transformation() };
-		Object object2{ "test2", std::vector<std::shared_ptr<Model>> {model}, Transformation() };
-		object.transform.position = Vec3(1.0f, 0.0f, 0.0);
-		object2.transform.position = Vec3(0.0f, 1.0f, 0.0);
-		object.transform.Rotate(Vec3(90, 0, 0));
+
+		std::shared_ptr<Model> lampModel;
+		lampModel.reset(new Model("a lamp", lampIndicatorShader, "../../resource/obj/test.obj"));
+		lampModel->material = materialLamp;
+		
 		Transformation camTransform;
 		camTransform.position = Vec3(0.0f, 0.0f, 3.0f);
-		Camera cam("main", baseShader, 60, Vec2{ Buttress::ButtressInstance()->Width(), Buttress::ButtressInstance()->Height() }, camTransform );
+		std::shared_ptr<Camera> cam;
+		cam.reset(new Camera("main", 60, Vec2{ Buttress::ButtressInstance()->Width(), Buttress::ButtressInstance()->Height() }, camTransform));
+
+
+		Object object{ "test", cam, std::vector<std::shared_ptr<Model>> {model}, Transformation() };
+		Object object2{ "test2", cam, std::vector<std::shared_ptr<Model>> {model}, Transformation() };
+		Object object3{ "lamp", cam, std::vector<std::shared_ptr<Model>> {lampModel}, Transformation() };
+		object.transform.position = Vec3(1.0f, 0.0f, 0.0);
+		object.transform.Rotate(Vec3(90, 0, 0));
+		object2.transform.position = Vec3(0.0f, 1.0f, 0.0);
+		object3.transform.position = Vec3(0, 2.0f, 0 );
+		object3.transform.scale = Vec3(0.1f, 0.1f, 0.1f);
+		
 		int err = 0;
-		cam.speed = 30;
+		cam->speed = 30;
 		
 		b.OnLoop = [&]()
 		{
-			cam.Use();
 			object.Draw();
 			object2.Draw();
+			object3.Draw();
 			err = glGetError();
 			if (err)
 			{
@@ -67,28 +95,27 @@ int main()
 		float x = 0, y = 0;
 		int tapKey = 0;
 
-		//TODO: PROPER DIRECTION EVENT
 		Input::Instance().RegisterKey("pressW", GLFW_KEY_W, [&](int key, float dT)
 		{
-			cam.Move(Camera::FORWARD, dT);
+			cam->Move(Camera::FORWARD, dT);
 		});
 		Input::Instance().RegisterKey("pressA", GLFW_KEY_A, [&](int key, float dT)
 		{
-			cam.Move(Camera::LEFT, dT);
+			cam->Move(Camera::LEFT, dT);
 		});
 		Input::Instance().RegisterKey("pressD", GLFW_KEY_D, [&](int key, float dT)
 		{
-			cam.Move(Camera::RIGHT, dT);
+			cam->Move(Camera::RIGHT, dT);
 		});
 		Input::Instance().RegisterKey("pressS", GLFW_KEY_S, [&](int key, float dT)
 		{
-			cam.Move(Camera::BACKWARD, dT);
+			cam->Move(Camera::BACKWARD, dT);
 		});
 
 
 		b.OnStart = [&]()
 		{
-			Camera& camera = cam;
+			//Camera& camera = cam.get;
 			bool& mouse = firstMouse;
 			float& lastX = x, &lastY = y;
 			Bus::Instance().AddReceiver("key", "mouse" , [&](Message& m)
@@ -109,7 +136,7 @@ int main()
 				lastX = m.inputEvent.x;
 				lastY = m.inputEvent.y;
 
-				cam.MouseLook(Vec2((float)xoffset, (float)yoffset));
+				cam->MouseLook(Vec2((float)xoffset, (float)yoffset));
 				//cam.Debug(); //causes input lag!
 			});
 

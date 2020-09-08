@@ -12,9 +12,8 @@ public:
 		RIGHT
 	};
 
-	Camera(std::string name, std::shared_ptr<Shader> shader, float fov, Vec2 windowDimension, Transformation transform = Transformation());
+	Camera(std::string name, float fov, Vec2 windowDimension, Transformation transform = Transformation());
 	~Camera();
-	void Use();
 	void MouseLook(Vec2 deltaPos, bool lockPitch = true);
 	void Move(Direction dir, float dt);
 	void MouseZoom(float dy);
@@ -23,7 +22,6 @@ public:
 	Matrix4 View();
 	Vec2 windowDimension = { 0, 0 };
 	Transformation transform;
-	std::shared_ptr<Shader> shader;
 	std::string name;
 	float sensitivity = 0.1;
 	float speed = 2.5;

@@ -6,9 +6,9 @@
 #define ATTRIBUTE_NORMAL "aNormal"
 #define ATTRIBUTE_UV "aUv"
 
-#define UNIFORM_SAMPLER2D_DIFFUSE "diffuse"
-#define UNIFORM_SAMPLER2D_SPECULAR "specular"
-#define UNIFORM_FLOAT_SHININESS "shininess"
+#define UNIFORM_SAMPLER2D_DIFFUSE "material.diffuse"
+#define UNIFORM_SAMPLER2D_SPECULAR "material.specular"
+#define UNIFORM_FLOAT_SHININESS "material.shininess"
 
 
 class Shader
@@ -43,21 +43,32 @@ public:
 	bool Validate();
 	bool IsUniformDefined(std::string _name);
 	bool IsAttributeDefined(std::string _name);
+	bool IsStructExist(std::string name);
 	~Shader();
 private:
+	struct ShaderParam
+	{
+		std::string type;
+		GLint valuePos;
+		GLint arraySize;
+	};
+	struct StructShaderMember
+	{
+		std::string name;
+		ShaderParam param;
+	};
+
 	void AddProgram(std::string source, int type);
+	void FindAndLocateStructs(std::string source);
 	void FindAndLocateAttributes(std::string source);
 	void FindAndLocateUniforms(std::string source);
+	bool ValidateUniformRecursively(std::string name, ShaderParam type);
 	void CheckVaryings(std::string source);
 	std::vector<std::string> SplitToVector(std::string input);
 	bool CheckError(std::string lastOperation_name, std::vector<std::string> params);
 private:
-	struct ShaderParam 
-	{
-		std::string type;
-		GLint valuePos;
-		GLint arraySize; 
-	};
+
+	std::unordered_map<std::string, std::vector<StructShaderMember>> m_structs;
 	std::unordered_map<std::string, ShaderParam> m_uniforms;
 	std::unordered_map<std::string, ShaderParam> m_attributes;
 	std::unordered_map<std::string, ShaderParam> m_varyings;

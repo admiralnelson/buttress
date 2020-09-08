@@ -243,12 +243,16 @@ void Shader::AddVertexShader(std::string source)
 	AddProgram(source, GL_VERTEX_SHADER);
 	FindAndLocateAttributes(source);
 	FindAndLocateUniforms(source);
+
+	FindAndLocateStructs(source);
 }
 
 void Shader::AddFragmentShader(std::string source)
 {
 	AddProgram(source, GL_FRAGMENT_SHADER);
 	FindAndLocateUniforms(source);
+
+	FindAndLocateStructs(source);
 }
 
 void Shader::CompileShader()
@@ -308,15 +312,57 @@ bool Shader::Validate()
 		}
 	}
 
+	std::vector<std::string> unusedUniformStructName;
 	for (auto& s : m_uniforms)
 	{
 		std::string name = s.first;
-		std::string type = s.second.type;
-		GLint arraySize = s.second.arraySize;
-		if (!AddUniform(name, type, arraySize))
+		ShaderParam type = s.second;
+		result = ValidateUniformRecursively(name, type);
+		if (IsStructExist(type.type))
 		{
-			PRINT("WARNING", "uniform is optimised away:", name, "- type", s.second.type, "from shader:", this->name);
-			result = false;
+			unusedUniformStructName.push_back(name);
+		}
+	}
+
+	for (auto& s : unusedUniformStructName)
+	{
+		m_uniforms.erase(s);
+	}
+	//for (auto& s : m_structs)
+	//{
+	//	
+	//}
+	return result;
+}
+
+
+bool Shader::ValidateUniformRecursively(std::string name, ShaderParam param)
+{
+	bool result = true;
+	if (!IsStructExist(param.type))
+	{
+		GLint arraySize = param.arraySize;
+		if (!AddUniform(name, param.type, arraySize))
+		{
+			PRINT("WARNING", "uniform is optimised away:", name, "- type", param.type, "from shader:", this->name);
+			return false;
+		}
+	}
+	else
+	{
+		std::vector<StructShaderMember>& structMembers = m_structs[param.type];
+		for (auto& member : structMembers)
+		{
+			std::string uniformName = name + "." + member.name;
+			if (IsStructExist(member.param.type))
+			{
+				result = ValidateUniformRecursively(member.name, member.param);
+			}
+			if (!AddUniform(uniformName, member.param.type, member.param.arraySize))
+			{
+				PRINT("WARNING", "uniform is optimised away:", uniformName, "- type", member.param.type, "- struct", param.type, "from shader:", this->name);
+				result = false;
+			}
 		}
 	}
 	return result;
@@ -334,6 +380,11 @@ bool Shader::IsUniformDefined(std::string name)
 bool Shader::IsAttributeDefined(std::string name)
 {
 	return m_attributes.find(name) != m_attributes.end();
+}
+
+bool Shader::IsStructExist(std::string name)
+{
+	return m_structs.find(name) != m_structs.end();
 }
 
 Shader::~Shader()
@@ -371,6 +422,64 @@ void Shader::AddProgram(std::string source, int type)
 	}
 	glAttachShader(m_program, shader);
 	glDeleteShader(shader);
+}
+
+void Shader::FindAndLocateStructs(std::string source)
+{
+	std::vector<std::string> processed = SplitToVector(source);
+	enum class State { SEARCH_FOR_STRUCT, PARSING_STRUCT_MEMBER };
+	State state = State::SEARCH_FOR_STRUCT;
+	std::vector<StructShaderMember> capturedMember;
+	std::string currentStructName;
+	for (std::string& s : processed)
+	{
+		if (state == State::SEARCH_FOR_STRUCT)
+		{
+			std::regex reg("struct (\\w+).*");
+			std::smatch result;
+			if (std::regex_match(s, result, reg))
+			{
+				capturedMember.clear();
+				currentStructName = result[1];
+				m_structs[currentStructName] = capturedMember;
+				state = State::PARSING_STRUCT_MEMBER;
+				continue;
+			}
+		}
+		if (state == State::PARSING_STRUCT_MEMBER)
+		{
+			std::regex reg("\\s*(\\w+) (\\w+)\\[?(\\d+)?\\]?.*");
+			std::smatch result;
+			if (s.find("}") != std::string::npos)
+			{
+				state = State::SEARCH_FOR_STRUCT;
+				m_structs[currentStructName] = capturedMember;
+				continue;
+			}
+			if (std::regex_match(s, result, reg))
+			{
+				if (result.length() == 3)
+				{
+					StructShaderMember member;
+					member.name = result[2];
+					member.param = { result[1] , -1 , 0};
+					capturedMember.push_back(member);
+				}
+				else
+				{
+					GLint arraySize = atoi(std::string(result[3]).c_str());
+
+					StructShaderMember member;
+					member.name = result[2];
+					member.param = { result[1] , -1 , arraySize };
+					capturedMember.push_back(member);
+				}
+			}
+
+		}
+
+
+	}
 }
 
 void Shader::FindAndLocateAttributes(std::string source)
@@ -412,6 +521,7 @@ void Shader::FindAndLocateUniforms(std::string source)
 	}
 
 }
+
 
 std::vector<std::string> Shader::SplitToVector(std::string input)
 {

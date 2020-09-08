@@ -18,15 +18,20 @@ void Material::Use()
 		PRINT("WARNING", "material", name, "shader is not assigned!");
 		return;
 	}
-	if (diffuse != nullptr)
+	if (diffuse != nullptr && shader->IsUniformDefined(UNIFORM_SAMPLER2D_DIFFUSE))
 	{
 		shader->SetUniformValueI(UNIFORM_SAMPLER2D_DIFFUSE, 0);
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, diffuse->m_textureNo);
 	}
-	else
+	else if(shader->IsAttributeDefined(UNIFORM_SAMPLER2D_DIFFUSE))
 	{
 		PRINT("WARNING", "material", name, "diffuse is not assigned!");
+		return;
+	}
+	else
+	{
+		// do nothing
 		return;
 	}
 	if (specular != nullptr)
@@ -43,7 +48,7 @@ void Material::Use()
 
 bool Material::IsReady()
 {
-	return (shader != nullptr && shader->IsShaderReady() && diffuse != nullptr);
+	return (shader != nullptr && shader->IsShaderReady());
 }
 
 void Material::Debug()

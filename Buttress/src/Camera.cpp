@@ -3,19 +3,11 @@
 
 
 
-Camera::Camera(std::string name, std::shared_ptr<Shader> shader, float fov, Vec2 windowDimension, Transformation transform)
+Camera::Camera(std::string name, float fov, Vec2 windowDimension, Transformation transform)
 {
 	this->name = name;
 	this->transform = transform;
 	this->windowDimension = windowDimension;
-	if (shader)
-	{
-		this->shader = shader;
-	}
-	else
-	{
-		PRINT("ERROR", "camera", name, "has no assigned shader");
-	}
 	this->fov = fov;
 	transform.RotateDeg(Vec3(0));
 	UpdateVectors();
@@ -25,17 +17,6 @@ Camera::~Camera()
 {
 }
 
-void Camera::Use()
-{
-	shader->Use();
-	Matrix4 proj, view;
-	proj = Projection();
-	shader->SetUniformMat4x4("projection", proj);
-	//PRINT("projection set");
-	view = View();
-	shader->SetUniformMat4x4("view", view);
-	//PRINT("view set");
-}
 
 void Camera::MouseLook(Vec2 deltaPos, bool lockPitch)
 {

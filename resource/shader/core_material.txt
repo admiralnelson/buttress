@@ -4,14 +4,17 @@ out vec4 FragColor;
 in vec3 passedNormal;
 in vec2 passedTexCoord;
 
-uniform sampler2D diffuse;
-uniform sampler2D specular;
-uniform float shininess;
+struct Material {
+    sampler2D diffuse;
+    sampler2D specular;
+    float shininess;
+};
 
+uniform Material material;
 
 void main()
 {
 	//todo implement material system: https://learnopengl.com/code_viewer_gh.php?code=src/2.lighting/6.multiple_lights/6.multiple_lights.fs
-	FragColor = texture(diffuse, passedTexCoord);
+	FragColor = texture(material.diffuse, passedTexCoord);
 
 }
