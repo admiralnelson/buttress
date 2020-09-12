@@ -12,6 +12,9 @@
 #include <Input.h>
 #include <Object.h>
 #include <Camera.h>
+#include <ecs\ECS.h>
+#include <components\EntityName.h>
+
 int main()
 {
 	{
@@ -69,7 +72,27 @@ int main()
 		object2.transform.position = Vec3(0.0f, 1.0f, 0.0);
 		object3.transform.position = Vec3(0, 2.0f, 0 );
 		object3.transform.scale = Vec3(0.1f, 0.1f, 0.1f);
-		
+
+
+		//ECS TEST
+		{
+			Universe universe;
+			Entity ent = universe.CreateEntity("test");
+			PRINT("ENTITY NAME IS ", ent.GetComponent<EntityName>().name);
+
+			Entity ent2 = universe.CreateEntity("test");
+			PRINT("ENTITY2 NAME IS ", ent2.GetComponent<EntityName>().name);
+
+			for (int i = 0; i < 10; i++)
+			{
+				Entity ent = universe.CreateEntity("test " + std::to_string(i));
+				PRINT("ENTITY NAME IS ", ent.GetComponent<EntityName>().name);
+				//ent.RemoveComponent<EntityName>();
+				//PRINT("MY NEW ENTITY NAME IS ", ent.GetComponent<EntityName>().name);
+			}
+			universe.MemoryDebug();
+		}
+
 		int err = 0;
 		cam->speed = 30;
 		

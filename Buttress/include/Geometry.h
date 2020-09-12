@@ -24,6 +24,8 @@ Matrix4 Rotate(Matrix4 &input, Vec3 axis);
 Vec3 Quaternion2RotationEuler(Quaternion &input);
 Vec3 Quaternion2RotationEulerDeg(Quaternion &input);
 
+
+//Component!
 struct Transformation
 {
 	Vec3 position = { 0, 0, 0 };

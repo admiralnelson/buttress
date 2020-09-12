@@ -4,6 +4,7 @@ out vec4 FragColor;
 in vec3 passedNormal;
 in vec2 passedTexCoord;
 
+
 struct Material {
     sampler2D diffuse;
     sampler2D specular;
@@ -11,6 +12,8 @@ struct Material {
 };
 
 uniform Material material;
+
+
 
 void main()
 {

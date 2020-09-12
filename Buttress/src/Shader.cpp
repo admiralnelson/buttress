@@ -14,7 +14,7 @@ Shader::Shader(std::string name)
 		{
 			PRINT("   ", "name ", s.first, " location :", s.second);
 		}
-		throw new std::exception("shader error", -1);
+		throw std::exception("shader error", -1);
 	}
 	m_program = glCreateProgram();
 	PRINT("INFO", "shader program has been created:", this->name, "program nr:", m_program);
@@ -26,7 +26,7 @@ void Shader::Use()
 	if (!IsShaderReady())
 	{
 		PRINT("ERROR", "shader is not compiled", this->name);
-		throw new std::exception("shader error", -1);
+		throw std::exception("shader error", -1);
 	}
 	glUseProgram(m_program);
 }
@@ -241,6 +241,7 @@ void Shader::Debug()
 void Shader::AddVertexShader(std::string source)
 {
 	AddProgram(source, GL_VERTEX_SHADER);
+	FindButressConstants(source);
 	FindAndLocateAttributes(source);
 	FindAndLocateUniforms(source);
 
@@ -250,8 +251,9 @@ void Shader::AddVertexShader(std::string source)
 void Shader::AddFragmentShader(std::string source)
 {
 	AddProgram(source, GL_FRAGMENT_SHADER);
+	FindButressConstants(source);
 	FindAndLocateUniforms(source);
-
+	
 	FindAndLocateStructs(source);
 }
 
@@ -270,7 +272,7 @@ void Shader::CompileShader()
 		
 
 		PRINT("ERROR LINKAGE INFO", std::string(errorLog.begin(), errorLog.end()));		
-		throw new std::exception("program shader error", -1);
+		throw  std::exception("program shader error", -1);
 	}
 	glGetProgramiv(m_program, GL_VALIDATE_STATUS, &status);
 	if (!status)
@@ -283,7 +285,7 @@ void Shader::CompileShader()
 
 
 		PRINT("ERROR VALIDATION INFO", std::string(errorLog.begin(), errorLog.end()));
-		throw new std::exception("program shader error", -1);
+		throw  std::exception("program shader error", -1);
 	}
 	m_isReady = true;
 }
@@ -313,6 +315,7 @@ bool Shader::Validate()
 	}
 
 	std::vector<std::string> unusedUniformStructName;
+	std::vector<std::string> unusedDummyArrayName;
 	for (auto& s : m_uniforms)
 	{
 		std::string name = s.first;
@@ -322,9 +325,22 @@ bool Shader::Validate()
 		{
 			unusedUniformStructName.push_back(name);
 		}
+		if (type.arraySize > 0)
+		{
+			unusedDummyArrayName.push_back(name);
+		}
+	}
+
+	for (ShaderKeyValue& kv : m_uniformsAux)
+	{
+		m_uniforms[kv.name] = kv.param;
 	}
 
 	for (auto& s : unusedUniformStructName)
+	{
+		m_uniforms.erase(s);
+	}
+	for (auto& s : unusedDummyArrayName)
 	{
 		m_uniforms.erase(s);
 	}
@@ -335,33 +351,86 @@ bool Shader::Validate()
 	return result;
 }
 
-
-bool Shader::ValidateUniformRecursively(std::string name, ShaderParam param)
+bool Shader::IsButtressConstantDefined(std::string name)
 {
+	return m_buttressConstants.find(name) != m_buttressConstants.end();
+}
+
+
+bool Shader::ValidateUniformRecursively(std::string name, ShaderParam param, std::string parent)
+{
+	//FIXME: PROPER C STRUCT PARSER
+	//WARNING: MAXIMUM DEPTH: 1 STRUCT ONLY LOL
 	bool result = true;
 	if (!IsStructExist(param.type))
 	{
 		GLint arraySize = param.arraySize;
-		if (!AddUniform(name, param.type, arraySize))
+		if (arraySize > 0)
 		{
-			PRINT("WARNING", "uniform is optimised away:", name, "- type", param.type, "from shader:", this->name);
-			return false;
+			for (size_t i = 0; i < arraySize; i++)
+			{
+				std::string indexedName = name + "[" + std::to_string(i) + "]";
+				if (!AddUniform(indexedName, param.type, 0))
+				{
+					PRINT("WARNING", "uniform is optimised away:", indexedName, "- type array element", param.type, "from shader:", this->name);
+					result = false;
+				}
+			}
+		}
+		else
+		{
+			if (!AddUniform(name, param.type, 0))
+			{
+				PRINT("WARNING", "uniform is optimised away:", name, "- type", param.type, "from shader:", this->name);
+				result = false;
+			}
 		}
 	}
 	else
 	{
-		std::vector<StructShaderMember>& structMembers = m_structs[param.type];
+		std::vector<ShaderKeyValue>& structMembers = m_structs[param.type];
 		for (auto& member : structMembers)
 		{
-			std::string uniformName = name + "." + member.name;
 			if (IsStructExist(member.param.type))
 			{
-				result = ValidateUniformRecursively(member.name, member.param);
+				result = ValidateUniformRecursively(member.name, member.param, name);
+				continue;
 			}
-			if (!AddUniform(uniformName, member.param.type, member.param.arraySize))
+
+			GLint arraySize = member.param.arraySize;
+			if (parent != "")
 			{
-				PRINT("WARNING", "uniform is optimised away:", uniformName, "- type", member.param.type, "- struct", param.type, "from shader:", this->name);
-				result = false;
+				arraySize = param.arraySize;
+			}
+			if (arraySize > 0)
+			{
+				for (size_t i = 0; i < arraySize; i++)
+				{
+					std::string indexedName = name +"[" + std::to_string(i) + "]." + member.name;
+					if (parent != "")
+					{
+						indexedName = parent + "." + indexedName;
+					}
+
+					if (!AddUniformAux(indexedName, member.param.type, 0))
+					{
+						PRINT("WARNING", "uniform is optimised away:", indexedName, "- type array element", member.param.type, "from struct", param.type, "from shader:", this->name);
+						result = false;
+					}
+				}
+			}
+			else
+			{
+				std::string uniformName = name + "." + member.name;
+				if (parent != "")
+				{
+					uniformName = parent + "." + uniformName;
+				}
+				if (!AddUniformAux(uniformName, member.param.type, 0))
+				{
+					PRINT("WARNING", "uniform is optimised away:", uniformName, "- type", member.param.type, "from struct", param.type, "from shader:", this->name);
+					result = false;
+				}
 			}
 		}
 	}
@@ -424,18 +493,33 @@ void Shader::AddProgram(std::string source, int type)
 	glDeleteShader(shader);
 }
 
+bool Shader::AddUniformAux(std::string name, std::string type, GLint arraySize)
+{
+	int uniformLocation = glGetUniformLocation(m_program, name.c_str());
+	if (uniformLocation == -1)
+	{
+		PRINT("WARNING", "unable to locate uniform in the shader:", name, "from shader:", this->name);
+		return false;
+	}
+	ShaderKeyValue uniform;
+	uniform.name = name;
+	uniform.param = { type, uniformLocation, arraySize };
+	m_uniformsAux.push_back(uniform);
+	return true;
+}
+
 void Shader::FindAndLocateStructs(std::string source)
 {
 	std::vector<std::string> processed = SplitToVector(source);
 	enum class State { SEARCH_FOR_STRUCT, PARSING_STRUCT_MEMBER };
 	State state = State::SEARCH_FOR_STRUCT;
-	std::vector<StructShaderMember> capturedMember;
+	std::vector<ShaderKeyValue> capturedMember;
 	std::string currentStructName;
 	for (std::string& s : processed)
 	{
 		if (state == State::SEARCH_FOR_STRUCT)
 		{
-			std::regex reg("struct (\\w+).*");
+			std::regex reg("\\s*struct (\\w+).*");
 			std::smatch result;
 			if (std::regex_match(s, result, reg))
 			{
@@ -448,7 +532,7 @@ void Shader::FindAndLocateStructs(std::string source)
 		}
 		if (state == State::PARSING_STRUCT_MEMBER)
 		{
-			std::regex reg("\\s*(\\w+) (\\w+)\\[?(\\d+)?\\]?.*");
+			std::regex reg("\\s*(\\w+) (\\w+)\\[?(\\w+)?\\]?.*");
 			std::smatch result;
 			if (s.find("}") != std::string::npos)
 			{
@@ -458,20 +542,32 @@ void Shader::FindAndLocateStructs(std::string source)
 			}
 			if (std::regex_match(s, result, reg))
 			{
-				if (result.length() == 3)
+				if (result[3].str().size() > 0)
 				{
-					StructShaderMember member;
-					member.name = result[2];
-					member.param = { result[1] , -1 , 0};
-					capturedMember.push_back(member);
+					if (IsButtressConstantDefined(result[3]))
+					{
+						ShaderKeyValue member;
+						member.name = result[2];
+						member.param = { result[1] , -1 , m_buttressConstants[result[3]] };
+						capturedMember.push_back(member);
+					}
+					else
+					{
+						std::string errmsg = "array size must be followed by BUTTRESS_CONSTANT_, unable to find BUTTRESS_CONSTANT_ macro of " + result[3].str();
+						throw std::exception(errmsg.c_str(), -1);
+
+						////if()
+						//ShaderKeyValue member;
+						//member.name = result[2];
+						//member.param = { result[1] , -1 ,  };
+						//capturedMember.push_back(member);
+					}
 				}
 				else
 				{
-					GLint arraySize = atoi(std::string(result[3]).c_str());
-
-					StructShaderMember member;
+					ShaderKeyValue member;
 					member.name = result[2];
-					member.param = { result[1] , -1 , arraySize };
+					member.param = { result[1] , -1 , 0 };
 					capturedMember.push_back(member);
 				}
 			}
@@ -484,7 +580,7 @@ void Shader::FindAndLocateStructs(std::string source)
 
 void Shader::FindAndLocateAttributes(std::string source)
 {
-	std::regex reg("layout\\(location = \\d\\) in (\\w+) (\\w+).*");
+	std::regex reg("\\s*layout\\(location = \\d\\) in (\\w+) (\\w+).*");
 	std::vector<std::string> processed = SplitToVector(source);
 	for (std::string& s : processed)
 	{
@@ -500,27 +596,51 @@ void Shader::FindAndLocateAttributes(std::string source)
 
 void Shader::FindAndLocateUniforms(std::string source)
 {
-	std::regex reg("uniform (\\w+) (\\w+)\\[?(\\d+)?\\]?.*");
+	std::regex reg("\\s*uniform (\\w+) (\\w+)\\[?(\\w+)?\\]?.*");
 	std::vector<std::string> processed = SplitToVector(source);
 	for (std::string& s : processed)
 	{
 		std::smatch result;
 		if (std::regex_match(s, result, reg))
 		{
-			if (result.length() == 3)
+			if (result[3].str().size() > 0)
 			{
-				m_uniforms[result[2]] = { result[1], -1, 0 };
+				if (IsButtressConstantDefined(result[3]))
+				{
+					m_uniforms[result[2]] = { result[1], -1, m_buttressConstants[result[3]] };
+				}
+				else
+				{
+					std::string errmsg = "array size must be followed by BUTTRESS_CONSTANT_, unable to find BUTTRESS_CONSTANT_ macro of " + result[3].str();
+					throw std::exception(errmsg.c_str(), -1);
+				}
 			}
 			else
 			{
-				GLint arraySize = atoi(std::string(result[3]).c_str());
-				m_uniforms[result[2]] = { result[1], -1, arraySize };
+				m_uniforms[result[2]] = { result[1], -1, 0 };
 			}
 		}
 
 	}
 
 }
+
+void Shader::FindButressConstants(std::string source)
+{
+	std::regex reg("\\s*\\#define BUTTRESS_CONSTANT_(\\w+) (\\d+).*");
+	std::vector<std::string> processed = SplitToVector(source);
+	for (std::string& s : processed)
+	{
+		std::smatch result;
+		if (std::regex_match(s, result, reg))
+		{
+			std::string constantName = result[1];
+			constantName = "BUTTRESS_CONSTANT_" + constantName;
+			m_buttressConstants[constantName] = atoi(result[2].str().c_str());
+		}
+	}
+}
+
 
 
 std::vector<std::string> Shader::SplitToVector(std::string input)

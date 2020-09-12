@@ -42,6 +42,21 @@
     <Filter Include="include\util">
       <UniqueIdentifier>{83c5e507-4fd3-46f0-9852-1796f4d0de8f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="include\ecs">
+      <UniqueIdentifier>{d54fa970-64e3-44e7-ad78-513f90f45bb0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ecs">
+      <UniqueIdentifier>{1187b565-1ef8-4c45-aa6b-5b72ca5dec1a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\component">
+      <UniqueIdentifier>{0645cde2-36ac-4fc9-b2c2-450a67c55ed7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\system">
+      <UniqueIdentifier>{167afaa5-55bd-4357-a817-f5ff479927eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="system">
+      <UniqueIdentifier>{3c734dcb-a2e3-4075-a732-8fbd6bf0fe29}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Buttress.cpp">
@@ -82,6 +97,18 @@
     </ClCompile>
     <ClCompile Include="src\Object.cpp">
       <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ecs\EntityManager.cpp">
+      <Filter>ecs</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ecs\SystemManager.cpp">
+      <Filter>ecs</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ecs\ECS.cpp">
+      <Filter>ecs</Filter>
+    </ClCompile>
+    <ClCompile Include="src\system\EntityNameCheckSystem.cpp">
+      <Filter>system</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -126,6 +153,27 @@
     </ClInclude>
     <ClInclude Include="include\Util.h">
       <Filter>include\util</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Light.h">
+      <Filter>include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ecs\ComponentManager.h">
+      <Filter>include\ecs</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ecs\EntityManager.h">
+      <Filter>include\ecs</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ecs\SystemManager.h">
+      <Filter>include\ecs</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ecs\ECS.h">
+      <Filter>include\ecs</Filter>
+    </ClInclude>
+    <ClInclude Include="include\components\EntityName.h">
+      <Filter>include\component</Filter>
+    </ClInclude>
+    <ClInclude Include="include\system\EntityNameCheckSystem.h">
+      <Filter>include\system</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

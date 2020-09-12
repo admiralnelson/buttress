@@ -41,6 +41,7 @@ public:
 	void CompileShader();
 	bool IsShaderReady();
 	bool Validate();
+	bool IsButtressConstantDefined(std::string name);
 	bool IsUniformDefined(std::string _name);
 	bool IsAttributeDefined(std::string _name);
 	bool IsStructExist(std::string name);
@@ -52,26 +53,30 @@ private:
 		GLint valuePos;
 		GLint arraySize;
 	};
-	struct StructShaderMember
+	struct ShaderKeyValue
 	{
 		std::string name;
 		ShaderParam param;
 	};
 
 	void AddProgram(std::string source, int type);
+	bool AddUniformAux(std::string _name, std::string type = "", GLint arraySize = 0);
 	void FindAndLocateStructs(std::string source);
 	void FindAndLocateAttributes(std::string source);
 	void FindAndLocateUniforms(std::string source);
-	bool ValidateUniformRecursively(std::string name, ShaderParam type);
+	void FindButressConstants(std::string source);
+	bool ValidateUniformRecursively(std::string name, ShaderParam type, std::string parent = "");
+	
 	void CheckVaryings(std::string source);
 	std::vector<std::string> SplitToVector(std::string input);
 	bool CheckError(std::string lastOperation_name, std::vector<std::string> params);
 private:
-
-	std::unordered_map<std::string, std::vector<StructShaderMember>> m_structs;
+	std::unordered_map<std::string, std::vector<ShaderKeyValue>> m_structs;
 	std::unordered_map<std::string, ShaderParam> m_uniforms;
 	std::unordered_map<std::string, ShaderParam> m_attributes;
 	std::unordered_map<std::string, ShaderParam> m_varyings;
+	std::unordered_map<std::string, GLint> m_buttressConstants;
+	std::vector<ShaderKeyValue> m_uniformsAux;
 	GLuint m_program = -1;	
 	bool m_isReady = false;
 };

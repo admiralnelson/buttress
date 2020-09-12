@@ -27,9 +27,9 @@
 #include <mutex>
 #include <shared_mutex>
 #include <thread>
+#include <bitset>
 #include "Geometry.h"
 #include "Logger.h"
-
 #define _CRTDBG_MAP_ALLOC
 #include <cstdlib>
 #include <crtdbg.h>
@@ -39,6 +39,7 @@
 // Replace _NORMAL_BLOCK with _CLIENT_BLOCK if you want the
 // allocations to be of _CLIENT_BLOCK type
 #else
+
 
 #endif
 
