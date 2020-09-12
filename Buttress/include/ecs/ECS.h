@@ -7,6 +7,7 @@
 
 class Entity;
 class EntityNameCheckSystem;
+struct EntityName;
 class Universe
 {
 	friend class Entity;
@@ -67,6 +68,11 @@ public:
 			PRINT("ERROR", "INVALID ENTITY!");
 			throw std::exception("invalid entity");
 		}
+		if (strcmp(typeid(COMPONENT_TYPE).name(), typeid(EntityName).name()) == 0)
+		{
+			PRINT("ERROR", "attempt to remove core component (EntityName) from entity! entity id:", id);
+			throw std::exception("attempt to remove core system from entity");
+		}
 		m_universe->m_componentManager->RemoveComponent<COMPONENT_TYPE>(id);
 
 		auto signature = m_universe->m_entityManager->GetSignature(id);
@@ -90,6 +96,11 @@ public:
 	template<typename SYSTEM_TYPE>
 	void AttachToSystem()
 	{
+		if (id == INVALID_ENTITY)
+		{
+			PRINT("ERROR", "INVALID ENTITY!");
+			throw std::exception("invalid entity");
+		}
 		ComponentSignature objectCompSig = m_universe->m_entityManager->GetSignature();
 		objectCompSig = objectCompSig | m_universe->m_systemManager->GetSignature<SYSTEM_TYPE>();
 		m_universe->m_entityManager->SetSignature(objectCompSig);
@@ -98,6 +109,16 @@ public:
 	template<typename SYSTEM_TYPE>
 	void RemoveFromSystem()
 	{
+		if (id == INVALID_ENTITY)
+		{
+			PRINT("ERROR", "INVALID ENTITY!");
+			throw std::exception("invalid entity");
+		}
+		if (strcmp(typeid(SYSTEM_TYPE).name(), typeid(EntityNameCheckSystem).name()) == 0)
+		{
+			PRINT("ERROR", "attempt to remove core system (EntityNameCheckSystem) from entity! entity id:", id);
+			throw std::exception("attempt to remove core system from entity");
+		}
 		ComponentSignature objectCompSig = m_universe->m_entityManager->GetSignature();
 		objectCompSig = objectCompSig & m_universe->m_systemManager->GetSignature<SYSTEM_TYPE>();
 		m_universe->m_entityManager->SetSignature(objectCompSig);

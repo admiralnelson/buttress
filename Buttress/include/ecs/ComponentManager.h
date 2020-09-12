@@ -20,7 +20,7 @@ public:
 	{
 		if (m_entityToIndexMap.find(entity) != m_entityToIndexMap.end())
 		{
-			PRINT("ERROR", "a component assigned to the same entity twice!");
+			PRINT("ERROR", "a component assigned to the same entity twice! component type:", typeid(TYPE).name());
 			throw std::exception("duplicate component assigment");
 		}
 		size_t newIndex = m_alive;

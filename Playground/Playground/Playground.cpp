@@ -77,18 +77,19 @@ int main()
 		//ECS TEST
 		{
 			Universe universe;
+			EntityName name;
 			Entity ent = universe.CreateEntity("test");
 			PRINT("ENTITY NAME IS ", ent.GetComponent<EntityName>().name);
 
-			Entity ent2 = universe.CreateEntity("test");
-			PRINT("ENTITY2 NAME IS ", ent2.GetComponent<EntityName>().name);
+			//Entity ent2 = universe.CreateEntity("test");
+			//PRINT("ENTITY2 NAME IS ", ent2.GetComponent<EntityName>().name);
 
 			for (int i = 0; i < 10; i++)
 			{
 				Entity ent = universe.CreateEntity("test " + std::to_string(i));
 				PRINT("ENTITY NAME IS ", ent.GetComponent<EntityName>().name);
-				//ent.RemoveComponent<EntityName>();
-				//PRINT("MY NEW ENTITY NAME IS ", ent.GetComponent<EntityName>().name);
+				ent.RemoveComponent<EntityName>();
+				PRINT("MY NEW ENTITY NAME IS ", ent.GetComponent<EntityName>().name);
 			}
 			universe.MemoryDebug();
 		}
