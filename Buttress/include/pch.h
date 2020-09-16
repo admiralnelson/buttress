@@ -28,6 +28,7 @@
 #include <shared_mutex>
 #include <thread>
 #include <bitset>
+#include <any>
 #include "Geometry.h"
 #include "Logger.h"
 #define _CRTDBG_MAP_ALLOC

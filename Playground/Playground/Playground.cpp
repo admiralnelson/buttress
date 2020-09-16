@@ -11,9 +11,11 @@
 #include <Bus.h>
 #include <Input.h>
 #include <Object.h>
-#include <Camera.h>
+#include <system\CameraSystem.h>
+#include <components\Camera.h>
 #include <ecs\ECS.h>
 #include <components\EntityName.h>
+#include <components\Mesh.h>
 
 int main()
 {
@@ -58,7 +60,7 @@ int main()
 		lampModel.reset(new Model("a lamp", lampIndicatorShader, "../../resource/obj/test.obj"));
 		lampModel->material = materialLamp;
 		
-		Transformation camTransform;
+		/*Transformation camTransform;
 		camTransform.position = Vec3(0.0f, 0.0f, 3.0f);
 		std::shared_ptr<Camera> cam;
 		cam.reset(new Camera("main", 60, Vec2{ Buttress::ButtressInstance()->Width(), Buttress::ButtressInstance()->Height() }, camTransform));
@@ -72,14 +74,31 @@ int main()
 		object2.transform.position = Vec3(0.0f, 1.0f, 0.0);
 		object3.transform.position = Vec3(0, 2.0f, 0 );
 		object3.transform.scale = Vec3(0.1f, 0.1f, 0.1f);
-
+		*/
 
 		//ECS TEST
 		{
 			Universe universe;
+			universe.RegisterComponent<Camera>();
+			ComponentSignature sig;
+			sig.set(universe.GetComponentType<Camera>());
+			universe.RegisterSystem<CameraSystem>(sig);
+
+
 			EntityName name;
-			Entity ent = universe.CreateEntity("test");
+			Entity ent = universe.CreateEntity("camera");
+			
+			ent.AddComponent<Camera>(Camera());
+			ent.AttachToSystem<CameraSystem>();
 			PRINT("ENTITY NAME IS ", ent.GetComponent<EntityName>().name);
+			ent.Debug();
+
+			Entity cube = universe.CreateEntity("a cube");
+			Mesh mesh;
+			mesh.objectPath = "../../resource/obj/test.obj";
+			ent.AddComponent<Mesh>(mesh);
+			
+
 
 			//Entity ent2 = universe.CreateEntity("test");
 			//PRINT("ENTITY2 NAME IS ", ent2.GetComponent<EntityName>().name);
@@ -88,12 +107,12 @@ int main()
 			{
 				Entity ent = universe.CreateEntity("test " + std::to_string(i));
 				PRINT("ENTITY NAME IS ", ent.GetComponent<EntityName>().name);
-				ent.RemoveComponent<EntityName>();
-				PRINT("MY NEW ENTITY NAME IS ", ent.GetComponent<EntityName>().name);
+				Entity ent2 = ent;
+				ent2.Debug();
 			}
 			universe.MemoryDebug();
 		}
-
+		/*
 		int err = 0;
 		cam->speed = 30;
 		
@@ -167,7 +186,7 @@ int main()
 			return true;
 		};
 
-		b.Start();
+		b.Start();*/
 	}
 	_CrtDumpMemoryLeaks();
 	

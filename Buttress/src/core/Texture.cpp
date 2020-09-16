@@ -1,10 +1,9 @@
 #pragma once
 #include "pch.h"
-#include "Texture.h"
+#include "core\Texture.h"
 #include "Logger.h"
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
-static std::unordered_map<std::string, Texture*> textureList;
 
 Texture::Texture(std::string simpleName, std::string path)
 {
@@ -44,7 +43,6 @@ Texture::Texture(std::string simpleName, std::string path)
 	glGenerateMipmap(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, 0);
 	PRINT("INFO", "texture type 2D has been created. name:", m_name, "filename: ", m_path, "texture nr:", m_textureNo);
-	textureList[m_name] = this;
 }
 
 Texture::Texture(std::string simpleName, std::array<std::string, 6> paths)

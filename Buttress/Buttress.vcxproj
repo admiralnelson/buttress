@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -19,12 +19,15 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="include\components\Transform.cpp" />
     <ClCompile Include="include\pch.cpp" />
+    <ClCompile Include="include\system\RenderSystem.cpp" />
     <ClCompile Include="src\Bus.cpp" />
     <ClCompile Include="src\Buttress.cpp" />
-    <ClCompile Include="src\Camera.cpp" />
+    <ClCompile Include="src\core\Shader.cpp" />
     <ClCompile Include="src\ecs\ECS.cpp" />
     <ClCompile Include="src\ecs\EntityManager.cpp" />
+    <ClCompile Include="src\ecs\EventManager.cpp" />
     <ClCompile Include="src\ecs\SystemManager.cpp" />
     <ClCompile Include="src\Geometry.cpp" />
     <ClCompile Include="src\Input.cpp" />
@@ -32,7 +35,7 @@
     <ClCompile Include="src\Model.cpp" />
     <ClCompile Include="src\Object.cpp" />
     <ClCompile Include="src\PrimitiveDraw.cpp" />
-    <ClCompile Include="src\Shader.cpp" />
+    <ClCompile Include="src\system\CameraSystem.cpp" />
     <ClCompile Include="src\system\EntityNameCheckSystem.cpp" />
     <ClCompile Include="src\Texture.cpp" />
     <ClCompile Include="src\Util.cpp" />
@@ -40,10 +43,14 @@
   <ItemGroup>
     <ClInclude Include="include\Bus.h" />
     <ClInclude Include="include\Buttress.h" />
-    <ClInclude Include="include\Camera.h" />
+    <ClInclude Include="include\components\Camera.h" />
     <ClInclude Include="include\components\EntityName.h" />
+    <ClInclude Include="include\components\Mesh.h" />
+    <ClInclude Include="include\components\Transform.h" />
+    <ClInclude Include="include\core\Shader.h" />
     <ClInclude Include="include\ecs\ComponentManager.h" />
     <ClInclude Include="include\ecs\EntityManager.h" />
+    <ClInclude Include="include\ecs\EventManager.h" />
     <ClInclude Include="include\ecs\SystemManager.h" />
     <ClInclude Include="include\ecs\ECS.h" />
     <ClInclude Include="include\Geometry.h" />
@@ -54,9 +61,10 @@
     <ClInclude Include="include\Model.h" />
     <ClInclude Include="include\Object.h" />
     <ClInclude Include="include\PrimitiveDraw.h" />
-    <ClInclude Include="include\Shader.h" />
     <ClInclude Include="include\pch.h" />
+    <ClInclude Include="include\system\CameraSystem.h" />
     <ClInclude Include="include\system\EntityNameCheckSystem.h" />
+    <ClInclude Include="include\system\RenderSystem.h" />
     <ClInclude Include="include\Texture.h" />
     <ClInclude Include="include\Util.h" />
   </ItemGroup>

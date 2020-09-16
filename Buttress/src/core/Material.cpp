@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "Material.h"
+#include "core\Material.h"
 
 Material::Material(std::string name, std::shared_ptr<Shader> shader)
 {

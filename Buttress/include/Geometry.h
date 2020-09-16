@@ -23,20 +23,3 @@ struct Vertex
 Matrix4 Rotate(Matrix4 &input, Vec3 axis);
 Vec3 Quaternion2RotationEuler(Quaternion &input);
 Vec3 Quaternion2RotationEulerDeg(Quaternion &input);
-
-
-//Component!
-struct Transformation
-{
-	Vec3 position = { 0, 0, 0 };
-	Vec3 scale = { 1.0f,1.0f,1.0f };
-	Quaternion localRotation;
-	Vec3 front = { 0.0f, 0.0f, -1.0f };
-	Vec3 up = { 0.0f, 1.0f, 0.0f };
-	Vec3 right = { 1.0f, 0.0f, 0.0f };
-	Vec3 worldUp { 0.0f, 1.0f, 0.0f };
-	Matrix4 GetTransformation();
-	void Rotate(Vec3 rotation);
-	void RotateDeg(Vec3 rotation);
-	Vec3 RotationEulerDeg();
-};

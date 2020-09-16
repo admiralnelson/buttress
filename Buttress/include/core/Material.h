@@ -1,7 +1,7 @@
 #pragma once
 #include "pch.h"
 #include "Texture.h"
-#include "Shader.h"
+#include "core\Shader.h"
 
 class Material
 {

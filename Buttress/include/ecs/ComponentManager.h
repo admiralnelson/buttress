@@ -105,6 +105,7 @@ public:
 			throw std::exception("same component registered ");
 		}
 		m_componentTypes.insert({ name, m_nextComponentType });
+		m_componentTypeNames.insert({ m_nextComponentType, name });
 		m_componentArrays.insert({ name, std::make_shared<ComponentArray<COMPONENT_TYPE>>() });
 
 		m_nextComponentType++;
@@ -121,6 +122,16 @@ public:
 		}
 
 		return m_componentTypes[name];
+	}
+
+	std::string GetComponentTypeName(ComponentTypeId compId)
+	{
+		if (m_componentTypeNames.find(compId) == m_componentTypeNames.end())
+		{
+			PRINT("ERROR", "component with id:", compId, "not registered!");
+			throw std::exception("component  was not registered");
+		}
+		return m_componentTypeNames[compId];
 	}
 
 
@@ -162,6 +173,7 @@ public:
 private:
 	//maps component name to its typeId
 	std::unordered_map<std::string, ComponentTypeId> m_componentTypes = {};
+	std::unordered_map<ComponentTypeId, std::string> m_componentTypeNames = {};
 	//maps component name to its container
 	std::unordered_map<std::string, std::shared_ptr<IComponentArray>> m_componentArrays = {};
 	//next id of next registered component
