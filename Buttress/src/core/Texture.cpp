@@ -5,14 +5,15 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
-Texture::Texture(std::string simpleName, std::string path)
+std::unordered_map<std::string, std::shared_ptr<Texture>> Texture::m_texturesList;
+
+Texture::Texture(std::string path)
 {
 	m_width = 0;
 	m_height = 0;
 	m_textureNo = 0;
 	m_channel = 0;
 	m_path = path;
-	m_name = simpleName;
 	std::shared_ptr<unsigned char> data;
 	stbi_set_flip_vertically_on_load(true);
 	data.reset(stbi_load(path.c_str(), &m_width, &m_height, &m_channel, 0));
@@ -42,11 +43,7 @@ Texture::Texture(std::string simpleName, std::string path)
 	}
 	glGenerateMipmap(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, 0);
-	PRINT("INFO", "texture type 2D has been created. name:", m_name, "filename: ", m_path, "texture nr:", m_textureNo);
-}
-
-Texture::Texture(std::string simpleName, std::array<std::string, 6> paths)
-{
+	PRINT("INFO", "texture type 2D has been created. filename: ", m_path, "texture nr:", m_textureNo);
 }
 
 void Texture::Use()
@@ -54,23 +51,6 @@ void Texture::Use()
 	//todo: for multiple texture!
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, m_textureNo);
-}
-
-void Texture::UseWith(std::vector<Texture*> textures, bool is3DTexture)
-{
-	if (!is3DTexture)
-	{
-		Use();
-		for (size_t i = 0; i < textures.size(); i++)
-		{
-			glActiveTexture(GL_TEXTURE0 + 1 + i);
-			glBindTexture(GL_TEXTURE_2D, textures[i]->m_textureNo);
-		}
-	}
-	else
-	{
-		PRINT("WARNING", "3d textures NOT IMPLEMENTED");
-	}
 }
 
 Texture::~Texture()
@@ -81,7 +61,6 @@ Texture::~Texture()
 void Texture::Debug()
 {
 	PRINT("INFO", "-----------------");
-	PRINT("INFO", "texture name:", m_name);
 	PRINT("INFO", "texture path:", m_path);
 	PRINT("INFO", "texture nr:", m_textureNo);
 }

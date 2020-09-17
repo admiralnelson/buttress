@@ -1,9 +1,9 @@
 #include "pch.h"
 #include "core\Material.h"
 
-Material::Material(std::string name, std::shared_ptr<Shader> shader)
+Material::Material(std::string path, std::shared_ptr<Shader> shader)
 {
-	this->name = name;
+	this->path = path;
 	this->shader = shader;
 }
 
@@ -15,7 +15,7 @@ void Material::Use()
 	}
 	else
 	{
-		PRINT("WARNING", "material", name, "shader is not assigned!");
+		PRINT("WARNING", "material", path, "shader is not assigned!");
 		return;
 	}
 	if (diffuse != nullptr && shader->IsUniformDefined(UNIFORM_SAMPLER2D_DIFFUSE))
@@ -26,7 +26,7 @@ void Material::Use()
 	}
 	else if(shader->IsAttributeDefined(UNIFORM_SAMPLER2D_DIFFUSE))
 	{
-		PRINT("WARNING", "material", name, "diffuse is not assigned!");
+		PRINT("WARNING", "material", path, "diffuse is not assigned!");
 		return;
 	}
 	else
@@ -54,9 +54,9 @@ bool Material::IsReady()
 void Material::Debug()
 {
 	PRINT("INFO", "material ready:", IsReady() ? "yes" : "no");
-	PRINT("    ", "material name:", name);
+	PRINT("    ", "material path:", path);
 	PRINT("    ", "shader name:", shader->name);
-	PRINT("    ", "diffuse name:", diffuse != nullptr ? diffuse->m_name : "none");
-	PRINT("    ", "specular name:", specular != nullptr ? specular->m_name : "none");
+	PRINT("    ", "diffuse name:", diffuse != nullptr ? diffuse->m_path : "none");
+	PRINT("    ", "specular name:", specular != nullptr ? specular->m_path : "none");
 
 }

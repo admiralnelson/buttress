@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Transform.h"
 
-Matrix4 Transform::GetTransformation()
+Matrix4 Transform::GetTransform()
 {
 	Matrix4 modelMatrix = Matrix4(1.0f);
 	modelMatrix = glm::translate(modelMatrix, position);

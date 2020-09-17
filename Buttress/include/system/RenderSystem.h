@@ -3,7 +3,7 @@
 #include "components/Transform.h"
 #include "components/Mesh.h"
 #include "system/CameraSystem.h"
-#include "Material.h"
+#include "core/Material.h"
 #include "glad/glad.h"
 
 class Universe;

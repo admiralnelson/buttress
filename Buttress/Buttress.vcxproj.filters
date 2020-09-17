@@ -5,33 +5,14 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
-    <Filter Include="main">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
     <Filter Include="include">
       <UniqueIdentifier>{0121747a-eedc-4dab-9b69-476c6cc50fa4}</UniqueIdentifier>
     </Filter>
     <Filter Include="util">
       <UniqueIdentifier>{602af0c8-a51b-4188-bf2c-4b6e2f1555cd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="event">
-      <UniqueIdentifier>{92b31863-fa89-4689-958a-a63c35e502a1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="debug">
-      <UniqueIdentifier>{c8add01c-995a-4882-bdf8-916992f2d260}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="resource">
-      <UniqueIdentifier>{6fc7817f-4b9b-49e3-82e8-538144d8e03f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="core">
-      <UniqueIdentifier>{6569c80c-7932-443b-8317-293948c65a82}</UniqueIdentifier>
-    </Filter>
     <Filter Include="include\core">
       <UniqueIdentifier>{81f38fd3-df6e-4e9d-a1b2-28574192646f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="include\resource">
-      <UniqueIdentifier>{a9f86025-cd01-458f-9592-dcc6b536e8fd}</UniqueIdentifier>
     </Filter>
     <Filter Include="include\event">
       <UniqueIdentifier>{8ff12927-ab92-4864-a1b5-14f15d623596}</UniqueIdentifier>
@@ -42,9 +23,6 @@
     <Filter Include="include\ecs">
       <UniqueIdentifier>{d54fa970-64e3-44e7-ad78-513f90f45bb0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ecs">
-      <UniqueIdentifier>{1187b565-1ef8-4c45-aa6b-5b72ca5dec1a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="include\component">
       <UniqueIdentifier>{0645cde2-36ac-4fc9-b2c2-450a67c55ed7}</UniqueIdentifier>
     </Filter>
@@ -54,10 +32,32 @@
     <Filter Include="system">
       <UniqueIdentifier>{3c734dcb-a2e3-4075-a732-8fbd6bf0fe29}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{c8329ab9-7654-4a32-9e62-c9ce572396e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\event">
+      <UniqueIdentifier>{92b31863-fa89-4689-958a-a63c35e502a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\ecs">
+      <UniqueIdentifier>{1187b565-1ef8-4c45-aa6b-5b72ca5dec1a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\debug">
+      <UniqueIdentifier>{c8add01c-995a-4882-bdf8-916992f2d260}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\core">
+      <UniqueIdentifier>{6569c80c-7932-443b-8317-293948c65a82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\main">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="include\resourceManager">
+      <UniqueIdentifier>{a9f86025-cd01-458f-9592-dcc6b536e8fd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Buttress.cpp">
-      <Filter>main</Filter>
+      <Filter>src\main</Filter>
     </ClCompile>
     <ClCompile Include="include\pch.cpp">
       <Filter>Header Files</Filter>
@@ -66,55 +66,52 @@
       <Filter>util</Filter>
     </ClCompile>
     <ClCompile Include="src\Input.cpp">
-      <Filter>event</Filter>
+      <Filter>src\event</Filter>
     </ClCompile>
     <ClCompile Include="src\Bus.cpp">
-      <Filter>event</Filter>
+      <Filter>src\event</Filter>
     </ClCompile>
     <ClCompile Include="src\PrimitiveDraw.cpp">
-      <Filter>debug</Filter>
+      <Filter>src\debug</Filter>
     </ClCompile>
     <ClCompile Include="src\Geometry.cpp">
       <Filter>util</Filter>
     </ClCompile>
-    <ClCompile Include="src\Material.cpp">
-      <Filter>resource</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Model.cpp">
-      <Filter>resource</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Texture.cpp">
-      <Filter>resource</Filter>
-    </ClCompile>
     <ClCompile Include="src\Object.cpp">
-      <Filter>core</Filter>
+      <Filter>src\core</Filter>
     </ClCompile>
     <ClCompile Include="src\ecs\EntityManager.cpp">
-      <Filter>ecs</Filter>
+      <Filter>src\ecs</Filter>
     </ClCompile>
     <ClCompile Include="src\ecs\SystemManager.cpp">
-      <Filter>ecs</Filter>
+      <Filter>src\ecs</Filter>
     </ClCompile>
     <ClCompile Include="src\ecs\ECS.cpp">
-      <Filter>ecs</Filter>
+      <Filter>src\ecs</Filter>
     </ClCompile>
     <ClCompile Include="src\system\EntityNameCheckSystem.cpp">
       <Filter>system</Filter>
-    </ClCompile>
-    <ClCompile Include="include\components\Transform.cpp">
-      <Filter>include\component</Filter>
     </ClCompile>
     <ClCompile Include="src\system\CameraSystem.cpp">
       <Filter>system</Filter>
     </ClCompile>
     <ClCompile Include="src\ecs\EventManager.cpp">
-      <Filter>ecs</Filter>
+      <Filter>src\ecs</Filter>
     </ClCompile>
     <ClCompile Include="include\system\RenderSystem.cpp">
       <Filter>system</Filter>
     </ClCompile>
     <ClCompile Include="src\core\Shader.cpp">
-      <Filter>core</Filter>
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\Material.cpp">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\Texture.cpp">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="include\components\Transform.cpp">
+      <Filter>include\component</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -126,15 +123,6 @@
     </ClInclude>
     <ClInclude Include="include\Object.h">
       <Filter>include\core</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Model.h">
-      <Filter>include\resource</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Material.h">
-      <Filter>include\resource</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Texture.h">
-      <Filter>include\resource</Filter>
     </ClInclude>
     <ClInclude Include="include\Bus.h">
       <Filter>include\event</Filter>
@@ -175,9 +163,6 @@
     <ClInclude Include="include\system\EntityNameCheckSystem.h">
       <Filter>include\system</Filter>
     </ClInclude>
-    <ClInclude Include="include\components\Transform.h">
-      <Filter>include\component</Filter>
-    </ClInclude>
     <ClInclude Include="include\system\CameraSystem.h">
       <Filter>include\system</Filter>
     </ClInclude>
@@ -195,6 +180,21 @@
     </ClInclude>
     <ClInclude Include="include\core\Shader.h">
       <Filter>include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\Material.h">
+      <Filter>include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\Texture.h">
+      <Filter>include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\Model.h">
+      <Filter>include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\Mesh.h">
+      <Filter>include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\components\Transform.h">
+      <Filter>include\component</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

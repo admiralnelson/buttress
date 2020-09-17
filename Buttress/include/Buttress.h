@@ -5,7 +5,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include "PrimitiveDraw.h"
-#include "ECS.h"
+#include "ecs/ECS.h"
 
 class Buttress
 {

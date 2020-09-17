@@ -1,0 +1,333 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="F:\my_game_engine\external\assimp\contrib\gtest\src\gtest-all.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\CCompilerTest.c">
+      <Filter>UnitTests\Compiler</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\code\Common\Version.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utSimd.cpp">
+      <Filter>UnitTests\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utIOSystem.cpp">
+      <Filter>UnitTests\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utIOStreamBuffer.cpp">
+      <Filter>UnitTests\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utIssues.cpp">
+      <Filter>UnitTests\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utAnim.cpp">
+      <Filter>UnitTests\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\AssimpAPITest.cpp">
+      <Filter>UnitTests\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utBatchLoader.cpp">
+      <Filter>UnitTests\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utDefaultIOStream.cpp">
+      <Filter>UnitTests\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utFastAtof.cpp">
+      <Filter>UnitTests\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utMetadata.cpp">
+      <Filter>UnitTests\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\SceneDiffer.cpp">
+      <Filter>UnitTests\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\AbstractImportExportBase.cpp">
+      <Filter>UnitTests\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utTypes.cpp">
+      <Filter>UnitTests\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utVersion.cpp">
+      <Filter>UnitTests\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utProfiler.cpp">
+      <Filter>UnitTests\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utSharedPPData.cpp">
+      <Filter>UnitTests\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utStringUtils.cpp">
+      <Filter>UnitTests\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\Common\utLineSplitter.cpp">
+      <Filter>UnitTests\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utLWSImportExport.cpp">
+      <Filter>UnitTests\ImportExport</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utLWOImportExport.cpp">
+      <Filter>UnitTests\ImportExport</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utSMDImportExport.cpp">
+      <Filter>UnitTests\ImportExport</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utglTFImportExport.cpp">
+      <Filter>UnitTests\ImportExport</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utglTF2ImportExport.cpp">
+      <Filter>UnitTests\ImportExport</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utHMPImportExport.cpp">
+      <Filter>UnitTests\ImportExport</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utIFCImportExport.cpp">
+      <Filter>UnitTests\ImportExport</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utFBXImporterExporter.cpp">
+      <Filter>UnitTests\ImportExport</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utImporter.cpp">
+      <Filter>UnitTests\ImportExport</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\ImportExport\utExporter.cpp">
+      <Filter>UnitTests\ImportExport</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\ut3DImportExport.cpp">
+      <Filter>UnitTests\ImportExport</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\ut3DSImportExport.cpp">
+      <Filter>UnitTests\ImportExport</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utACImportExport.cpp">
+      <Filter>UnitTests\ImportExport</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utAMFImportExport.cpp">
+      <Filter>UnitTests\ImportExport</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utASEImportExport.cpp">
+      <Filter>UnitTests\ImportExport</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utD3MFImportExport.cpp">
+      <Filter>UnitTests\ImportExport</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utQ3DImportExport.cpp">
+      <Filter>UnitTests\ImportExport</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utSTLImportExport.cpp">
+      <Filter>UnitTests\ImportExport</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utXImporterExporter.cpp">
+      <Filter>UnitTests\ImportExport</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utX3DImportExport.cpp">
+      <Filter>UnitTests\ImportExport</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utDXFImporterExporter.cpp">
+      <Filter>UnitTests\ImportExport</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utPMXImporter.cpp">
+      <Filter>UnitTests\ImportExport</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utPLYImportExport.cpp">
+      <Filter>UnitTests\ImportExport</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utObjImportExport.cpp">
+      <Filter>UnitTests\ImportExport</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utObjTools.cpp">
+      <Filter>UnitTests\ImportExport</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utOpenGEXImportExport.cpp">
+      <Filter>UnitTests\ImportExport</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utSIBImporter.cpp">
+      <Filter>UnitTests\ImportExport</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utBlenderIntermediate.cpp">
+      <Filter>UnitTests\ImportExport</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utBlendImportAreaLight.cpp">
+      <Filter>UnitTests\ImportExport</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utBlenderImportExport.cpp">
+      <Filter>UnitTests\ImportExport</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utBlendImportMaterials.cpp">
+      <Filter>UnitTests\ImportExport</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utBlenderWork.cpp">
+      <Filter>UnitTests\ImportExport</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utBVHImportExport.cpp">
+      <Filter>UnitTests\ImportExport</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utColladaExportCamera.cpp">
+      <Filter>UnitTests\ImportExport</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utColladaExportLight.cpp">
+      <Filter>UnitTests\ImportExport</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utColladaImportExport.cpp">
+      <Filter>UnitTests\ImportExport</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utCSMImportExport.cpp">
+      <Filter>UnitTests\ImportExport</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utB3DImportExport.cpp">
+      <Filter>UnitTests\ImportExport</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utMDCImportExport.cpp">
+      <Filter>UnitTests\ImportExport</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utAssbinImportExport.cpp">
+      <Filter>UnitTests\ImportExport</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\ImportExport\utAssjsonImportExport.cpp">
+      <Filter>UnitTests\ImportExport</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\ImportExport\utCOBImportExport.cpp">
+      <Filter>UnitTests\ImportExport</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\ImportExport\utOgreImportExport.cpp">
+      <Filter>UnitTests\ImportExport</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\ImportExport\utQ3BSPFileImportExport.cpp">
+      <Filter>UnitTests\ImportExport</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\ImportExport\utOFFImportExport.cpp">
+      <Filter>UnitTests\ImportExport</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\ImportExport\utNFFImportExport.cpp">
+      <Filter>UnitTests\ImportExport</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\ImportExport\utXGLImportExport.cpp">
+      <Filter>UnitTests\ImportExport</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utMaterialSystem.cpp">
+      <Filter>UnitTests\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utMatrix3x3.cpp">
+      <Filter>UnitTests\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utMatrix4x4.cpp">
+      <Filter>UnitTests\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utVector3.cpp">
+      <Filter>UnitTests\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utImproveCacheLocality.cpp">
+      <Filter>UnitTests\PostProcess</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utFixInfacingNormals.cpp">
+      <Filter>UnitTests\PostProcess</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utGenNormals.cpp">
+      <Filter>UnitTests\PostProcess</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utTriangulate.cpp">
+      <Filter>UnitTests\PostProcess</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utTextureTransform.cpp">
+      <Filter>UnitTests\PostProcess</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utRemoveRedundantMaterials.cpp">
+      <Filter>UnitTests\PostProcess</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utRemoveVCProcess.cpp">
+      <Filter>UnitTests\PostProcess</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utScaleProcess.cpp">
+      <Filter>UnitTests\PostProcess</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utJoinVertices.cpp">
+      <Filter>UnitTests\PostProcess</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utRemoveComments.cpp">
+      <Filter>UnitTests\PostProcess</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utRemoveComponent.cpp">
+      <Filter>UnitTests\PostProcess</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utVertexTriangleAdjacency.cpp">
+      <Filter>UnitTests\PostProcess</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utSplitLargeMeshes.cpp">
+      <Filter>UnitTests\PostProcess</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utFindDegenerates.cpp">
+      <Filter>UnitTests\PostProcess</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utFindInvalidData.cpp">
+      <Filter>UnitTests\PostProcess</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utLimitBoneWeights.cpp">
+      <Filter>UnitTests\PostProcess</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utPretransformVertices.cpp">
+      <Filter>UnitTests\PostProcess</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utScenePreprocessor.cpp">
+      <Filter>UnitTests\PostProcess</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utTargetAnimation.cpp">
+      <Filter>UnitTests\PostProcess</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utSortByPType.cpp">
+      <Filter>UnitTests\PostProcess</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utSceneCombiner.cpp">
+      <Filter>UnitTests\PostProcess</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utGenBoundingBoxesProcess.cpp">
+      <Filter>UnitTests\PostProcess</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="F:\my_game_engine\external\assimp\test\unit\SceneDiffer.h">
+      <Filter>UnitTests\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="F:\my_game_engine\external\assimp\test\unit\UTLogStream.h">
+      <Filter>UnitTests\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="F:\my_game_engine\external\assimp\test\unit\TestIOSystem.h">
+      <Filter>UnitTests\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="F:\my_game_engine\external\assimp\test\unit\TestModelFactory.h">
+      <Filter>UnitTests\Common</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="F:\my_game_engine\external\assimp\test\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{72B2B3F2-ABB1-3C87-BBDB-E340D0F6E1DF}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UnitTests">
+      <UniqueIdentifier>{DCCCBBC4-940D-3346-9A4F-DBDE4DB0D3FB}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UnitTests\Common">
+      <UniqueIdentifier>{450F41E6-9D63-334A-AA02-FB15A3E9773B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UnitTests\Compiler">
+      <UniqueIdentifier>{22D31A03-8B21-3E06-BBEC-1B8026326DF5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UnitTests\ImportExport">
+      <UniqueIdentifier>{9A68871C-4A25-3291-8D0B-57415F46ADC7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UnitTests\Material">
+      <UniqueIdentifier>{F4820DFA-50AD-3B13-82F8-4AB693018376}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UnitTests\Math">
+      <UniqueIdentifier>{9BA19690-94DF-34E3-B6B9-CDCF8B456CD8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UnitTests\PostProcess">
+      <UniqueIdentifier>{E07FA1CE-6619-3106-8795-A4A7414E7498}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

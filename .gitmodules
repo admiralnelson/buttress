@@ -13,3 +13,7 @@
 [submodule "external/obj-loader"]
 	path = external/obj-loader
 	url = https://github.com/Bly7/OBJ-Loader.git
+[submodule "external/assimp"]
+	path = external/assimp
+	url = https://github.com/assimp/assimp.git
+	branch = assimp_5.0_release

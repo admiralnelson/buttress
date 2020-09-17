@@ -4,7 +4,6 @@
 #include "pch.h"
 #include "Logger.h"
 #include "Buttress.h"
-#include "Shader.h"
 #include "Util.h"
 
 Buttress::Buttress()

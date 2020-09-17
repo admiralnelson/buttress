@@ -7,12 +7,12 @@ class Material
 {
 friend class Model;
 public:
-	Material(std::string name, std::shared_ptr<Shader> shader);
+	Material(std::string path, std::shared_ptr<Shader> shader);
 	std::shared_ptr<Texture> diffuse;
 	std::shared_ptr<Texture> specular;
 	std::shared_ptr<Shader> shader;
 	
-	std::string name;
+	std::string path;
 	void Use();
 	bool IsReady();
 	void Debug();

@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="F:\my_game_engine\external\assimp_project_and_configs\CMakeFiles\42ab41b3ca3bc2dbbf7c955ec6a5ce97\INSTALL_force.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{A37B6A34-23B3-3EA7-A48A-A8D141E66E4F}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

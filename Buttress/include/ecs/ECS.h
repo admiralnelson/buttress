@@ -106,8 +106,10 @@ public:
 
 	Entity operator=(const Entity& otherEntity)
 	{
-		id = otherEntity.id;
-		m_universe = otherEntity.m_universe;
+		Entity ent;
+		ent.id = otherEntity.id;
+		ent.m_universe = otherEntity.m_universe;
+		return ent;
 	}
 
 

@@ -3,7 +3,7 @@
 #include "ECS.h"
 #include "Geometry.h"
 #include <glad/glad.h>
-#include "Material.h"
+#include "core/Material.h"
 
 struct Mesh
 {

@@ -1,0 +1,504 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{BB1F803B-476F-34EB-AFEA-F3B546E444EE}</ProjectGuid>
+    <WindowsTargetPlatformVersion>10.0.18362.0</WindowsTargetPlatformVersion>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>x64</Platform>
+    <ProjectName>unit</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">F:\my_game_engine\external\assimp_project_and_configs\test\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">unit.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">unit</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">F:\my_game_engine\external\assimp_project_and_configs\test\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">unit.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">unit</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">F:\my_game_engine\external\assimp_project_and_configs\test\MinSizeRel\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">unit.dir\MinSizeRel\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">unit</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">F:\my_game_engine\external\assimp_project_and_configs\test\RelWithDebInfo\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">unit.dir\RelWithDebInfo\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">unit</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</GenerateManifest>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>F:\my_game_engine\external\assimp_project_and_configs\include;F:\my_game_engine\external\assimp_project_and_configs;F:\my_game_engine\external\assimp\include;F:\my_game_engine\external\assimp\code;F:\my_game_engine\external\assimp\.;F:\my_game_engine\external\assimp\contrib\zlib;F:\my_game_engine\external\assimp_project_and_configs\contrib\zlib;F:\my_game_engine\external\assimp\contrib\gtest\include;F:\my_game_engine\external\assimp\contrib\gtest;F:\my_game_engine\external\assimp\test\unit;F:\my_game_engine\external\assimp\code\..\include;F:\my_game_engine\external\assimp_project_and_configs\code\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /bigobj</AdditionalOptions>
+      <AssemblerListingLocation>Debug/</AssemblerListingLocation>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING;_DEBUG;EBUG:FULL;WIN32_LEAN_AND_MEAN;UNICODE;_UNICODE;ASSIMP_BUILD_NO_C4D_IMPORTER;ASSIMP_TEST_MODELS_DIR="F:/my_game_engine/external/assimp/test/models";ASSIMP_TEST_MODELS_NONBSD_DIR="F:/my_game_engine/external/assimp/test/models-nonbsd";_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING;EBUG:FULL;WIN32_LEAN_AND_MEAN;UNICODE;_UNICODE;ASSIMP_BUILD_NO_C4D_IMPORTER;ASSIMP_TEST_MODELS_DIR=\"F:/my_game_engine/external/assimp/test/models\";ASSIMP_TEST_MODELS_NONBSD_DIR=\"F:/my_game_engine/external/assimp/test/models-nonbsd\";_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>F:\my_game_engine\external\assimp_project_and_configs\include;F:\my_game_engine\external\assimp_project_and_configs;F:\my_game_engine\external\assimp\include;F:\my_game_engine\external\assimp\code;F:\my_game_engine\external\assimp\.;F:\my_game_engine\external\assimp\contrib\zlib;F:\my_game_engine\external\assimp_project_and_configs\contrib\zlib;F:\my_game_engine\external\assimp\contrib\gtest\include;F:\my_game_engine\external\assimp\contrib\gtest;F:\my_game_engine\external\assimp\test\unit;F:\my_game_engine\external\assimp\code\..\include;F:\my_game_engine\external\assimp_project_and_configs\code\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>F:\my_game_engine\external\assimp_project_and_configs\include;F:\my_game_engine\external\assimp_project_and_configs;F:\my_game_engine\external\assimp\include;F:\my_game_engine\external\assimp\code;F:\my_game_engine\external\assimp\.;F:\my_game_engine\external\assimp\contrib\zlib;F:\my_game_engine\external\assimp_project_and_configs\contrib\zlib;F:\my_game_engine\external\assimp\contrib\gtest\include;F:\my_game_engine\external\assimp\contrib\gtest;F:\my_game_engine\external\assimp\test\unit;F:\my_game_engine\external\assimp\code\..\include;F:\my_game_engine\external\assimp_project_and_configs\code\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PreBuildEvent>
+      <Message></Message>
+      <Command>setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy_if_different F:/my_game_engine/external/assimp_project_and_configs/code/Debug/assimp-vc141-mtd.lib F:/my_game_engine/external/assimp_project_and_configs/test/Debug
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PreBuildEvent>
+    <Link>
+      <AdditionalDependencies>..\code\Debug\assimp-vc141-mtd.lib;..\contrib\zlib\Debug\zlibstaticd.lib;..\contrib\irrXML\Debug\IrrXMLd.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>F:/my_game_engine/external/assimp_project_and_configs;F:/my_game_engine/external/assimp_project_and_configs/$(Configuration);/lib;/lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>F:/my_game_engine/external/assimp_project_and_configs/test/Debug/unit.lib</ImportLibrary>
+      <ProgramDataBaseFile>F:/my_game_engine/external/assimp_project_and_configs/test/Debug/unit.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>F:\my_game_engine\external\assimp_project_and_configs\include;F:\my_game_engine\external\assimp_project_and_configs;F:\my_game_engine\external\assimp\include;F:\my_game_engine\external\assimp\code;F:\my_game_engine\external\assimp\.;F:\my_game_engine\external\assimp\contrib\zlib;F:\my_game_engine\external\assimp_project_and_configs\contrib\zlib;F:\my_game_engine\external\assimp\contrib\gtest\include;F:\my_game_engine\external\assimp\contrib\gtest;F:\my_game_engine\external\assimp\test\unit;F:\my_game_engine\external\assimp\code\..\include;F:\my_game_engine\external\assimp_project_and_configs\code\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /bigobj</AdditionalOptions>
+      <AssemblerListingLocation>Release/</AssemblerListingLocation>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING;NDEBUG;WIN32_LEAN_AND_MEAN;UNICODE;_UNICODE;ASSIMP_BUILD_NO_C4D_IMPORTER;ASSIMP_TEST_MODELS_DIR="F:/my_game_engine/external/assimp/test/models";ASSIMP_TEST_MODELS_NONBSD_DIR="F:/my_game_engine/external/assimp/test/models-nonbsd";_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING;NDEBUG;WIN32_LEAN_AND_MEAN;UNICODE;_UNICODE;ASSIMP_BUILD_NO_C4D_IMPORTER;ASSIMP_TEST_MODELS_DIR=\"F:/my_game_engine/external/assimp/test/models\";ASSIMP_TEST_MODELS_NONBSD_DIR=\"F:/my_game_engine/external/assimp/test/models-nonbsd\";_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>F:\my_game_engine\external\assimp_project_and_configs\include;F:\my_game_engine\external\assimp_project_and_configs;F:\my_game_engine\external\assimp\include;F:\my_game_engine\external\assimp\code;F:\my_game_engine\external\assimp\.;F:\my_game_engine\external\assimp\contrib\zlib;F:\my_game_engine\external\assimp_project_and_configs\contrib\zlib;F:\my_game_engine\external\assimp\contrib\gtest\include;F:\my_game_engine\external\assimp\contrib\gtest;F:\my_game_engine\external\assimp\test\unit;F:\my_game_engine\external\assimp\code\..\include;F:\my_game_engine\external\assimp_project_and_configs\code\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>F:\my_game_engine\external\assimp_project_and_configs\include;F:\my_game_engine\external\assimp_project_and_configs;F:\my_game_engine\external\assimp\include;F:\my_game_engine\external\assimp\code;F:\my_game_engine\external\assimp\.;F:\my_game_engine\external\assimp\contrib\zlib;F:\my_game_engine\external\assimp_project_and_configs\contrib\zlib;F:\my_game_engine\external\assimp\contrib\gtest\include;F:\my_game_engine\external\assimp\contrib\gtest;F:\my_game_engine\external\assimp\test\unit;F:\my_game_engine\external\assimp\code\..\include;F:\my_game_engine\external\assimp_project_and_configs\code\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PreBuildEvent>
+      <Message></Message>
+      <Command>setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy_if_different F:/my_game_engine/external/assimp_project_and_configs/code/Release/assimp-vc141-mt.lib F:/my_game_engine/external/assimp_project_and_configs/test/Release
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PreBuildEvent>
+    <Link>
+      <AdditionalDependencies>..\code\Release\assimp-vc141-mt.lib;..\contrib\zlib\Release\zlibstatic.lib;..\contrib\irrXML\Release\IrrXML.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>F:/my_game_engine/external/assimp_project_and_configs;F:/my_game_engine/external/assimp_project_and_configs/$(Configuration);/lib;/lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>F:/my_game_engine/external/assimp_project_and_configs/test/Release/unit.lib</ImportLibrary>
+      <ProgramDataBaseFile>F:/my_game_engine/external/assimp_project_and_configs/test/Release/unit.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>F:\my_game_engine\external\assimp_project_and_configs\include;F:\my_game_engine\external\assimp_project_and_configs;F:\my_game_engine\external\assimp\include;F:\my_game_engine\external\assimp\code;F:\my_game_engine\external\assimp\.;F:\my_game_engine\external\assimp\contrib\zlib;F:\my_game_engine\external\assimp_project_and_configs\contrib\zlib;F:\my_game_engine\external\assimp\contrib\gtest\include;F:\my_game_engine\external\assimp\contrib\gtest;F:\my_game_engine\external\assimp\test\unit;F:\my_game_engine\external\assimp\code\..\include;F:\my_game_engine\external\assimp_project_and_configs\code\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /bigobj</AdditionalOptions>
+      <AssemblerListingLocation>MinSizeRel/</AssemblerListingLocation>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING;NDEBUG;WIN32_LEAN_AND_MEAN;UNICODE;_UNICODE;ASSIMP_BUILD_NO_C4D_IMPORTER;ASSIMP_TEST_MODELS_DIR="F:/my_game_engine/external/assimp/test/models";ASSIMP_TEST_MODELS_NONBSD_DIR="F:/my_game_engine/external/assimp/test/models-nonbsd";_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR="MinSizeRel";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING;NDEBUG;WIN32_LEAN_AND_MEAN;UNICODE;_UNICODE;ASSIMP_BUILD_NO_C4D_IMPORTER;ASSIMP_TEST_MODELS_DIR=\"F:/my_game_engine/external/assimp/test/models\";ASSIMP_TEST_MODELS_NONBSD_DIR=\"F:/my_game_engine/external/assimp/test/models-nonbsd\";_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR=\"MinSizeRel\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>F:\my_game_engine\external\assimp_project_and_configs\include;F:\my_game_engine\external\assimp_project_and_configs;F:\my_game_engine\external\assimp\include;F:\my_game_engine\external\assimp\code;F:\my_game_engine\external\assimp\.;F:\my_game_engine\external\assimp\contrib\zlib;F:\my_game_engine\external\assimp_project_and_configs\contrib\zlib;F:\my_game_engine\external\assimp\contrib\gtest\include;F:\my_game_engine\external\assimp\contrib\gtest;F:\my_game_engine\external\assimp\test\unit;F:\my_game_engine\external\assimp\code\..\include;F:\my_game_engine\external\assimp_project_and_configs\code\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>F:\my_game_engine\external\assimp_project_and_configs\include;F:\my_game_engine\external\assimp_project_and_configs;F:\my_game_engine\external\assimp\include;F:\my_game_engine\external\assimp\code;F:\my_game_engine\external\assimp\.;F:\my_game_engine\external\assimp\contrib\zlib;F:\my_game_engine\external\assimp_project_and_configs\contrib\zlib;F:\my_game_engine\external\assimp\contrib\gtest\include;F:\my_game_engine\external\assimp\contrib\gtest;F:\my_game_engine\external\assimp\test\unit;F:\my_game_engine\external\assimp\code\..\include;F:\my_game_engine\external\assimp_project_and_configs\code\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PreBuildEvent>
+      <Message></Message>
+      <Command>setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy_if_different F:/my_game_engine/external/assimp_project_and_configs/code/MinSizeRel/assimp-vc141-mt.lib F:/my_game_engine/external/assimp_project_and_configs/test/MinSizeRel
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PreBuildEvent>
+    <Link>
+      <AdditionalDependencies>..\code\MinSizeRel\assimp-vc141-mt.lib;..\contrib\zlib\MinSizeRel\zlibstatic.lib;..\contrib\irrXML\MinSizeRel\IrrXML.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>F:/my_game_engine/external/assimp_project_and_configs;F:/my_game_engine/external/assimp_project_and_configs/$(Configuration);/lib;/lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>F:/my_game_engine/external/assimp_project_and_configs/test/MinSizeRel/unit.lib</ImportLibrary>
+      <ProgramDataBaseFile>F:/my_game_engine/external/assimp_project_and_configs/test/MinSizeRel/unit.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>F:\my_game_engine\external\assimp_project_and_configs\include;F:\my_game_engine\external\assimp_project_and_configs;F:\my_game_engine\external\assimp\include;F:\my_game_engine\external\assimp\code;F:\my_game_engine\external\assimp\.;F:\my_game_engine\external\assimp\contrib\zlib;F:\my_game_engine\external\assimp_project_and_configs\contrib\zlib;F:\my_game_engine\external\assimp\contrib\gtest\include;F:\my_game_engine\external\assimp\contrib\gtest;F:\my_game_engine\external\assimp\test\unit;F:\my_game_engine\external\assimp\code\..\include;F:\my_game_engine\external\assimp_project_and_configs\code\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /bigobj</AdditionalOptions>
+      <AssemblerListingLocation>RelWithDebInfo/</AssemblerListingLocation>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING;NDEBUG;WIN32_LEAN_AND_MEAN;UNICODE;_UNICODE;ASSIMP_BUILD_NO_C4D_IMPORTER;ASSIMP_TEST_MODELS_DIR="F:/my_game_engine/external/assimp/test/models";ASSIMP_TEST_MODELS_NONBSD_DIR="F:/my_game_engine/external/assimp/test/models-nonbsd";_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR="RelWithDebInfo";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING;NDEBUG;WIN32_LEAN_AND_MEAN;UNICODE;_UNICODE;ASSIMP_BUILD_NO_C4D_IMPORTER;ASSIMP_TEST_MODELS_DIR=\"F:/my_game_engine/external/assimp/test/models\";ASSIMP_TEST_MODELS_NONBSD_DIR=\"F:/my_game_engine/external/assimp/test/models-nonbsd\";_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR=\"RelWithDebInfo\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>F:\my_game_engine\external\assimp_project_and_configs\include;F:\my_game_engine\external\assimp_project_and_configs;F:\my_game_engine\external\assimp\include;F:\my_game_engine\external\assimp\code;F:\my_game_engine\external\assimp\.;F:\my_game_engine\external\assimp\contrib\zlib;F:\my_game_engine\external\assimp_project_and_configs\contrib\zlib;F:\my_game_engine\external\assimp\contrib\gtest\include;F:\my_game_engine\external\assimp\contrib\gtest;F:\my_game_engine\external\assimp\test\unit;F:\my_game_engine\external\assimp\code\..\include;F:\my_game_engine\external\assimp_project_and_configs\code\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>F:\my_game_engine\external\assimp_project_and_configs\include;F:\my_game_engine\external\assimp_project_and_configs;F:\my_game_engine\external\assimp\include;F:\my_game_engine\external\assimp\code;F:\my_game_engine\external\assimp\.;F:\my_game_engine\external\assimp\contrib\zlib;F:\my_game_engine\external\assimp_project_and_configs\contrib\zlib;F:\my_game_engine\external\assimp\contrib\gtest\include;F:\my_game_engine\external\assimp\contrib\gtest;F:\my_game_engine\external\assimp\test\unit;F:\my_game_engine\external\assimp\code\..\include;F:\my_game_engine\external\assimp_project_and_configs\code\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PreBuildEvent>
+      <Message></Message>
+      <Command>setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy_if_different F:/my_game_engine/external/assimp_project_and_configs/code/RelWithDebInfo/assimp-vc141-mt.lib F:/my_game_engine/external/assimp_project_and_configs/test/RelWithDebInfo
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PreBuildEvent>
+    <Link>
+      <AdditionalDependencies>..\code\RelWithDebInfo\assimp-vc141-mt.lib;..\contrib\zlib\RelWithDebInfo\zlibstatic.lib;..\contrib\irrXML\RelWithDebInfo\IrrXML.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>F:/my_game_engine/external/assimp_project_and_configs;F:/my_game_engine/external/assimp_project_and_configs/$(Configuration);/lib;/lib/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>F:/my_game_engine/external/assimp_project_and_configs/test/RelWithDebInfo/unit.lib</ImportLibrary>
+      <ProgramDataBaseFile>F:/my_game_engine/external/assimp_project_and_configs/test/RelWithDebInfo/unit.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="F:\my_game_engine\external\assimp\test\CMakeLists.txt">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule F:/my_game_engine/external/assimp/test/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SF:/my_game_engine/external/assimp -BF:/my_game_engine/external/assimp_project_and_configs --check-stamp-file F:/my_game_engine/external/assimp_project_and_configs/test/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">F:/my_game_engine/external/assimp/test/CMakeLists.txt;F:\my_game_engine\external\assimp\test\CMakeLists.txt;F:\my_game_engine\external\assimp\test\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">F:\my_game_engine\external\assimp_project_and_configs\test\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule F:/my_game_engine/external/assimp/test/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SF:/my_game_engine/external/assimp -BF:/my_game_engine/external/assimp_project_and_configs --check-stamp-file F:/my_game_engine/external/assimp_project_and_configs/test/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">F:/my_game_engine/external/assimp/test/CMakeLists.txt;F:\my_game_engine\external\assimp\test\CMakeLists.txt;F:\my_game_engine\external\assimp\test\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">F:\my_game_engine\external\assimp_project_and_configs\test\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule F:/my_game_engine/external/assimp/test/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SF:/my_game_engine/external/assimp -BF:/my_game_engine/external/assimp_project_and_configs --check-stamp-file F:/my_game_engine/external/assimp_project_and_configs/test/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">F:/my_game_engine/external/assimp/test/CMakeLists.txt;F:\my_game_engine\external\assimp\test\CMakeLists.txt;F:\my_game_engine\external\assimp\test\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">F:\my_game_engine\external\assimp_project_and_configs\test\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule F:/my_game_engine/external/assimp/test/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SF:/my_game_engine/external/assimp -BF:/my_game_engine/external/assimp_project_and_configs --check-stamp-file F:/my_game_engine/external/assimp_project_and_configs/test/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">F:/my_game_engine/external/assimp/test/CMakeLists.txt;F:\my_game_engine\external\assimp\test\CMakeLists.txt;F:\my_game_engine\external\assimp\test\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">F:\my_game_engine\external\assimp_project_and_configs\test\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="F:\my_game_engine\external\assimp\contrib\gtest\src\gtest-all.cc" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\CCompilerTest.c">
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">CompileAsC</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CompileAsC</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">CompileAsC</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">CompileAsC</CompileAs>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\Main.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\code\Common\Version.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utSimd.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utIOSystem.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utIOStreamBuffer.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utIssues.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utAnim.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\AssimpAPITest.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utBatchLoader.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utDefaultIOStream.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utFastAtof.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utMetadata.cpp" />
+    <ClInclude Include="F:\my_game_engine\external\assimp\test\unit\SceneDiffer.h" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\SceneDiffer.cpp" />
+    <ClInclude Include="F:\my_game_engine\external\assimp\test\unit\UTLogStream.h" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\AbstractImportExportBase.cpp" />
+    <ClInclude Include="F:\my_game_engine\external\assimp\test\unit\TestIOSystem.h" />
+    <ClInclude Include="F:\my_game_engine\external\assimp\test\unit\TestModelFactory.h" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utTypes.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utVersion.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utProfiler.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utSharedPPData.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utStringUtils.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\Common\utLineSplitter.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utLWSImportExport.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utLWOImportExport.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utSMDImportExport.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utglTFImportExport.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utglTF2ImportExport.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utHMPImportExport.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utIFCImportExport.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utFBXImporterExporter.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utImporter.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\ImportExport\utExporter.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\ut3DImportExport.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\ut3DSImportExport.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utACImportExport.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utAMFImportExport.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utASEImportExport.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utD3MFImportExport.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utQ3DImportExport.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utSTLImportExport.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utXImporterExporter.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utX3DImportExport.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utDXFImporterExporter.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utPMXImporter.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utPLYImportExport.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utObjImportExport.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utObjTools.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utOpenGEXImportExport.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utSIBImporter.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utBlenderIntermediate.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utBlendImportAreaLight.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utBlenderImportExport.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utBlendImportMaterials.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utBlenderWork.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utBVHImportExport.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utColladaExportCamera.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utColladaExportLight.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utColladaImportExport.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utCSMImportExport.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utB3DImportExport.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utMDCImportExport.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utAssbinImportExport.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\ImportExport\utAssjsonImportExport.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\ImportExport\utCOBImportExport.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\ImportExport\utOgreImportExport.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\ImportExport\utQ3BSPFileImportExport.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\ImportExport\utOFFImportExport.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\ImportExport\utNFFImportExport.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\ImportExport\utXGLImportExport.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utMaterialSystem.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utMatrix3x3.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utMatrix4x4.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utVector3.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utImproveCacheLocality.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utFixInfacingNormals.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utGenNormals.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utTriangulate.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utTextureTransform.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utRemoveRedundantMaterials.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utRemoveVCProcess.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utScaleProcess.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utJoinVertices.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utRemoveComments.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utRemoveComponent.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utVertexTriangleAdjacency.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utSplitLargeMeshes.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utFindDegenerates.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utFindInvalidData.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utLimitBoneWeights.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utPretransformVertices.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utScenePreprocessor.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utTargetAnimation.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utSortByPType.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utSceneCombiner.cpp" />
+    <ClCompile Include="F:\my_game_engine\external\assimp\test\unit\utGenBoundingBoxesProcess.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="F:\my_game_engine\external\assimp_project_and_configs\ZERO_CHECK.vcxproj">
+      <Project>{0212932F-CD2C-31BF-82CF-5FC9B84F4A66}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="F:\my_game_engine\external\assimp_project_and_configs\contrib\irrXML\IrrXML.vcxproj">
+      <Project>{0B04FEA8-E4E2-3606-837F-110B11BEF219}</Project>
+      <Name>IrrXML</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="F:\my_game_engine\external\assimp_project_and_configs\code\assimp.vcxproj">
+      <Project>{454CF8FA-D76C-30A7-8A13-B2B772EC9953}</Project>
+      <Name>assimp</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="F:\my_game_engine\external\assimp_project_and_configs\contrib\zlib\zlibstatic.vcxproj">
+      <Project>{B8872C5D-E0F7-3A6F-89F6-F2FD6B13E827}</Project>
+      <Name>zlibstatic</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
