@@ -5,14 +5,14 @@
 
 class Material
 {
-friend class Model;
 public:
-	Material(std::string path, std::shared_ptr<Shader> shader);
-	std::shared_ptr<Texture> diffuse;
-	std::shared_ptr<Texture> specular;
+	Material() {}
+	Material(std::string name, std::shared_ptr<Shader> shader);
+	std::shared_ptr<TextureData> diffuse;
+	std::shared_ptr<TextureData> specular;
 	std::shared_ptr<Shader> shader;
 	
-	std::string path;
+	std::string name;
 	void Use();
 	bool IsReady();
 	void Debug();

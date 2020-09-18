@@ -15,9 +15,9 @@ typedef glm::mat4x4 Matrix4;
 
 struct Vertex
 {
-	Vec3 position;
-	Vec3 normal;
-	Vec2 uv;
+	Vec3 position = {0,0,0};
+	Vec3 normal = { 0,0,0 };
+	Vec2 uv = { 0,0 };
 };
 
 Matrix4 Rotate(Matrix4 &input, Vec3 axis);

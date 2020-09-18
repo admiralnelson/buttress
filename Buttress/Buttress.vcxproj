@@ -22,9 +22,10 @@
     <ClCompile Include="include\components\Transform.cpp" />
     <ClCompile Include="include\pch.cpp" />
     <ClCompile Include="include\system\RenderSystem.cpp" />
-    <ClCompile Include="src\Bus.cpp" />
     <ClCompile Include="src\Buttress.cpp" />
     <ClCompile Include="src\core\Material.cpp" />
+    <ClCompile Include="src\core\Mesh.cpp" />
+    <ClCompile Include="src\core\Model.cpp" />
     <ClCompile Include="src\core\Shader.cpp" />
     <ClCompile Include="src\core\Texture.cpp" />
     <ClCompile Include="src\ecs\ECS.cpp" />
@@ -32,7 +33,6 @@
     <ClCompile Include="src\ecs\EventManager.cpp" />
     <ClCompile Include="src\ecs\SystemManager.cpp" />
     <ClCompile Include="src\Geometry.cpp" />
-    <ClCompile Include="src\Input.cpp" />
     <ClCompile Include="src\Object.cpp" />
     <ClCompile Include="src\PrimitiveDraw.cpp" />
     <ClCompile Include="src\system\CameraSystem.cpp" />
@@ -40,7 +40,6 @@
     <ClCompile Include="src\Util.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\Bus.h" />
     <ClInclude Include="include\Buttress.h" />
     <ClInclude Include="include\components\Camera.h" />
     <ClInclude Include="include\components\EntityName.h" />
@@ -57,7 +56,6 @@
     <ClInclude Include="include\ecs\SystemManager.h" />
     <ClInclude Include="include\ecs\ECS.h" />
     <ClInclude Include="include\Geometry.h" />
-    <ClInclude Include="include\Input.h" />
     <ClInclude Include="include\Light.h" />
     <ClInclude Include="include\Logger.h" />
     <ClInclude Include="include\Object.h" />
@@ -163,7 +161,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\Buttress\include\components;$(SolutionDir)..\Buttress\include\ecs;$(SolutionDir)..\Buttress\include;$(SolutionDir)..\external\glfw\include\;$(SolutionDir)..\external\glad_project_and_configs\include\;$(SolutionDir)..\external\glm;$(SolutionDir)..\external\stb;$(SolutionDir)..\external\obj-loader\Source;$(SolutionDir)..\external\tcpp\source;$(SolutionDir)..\external\assimp_project_and_configs\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\Buttress\include\components;$(SolutionDir)..\Buttress\include\ecs;$(SolutionDir)..\Buttress\include;$(SolutionDir)..\external\glfw\include\;$(SolutionDir)..\external\assimp_project_and_configs\include\;$(SolutionDir)..\external\glad_project_and_configs\include\;$(SolutionDir)..\external\glm;$(SolutionDir)..\external\stb;$(SolutionDir)..\external\obj-loader\Source;$(SolutionDir)..\external\tcpp\source;$(SolutionDir)..\external\assimp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>

@@ -4,12 +4,9 @@
 #include <iostream>
 #include <PrimitiveDraw.h>
 #include <Buttress.h>
-#include <Texture.h>
+#include <core\Texture.h>
 #include <Util.h>
 #include <Geometry.h>
-#include <Model.h>
-#include <Bus.h>
-#include <Input.h>
 #include <Object.h>
 #include <system\CameraSystem.h>
 #include <components\Camera.h>
@@ -22,8 +19,8 @@ int main()
 	{
 		Buttress b;
 		b.Init(800, 600, "tetst");
-		std::shared_ptr<Texture> t;
-		t.reset(new Texture("test", "../../resource/media/test.jpg"));
+		std::shared_ptr<TextureData> t;
+		t = TextureLoader::Instance().LoadTexture("../../resource/media/test.jpg");
 		//Texture* t2 = new Texture("test 2", "../../resource/media/Wood_Wall_002_basecolor.jpg");
 
 		std::shared_ptr<Shader> baseShader;
@@ -42,24 +39,23 @@ int main()
 		lampIndicatorShader->Validate();
 		lampIndicatorShader->Debug();
 
-		std::shared_ptr<Material> material;
-		material.reset(new Material("test material", baseShader));
-		material->diffuse = t;
-		material->Debug();
+		Material material("test material", baseShader);
+		material.diffuse = t;
+		material.Debug();
 
-		std::shared_ptr<Material> materialLamp;
-		materialLamp.reset(new Material("test lamp", lampIndicatorShader));
-		materialLamp->Debug();
+		Material materialLamp("test lamp", lampIndicatorShader);
+		materialLamp.Debug();
 
 
-		std::shared_ptr<Model> model;
-		model.reset(new Model("a box", baseShader,"../../resource/obj/test.obj"));
-		model->material = material;
+		//Test copy constructor
+		Material materialA;
+		Material materialB;
+		materialA = material;
+		materialB = materialLamp;
+		materialA.Debug();
+		materialB.Debug();
 
-		std::shared_ptr<Model> lampModel;
-		lampModel.reset(new Model("a lamp", lampIndicatorShader, "../../resource/obj/test.obj"));
-		lampModel->material = materialLamp;
-		
+
 		/*Transformation camTransform;
 		camTransform.position = Vec3(0.0f, 0.0f, 3.0f);
 		std::shared_ptr<Camera> cam;

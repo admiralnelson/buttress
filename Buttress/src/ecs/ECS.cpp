@@ -2,6 +2,7 @@
 #include "ECS.h"
 #include "components/EntityName.h"
 #include "components/Camera.h"
+#include "components/Transform.h"
 
 Entity Universe::CreateEntity(std::string name)
 {
@@ -14,7 +15,9 @@ Entity Universe::CreateEntity(std::string name)
 	}
 	Entity ent(this, m_entityManager->CreateEntity());
 	EntityName entityName = { name };
+	Transform t;
 	ent.AddComponent<EntityName>(entityName);
+	ent.AddComponent<Transform>(t);
 	return ent;
 }
 

@@ -5,9 +5,8 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
-std::unordered_map<std::string, std::shared_ptr<Texture>> Texture::m_texturesList;
 
-Texture::Texture(std::string path)
+void TextureData::Load(std::string path)
 {
 	m_width = 0;
 	m_height = 0;
@@ -46,19 +45,20 @@ Texture::Texture(std::string path)
 	PRINT("INFO", "texture type 2D has been created. filename: ", m_path, "texture nr:", m_textureNo);
 }
 
-void Texture::Use()
+void TextureData::Use()
 {
 	//todo: for multiple texture!
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, m_textureNo);
 }
 
-Texture::~Texture()
+
+TextureData::~TextureData()
 {
 	glDeleteTextures(1, &m_textureNo);
 }
 
-void Texture::Debug()
+void TextureData::Debug()
 {
 	PRINT("INFO", "-----------------");
 	PRINT("INFO", "texture path:", m_path);

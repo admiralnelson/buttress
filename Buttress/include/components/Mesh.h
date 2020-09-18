@@ -1,6 +1,5 @@
 #pragma once
 #include "pch.h"
-#include "ECS.h"
 #include "Geometry.h"
 #include <glad/glad.h>
 #include "core/Material.h"

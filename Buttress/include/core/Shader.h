@@ -13,6 +13,7 @@
 
 class Shader
 {
+	friend class Model;
 public:
 	Shader(std::string _name);
 	std::string name;
@@ -79,4 +80,5 @@ private:
 	std::vector<ShaderKeyValue> m_uniformsAux;
 	GLuint m_program = -1;	
 	bool m_isReady = false;
+	static std::shared_ptr<Shader> m_defaultShader;
 };

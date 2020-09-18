@@ -14,9 +14,6 @@
     <Filter Include="include\core">
       <UniqueIdentifier>{81f38fd3-df6e-4e9d-a1b2-28574192646f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="include\event">
-      <UniqueIdentifier>{8ff12927-ab92-4864-a1b5-14f15d623596}</UniqueIdentifier>
-    </Filter>
     <Filter Include="include\util">
       <UniqueIdentifier>{83c5e507-4fd3-46f0-9852-1796f4d0de8f}</UniqueIdentifier>
     </Filter>
@@ -34,9 +31,6 @@
     </Filter>
     <Filter Include="src">
       <UniqueIdentifier>{c8329ab9-7654-4a32-9e62-c9ce572396e2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\event">
-      <UniqueIdentifier>{92b31863-fa89-4689-958a-a63c35e502a1}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\ecs">
       <UniqueIdentifier>{1187b565-1ef8-4c45-aa6b-5b72ca5dec1a}</UniqueIdentifier>
@@ -64,12 +58,6 @@
     </ClCompile>
     <ClCompile Include="src\Util.cpp">
       <Filter>util</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Input.cpp">
-      <Filter>src\event</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Bus.cpp">
-      <Filter>src\event</Filter>
     </ClCompile>
     <ClCompile Include="src\PrimitiveDraw.cpp">
       <Filter>src\debug</Filter>
@@ -113,6 +101,12 @@
     <ClCompile Include="include\components\Transform.cpp">
       <Filter>include\component</Filter>
     </ClCompile>
+    <ClCompile Include="src\core\Mesh.cpp">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\Model.cpp">
+      <Filter>src\core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\pch.h">
@@ -123,12 +117,6 @@
     </ClInclude>
     <ClInclude Include="include\Object.h">
       <Filter>include\core</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Bus.h">
-      <Filter>include\event</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Input.h">
-      <Filter>include\event</Filter>
     </ClInclude>
     <ClInclude Include="include\Geometry.h">
       <Filter>include\core</Filter>
