@@ -26,6 +26,7 @@ class TextureLoader
 {
 private: 
 	std::unordered_map<std::string, std::shared_ptr<TextureData>> m_texturesList;
+	TextureLoader() {}
 public:
 	static TextureLoader& Instance()
 	{

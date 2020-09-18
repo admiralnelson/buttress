@@ -82,12 +82,6 @@
     <ClCompile Include="F:\my_game_engine\external\assimp\code\Common\DefaultLogger.cpp">
       <Filter>Logging</Filter>
     </ClCompile>
-    <ClCompile Include="F:\my_game_engine\external\assimp\code\Common\Exporter.cpp">
-      <Filter>Exporter</Filter>
-    </ClCompile>
-    <ClCompile Include="F:\my_game_engine\external\assimp\code\CApi\AssimpCExport.cpp">
-      <Filter>Exporter</Filter>
-    </ClCompile>
     <ClCompile Include="F:\my_game_engine\external\assimp\code\PostProcessing\CalcTangentsProcess.cpp">
       <Filter>PostProcessing</Filter>
     </ClCompile>
@@ -532,66 +526,6 @@
     <ClCompile Include="F:\my_game_engine\external\assimp\code\Importer\StepFile\StepFileGen3.cpp">
       <Filter>STEP</Filter>
     </ClCompile>
-    <ClCompile Include="F:\my_game_engine\external\assimp\code\3DS\3DSExporter.cpp">
-      <Filter>3DS_EXPORTER</Filter>
-    </ClCompile>
-    <ClCompile Include="F:\my_game_engine\external\assimp\code\Assbin\AssbinExporter.cpp">
-      <Filter>ASSBIN_EXPORTER</Filter>
-    </ClCompile>
-    <ClCompile Include="F:\my_game_engine\external\assimp\code\Assxml\AssxmlExporter.cpp">
-      <Filter>ASSXML_EXPORTER</Filter>
-    </ClCompile>
-    <ClCompile Include="F:\my_game_engine\external\assimp\code\Collada\ColladaExporter.cpp">
-      <Filter>COLLADA_EXPORTER</Filter>
-    </ClCompile>
-    <ClCompile Include="F:\my_game_engine\external\assimp\code\Obj\ObjExporter.cpp">
-      <Filter>OBJ_EXPORTER</Filter>
-    </ClCompile>
-    <ClCompile Include="F:\my_game_engine\external\assimp\code\OpenGEX\OpenGEXExporter.cpp">
-      <Filter>OPENGEX_EXPORTER</Filter>
-    </ClCompile>
-    <ClCompile Include="F:\my_game_engine\external\assimp\code\Ply\PlyExporter.cpp">
-      <Filter>PLY_EXPORTER</Filter>
-    </ClCompile>
-    <ClCompile Include="F:\my_game_engine\external\assimp\code\FBX\FBXExporter.cpp">
-      <Filter>FBX_EXPORTER</Filter>
-    </ClCompile>
-    <ClCompile Include="F:\my_game_engine\external\assimp\code\FBX\FBXExportNode.cpp">
-      <Filter>FBX_EXPORTER</Filter>
-    </ClCompile>
-    <ClCompile Include="F:\my_game_engine\external\assimp\code\FBX\FBXExportProperty.cpp">
-      <Filter>FBX_EXPORTER</Filter>
-    </ClCompile>
-    <ClCompile Include="F:\my_game_engine\external\assimp\code\STL\STLExporter.cpp">
-      <Filter>STL_EXPORTER</Filter>
-    </ClCompile>
-    <ClCompile Include="F:\my_game_engine\external\assimp\code\X\XFileExporter.cpp">
-      <Filter>X_EXPORTER</Filter>
-    </ClCompile>
-    <ClCompile Include="F:\my_game_engine\external\assimp\code\X3D\X3DExporter.cpp">
-      <Filter>X3D_EXPORTER</Filter>
-    </ClCompile>
-    <ClCompile Include="F:\my_game_engine\external\assimp\code\glTF\glTFExporter.cpp">
-      <Filter>GLTF_EXPORTER</Filter>
-    </ClCompile>
-    <ClCompile Include="F:\my_game_engine\external\assimp\code\glTF2\glTF2Exporter.cpp">
-      <Filter>GLTF_EXPORTER</Filter>
-    </ClCompile>
-    <ClCompile Include="F:\my_game_engine\external\assimp\code\3MF\D3MFExporter.cpp">
-      <Filter>3MF_EXPORTER</Filter>
-    </ClCompile>
-    <ClCompile Include="F:\my_game_engine\external\assimp\code\Assjson\cencode.c">
-      <Filter>ASSJSON_EXPORTER</Filter>
-    </ClCompile>
-    <ClCompile Include="F:\my_game_engine\external\assimp\code\Assjson\json_exporter.cpp">
-      <Filter>ASSJSON_EXPORTER</Filter>
-    </ClCompile>
-    <ClCompile Include="F:\my_game_engine\external\assimp\code\Assjson\mesh_splitter.cpp">
-      <Filter>ASSJSON_EXPORTER</Filter>
-    </ClCompile>
-    <ClCompile Include="F:\my_game_engine\external\assimp\code\Step\StepExporter.cpp">
-      <Filter>STEP_EXPORTER</Filter>
-    </ClCompile>
     <ClCompile Include="F:\my_game_engine\external\assimp\contrib\unzip\ioapi.c">
       <Filter>Contrib\unzip</Filter>
     </ClCompile>
@@ -710,9 +644,6 @@
     </ClInclude>
     <ClInclude Include="F:\my_game_engine\external\assimp\code\Common\StdOStreamLogStream.h">
       <Filter>Logging</Filter>
-    </ClInclude>
-    <ClInclude Include="F:\my_game_engine\external\assimp\include\assimp\BlobIOSystem.h">
-      <Filter>Exporter</Filter>
     </ClInclude>
     <ClInclude Include="F:\my_game_engine\external\assimp\code\PostProcessing\CalcTangentsProcess.h">
       <Filter>PostProcessing</Filter>
@@ -1182,63 +1113,6 @@
     <ClInclude Include="F:\my_game_engine\external\assimp\code\Importer\StepFile\StepReaderGen.h">
       <Filter>STEP</Filter>
     </ClInclude>
-    <ClInclude Include="F:\my_game_engine\external\assimp\code\3DS\3DSExporter.h">
-      <Filter>3DS_EXPORTER</Filter>
-    </ClInclude>
-    <ClInclude Include="F:\my_game_engine\external\assimp\code\Assbin\AssbinExporter.h">
-      <Filter>ASSBIN_EXPORTER</Filter>
-    </ClInclude>
-    <ClInclude Include="F:\my_game_engine\external\assimp\code\Assxml\AssxmlExporter.h">
-      <Filter>ASSXML_EXPORTER</Filter>
-    </ClInclude>
-    <ClInclude Include="F:\my_game_engine\external\assimp\code\Collada\ColladaExporter.h">
-      <Filter>COLLADA_EXPORTER</Filter>
-    </ClInclude>
-    <ClInclude Include="F:\my_game_engine\external\assimp\code\Obj\ObjExporter.h">
-      <Filter>OBJ_EXPORTER</Filter>
-    </ClInclude>
-    <ClInclude Include="F:\my_game_engine\external\assimp\code\OpenGEX\OpenGEXExporter.h">
-      <Filter>OPENGEX_EXPORTER</Filter>
-    </ClInclude>
-    <ClInclude Include="F:\my_game_engine\external\assimp\code\Ply\PlyExporter.h">
-      <Filter>PLY_EXPORTER</Filter>
-    </ClInclude>
-    <ClInclude Include="F:\my_game_engine\external\assimp\code\FBX\FBXExporter.h">
-      <Filter>FBX_EXPORTER</Filter>
-    </ClInclude>
-    <ClInclude Include="F:\my_game_engine\external\assimp\code\FBX\FBXExportNode.h">
-      <Filter>FBX_EXPORTER</Filter>
-    </ClInclude>
-    <ClInclude Include="F:\my_game_engine\external\assimp\code\FBX\FBXExportProperty.h">
-      <Filter>FBX_EXPORTER</Filter>
-    </ClInclude>
-    <ClInclude Include="F:\my_game_engine\external\assimp\code\STL\STLExporter.h">
-      <Filter>STL_EXPORTER</Filter>
-    </ClInclude>
-    <ClInclude Include="F:\my_game_engine\external\assimp\code\X\XFileExporter.h">
-      <Filter>X_EXPORTER</Filter>
-    </ClInclude>
-    <ClInclude Include="F:\my_game_engine\external\assimp\code\X3D\X3DExporter.hpp">
-      <Filter>X3D_EXPORTER</Filter>
-    </ClInclude>
-    <ClInclude Include="F:\my_game_engine\external\assimp\code\glTF\glTFExporter.h">
-      <Filter>GLTF_EXPORTER</Filter>
-    </ClInclude>
-    <ClInclude Include="F:\my_game_engine\external\assimp\code\glTF2\glTF2Exporter.h">
-      <Filter>GLTF_EXPORTER</Filter>
-    </ClInclude>
-    <ClInclude Include="F:\my_game_engine\external\assimp\code\3MF\D3MFExporter.h">
-      <Filter>3MF_EXPORTER</Filter>
-    </ClInclude>
-    <ClInclude Include="F:\my_game_engine\external\assimp\code\Assjson\cencode.h">
-      <Filter>ASSJSON_EXPORTER</Filter>
-    </ClInclude>
-    <ClInclude Include="F:\my_game_engine\external\assimp\code\Assjson\mesh_splitter.h">
-      <Filter>ASSJSON_EXPORTER</Filter>
-    </ClInclude>
-    <ClInclude Include="F:\my_game_engine\external\assimp\code\Step\StepExporter.h">
-      <Filter>STEP_EXPORTER</Filter>
-    </ClInclude>
     <ClInclude Include="F:\my_game_engine\external\assimp\include\assimp\irrXMLWrapper.h">
       <Filter>IrrXML</Filter>
     </ClInclude>
@@ -1584,6 +1458,9 @@
     <ClInclude Include="F:\my_game_engine\external\assimp\include\assimp\CreateAnimMesh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="F:\my_game_engine\external\assimp\include\assimp\BlobIOSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="F:\my_game_engine\external\assimp\include\assimp\MathFunctions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1621,14 +1498,8 @@
     <Filter Include="3DS">
       <UniqueIdentifier>{3641A8DE-E07F-3282-B0E1-286D918A9D05}</UniqueIdentifier>
     </Filter>
-    <Filter Include="3DS_EXPORTER">
-      <UniqueIdentifier>{4A246584-7516-3B16-ADF9-A5AF47EBB42E}</UniqueIdentifier>
-    </Filter>
     <Filter Include="3MF">
       <UniqueIdentifier>{2722A423-AA5D-370A-A1C9-B976CBFB3FBD}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="3MF_EXPORTER">
-      <UniqueIdentifier>{A1B9498B-DF2F-3D51-80CB-59C5D92C3576}</UniqueIdentifier>
     </Filter>
     <Filter Include="AC">
       <UniqueIdentifier>{A5AEDCFE-C0D3-3C07-AC29-BC447AFFBAB7}</UniqueIdentifier>
@@ -1641,15 +1512,6 @@
     </Filter>
     <Filter Include="ASSBIN">
       <UniqueIdentifier>{BD985143-075C-35E0-AE1A-30C6FE7DC759}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ASSBIN_EXPORTER">
-      <UniqueIdentifier>{78353B6D-DCBD-3EF8-AC81-8D1DCBC3E8E3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ASSJSON_EXPORTER">
-      <UniqueIdentifier>{8D0FDDE9-A0E7-3190-81C3-5731E9F00C19}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ASSXML_EXPORTER">
-      <UniqueIdentifier>{731F26E0-7343-3555-8281-F3B7D2E32CBE}</UniqueIdentifier>
     </Filter>
     <Filter Include="B3D">
       <UniqueIdentifier>{BEB082BE-0DB3-380E-9979-03578EA08B73}</UniqueIdentifier>
@@ -1668,9 +1530,6 @@
     </Filter>
     <Filter Include="COLLADA">
       <UniqueIdentifier>{707A28DD-AC18-3843-B03D-2CDBEBD1B083}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="COLLADA_EXPORTER">
-      <UniqueIdentifier>{BEC1B4B6-E621-3229-9CBD-9101B1CA1405}</UniqueIdentifier>
     </Filter>
     <Filter Include="CSM">
       <UniqueIdentifier>{EDAE92E3-CFBD-3453-8BBC-44BE4D4FD4B6}</UniqueIdentifier>
@@ -1702,20 +1561,11 @@
     <Filter Include="DXF">
       <UniqueIdentifier>{D25308A0-9A08-3924-9030-4E96AABF92B2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Exporter">
-      <UniqueIdentifier>{9896CFE3-565A-3F86-B6DA-2446EA8B9346}</UniqueIdentifier>
-    </Filter>
     <Filter Include="FBX">
       <UniqueIdentifier>{E2DA953F-D5F8-319B-8B72-028B5A9BDC74}</UniqueIdentifier>
     </Filter>
-    <Filter Include="FBX_EXPORTER">
-      <UniqueIdentifier>{21B1F0F4-E125-371B-9914-A9221BAA306A}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GLTF">
       <UniqueIdentifier>{444A8E01-DDA1-3923-B47B-10ED04DC56D2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GLTF_EXPORTER">
-      <UniqueIdentifier>{8F59D098-F747-3321-BCE2-BA599570A0F1}</UniqueIdentifier>
     </Filter>
     <Filter Include="HMP">
       <UniqueIdentifier>{ED017C5C-1643-3982-94B6-F92955F5BCA0}</UniqueIdentifier>
@@ -1777,9 +1627,6 @@
     <Filter Include="OBJ">
       <UniqueIdentifier>{D2CBC00C-4D99-3A51-B36A-AE2F4AA8044F}</UniqueIdentifier>
     </Filter>
-    <Filter Include="OBJ_EXPORTER">
-      <UniqueIdentifier>{DAF23B96-30DB-3D34-91C5-37C0DFBE3F8A}</UniqueIdentifier>
-    </Filter>
     <Filter Include="OFF">
       <UniqueIdentifier>{B3E63280-9EBD-3CCF-97D4-3B8EAD3A541D}</UniqueIdentifier>
     </Filter>
@@ -1789,14 +1636,8 @@
     <Filter Include="OPENGEX">
       <UniqueIdentifier>{15CD3CE8-DF7C-3971-876D-72EF5117DF5C}</UniqueIdentifier>
     </Filter>
-    <Filter Include="OPENGEX_EXPORTER">
-      <UniqueIdentifier>{D067198C-28F7-3D82-AE73-CA9635A1D5BE}</UniqueIdentifier>
-    </Filter>
     <Filter Include="PLY">
       <UniqueIdentifier>{38E2DF23-2E8D-33AD-A23D-C69A68BD97E5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="PLY_EXPORTER">
-      <UniqueIdentifier>{B1D747EC-F45D-3C47-990F-7D1E06DD1DD2}</UniqueIdentifier>
     </Filter>
     <Filter Include="PostProcessing">
       <UniqueIdentifier>{556C90D1-229B-3C5D-9F11-B78E65838079}</UniqueIdentifier>
@@ -1822,14 +1663,8 @@
     <Filter Include="STEPParser">
       <UniqueIdentifier>{E0C7553C-44CB-3BE2-BE66-954F0565632F}</UniqueIdentifier>
     </Filter>
-    <Filter Include="STEP_EXPORTER">
-      <UniqueIdentifier>{701C2516-BE2A-3174-AACC-F6B8E7A8AFB7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="STL">
       <UniqueIdentifier>{9D8A46DF-9C93-337D-9661-3218493A159A}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="STL_EXPORTER">
-      <UniqueIdentifier>{B70D7CBF-3B61-378C-AC63-F7562F0D2F2A}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files">
       <UniqueIdentifier>{72B2B3F2-ABB1-3C87-BBDB-E340D0F6E1DF}</UniqueIdentifier>
@@ -1843,14 +1678,8 @@
     <Filter Include="X3D">
       <UniqueIdentifier>{D980CB0C-8A81-3F5E-A8DE-7F67F8990A81}</UniqueIdentifier>
     </Filter>
-    <Filter Include="X3D_EXPORTER">
-      <UniqueIdentifier>{B0C7E03B-36A8-377F-92E3-124FEAA7F509}</UniqueIdentifier>
-    </Filter>
     <Filter Include="XGL">
       <UniqueIdentifier>{CA01C742-2BDE-3CCE-9827-44D357440E02}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="X_EXPORTER">
-      <UniqueIdentifier>{8DA1D6A2-BED7-34D5-A878-E4639C2B44AE}</UniqueIdentifier>
     </Filter>
     <Filter Include="ziplib">
       <UniqueIdentifier>{506D3D23-9A48-3E6A-9090-6F1FEB63EADF}</UniqueIdentifier>

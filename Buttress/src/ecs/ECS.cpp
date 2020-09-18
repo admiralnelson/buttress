@@ -6,6 +6,8 @@
 
 Entity Universe::CreateEntity(std::string name)
 {
+#pragma warning (push)
+#pragma warning (disable : 26444) 
 	auto entityChecker = m_systemManager->GetSystem<EntityNameCheckSystem>();
 	if (entityChecker->CheckNow(name))
 	{
@@ -19,6 +21,7 @@ Entity Universe::CreateEntity(std::string name)
 	ent.AddComponent<EntityName>(entityName);
 	ent.AddComponent<Transform>(t);
 	return ent;
+#pragma warning (pop)
 }
 
 Entity Universe::QueryByEntityId(EntityId id)

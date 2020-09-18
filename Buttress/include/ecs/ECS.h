@@ -6,6 +6,11 @@
 #include "EventManager.h"
 #include "system/EntityNameCheckSystem.h"
 #include "components/EntityName.h"
+
+#ifdef __INTELLISENSE__
+#pragma diag_suppress 26444
+#endif
+
 class Entity;
 class EntityNameCheckSystem;
 struct EntityName;
@@ -83,7 +88,7 @@ private:
 	std::unique_ptr<SystemManager> m_systemManager       = std::make_unique<SystemManager>();
 	std::unique_ptr<EventManager> m_eventManager = std::make_unique<EventManager>();
 	std::mutex m_mutex;
-	float m_lastDt;
+	float m_lastDt = 0;
 };
 class Entity
 {
@@ -104,13 +109,13 @@ public:
 		return a.id == b.id && a.m_universe == b.m_universe;
 	}
 
-	Entity operator=(const Entity& otherEntity)
-	{
-		Entity ent;
-		ent.id = otherEntity.id;
-		ent.m_universe = otherEntity.m_universe;
-		return ent;
-	}
+	//Entity operator=(const Entity& otherEntity)
+	//{
+	//	Entity ent;
+	//	ent.id = otherEntity.id;
+	//	ent.m_universe = otherEntity.m_universe;
+	//	return ent;
+	//}
 
 
 	bool IsValid()
@@ -228,11 +233,6 @@ public:
 		}
 	}
 
-	~Entity()
-	{
-		//don't. Let the user manually destroy their entity.
-		//m_universe->m_entityManager->DestroyEntity(id);
-	}
 private:
 	Entity(Universe* universe, EntityId _id) : m_universe(universe), id(_id) {}
 	EntityId id = INVALID_ENTITY;

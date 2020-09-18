@@ -1,8 +1,10 @@
 #include "pch.h"
 #include "core/Model.h"
 
+std::shared_ptr<Shader> Model::defaultShader;
 Model::Model(std::string path)
 {
+	m_path = path;
 	Assimp::Importer importer;
 	const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
 	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
@@ -31,11 +33,16 @@ void Model::ProcessNode(aiNode* node, const aiScene* scene)
 {
 	for (size_t i = 0; i < node->mNumMeshes; i++)
 	{
-
+		aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
+		m_meshes.push_back(ProcessMesh(mesh, scene));
+	}
+	for (size_t i = 0; i < node->mNumChildren; i++)
+	{
+		ProcessNode(node->mChildren[i], scene);
 	}
 }
 
-Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
+MeshData Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 {
 	std::vector<Vertex> vertices;
 	std::vector<unsigned int> indices;
@@ -73,7 +80,8 @@ Mesh Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 	//materials
 	aiMaterial* aimaterial = scene->mMaterials[mesh->mMaterialIndex];
 	material = ProcessMaterial(aimaterial, aimaterial->GetName().C_Str());
-	return Mesh(vertices, indices, material);
+	material.shader = defaultShader;
+	return MeshData(vertices, indices, material);
 }
 
 Material Model::ProcessMaterial(aiMaterial* material, std::string name)
@@ -82,17 +90,20 @@ Material Model::ProcessMaterial(aiMaterial* material, std::string name)
 	std::shared_ptr<TextureData> diffuse;
 	aiString path;
 	material->GetTexture(aiTextureType::aiTextureType_DIFFUSE, 0, &path);
-	diffuse = TextureLoader::Instance().LoadTexture(path.C_Str());
+	std::string spath = m_path + "/" + path.C_Str();
+	diffuse = TextureLoader::Instance().LoadTexture(spath);
 
 	//load specular
 	std::shared_ptr<TextureData> specular;
 	material->GetTexture(aiTextureType::aiTextureType_SPECULAR, 0, &path);
-	specular = TextureLoader::Instance().LoadTexture(path.C_Str());
+	spath = m_path + "/" + path.C_Str();
+	specular = TextureLoader::Instance().LoadTexture(spath);
 
 	//load specular
 	std::shared_ptr<TextureData> normalMaps;
 	material->GetTexture(aiTextureType::aiTextureType_HEIGHT, 0, &path);
-	normalMaps = TextureLoader::Instance().LoadTexture(path.C_Str());
+	spath = m_path + "/" + path.C_Str();
+	normalMaps = TextureLoader::Instance().LoadTexture(spath);
 
 	Material out;
 	out.diffuse = diffuse;

@@ -1,9 +1,9 @@
 #include "pch.h"
-#include "core/Mesh.h"
+#include "core/MeshData.h"
 
-Mesh::Mesh(std::vector<Vertex> verts, std::vector<unsigned int> indices, Material mat)
+MeshData::MeshData(std::vector<Vertex> verts, std::vector<unsigned int> indices, Material mat)
 {
-	MeshData meshData;
+	MeshHandle meshData;
 	m_material = mat;
 	if (!m_material.shader && !m_material.shader->IsShaderReady())
 	{
@@ -37,6 +37,6 @@ Mesh::Mesh(std::vector<Vertex> verts, std::vector<unsigned int> indices, Materia
 	m_meshData = meshData;
 }
 
-void Mesh::Draw()
+void MeshData::Draw()
 {
 }

@@ -14,7 +14,7 @@ public:
 	void Init(Universe* universe) override;
 	void Tick();
 private:
-	void LoadModel(std::string objPath);
+	bool LoadModel(std::string objPath);
 	struct Model
 	{
 		GLuint m_vbo = 0, m_vao = 0, m_ibo = 0;

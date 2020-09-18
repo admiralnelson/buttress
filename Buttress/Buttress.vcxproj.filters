@@ -101,10 +101,10 @@
     <ClCompile Include="include\components\Transform.cpp">
       <Filter>include\component</Filter>
     </ClCompile>
-    <ClCompile Include="src\core\Mesh.cpp">
+    <ClCompile Include="src\core\Model.cpp">
       <Filter>src\core</Filter>
     </ClCompile>
-    <ClCompile Include="src\core\Model.cpp">
+    <ClCompile Include="src\core\MeshData.cpp">
       <Filter>src\core</Filter>
     </ClCompile>
   </ItemGroup>
@@ -178,11 +178,11 @@
     <ClInclude Include="include\core\Model.h">
       <Filter>include\core</Filter>
     </ClInclude>
-    <ClInclude Include="include\core\Mesh.h">
-      <Filter>include\core</Filter>
-    </ClInclude>
     <ClInclude Include="include\components\Transform.h">
       <Filter>include\component</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\MeshData.h">
+      <Filter>include\core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

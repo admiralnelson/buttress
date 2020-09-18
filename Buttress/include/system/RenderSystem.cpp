@@ -17,16 +17,17 @@ void RenderSystem::Tick()
 	for (auto& e : m_entity)
 	{
 		Mesh& mesh = m_universe->QueryByEntityId(e).GetComponent<Mesh>();
+		
 	}
 }
 
-void RenderSystem::LoadModel(std::string objPath)
+bool RenderSystem::LoadModel(std::string objPath)
 {
 	if (m_models.find(objPath) != m_models.end())
 	{
-		return;
+		return false;
 	}
 
 
-
+	return true;
 }

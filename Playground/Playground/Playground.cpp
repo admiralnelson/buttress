@@ -5,6 +5,7 @@
 #include <PrimitiveDraw.h>
 #include <Buttress.h>
 #include <core\Texture.h>
+#include <core\Model.h>
 #include <Util.h>
 #include <Geometry.h>
 #include <Object.h>
@@ -55,6 +56,9 @@ int main()
 		materialA.Debug();
 		materialB.Debug();
 
+		Model::defaultShader = baseShader;
+		Model m("../../resource/full_model/backpack.obj");
+
 
 		/*Transformation camTransform;
 		camTransform.position = Vec3(0.0f, 0.0f, 3.0f);
@@ -91,7 +95,7 @@ int main()
 
 			Entity cube = universe.CreateEntity("a cube");
 			Mesh mesh;
-			mesh.objectPath = "../../resource/obj/test.obj";
+			mesh.objectPath = "../../resource/full_model/backpack.obj";
 			ent.AddComponent<Mesh>(mesh);
 			
 

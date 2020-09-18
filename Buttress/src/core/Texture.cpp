@@ -19,7 +19,7 @@ void TextureData::Load(std::string path)
 	if (data == nullptr)
 	{
 		PRINT("ERROR", "unable to load file", path);
-		throw new std::exception("texture fail to load", -1);
+		throw std::exception("texture fail to load", -1);
 	}
 	glGenTextures(1, &m_textureNo);
 	glBindTexture(GL_TEXTURE_2D, m_textureNo);
@@ -37,7 +37,7 @@ void TextureData::Load(std::string path)
 		break;
 	default:
 		PRINT("ERROR", "unsupported nr of channel. expected 4 or 3 got", m_channel, "filename:", path);
-		throw new std::exception("texture fail to load", -1);
+		throw std::exception("texture fail to load", -1);
 		break;
 	}
 	glGenerateMipmap(GL_TEXTURE_2D);

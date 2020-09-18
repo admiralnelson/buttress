@@ -105,12 +105,15 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\external\glad_project_and_configs\include\;$(SolutionDir)..\external\glfw\include\;$(SolutionDir)..\external\glm\;$(SolutionDir)..\external\tcpp\source;$(SolutionDir)..\Buttress\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\external\assimp_project_and_configs\include\;$(SolutionDir)..\external\assimp\include\;$(SolutionDir)..\external\glad_project_and_configs\include\;$(SolutionDir)..\external\glfw\include\;$(SolutionDir)..\external\glm\;$(SolutionDir)..\external\tcpp\source;$(SolutionDir)..\Buttress\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <LinkStatus>true</LinkStatus>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -155,6 +158,16 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Buttress\Buttress.vcxproj">
       <Project>{390227a6-2f2d-46a0-9d42-7bea966b5c6b}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\external\assimp_project_and_configs\code\assimp.vcxproj">
+      <Project>{454cf8fa-d76c-30a7-8a13-b2b772ec9953}</Project>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
+    </ProjectReference>
+    <ProjectReference Include="..\..\external\assimp_project_and_configs\contrib\irrXML\IrrXML.vcxproj">
+      <Project>{0b04fea8-e4e2-3606-837f-110b11bef219}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\external\assimp_project_and_configs\contrib\zlib\zlibstatic.vcxproj">
+      <Project>{b8872c5d-e0f7-3a6f-89f6-f2fd6b13e827}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\external\glad_project_and_configs\glad\glad.vcxproj">
       <Project>{9ce231a4-3f59-4c88-98cf-f28cf7c74980}</Project>

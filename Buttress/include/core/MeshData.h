@@ -5,16 +5,16 @@
 #include "Shader.h"
 typedef unsigned int MeshId;
 
-class Mesh
+class MeshData
 {
 public:
-	Mesh() {}
-	Mesh(std::vector<Vertex> verts, std::vector<unsigned int> indices, Material mat);
+
+	MeshData(std::vector<Vertex> verts, std::vector<unsigned int> indices, Material mat);
 	void Draw();
 private:
 	Material m_material;
 	
-	struct MeshData
+	struct MeshHandle
 	{
 		GLuint vao;
 		GLuint vbo;
@@ -22,5 +22,5 @@ private:
 		GLuint indexSize;
 	};
 
-	MeshData m_meshData;
+	MeshHandle m_meshData;
 };

@@ -24,7 +24,7 @@
     <ClCompile Include="include\system\RenderSystem.cpp" />
     <ClCompile Include="src\Buttress.cpp" />
     <ClCompile Include="src\core\Material.cpp" />
-    <ClCompile Include="src\core\Mesh.cpp" />
+    <ClCompile Include="src\core\MeshData.cpp" />
     <ClCompile Include="src\core\Model.cpp" />
     <ClCompile Include="src\core\Shader.cpp" />
     <ClCompile Include="src\core\Texture.cpp" />
@@ -46,7 +46,7 @@
     <ClInclude Include="include\components\Mesh.h" />
     <ClInclude Include="include\components\Transform.h" />
     <ClInclude Include="include\core\Material.h" />
-    <ClInclude Include="include\core\Mesh.h" />
+    <ClInclude Include="include\core\MeshData.h" />
     <ClInclude Include="include\core\Model.h" />
     <ClInclude Include="include\core\Shader.h" />
     <ClInclude Include="include\core\Texture.h" />
@@ -65,14 +65,6 @@
     <ClInclude Include="include\system\EntityNameCheckSystem.h" />
     <ClInclude Include="include\system\RenderSystem.h" />
     <ClInclude Include="include\Util.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\external\assimp_project_and_configs\code\assimp.vcxproj">
-      <Project>{454cf8fa-d76c-30a7-8a13-b2b772ec9953}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\external\glfw_project_and_configs\src\glfw.vcxproj">
-      <Project>{c53898df-7f74-33f3-8022-01dbda81d881}</Project>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
