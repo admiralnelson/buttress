@@ -18,6 +18,7 @@
 int main()
 {
 	{
+		Universe universe;
 		Buttress b;
 		b.Init(800, 600, "tetst");
 		std::shared_ptr<TextureData> t;
@@ -57,7 +58,6 @@ int main()
 		materialB.Debug();
 
 		Model::defaultShader = baseShader;
-		Model m("../../resource/full_model/backpack.obj");
 
 
 		/*Transformation camTransform;
@@ -78,40 +78,28 @@ int main()
 
 		//ECS TEST
 		{
-			Universe universe;
-			universe.RegisterComponent<Camera>();
-			ComponentSignature sig;
-			sig.set(universe.GetComponentType<Camera>());
-			universe.RegisterSystem<CameraSystem>(sig);
-
-
-			EntityName name;
+			universe.GetSystem<CameraSystem>()->windowDimension = { b.Width(), b.Height() };
 			Entity ent = universe.CreateEntity("camera");
 			
-			ent.AddComponent<Camera>(Camera());
+			Camera cam;
+			cam.IsPrimary = true;
+			ent.AddComponent<Camera>(cam);
 			ent.AttachToSystem<CameraSystem>();
 			PRINT("ENTITY NAME IS ", ent.GetComponent<EntityName>().name);
 			ent.Debug();
 
-			Entity cube = universe.CreateEntity("a cube");
+			Entity backpack = universe.CreateEntity("a backpack");
 			Mesh mesh;
 			mesh.objectPath = "../../resource/full_model/backpack.obj";
-			ent.AddComponent<Mesh>(mesh);
-			
+			backpack.AddComponent<Mesh>(mesh);
+			backpack.Debug();
 
-
-			//Entity ent2 = universe.CreateEntity("test");
-			//PRINT("ENTITY2 NAME IS ", ent2.GetComponent<EntityName>().name);
-
-			for (int i = 0; i < 10; i++)
-			{
-				Entity ent = universe.CreateEntity("test " + std::to_string(i));
-				PRINT("ENTITY NAME IS ", ent.GetComponent<EntityName>().name);
-				Entity ent2 = ent;
-				ent2.Debug();
-			}
 			universe.MemoryDebug();
+			b.Start(&universe);
 		}
+
+
+
 		/*
 		int err = 0;
 		cam->speed = 30;

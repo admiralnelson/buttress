@@ -25,8 +25,9 @@ Model::Model(std::string path)
 	ProcessNode(scene->mRootNode, scene);
 }
 
-void Model::Draw()
+void Model::Draw(Matrix4 proj, Matrix4 view, Transform t)
 {
+	//m_models[objPath].m_shader->SetUniformMat4x4("projection", projection);
 }
 
 void Model::ProcessNode(aiNode* node, const aiScene* scene)

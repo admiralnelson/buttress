@@ -37,7 +37,7 @@ bool Buttress::Init(int width, int height, std::string title)
 	glfwMakeContextCurrent(m_window.get());
 	glfwSetWindowUserPointer(m_window.get(), reinterpret_cast<void*>(this));
 	glfwSetInputMode(m_window.get(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-	glfwSetCursorPos(m_window.get(), m_width/ 2, m_height/ 2);
+	//glfwSetCursorPos(m_window.get(), m_width/ 2, m_height/ 2);
 	return true;
 }
 
@@ -48,6 +48,7 @@ void Buttress::Start(Universe *universe)
 		PRINT("ERROR", "no universe to simulate with!");
 		Shutdown();
 	}
+	m_universe = universe;
 
 	auto resizeCallback = [](GLFWwindow* window, int width, int height)
 	{

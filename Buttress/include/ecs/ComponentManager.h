@@ -73,7 +73,7 @@ public:
 			PRINT("ERROR", "attempt to retrieve non existing component:", typeName  ," from entity id:", entity);
 			throw std::exception("attempt to retrieve non existing component");
 		}
-		return m_componentArray[entity];
+		return m_componentArray[m_entityToIndexMap[entity]];
 	}
 
 	void MemoryDebug()

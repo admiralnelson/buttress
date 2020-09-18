@@ -26,9 +26,6 @@
     <Filter Include="include\system">
       <UniqueIdentifier>{167afaa5-55bd-4357-a817-f5ff479927eb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="system">
-      <UniqueIdentifier>{3c734dcb-a2e3-4075-a732-8fbd6bf0fe29}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src">
       <UniqueIdentifier>{c8329ab9-7654-4a32-9e62-c9ce572396e2}</UniqueIdentifier>
     </Filter>
@@ -47,6 +44,9 @@
     </Filter>
     <Filter Include="include\resourceManager">
       <UniqueIdentifier>{a9f86025-cd01-458f-9592-dcc6b536e8fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\system">
+      <UniqueIdentifier>{3c734dcb-a2e3-4075-a732-8fbd6bf0fe29}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -78,16 +78,16 @@
       <Filter>src\ecs</Filter>
     </ClCompile>
     <ClCompile Include="src\system\EntityNameCheckSystem.cpp">
-      <Filter>system</Filter>
+      <Filter>src\system</Filter>
     </ClCompile>
     <ClCompile Include="src\system\CameraSystem.cpp">
-      <Filter>system</Filter>
+      <Filter>src\system</Filter>
     </ClCompile>
     <ClCompile Include="src\ecs\EventManager.cpp">
       <Filter>src\ecs</Filter>
     </ClCompile>
     <ClCompile Include="include\system\RenderSystem.cpp">
-      <Filter>system</Filter>
+      <Filter>src\system</Filter>
     </ClCompile>
     <ClCompile Include="src\core\Shader.cpp">
       <Filter>src\core</Filter>

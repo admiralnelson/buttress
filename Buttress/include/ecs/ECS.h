@@ -4,7 +4,6 @@
 #include "ComponentManager.h"
 #include "SystemManager.h"
 #include "EventManager.h"
-#include "system/EntityNameCheckSystem.h"
 #include "components/EntityName.h"
 
 #ifdef __INTELLISENSE__

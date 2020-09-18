@@ -3,7 +3,7 @@
 
 struct Transform
 {
-	Quaternion localRotation;
+	Quaternion localRotation ;
 	Vec3 scale = { 1.0f,1.0f,1.0f };
 	Vec3 position = { 0, 0, 0 };
 	Vec3 front = { 0.0f, 0.0f, -1.0f };
@@ -14,8 +14,8 @@ struct Transform
 	void Rotate(Vec3 rotation);
 	void RotateDeg(Vec3 rotation);
 	Vec3 RotationEulerDeg();
-	Transform() : worldUp({ 0.0f, 1.0f, 0.0f }) {}
-	Transform(Transform& t) : position(t.position), scale(t.scale), up(t.up), right(t.right), localRotation(t.localRotation), worldUp({ 0.0f, 1.0f, 0.0f }) {}
+	Transform() : worldUp({ 0.0f, 1.0f, 0.0f }), localRotation(Quaternion()) { }
+	Transform(const Transform& t) : position(t.position), scale(t.scale), up(t.up), right(t.right), localRotation(t.localRotation), worldUp({ 0.0f, 1.0f, 0.0f }) {}
 	Transform operator=(const Transform& t)
 	{
 		Transform out;
