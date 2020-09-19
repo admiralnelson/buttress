@@ -3,14 +3,15 @@
 #include "glad/glad.h"
 #include "Material.h"
 #include "Shader.h"
-typedef unsigned int MeshId;
+#include "components/Transform.h"
+
 
 class MeshData
 {
 public:
 
 	MeshData(std::vector<Vertex> verts, std::vector<unsigned int> indices, Material mat);
-	void Draw();
+	void Draw(Matrix4 &proj, Matrix4 &view, Matrix4& model);
 private:
 	Material m_material;
 	

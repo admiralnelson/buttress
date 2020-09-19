@@ -28,6 +28,11 @@ Model::Model(std::string path)
 void Model::Draw(Matrix4 proj, Matrix4 view, Transform t)
 {
 	//m_models[objPath].m_shader->SetUniformMat4x4("projection", projection);
+	Matrix4 modelMatrix = t.GetTransform();
+	for (auto& i : m_meshes)
+	{
+		i.Draw(proj, view, modelMatrix);
+	}
 }
 
 void Model::ProcessNode(aiNode* node, const aiScene* scene)

@@ -34,7 +34,7 @@ Entity Universe::QueryByEntityId(EntityId id)
 
 void Universe::Render(float dt)
 {
-	//std::lock_guard<std::mutex> lock(m_mutex);
+	std::lock_guard<std::mutex> lock(m_mutex);
 	m_lastDt = dt;
 	m_systemManager->GetSystem<RenderSystem>()->Tick();
 }

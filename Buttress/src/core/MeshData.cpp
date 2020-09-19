@@ -35,8 +35,21 @@ MeshData::MeshData(std::vector<Vertex> verts, std::vector<unsigned int> indices,
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	m_meshData = meshData;
+	PRINT("INFO", "mesh data has been created vao:", meshData.vao, "vbo:", meshData.vbo, "ibo:", meshData.ibo, "index size:", meshData.indexSize);
 }
 
-void MeshData::Draw()
+void MeshData::Draw(Matrix4& proj, Matrix4& view, Matrix4& model)
 {
+	//TODO: SORT BY MATERIAL TO REDUCE STATE TRANSITION!
+	//set the texture & use the shader
+	m_material.Use();
+	//set the uniform
+	m_material.shader->SetUniformMat4x4("projection", proj);
+	m_material.shader->SetUniformMat4x4("view", view);
+	m_material.shader->SetUniformMat4x4("model", model);
+	//draw the object
+	glBindVertexArray(m_meshData.vao);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_meshData.ibo);
+	glDrawElements(GL_TRIANGLES, m_meshData.indexSize, GL_UNSIGNED_INT, nullptr);
+	
 }
