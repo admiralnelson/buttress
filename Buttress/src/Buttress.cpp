@@ -5,6 +5,7 @@
 #include "Logger.h"
 #include "Buttress.h"
 #include "Util.h"
+#include "ecs/EventManager.h"
 
 Buttress::Buttress()
 {
@@ -54,7 +55,10 @@ void Buttress::Start(Universe *universe)
 	{
 		glViewport(0, 0, width, height);
 		Buttress* instance = reinterpret_cast<Buttress*>(glfwGetWindowUserPointer(window));
-		//instance->universe->sendevent...window resize, w, h
+		Event event(WINDOW_EVENT::WINDOW_RESIZE);
+		event.SetParam<unsigned int>(WINDOW_EVENT::PARAMS::PARAM_WIDTH, width);
+		event.SetParam<unsigned int>(WINDOW_EVENT::PARAMS::PARAM_HEIGHT, height);
+		instance->GetUniverse()->SendEvent(event);
 	};
 	glfwSetFramebufferSizeCallback(m_window.get(), resizeCallback);
 

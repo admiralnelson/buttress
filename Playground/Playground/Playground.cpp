@@ -95,6 +95,15 @@ int main()
 			backpack.Debug();
 
 			universe.MemoryDebug();
+
+			//register an event listener
+			universe.AddEventListener(WINDOW_EVENT::WINDOW_RESIZE, [](Event& e)
+			{
+				unsigned int height = e.GetParam<unsigned int>(WINDOW_EVENT::PARAMS::PARAM_HEIGHT);
+				unsigned int width = e.GetParam<unsigned int>(WINDOW_EVENT::PARAMS::PARAM_WIDTH);
+				PRINT("window on resize, w", width, "h", height);
+			});
+
 			b.Start(&universe);
 		}
 

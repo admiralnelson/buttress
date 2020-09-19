@@ -18,6 +18,7 @@ public:
 	void Shutdown();
 	int Width() { return m_width; };
 	int Height() { return m_height; };
+	Universe* GetUniverse() const { return m_universe; }
 	~Buttress();
 	
 private:
