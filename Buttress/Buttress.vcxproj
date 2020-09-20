@@ -44,6 +44,7 @@
     <ClInclude Include="include\components\Camera.h" />
     <ClInclude Include="include\components\EntityName.h" />
     <ClInclude Include="include\components\Mesh.h" />
+    <ClInclude Include="include\components\Node.h" />
     <ClInclude Include="include\components\Transform.h" />
     <ClInclude Include="include\core\Material.h" />
     <ClInclude Include="include\core\MeshData.h" />

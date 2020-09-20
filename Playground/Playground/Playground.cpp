@@ -21,9 +21,6 @@ int main()
 		Universe universe;
 		Buttress b;
 		b.Init(800, 600, "tetst");
-		std::shared_ptr<TextureData> t;
-		t = TextureLoader::Instance().LoadTexture("../../resource/media/test.jpg");
-		//Texture* t2 = new Texture("test 2", "../../resource/media/Wood_Wall_002_basecolor.jpg");
 
 		std::shared_ptr<Shader> baseShader;
 		baseShader.reset(new Shader("test"));
@@ -41,40 +38,7 @@ int main()
 		lampIndicatorShader->Validate();
 		lampIndicatorShader->Debug();
 
-		Material material("test material", baseShader);
-		material.diffuse = t;
-		material.Debug();
-
-		Material materialLamp("test lamp", lampIndicatorShader);
-		materialLamp.Debug();
-
-
-		//Test copy constructor
-		Material materialA;
-		Material materialB;
-		materialA = material;
-		materialB = materialLamp;
-		materialA.Debug();
-		materialB.Debug();
-
 		Model::defaultShader = baseShader;
-
-
-		/*Transformation camTransform;
-		camTransform.position = Vec3(0.0f, 0.0f, 3.0f);
-		std::shared_ptr<Camera> cam;
-		cam.reset(new Camera("main", 60, Vec2{ Buttress::ButtressInstance()->Width(), Buttress::ButtressInstance()->Height() }, camTransform));
-
-
-		Object object{ "test", cam, std::vector<std::shared_ptr<Model>> {model}, Transformation() };
-		Object object2{ "test2", cam, std::vector<std::shared_ptr<Model>> {model}, Transformation() };
-		Object object3{ "lamp", cam, std::vector<std::shared_ptr<Model>> {lampModel}, Transformation() };
-		object.transform.position = Vec3(1.0f, 0.0f, 0.0);
-		object.transform.Rotate(Vec3(90, 0, 0));
-		object2.transform.position = Vec3(0.0f, 1.0f, 0.0);
-		object3.transform.position = Vec3(0, 2.0f, 0 );
-		object3.transform.scale = Vec3(0.1f, 0.1f, 0.1f);
-		*/
 
 		//ECS TEST
 		{
@@ -93,11 +57,16 @@ int main()
 			mesh.objectPath = "../../resource/full_model/backpack.obj";
 			backpack.AddComponent<Mesh>(mesh);
 			backpack.Debug();
-			
+			backpack.GetComponent<Transform>().RotateDeg({ 0, 0, 180 });
+			backpack.GetComponent<Transform>().scale = { 0.5, 0.5, 0.5 };
+
 			Entity backpack2 = universe.CreateEntity("a backpack 2");
 			backpack2.AddComponent<Mesh>(mesh);
 			backpack2.GetComponent<Transform>().position = { 1, 1, 1 };
+			//backpack2.GetComponent<Transform>().RotateDeg({ 0, 0, 190});
 
+			//backpack.AttachChild(backpack2);
+			backpack.GetComponent<Transform>().scale = { 1, 1, 1 };
 
 			universe.MemoryDebug();
 
@@ -115,6 +84,22 @@ int main()
 				double y = e.GetParam<double>(MOUSE_EVENT::PARAMS::MOUSE_Y);
 				PRINT("mouse move, x", x, "y", y);
 			});
+
+			universe.AddEventListener(KEYBOARD_EVENT::KEYBOARD_PRESS, [&backpack, &backpack2](Event& e)
+			{
+				unsigned int key = e.GetParam<unsigned int>(KEYBOARD_EVENT::PARAMS::KEYBOARD_BUTTON);
+				if (key == GLFW_KEY_T)
+				{
+					backpack.AttachChild(backpack2);
+					backpack2.GetComponent<Transform>().scale = { 0.1, 0.1, 0.1 };
+				}
+				if (key == GLFW_KEY_Y)
+				{
+					backpack.RemoveChild(backpack2);
+					backpack2.GetComponent<Transform>().scale = { 1, 1, 1 };
+				}
+			});
+
 
 			universe.AddEventListener(KEYBOARD_EVENT::KEYBOARD_PRESS, [](Event& e)
 			{

@@ -25,13 +25,12 @@ Model::Model(std::string path)
 	ProcessNode(scene->mRootNode, scene);
 }
 
-void Model::Draw(Matrix4 proj, Matrix4 view, Transform t)
+void Model::Draw(Matrix4 proj, Matrix4 view, Matrix4 model)
 {
 	//m_models[objPath].m_shader->SetUniformMat4x4("projection", projection);
-	Matrix4 modelMatrix = t.GetTransform();
 	for (auto& i : m_meshes)
 	{
-		i.Draw(proj, view, modelMatrix);
+		i.Draw(proj, view, model);
 	}
 }
 

@@ -5,6 +5,7 @@
 #include "SystemManager.h"
 #include "EventManager.h"
 #include "components/EntityName.h"
+#include "components/Node.h"
 
 #ifdef __INTELLISENSE__
 #pragma diag_suppress 26444
@@ -102,7 +103,7 @@ public:
 
 	}
 
-	Entity(Entity& ent): id(ent.id), m_universe(ent.m_universe)
+	Entity(const Entity& ent): id(ent.id), m_universe(ent.m_universe)
 	{
 		
 	}
@@ -188,6 +189,30 @@ public:
 		m_universe->m_entityManager->SetSignature(id, objectCompSig);
 	}
 
+	void AttachChild(Entity entity)
+	{
+		Node& parentNode = GetComponent<Node>();
+		Node& childNode = entity.GetComponent<Node>();
+		if (ContainChild(entity))
+		{
+			return;
+		}
+		childNode.parent = id; //set parent in the child
+		parentNode.childs.push_back(entity); //then push the child to parent child list
+	}
+
+	void RemoveChild(Entity entity)
+	{
+		Node& parentNode = GetComponent<Node>();
+		Node& childNode = entity.GetComponent<Node>();
+		if (!ContainChild(entity))
+		{
+			return;
+		}
+		childNode.parent = INVALID_ENTITY; //set parent in the none
+		parentNode.childs.erase(std::remove(parentNode.childs.begin(), parentNode.childs.end(), entity)); //then remove the child from parent child list
+	}
+
 	template<typename SYSTEM_TYPE>
 	void RemoveFromSystem()
 	{
@@ -204,6 +229,32 @@ public:
 		ComponentSignature objectCompSig = m_universe->m_entityManager->GetSignature(id);
 		objectCompSig = objectCompSig & m_universe->m_systemManager->GetSignature<SYSTEM_TYPE>();
 		m_universe->m_entityManager->SetSignature(id, objectCompSig);
+	}
+
+	EntityId const GetId() const { return id; }
+	
+	bool ContainChild(Entity child)
+	{
+		//search recursively (DFS)
+		Node& parentNode = GetComponent<Node>();
+		bool doesntExistInParent = std::find(parentNode.childs.begin(), parentNode.childs.end(), child) == parentNode.childs.end();
+		for (auto c : parentNode.childs)
+		{
+			bool doesntExistInChildren = c.ContainChild(child);
+			doesntExistInParent |= doesntExistInChildren;
+		}
+		return !doesntExistInParent;
+	}
+
+	void Destroy()
+	{
+		Node &parentNode = GetComponent<Node>();
+		for (auto child : parentNode.childs)
+		{
+			child.Destroy();
+		}
+
+		m_universe->m_entityManager->DestroyEntity(id);
 	}
 
 	/// O(N*2) operation!

@@ -16,7 +16,7 @@ public:
 	void Tick();
 private:
 	bool RenderModel(std::string objPath, Transform entityTransform);
-	
+	bool Render(EntityId e, Matrix4 model);
 	std::unordered_map<std::string, Model> m_models;
 	Entity m_camera;
 	bool m_isFirstTick = true;

@@ -184,5 +184,8 @@
     <ClInclude Include="include\core\MeshData.h">
       <Filter>include\core</Filter>
     </ClInclude>
+    <ClInclude Include="include\components\Node.h">
+      <Filter>include\component</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

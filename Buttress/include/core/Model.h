@@ -12,7 +12,7 @@ class Model
 public:
 	Model() {}
 	Model(std::string path);
-	void Draw(Matrix4 proj, Matrix4 view, Transform t);
+	void Draw(Matrix4 proj, Matrix4 view, Matrix4 model);
 	static std::shared_ptr<Shader> defaultShader;
 private:
 	void ProcessNode(aiNode *node, const aiScene *scene);

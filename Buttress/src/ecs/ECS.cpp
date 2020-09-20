@@ -3,6 +3,7 @@
 #include "components/EntityName.h"
 #include "components/Camera.h"
 #include "components/Transform.h"
+#include "components/Node.h"
 #include "system/RenderSystem.h"
 #include "system/EntityNameCheckSystem.h"
 
@@ -22,6 +23,7 @@ Entity Universe::CreateEntity(std::string name)
 	Transform t;
 	ent.AddComponent<EntityName>(entityName);
 	ent.AddComponent<Transform>(t);
+	ent.AddComponent<Node>(Node());
 	return ent;
 #pragma warning (pop)
 }
@@ -45,7 +47,7 @@ Universe::Universe()
 	m_componentManager->RegisterComponent<Transform>();
 	m_componentManager->RegisterComponent<Mesh>();
 	m_componentManager->RegisterComponent<Camera>();
-	
+	m_componentManager->RegisterComponent<Node>();
 	//for name check
 	m_systemManager->RegisterSystem<EntityNameCheckSystem>(this);
 	ComponentSignature nameSig;
@@ -57,6 +59,7 @@ Universe::Universe()
 	ComponentSignature nameSig2;
 	nameSig2.set(m_componentManager->GetComponentType<Transform>());
 	nameSig2.set(m_componentManager->GetComponentType<Mesh>());
+	nameSig2.set(m_componentManager->GetComponentType<Node>());
 	m_systemManager->SetSignature<RenderSystem>(nameSig2);
 
 	//for camera system
