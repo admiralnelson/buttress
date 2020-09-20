@@ -93,7 +93,7 @@ int main()
 			mesh.objectPath = "../../resource/full_model/backpack.obj";
 			backpack.AddComponent<Mesh>(mesh);
 			backpack.Debug();
-
+			
 			universe.MemoryDebug();
 
 			//register an event listener
@@ -103,6 +103,15 @@ int main()
 				unsigned int width = e.GetParam<unsigned int>(WINDOW_EVENT::PARAMS::PARAM_WIDTH);
 				PRINT("window on resize, w", width, "h", height);
 			});
+
+			universe.AddEventListener(MOUSE_EVENT::MOUSE_MOVE, [](Event& e)
+			{
+				double x = e.GetParam<double>(MOUSE_EVENT::PARAMS::MOUSE_X);
+				double y = e.GetParam<double>(MOUSE_EVENT::PARAMS::MOUSE_Y);
+				PRINT("mouse move, x", x, "y", y);
+			});
+
+
 
 			b.Start(&universe);
 		}

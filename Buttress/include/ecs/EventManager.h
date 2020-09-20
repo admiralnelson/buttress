@@ -12,7 +12,15 @@ namespace WINDOW_EVENT
 		const EventId PARAM_HEIGHT = 2;
 	}
 }
-const EventId MOUSE_MOVEMENT = 3;
+namespace MOUSE_EVENT
+{
+	const EventId MOUSE_MOVE = 3;
+	namespace PARAMS
+	{
+		const EventId MOUSE_X = 4;
+		const EventId MOUSE_Y = 5;
+	}
+}
 const EventId KEYBOARD_MOVEMENT = 4;
 
 class Event

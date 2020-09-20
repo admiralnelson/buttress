@@ -16,13 +16,12 @@ struct EntityName;
 class Universe
 {
 	friend class Entity;
+	friend class Buttress;
 public:
 	Entity CreateEntity(std::string name);
 	Entity QueryByEntityId(EntityId id);
 	Entity QueryByName(std::string name);
 	
-	void Render(float dt);
-
 	template<typename COMPONENT_TYPE>
 	void RegisterComponent()
 	{
@@ -83,6 +82,7 @@ public:
 	}
 
 private:
+	void Render(float dt);
 
 	std::unique_ptr<ComponentManager> m_componentManager = std::make_unique<ComponentManager>();
 	std::unique_ptr<EntityManager> m_entityManager       = std::make_unique<EntityManager>();
@@ -118,7 +118,7 @@ public:
 	//	return ent;
 	//}
 
-
+	// id could be stale!
 	bool IsValid()
 	{
 		return id != INVALID_ENTITY && m_universe != nullptr;

@@ -24,17 +24,12 @@ void Material::Use()
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, diffuse->m_textureNo);
 	}
-	else if(shader->IsAttributeDefined(UNIFORM_SAMPLER2D_DIFFUSE))
-	{
-		PRINT("WARNING", "material", name, "diffuse is not assigned!");
-		return;
-	}
 	else
 	{
 		// do nothing
 		return;
 	}
-	if (specular != nullptr)
+	if (specular != nullptr && shader->IsAttributeDefined(UNIFORM_SAMPLER2D_SPECULAR))
 	{
 		shader->SetUniformValueI(UNIFORM_SAMPLER2D_SPECULAR, 1);
 		glActiveTexture(GL_TEXTURE1);
