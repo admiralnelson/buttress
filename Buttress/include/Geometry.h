@@ -13,13 +13,6 @@ typedef glm::tvec3<float> Vec3;
 typedef glm::quat Quaternion;
 typedef glm::mat4x4 Matrix4;
 
-struct Vertex
-{
-	Vec3 position = {0,0,0};
-	Vec3 normal = { 0,0,0 };
-	Vec2 uv = { 0,0 };
-};
-
 Matrix4 Rotate(Matrix4 &input, Vec3 axis);
 Vec3 Quaternion2RotationEuler(Quaternion &input);
 Vec3 Quaternion2RotationEulerDeg(Quaternion &input);

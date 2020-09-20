@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "core/MeshData.h"
 
-MeshData::MeshData(std::vector<Vertex> verts, std::vector<unsigned int> indices, Material mat)
+MeshData::MeshData(std::vector<Vertex> verts, std::vector<unsigned int> indices, std::vector<VertexBoneData> bones, Material mat)
 {
 	MeshHandle meshData;
 	m_material = mat;
@@ -29,6 +29,9 @@ MeshData::MeshData(std::vector<Vertex> verts, std::vector<unsigned int> indices,
 	glEnableVertexArrayAttrib(meshData.vao, m_material.shader->GetAttributeLocation(ATTRIBUTE_NORMAL));
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(2 * sizeof(Vec3)));
 	glEnableVertexArrayAttrib(meshData.vao, m_material.shader->GetAttributeLocation(ATTRIBUTE_UV));
+
+	//for animation?
+	//glVertexAttribIPointer()
 
 	glBindVertexArray(0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);

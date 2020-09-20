@@ -13,6 +13,7 @@ Model::Model(std::string path)
 		PRINT("     ", "reason:", importer.GetErrorString());
 		return;
 	}
+	
 
 	if (m_path.find("/") != std::string::npos)
 	{
@@ -51,6 +52,7 @@ MeshData Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 {
 	std::vector<Vertex> vertices;
 	std::vector<unsigned int> indices;
+	std::vector<VertexBoneData> bones;
 	Material material;
 
 	//vertices
@@ -82,11 +84,25 @@ MeshData Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 		}
 	}
 
+	//TODO: PARSE the bones.
+	//bones
+	for (size_t i = 0; i < mesh->mNumBones; i++)
+	{
+		unsigned int boneIdx = 0;
+		std::string boneName = mesh->mBones[i]->mName.C_Str();
+		if (m_boneNameToIndex.find(boneName) == m_boneNameToIndex.end())
+		{
+			boneIdx = m_numberOfBones;
+			m_numberOfBones++;
+		}
+	}
+
 	//materials
 	aiMaterial* aimaterial = scene->mMaterials[mesh->mMaterialIndex];
 	material = ProcessMaterial(aimaterial, aimaterial->GetName().C_Str());
 	material.shader = defaultShader;
-	return MeshData(vertices, indices, material);
+	
+	return MeshData(vertices, indices, bones, material);
 }
 
 Material Model::ProcessMaterial(aiMaterial* material, std::string name)

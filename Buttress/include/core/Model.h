@@ -6,6 +6,29 @@
 #include "assimp/postprocess.h"
 #include "assimp/scene.h"
 #include "components/Transform.h"
+
+#define NUM_BONES_PER_VERTEX 10
+
+struct Vertex
+{
+	Vec3 position = { 0,0,0 };
+	Vec3 normal = { 0,0,0 };
+	Vec2 uv = { 0,0 };
+};
+
+struct VertexBoneData
+{
+	unsigned int ids[NUM_BONES_PER_VERTEX];
+	float weights[NUM_BONES_PER_VERTEX];
+};
+
+struct BoneInfo
+{
+	Matrix4 boneOffset = Matrix4();
+	Matrix4 finalTransformation = Matrix4();
+};
+
+class MeshData;
 class Model
 {
 	friend class RenderSystem;
@@ -21,6 +44,7 @@ private:
 	std::vector<MeshData> m_meshes;
 	std::string m_path;
 	std::shared_ptr<Shader> m_shader;
-	static std::unordered_map<std::string, Model> m_cachedModels;
+	std::map<std::string, unsigned int> m_boneNameToIndex;
+	unsigned int m_numberOfBones = 0;
 
 };
