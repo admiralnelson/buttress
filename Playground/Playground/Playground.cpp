@@ -94,6 +94,11 @@ int main()
 			backpack.AddComponent<Mesh>(mesh);
 			backpack.Debug();
 			
+			Entity backpack2 = universe.CreateEntity("a backpack 2");
+			backpack2.AddComponent<Mesh>(mesh);
+			backpack2.GetComponent<Transform>().position = { 1, 1, 1 };
+
+
 			universe.MemoryDebug();
 
 			//register an event listener
@@ -147,83 +152,6 @@ int main()
 			b.Start(&universe);
 		}
 
-
-
-		/*
-		int err = 0;
-		cam->speed = 30;
-		
-		b.OnLoop = [&]()
-		{
-			object.Draw();
-			object2.Draw();
-			object3.Draw();
-			err = glGetError();
-			if (err)
-			{
-				PRINT("error");
-			}
-		};
-
-
-		b.OnShutdown = [&]()
-		{
-
-		};
-
-		bool firstMouse = false;
-		float x = 0, y = 0;
-		int tapKey = 0;
-
-		Input::Instance().RegisterKey("pressW", GLFW_KEY_W, [&](int key, float dT)
-		{
-			cam->Move(Camera::FORWARD, dT);
-		});
-		Input::Instance().RegisterKey("pressA", GLFW_KEY_A, [&](int key, float dT)
-		{
-			cam->Move(Camera::LEFT, dT);
-		});
-		Input::Instance().RegisterKey("pressD", GLFW_KEY_D, [&](int key, float dT)
-		{
-			cam->Move(Camera::RIGHT, dT);
-		});
-		Input::Instance().RegisterKey("pressS", GLFW_KEY_S, [&](int key, float dT)
-		{
-			cam->Move(Camera::BACKWARD, dT);
-		});
-
-
-		b.OnStart = [&]()
-		{
-			//Camera& camera = cam.get;
-			bool& mouse = firstMouse;
-			float& lastX = x, &lastY = y;
-			Bus::Instance().AddReceiver("key", "mouse" , [&](Message& m)
-			{
-				PRINT("mouse", m.inputEvent.x);
-				PRINT("mouse", m.inputEvent.y);
-				
-				if (firstMouse)
-				{
-					lastX = m.inputEvent.x;
-					lastY = m.inputEvent.y;
-					firstMouse = false;
-				}
-
-				float xoffset = m.inputEvent.x - lastX;
-				float yoffset = lastY - m.inputEvent.y; // reversed since y-coordinates go from bottom to top
-
-				lastX = m.inputEvent.x;
-				lastY = m.inputEvent.y;
-
-				cam->MouseLook(Vec2((float)xoffset, (float)yoffset));
-				//cam.Debug(); //causes input lag!
-			});
-
-			return true;
-		};
-
-		b.Start();*/
 	}
 	_CrtDumpMemoryLeaks();
 	

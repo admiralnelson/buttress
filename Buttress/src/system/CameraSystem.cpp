@@ -61,7 +61,7 @@ void CameraSystem::MouseLook(Vec2 deltaPos, bool lockPitch)
 		m_mainCamera.GetComponent<Transform>().RotateDeg(rotation);
 
 		UpdateVectors();
-		Debug();
+		
 	}
 	else
 	{
@@ -72,33 +72,7 @@ void CameraSystem::MouseLook(Vec2 deltaPos, bool lockPitch)
 
 void CameraSystem::Move(Direction dir, float dt)
 {
-	if (m_mainCamera.IsValid())
-	{
-		Transform &transform = m_mainCamera.GetComponent<Transform>();
-		float velocity = speed * dt;
-		switch (dir)
-		{
-		case CameraSystem::FORWARD:
-			transform.position += transform.front * velocity;
-			break;
-		case CameraSystem::BACKWARD:
-			transform.position -= transform.front * velocity;
-			break;
-		case CameraSystem::LEFT:
-			transform.position -= transform.right * velocity;
-			break;
-		case CameraSystem::RIGHT:
-			transform.position += transform.right * velocity;
-			break;
-		default:
-			break;
-		}
-	}
-	else
-	{
-		m_mainCamera = FindPrimaryCamera();
-		Move(dir, dt);
-	}
+	
 }
 
 void CameraSystem::MouseZoom(float dy)

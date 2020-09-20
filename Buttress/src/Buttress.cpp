@@ -94,25 +94,32 @@ void Buttress::Start(Universe *universe)
 
 	PRINT("CURRENT DIRECTORY:", m_currentDirectory);
 	
-	float frameBegin = 0;
-	float frameEnd = 0;
-	double lasttime = glfwGetTime();
+	double currentTime = glfwGetTime();
+	double lastTime = 0;
+	double accumulateDt = 0;
+	int frameCount = 0;
 	glEnable(GL_DEPTH_TEST);
 	while (!glfwWindowShouldClose(m_window.get()))
 	{
-		frameBegin = glfwGetTime();
-		float deltaTime = frameBegin - frameEnd;
-		frameEnd = frameBegin;
+		currentTime = glfwGetTime();
+		double delta = currentTime - lastTime;
+		accumulateDt += delta;
+		frameCount++;
+		if (accumulateDt >= 1)
+		{
+			glfwSetWindowTitle(m_window.get(), (const char*)std::to_string(frameCount).c_str());
+			frameCount = 0;
+			accumulateDt = 0;
+		}
+
 		glClearColor(0.3, 0.4, 0.3, 1.0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
-		m_universe->Render(deltaTime);
+		m_universe->Render(delta);
 
 		glfwSwapBuffers(m_window.get());
 		glfwPollEvents();
-		while (glfwGetTime() < lasttime + 1.0 / 60) {
-		}
-		lasttime += 1.0 / 60;
+		lastTime = currentTime;
 	}
 	Shutdown();
 }
