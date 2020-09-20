@@ -111,7 +111,38 @@ int main()
 				PRINT("mouse move, x", x, "y", y);
 			});
 
+			universe.AddEventListener(KEYBOARD_EVENT::KEYBOARD_PRESS, [](Event& e)
+			{
+				unsigned int key = e.GetParam<unsigned int>(KEYBOARD_EVENT::PARAMS::KEYBOARD_BUTTON);
+				PRINT("keyboard press", key);
+			});
 
+			universe.AddEventListener(KEYBOARD_EVENT::KEYBOARD_PRESS, [&](Event &e)
+			{
+				float speed = 2.5;
+				float dt = universe.GetLastDeltaTime();
+				unsigned int keyPress = e.GetParam<unsigned int>(KEYBOARD_EVENT::PARAMS::KEYBOARD_BUTTON);
+				Transform& transform = ent.GetComponent<Transform>();
+				float velocity = speed * dt;
+				switch (keyPress)
+				{
+				case GLFW_KEY_W:
+					transform.position += transform.front * velocity;
+					break;
+				case GLFW_KEY_S:
+					transform.position -= transform.front * velocity;
+					break;
+				case GLFW_KEY_A:
+					transform.position -= transform.right * velocity;
+					break;
+				case GLFW_KEY_D:
+					transform.position += transform.right * velocity;
+					break;
+				default:
+					break;
+				}
+			});
+			
 
 			b.Start(&universe);
 		}

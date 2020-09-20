@@ -21,7 +21,14 @@ namespace MOUSE_EVENT
 		const EventId MOUSE_Y = 5;
 	}
 }
-const EventId KEYBOARD_MOVEMENT = 4;
+namespace KEYBOARD_EVENT
+{
+	const EventId KEYBOARD_PRESS = 6;
+	namespace PARAMS
+	{
+		const EventId KEYBOARD_BUTTON = 7;
+	}
+}
 
 class Event
 {

@@ -74,9 +74,10 @@ void Buttress::Start(Universe *universe)
 
 	auto keyEvent = [](GLFWwindow* window, int key, int scancode, int action, int mods)
 	{
-		//instance->universe->sendevent...mouse event, x, y
-		//Input::Instance().TickMouse(window, x, y);
-		//Input::Instance().TickKey(window, key, scancode, action, mods);
+		Buttress* instance = reinterpret_cast<Buttress*>(glfwGetWindowUserPointer(window));
+		Event event(KEYBOARD_EVENT::KEYBOARD_PRESS);
+		event.SetParam<unsigned int>(KEYBOARD_EVENT::PARAMS::KEYBOARD_BUTTON, (unsigned int)key);
+		instance->GetUniverse()->SendEvent(event);
 	};
 
 	glfwSetKeyCallback(m_window.get(), keyEvent);

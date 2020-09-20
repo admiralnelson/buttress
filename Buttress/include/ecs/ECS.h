@@ -81,6 +81,8 @@ public:
 		m_systemManager->MemoryDebug();
 	}
 
+	float GetLastDeltaTime() const { return m_lastDt; }
+
 private:
 	void Render(float dt);
 

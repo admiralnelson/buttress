@@ -29,6 +29,7 @@ public:
 	float sensitivity = 0.1;
 	float speed = 2.5;
 	float fov = 45;
+	bool allowMouseLook = false;
 private:
 	void UpdateVectors();
 	static float ClampAngle(float angle, float min, float max)

@@ -4,10 +4,34 @@
 void CameraSystem::Init(Universe* universe)
 {
 	m_universe = universe;
+	static bool firstMouse = false;
+	static double lastX = 0;
+	static double lastY = 0;
+	universe->AddEventListener(MOUSE_EVENT::MOUSE_MOVE, [&](Event& e)
+	{
+		double x = e.GetParam<double>(MOUSE_EVENT::PARAMS::MOUSE_X);
+		double y = e.GetParam<double>(MOUSE_EVENT::PARAMS::MOUSE_Y);
+		if (firstMouse)
+		{
+			lastX = x;
+			lastY = y;
+			firstMouse = false;
+		}
+
+		float xoffset = x - lastX;
+		float yoffset = lastY - y; // reversed since y-coordinates go from bottom to top
+
+		lastX = x;
+		lastY = y;
+
+		MouseLook({ xoffset, yoffset });
+	});
+
 }
 
 void CameraSystem::SetupCamera(float fov, Vec2 windowDimension)
 {
+	if (!allowMouseLook) return;
 	this->windowDimension = windowDimension;
 	this->fov = fov;
 	for (auto const& i : m_entity)
