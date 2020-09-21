@@ -4,7 +4,7 @@
 #include "components/Mesh.h"
 #include "system/CameraSystem.h"
 #include "core/Material.h"
-#include "core/Model.h"
+#include "core/ModelData.h"
 #include "glad/glad.h"
 #include "components/Transform.h"
 class Universe;
@@ -17,7 +17,7 @@ public:
 private:
 	bool RenderModel(std::string objPath, Transform entityTransform);
 	bool Render(EntityId e, Matrix4 model);
-	std::unordered_map<std::string, Model> m_models;
+	std::unordered_map<std::string, ModelData> m_models;
 	Entity m_camera;
 	bool m_isFirstTick = true;
 };

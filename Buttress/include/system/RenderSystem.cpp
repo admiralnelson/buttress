@@ -32,7 +32,7 @@ bool RenderSystem::RenderModel(std::string objPath, Transform entityTransform)
 {
 	if (m_models.find(objPath) == m_models.end())
 	{
-		m_models[objPath] = Model(objPath);
+		m_models[objPath] = ModelData(objPath);
 	}
 	//set the camera projection & view
 	Matrix4 projection;
@@ -56,7 +56,7 @@ bool RenderSystem::Render(EntityId e, Matrix4 model)
 	Mesh mesh = m_universe->QueryByEntityId(e).GetComponent<Mesh>();
 	if (m_models.find(mesh.objectPath) == m_models.end())
 	{
-		m_models[mesh.objectPath] = Model(mesh.objectPath);
+		m_models[mesh.objectPath] = ModelData(mesh.objectPath);
 	}
 	//set the camera projection & view
 	Matrix4 projection;

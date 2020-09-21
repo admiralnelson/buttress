@@ -101,10 +101,13 @@
     <ClCompile Include="include\components\Transform.cpp">
       <Filter>include\component</Filter>
     </ClCompile>
-    <ClCompile Include="src\core\Model.cpp">
+    <ClCompile Include="src\core\MeshData.cpp">
       <Filter>src\core</Filter>
     </ClCompile>
-    <ClCompile Include="src\core\MeshData.cpp">
+    <ClCompile Include="src\system\AnimationSystem.cpp">
+      <Filter>src\system</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\ModelData.cpp">
       <Filter>src\core</Filter>
     </ClCompile>
   </ItemGroup>
@@ -175,9 +178,6 @@
     <ClInclude Include="include\core\Texture.h">
       <Filter>include\core</Filter>
     </ClInclude>
-    <ClInclude Include="include\core\Model.h">
-      <Filter>include\core</Filter>
-    </ClInclude>
     <ClInclude Include="include\components\Transform.h">
       <Filter>include\component</Filter>
     </ClInclude>
@@ -186,6 +186,12 @@
     </ClInclude>
     <ClInclude Include="include\components\Node.h">
       <Filter>include\component</Filter>
+    </ClInclude>
+    <ClInclude Include="include\system\AnimationSystem.h">
+      <Filter>include\system</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\ModelData.h">
+      <Filter>include\core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

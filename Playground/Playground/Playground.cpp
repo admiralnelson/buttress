@@ -5,7 +5,7 @@
 #include <PrimitiveDraw.h>
 #include <Buttress.h>
 #include <core\Texture.h>
-#include <core\Model.h>
+#include <core\ModelData.h>
 #include <Util.h>
 #include <Geometry.h>
 #include <Object.h>
@@ -38,7 +38,7 @@ int main()
 		lampIndicatorShader->Validate();
 		lampIndicatorShader->Debug();
 
-		Model::defaultShader = baseShader;
+		ModelData::defaultShader = baseShader;
 
 		//ECS TEST
 		{

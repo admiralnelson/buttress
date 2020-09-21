@@ -4,12 +4,12 @@
 #include "Material.h"
 #include "Shader.h"
 #include "components/Transform.h"
-#include "core/Model.h"
+#include "core/ModelData.h"
 
 struct Vertex;
 struct VertexBoneData;
 struct BoneInfo;
-class Model;
+class ModelData;
 class MeshData
 {
 public:

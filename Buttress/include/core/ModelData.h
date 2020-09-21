@@ -31,12 +31,12 @@ struct BoneInfo
 };
 
 class MeshData;
-class Model
+class ModelData
 {
 	friend class RenderSystem;
 public:
-	Model() {}
-	Model(std::string path);
+	ModelData() {}
+	ModelData(std::string path);
 	void Draw(Matrix4 proj, Matrix4 view, Matrix4 model);
 	static std::shared_ptr<Shader> defaultShader;
 private:
@@ -49,5 +49,4 @@ private:
 	std::map<std::string, unsigned int> m_boneNameToIndex;
 	std::vector<BoneInfo> m_boneInfos;
 	unsigned int m_numberOfBones = 0;
-
 };

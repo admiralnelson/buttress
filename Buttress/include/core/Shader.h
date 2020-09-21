@@ -15,7 +15,7 @@
 
 class Shader
 {
-	friend class Model;
+	friend class ModelData;
 public:
 	Shader(std::string _name);
 	std::string name;

@@ -25,7 +25,7 @@
     <ClCompile Include="src\Buttress.cpp" />
     <ClCompile Include="src\core\Material.cpp" />
     <ClCompile Include="src\core\MeshData.cpp" />
-    <ClCompile Include="src\core\Model.cpp" />
+    <ClCompile Include="src\core\ModelData.cpp" />
     <ClCompile Include="src\core\Shader.cpp" />
     <ClCompile Include="src\core\Texture.cpp" />
     <ClCompile Include="src\ecs\ECS.cpp" />
@@ -35,6 +35,7 @@
     <ClCompile Include="src\Geometry.cpp" />
     <ClCompile Include="src\Object.cpp" />
     <ClCompile Include="src\PrimitiveDraw.cpp" />
+    <ClCompile Include="src\system\AnimationSystem.cpp" />
     <ClCompile Include="src\system\CameraSystem.cpp" />
     <ClCompile Include="src\system\EntityNameCheckSystem.cpp" />
     <ClCompile Include="src\Util.cpp" />
@@ -48,7 +49,7 @@
     <ClInclude Include="include\components\Transform.h" />
     <ClInclude Include="include\core\Material.h" />
     <ClInclude Include="include\core\MeshData.h" />
-    <ClInclude Include="include\core\Model.h" />
+    <ClInclude Include="include\core\ModelData.h" />
     <ClInclude Include="include\core\Shader.h" />
     <ClInclude Include="include\core\Texture.h" />
     <ClInclude Include="include\ecs\ComponentManager.h" />
@@ -62,6 +63,7 @@
     <ClInclude Include="include\Object.h" />
     <ClInclude Include="include\PrimitiveDraw.h" />
     <ClInclude Include="include\pch.h" />
+    <ClInclude Include="include\system\AnimationSystem.h" />
     <ClInclude Include="include\system\CameraSystem.h" />
     <ClInclude Include="include\system\EntityNameCheckSystem.h" />
     <ClInclude Include="include\system\RenderSystem.h" />

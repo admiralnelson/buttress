@@ -1,8 +1,8 @@
 #include "pch.h"
-#include "core/Model.h"
+#include "core/ModelData.h"
 
-std::shared_ptr<Shader> Model::defaultShader;
-Model::Model(std::string path)
+std::shared_ptr<Shader> ModelData::defaultShader;
+ModelData::ModelData(std::string path)
 {
 	m_path = path;
 	Assimp::Importer importer;
@@ -26,7 +26,7 @@ Model::Model(std::string path)
 	ProcessNode(scene->mRootNode, scene);
 }
 
-void Model::Draw(Matrix4 proj, Matrix4 view, Matrix4 model)
+void ModelData::Draw(Matrix4 proj, Matrix4 view, Matrix4 model)
 {
 	//m_models[objPath].m_shader->SetUniformMat4x4("projection", projection);
 	for (auto& i : m_meshes)
@@ -35,7 +35,7 @@ void Model::Draw(Matrix4 proj, Matrix4 view, Matrix4 model)
 	}
 }
 
-void Model::ProcessNode(aiNode* node, const aiScene* scene)
+void ModelData::ProcessNode(aiNode* node, const aiScene* scene)
 {
 	for (size_t i = 0; i < node->mNumMeshes; i++)
 	{
@@ -48,14 +48,13 @@ void Model::ProcessNode(aiNode* node, const aiScene* scene)
 	}
 }
 
-MeshData Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
+MeshData ModelData::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 {
 	std::vector<Vertex> vertices;
 	std::vector<unsigned int> indices;
 	std::vector<VertexBoneData> bones;
 	Material material;
 
-	bones.resize(mesh->mNumVertices);
 	//vertices
 	for (size_t i = 0; i < mesh->mNumVertices; i++)
 	{
@@ -87,6 +86,7 @@ MeshData Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 
 	//TODO: PARSE the bones.
 	//bones
+
 	for (size_t i = 0; i < mesh->mNumBones; i++)
 	{
 		unsigned int boneIdx = 0;
@@ -105,7 +105,7 @@ MeshData Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 			boneIdx = m_boneNameToIndex[boneName];
 		}
 
-		VertexBoneData boneData;
+		VertexBoneData boneData{};
 		boneData.ids.fill(0);
 		boneData.weights.fill(0);
 		for (size_t j = 0; j < mesh->mBones[i]->mNumWeights; j++)
@@ -125,7 +125,7 @@ MeshData Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 	return MeshData(vertices, indices, bones, material);
 }
 
-Material Model::ProcessMaterial(aiMaterial* material, std::string name)
+Material ModelData::ProcessMaterial(aiMaterial* material, std::string name)
 {
 	//load diffuse
 	std::shared_ptr<TextureData> diffuse;
