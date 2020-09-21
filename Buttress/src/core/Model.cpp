@@ -55,6 +55,7 @@ MeshData Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 	std::vector<VertexBoneData> bones;
 	Material material;
 
+	bones.resize(mesh->mNumVertices);
 	//vertices
 	for (size_t i = 0; i < mesh->mNumVertices; i++)
 	{
@@ -94,6 +95,25 @@ MeshData Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 		{
 			boneIdx = m_numberOfBones;
 			m_numberOfBones++;
+			BoneInfo info;
+			m_boneInfos.push_back(info);
+			m_boneInfos[boneIdx].boneOffset = aiMatrix4x4ToMatrix4(mesh->mBones[i]->mOffsetMatrix);
+			m_boneNameToIndex[boneName] = boneIdx;
+		}
+		else
+		{
+			boneIdx = m_boneNameToIndex[boneName];
+		}
+
+		VertexBoneData boneData;
+		boneData.ids.fill(0);
+		boneData.weights.fill(0);
+		for (size_t j = 0; j < mesh->mBones[i]->mNumWeights; j++)
+		{	
+			float weight = mesh->mBones[i]->mWeights[j].mWeight;
+			boneData.ids[j] = mesh->mBones[i]->mWeights[j].mVertexId; 
+			boneData.weights[j] = mesh->mBones[i]->mWeights[j].mWeight;
+			bones.push_back(boneData);
 		}
 	}
 

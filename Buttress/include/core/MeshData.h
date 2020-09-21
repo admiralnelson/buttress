@@ -24,6 +24,7 @@ private:
 		GLuint vao;
 		GLuint vbo;
 		GLuint ibo;
+		GLuint vertexBonesO;
 		GLuint indexSize;
 	};
 

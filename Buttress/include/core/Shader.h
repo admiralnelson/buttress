@@ -5,6 +5,8 @@
 #define ATTRIBUTE_POS "aPos"
 #define ATTRIBUTE_NORMAL "aNormal"
 #define ATTRIBUTE_UV "aUv"
+#define ATTRIBUTE_BONE_IDS "aBoneIds"
+#define ATTRIBUTE_BONE_WEIGHTS "aWeights"
 
 #define UNIFORM_SAMPLER2D_DIFFUSE "material.diffuse"
 #define UNIFORM_SAMPLER2D_SPECULAR "material.specular"

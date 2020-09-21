@@ -7,7 +7,9 @@
 #include "assimp/scene.h"
 #include "components/Transform.h"
 
-#define NUM_BONES_PER_VERTEX 10
+const unsigned int MAX_BONES = 100;
+#define NUM_BONES_PER_VERTEX 4
+
 
 struct Vertex
 {
@@ -18,8 +20,8 @@ struct Vertex
 
 struct VertexBoneData
 {
-	unsigned int ids[NUM_BONES_PER_VERTEX];
-	float weights[NUM_BONES_PER_VERTEX];
+	std::array<unsigned int, NUM_BONES_PER_VERTEX> ids;
+	std::array<float, NUM_BONES_PER_VERTEX> weights;
 };
 
 struct BoneInfo
@@ -45,6 +47,7 @@ private:
 	std::string m_path;
 	std::shared_ptr<Shader> m_shader;
 	std::map<std::string, unsigned int> m_boneNameToIndex;
+	std::vector<BoneInfo> m_boneInfos;
 	unsigned int m_numberOfBones = 0;
 
 };

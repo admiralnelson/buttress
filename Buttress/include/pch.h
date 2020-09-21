@@ -36,6 +36,8 @@
 #include <cstdlib>
 #include <crtdbg.h>
 
+#define ARRAY_SIZE_IN_ELEMENTS(a) (sizeof(a)/sizeof(a[0]))
+
 #ifdef _DEBUG
 //#define new new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )
 // Replace _NORMAL_BLOCK with _CLIENT_BLOCK if you want the

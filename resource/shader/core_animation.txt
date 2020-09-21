@@ -1,0 +1,34 @@
+#version 330 core
+layout(location = 0) in vec3 aPos;   
+layout(location = 1) in vec3 aNormal; 
+layout(location = 2) in vec2 aUv; 
+layout(location = 3) in ivec4 aBoneIds;
+layout(location = 4) in vec4 aWeights; 
+
+#define BUTTRESS_CONSTANT_MAX_BONES 100
+
+out vec3 passedNormal; 
+out vec2 passedTexCoord;
+
+uniform mat4 model;
+uniform mat4 view;
+uniform mat4 projection;
+uniform mat4 bones[BUTTRESS_CONSTANT_MAX_BONES];
+
+void main()
+{
+	mat4 boneTransform;
+	boneTransform  = bones[aBoneIds[0]] * aWeights[0];
+	boneTransform += bones[aBoneIds[1]] * aWeights[1];
+	boneTransform += bones[aBoneIds[2]] * aWeights[2];
+	boneTransform += bones[aBoneIds[3]] * aWeights[3];
+
+	vec4 bonedPos = boneTransform * vec4(aPos, 1.0);
+	gl_Position = projection * view * model * bonedPos;
+
+	vec4 bonedNormal = boneTransform * aNormal;
+	passedNormal = mat3(transpose(inverse(model))) * bonedNormal.xyz; 
+
+
+	passedTexCoord = aUv;
+};
