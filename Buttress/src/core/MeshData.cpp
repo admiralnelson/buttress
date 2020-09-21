@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "core/MeshData.h"
 
-MeshData::MeshData(std::vector<Vertex> verts, std::vector<unsigned int> indices, std::vector<VertexBoneData> bones, Material mat)
+MeshData::MeshData(std::vector<Vertex> verts, std::vector<unsigned int> indices, std::vector<VertexBoneData> bones, MaterialData mat)
 {
 	MeshHandle meshData;
 	m_material = mat;

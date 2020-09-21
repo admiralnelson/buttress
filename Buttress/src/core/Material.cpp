@@ -1,13 +1,14 @@
 #include "pch.h"
 #include "core\Material.h"
 
-Material::Material(std::string name, std::shared_ptr<Shader> shader)
+MaterialData::MaterialData(std::string name, std::shared_ptr<Shader> shader)
 {
+	PRINT("loaded material:", name);
 	this->name = name;
 	this->shader = shader;
 }
 
-void Material::Use()
+void MaterialData::Use()
 {
 	if (shader != nullptr)
 	{
@@ -41,12 +42,12 @@ void Material::Use()
 	}
 }
 
-bool Material::IsReady()
+bool MaterialData::IsReady()
 {
 	return (shader != nullptr && shader->IsShaderReady());
 }
 
-void Material::Debug()
+void MaterialData::Debug()
 {
 	PRINT("INFO", "material ready:", IsReady() ? "yes" : "no");
 	PRINT("    ", "material name:", name);

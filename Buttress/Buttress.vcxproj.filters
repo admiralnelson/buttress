@@ -193,5 +193,8 @@
     <ClInclude Include="include\core\ModelData.h">
       <Filter>include\core</Filter>
     </ClInclude>
+    <ClInclude Include="include\core\AnimationData.h">
+      <Filter>include\core</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

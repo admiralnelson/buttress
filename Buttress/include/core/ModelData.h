@@ -6,11 +6,12 @@
 #include "assimp/postprocess.h"
 #include "assimp/scene.h"
 #include "components/Transform.h"
+#include "system/RenderSystem.h"
 
 const unsigned int MAX_BONES = 100;
 #define NUM_BONES_PER_VERTEX 4
 
-
+class RenderSystem;
 struct Vertex
 {
 	Vec3 position = { 0,0,0 };
@@ -31,6 +32,7 @@ struct BoneInfo
 };
 
 class MeshData;
+class MeshLoader;
 class ModelData
 {
 	friend class RenderSystem;
@@ -42,11 +44,12 @@ public:
 private:
 	void ProcessNode(aiNode *node, const aiScene *scene);
 	MeshData ProcessMesh(aiMesh *mesh, const aiScene *scene);
-	Material ProcessMaterial(aiMaterial *material,  std::string name);
-	std::vector<MeshData> m_meshes;
+	MaterialData ProcessMaterial(aiMaterial *material,  std::string name);
+	std::vector<MeshId> m_meshes;
 	std::string m_path;
 	std::shared_ptr<Shader> m_shader;
 	std::map<std::string, unsigned int> m_boneNameToIndex;
 	std::vector<BoneInfo> m_boneInfos;
 	unsigned int m_numberOfBones = 0;
+	RenderSystem* m_renderer;
 };

@@ -8,6 +8,6 @@ struct Mesh
 {
 	friend class RenderSystem;
 	std::string objectPath;
-	std::unordered_map<std::string, std::shared_ptr<Material>> meshMaterialOverrides;
+	std::unordered_map<std::string, std::shared_ptr<MaterialData>> meshMaterialOverrides;
 
 };

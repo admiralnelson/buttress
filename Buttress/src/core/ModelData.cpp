@@ -28,10 +28,11 @@ ModelData::ModelData(std::string path)
 
 void ModelData::Draw(Matrix4 proj, Matrix4 view, Matrix4 model)
 {
+	//TODO: -> instead of drawing, push it to the queue
 	//m_models[objPath].m_shader->SetUniformMat4x4("projection", projection);
 	for (auto& i : m_meshes)
 	{
-		i.Draw(proj, view, model);
+	//	i.Draw(proj, view, model);
 	}
 }
 
@@ -40,7 +41,7 @@ void ModelData::ProcessNode(aiNode* node, const aiScene* scene)
 	for (size_t i = 0; i < node->mNumMeshes; i++)
 	{
 		aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
-		m_meshes.push_back(ProcessMesh(mesh, scene));
+		m_meshes.push_back(MeshLoader::LoadMesh(ProcessMesh(mesh, scene)));
 	}
 	for (size_t i = 0; i < node->mNumChildren; i++)
 	{
@@ -53,7 +54,7 @@ MeshData ModelData::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 	std::vector<Vertex> vertices;
 	std::vector<unsigned int> indices;
 	std::vector<VertexBoneData> bones;
-	Material material;
+	MaterialData material;
 
 	//vertices
 	for (size_t i = 0; i < mesh->mNumVertices; i++)
@@ -117,6 +118,9 @@ MeshData ModelData::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 		}
 	}
 
+	//save animation data & bones to this object
+	aiAnimation;
+
 	//materials
 	aiMaterial* aimaterial = scene->mMaterials[mesh->mMaterialIndex];
 	material = ProcessMaterial(aimaterial, aimaterial->GetName().C_Str());
@@ -125,7 +129,7 @@ MeshData ModelData::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 	return MeshData(vertices, indices, bones, material);
 }
 
-Material ModelData::ProcessMaterial(aiMaterial* material, std::string name)
+MaterialData ModelData::ProcessMaterial(aiMaterial* material, std::string name)
 {
 	//load diffuse
 	std::shared_ptr<TextureData> diffuse;
@@ -146,14 +150,10 @@ Material ModelData::ProcessMaterial(aiMaterial* material, std::string name)
 	spath = m_path + "/" + path.C_Str();
 	normalMaps = TextureLoader::Instance().LoadTexture(spath);
 
-	Material out;
+	MaterialData out(name, m_shader);
 	out.diffuse = diffuse;
 	out.specular = specular;
 	//out.normalmap = ...
-	out.name = material->GetName().C_Str();
-	out.shader = m_shader;
-
-	
 
 	return out;
 }

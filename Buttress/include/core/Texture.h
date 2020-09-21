@@ -5,7 +5,7 @@
 
 class TextureData
 {
-	friend class Material;
+	friend class MaterialData;
 	friend class TextureLoader;
 public:
 	TextureData() {}

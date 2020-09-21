@@ -23,34 +23,43 @@ void RenderSystem::Tick()
 		//draw the parent
 		if (node.parent == INVALID_ENTITY)
 		{
-			Render(e, transform.GetTransform());
+			TraverseGraphForRender(e, transform.GetTransform());
 		}
 	}
 }
 
-bool RenderSystem::RenderModel(std::string objPath, Transform entityTransform)
+void RenderSystem::Enqueue(std::shared_ptr<Shader> shader, MaterialData material, MeshData& mesh)
 {
-	if (m_models.find(objPath) == m_models.end())
-	{
-		m_models[objPath] = ModelData(objPath);
-	}
-	//set the camera projection & view
-	Matrix4 projection;
-	projection = m_universe->GetSystem<CameraSystem>()->Projection(m_camera);
-	Matrix4 view;
-	view = m_universe->GetSystem<CameraSystem>()->View(m_camera);	
-	m_models[objPath].Draw(projection, view, entityTransform.GetTransform());
-	return false;
+	
 }
 
-bool RenderSystem::Render(EntityId e, Matrix4 model)
+void RenderSystem::AddMaterial(MaterialData materialData)
+{
+
+}
+
+MaterialId RenderSystem::GetMaterialId(MaterialData materialData)
+{
+	for (MaterialId i = 0; i < m_materials.size(); i++)
+	{
+		if (m_materials[i] == materialData)
+		{
+			return i;
+		}
+	}
+	PRINT("WARN", "unable to find material ", materialData.name);
+	return INVALID_MATERIAL;
+}
+
+
+bool RenderSystem::TraverseGraphForRender(EntityId e, Matrix4 model)
 {
 	//travel recursively (DFS)
 	Node &node = m_universe->QueryByEntityId(e).GetComponent<Node>();
 	for (auto n : node.childs)
 	{
 		Matrix4 childModel = m_universe->QueryByEntityId(n.GetId()).GetComponent<Transform>().GetTransform();
-		Render(n.GetId(), model * childModel);
+		TraverseGraphForRender(n.GetId(), model * childModel);
 	}
 
 	Mesh mesh = m_universe->QueryByEntityId(e).GetComponent<Mesh>();
@@ -63,7 +72,22 @@ bool RenderSystem::Render(EntityId e, Matrix4 model)
 	projection = m_universe->GetSystem<CameraSystem>()->Projection(m_camera);
 	Matrix4 view;
 	view = m_universe->GetSystem<CameraSystem>()->View(m_camera);
-	m_models[mesh.objectPath].Draw(projection, view, model);
+	m_models[mesh.objectPath].Draw(projection, view, model); 
 
 	return false;
+}
+
+void RenderSystem::RenderTheQueue()
+{
+	std::unordered_map<int, MaterialData> x;
+	
+
+	for (auto &i : m_renderqueues)
+	{
+		i.first->Use();
+		for (auto &j : i.second)
+		{
+			
+		}
+	}
 }

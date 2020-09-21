@@ -1,6 +1,6 @@
 #pragma once
 #include "pch.h"
-#include "ECS.h"
+#include "ecs/ECS.h"
 #include "system/EntityNameCheckSystem.h"
 #include "components/EntityName.h"
 
