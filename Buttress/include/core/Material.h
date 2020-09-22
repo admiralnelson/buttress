@@ -3,8 +3,7 @@
 #include "Texture.h"
 #include "core\Shader.h"
 
-typedef unsigned int MaterialId;
-const MaterialId INVALID_MATERIAL = -1;
+
 
 class MaterialData
 {
@@ -20,10 +19,24 @@ public:
 	bool IsReady();
 	void Debug();
 private:
-	
+
 };
 
-inline bool operator==(const MaterialData& a, const MaterialData& b) 
-{ 
+inline bool operator==(const MaterialData& a, const MaterialData& b)
+{
 	return a.diffuse == b.diffuse && a.specular == b.specular;
 }
+
+class MaterialLoader
+{
+	friend class RenderSystem;
+public:
+	static MaterialId LoadMaterial(MaterialData mat);
+	static MaterialData& GetMaterialById(MaterialId id);
+
+private:
+	void Clear();
+
+	static std::vector<MaterialData> m_materialCaches;
+};
+

@@ -56,3 +56,21 @@ void MaterialData::Debug()
 	PRINT("    ", "specular name:", specular != nullptr ? specular->m_path : "none");
 
 }
+
+std::vector<MaterialData> MaterialLoader::m_materialCaches;
+
+MaterialId MaterialLoader::LoadMaterial(MaterialData mat)
+{
+	auto it = std::find(m_materialCaches.begin(), m_materialCaches.end(), mat);
+	if (it != m_materialCaches.end())
+	{
+		return std::distance(m_materialCaches.begin(), it);
+	}
+	m_materialCaches.push_back(mat);
+	return m_materialCaches.size();
+}
+
+MaterialData& MaterialLoader::GetMaterialById(MaterialId id)
+{
+	return m_materialCaches[id];
+}

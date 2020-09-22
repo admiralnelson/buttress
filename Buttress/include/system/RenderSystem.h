@@ -12,20 +12,22 @@ class Universe;
 
 struct MeshQueue
 {
-	
+	MeshId meshId;
 	Matrix4 view;
 	Matrix4 model;
 	Matrix4 projection;
 };
 
+class ModelData;
+//class MeshLoader;
+//class MaterialLoader;
+class MaterialData;
 class RenderSystem : public System
 {
 	friend class Universe;
 public:
 	void Init(Universe* universe) override;
 	void Tick();
-	void Enqueue(std::shared_ptr<Shader> shader, MaterialData material, MeshData& mesh);
-	void AddMaterial(MaterialData materialData);
 	MaterialId GetMaterialId(MaterialData materialData);
 private:
 	bool TraverseGraphForRender(EntityId e, Matrix4 model);
@@ -33,6 +35,6 @@ private:
 	std::unordered_map<std::string, ModelData> m_models;
 	Entity m_camera;
 	bool m_isFirstTick = true;
-	std::unordered_map <std::shared_ptr<Shader>, std::unordered_map<int, std::queue<MeshQueue>>> m_renderqueues;
+	std::unordered_map <std::shared_ptr<Shader>, std::unordered_map<MaterialId, std::deque<MeshQueue>>> m_renderqueues;
 	std::vector<MaterialData> m_materials;
 };

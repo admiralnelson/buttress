@@ -1,8 +1,6 @@
 #pragma once
 #include "pch.h"
 
-typedef unsigned int EventId;
-
 namespace WINDOW_EVENT
 {
 	const EventId WINDOW_RESIZE = 0;

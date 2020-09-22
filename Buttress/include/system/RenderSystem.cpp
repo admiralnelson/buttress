@@ -26,16 +26,7 @@ void RenderSystem::Tick()
 			TraverseGraphForRender(e, transform.GetTransform());
 		}
 	}
-}
-
-void RenderSystem::Enqueue(std::shared_ptr<Shader> shader, MaterialData material, MeshData& mesh)
-{
-	
-}
-
-void RenderSystem::AddMaterial(MaterialData materialData)
-{
-
+	RenderTheQueue();
 }
 
 MaterialId RenderSystem::GetMaterialId(MaterialData materialData)
@@ -72,22 +63,36 @@ bool RenderSystem::TraverseGraphForRender(EntityId e, Matrix4 model)
 	projection = m_universe->GetSystem<CameraSystem>()->Projection(m_camera);
 	Matrix4 view;
 	view = m_universe->GetSystem<CameraSystem>()->View(m_camera);
-	m_models[mesh.objectPath].Draw(projection, view, model); 
+	for (auto& meshId : m_models[mesh.objectPath].m_meshes)
+	{
+		MeshData& mesh = MeshLoader::GetMesh(meshId);
+		MaterialData& mat = MaterialLoader::GetMaterialById(mesh.GetMaterialId());
+		MeshQueue queue;
+		queue.meshId = meshId;
+		queue.model = model;
+		queue.projection = projection;
+		queue.view = view;
+		m_renderqueues[mat.shader][mesh.GetMaterialId()].push_back(queue);
+	}
 
 	return false;
 }
 
 void RenderSystem::RenderTheQueue()
 {
-	std::unordered_map<int, MaterialData> x;
-	
-
 	for (auto &i : m_renderqueues)
 	{
 		i.first->Use();
 		for (auto &j : i.second)
 		{
-			
+			MaterialLoader::GetMaterialById(j.first).Use();
+			for (auto& k : j.second)
+			{
+				{
+					MeshLoader::GetMesh(k.meshId).Draw(k.projection, k.view, k.model);
+				}
+				j.second.pop_front();
+			}
 		}
 	}
 }

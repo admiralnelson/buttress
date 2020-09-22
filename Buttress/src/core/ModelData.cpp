@@ -30,10 +30,10 @@ void ModelData::Draw(Matrix4 proj, Matrix4 view, Matrix4 model)
 {
 	//TODO: -> instead of drawing, push it to the queue
 	//m_models[objPath].m_shader->SetUniformMat4x4("projection", projection);
-	for (auto& i : m_meshes)
-	{
-	//	i.Draw(proj, view, model);
-	}
+	//for (auto& i : m_meshes)
+	//{
+	////	i.Draw(proj, view, model);
+	//}
 }
 
 void ModelData::ProcessNode(aiNode* node, const aiScene* scene)
@@ -54,7 +54,7 @@ MeshData ModelData::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 	std::vector<Vertex> vertices;
 	std::vector<unsigned int> indices;
 	std::vector<VertexBoneData> bones;
-	MaterialData material;
+
 
 	//vertices
 	for (size_t i = 0; i < mesh->mNumVertices; i++)
@@ -123,10 +123,11 @@ MeshData ModelData::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 
 	//materials
 	aiMaterial* aimaterial = scene->mMaterials[mesh->mMaterialIndex];
-	material = ProcessMaterial(aimaterial, aimaterial->GetName().C_Str());
+	MaterialId matId = MaterialLoader::LoadMaterial(ProcessMaterial(aimaterial, aimaterial->GetName().C_Str()));
+	MaterialData& material = MaterialLoader::GetMaterialById(matId);
 	material.shader = defaultShader;
 	
-	return MeshData(vertices, indices, bones, material);
+	return MeshData(vertices, indices, bones, matId);
 }
 
 MaterialData ModelData::ProcessMaterial(aiMaterial* material, std::string name)

@@ -196,5 +196,8 @@
     <ClInclude Include="include\core\AnimationData.h">
       <Filter>include\core</Filter>
     </ClInclude>
+    <ClInclude Include="include\core\Types.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

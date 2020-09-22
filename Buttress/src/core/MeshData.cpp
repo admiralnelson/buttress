@@ -1,13 +1,14 @@
 #include "pch.h"
 #include "core/MeshData.h"
 
-MeshData::MeshData(std::vector<Vertex> verts, std::vector<unsigned int> indices, std::vector<VertexBoneData> bones, MaterialData mat)
+MeshData::MeshData(std::vector<Vertex> verts, std::vector<unsigned int> indices, std::vector<VertexBoneData> bones, MaterialId mat)
 {
 	MeshHandle meshData;
-	m_material = mat;
-	if (!m_material.shader && !m_material.shader->IsShaderReady())
+	m_matId = mat;
+	MaterialData& material = MaterialLoader::GetMaterialById(m_matId);
+	if (!material.shader && !material.shader->IsShaderReady())
 	{
-		PRINT("WARNING", "shader", m_material.shader->name, " is not ready");
+		PRINT("WARNING", "shader", material.shader->name, " is not ready");
 		return;
 	}
 	meshData.indexSize = indices.size();
@@ -34,19 +35,19 @@ MeshData::MeshData(std::vector<Vertex> verts, std::vector<unsigned int> indices,
 	}
 
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
-	glEnableVertexArrayAttrib(meshData.vao, m_material.shader->GetAttributeLocation(ATTRIBUTE_POS));
+	glEnableVertexArrayAttrib(meshData.vao, material.shader->GetAttributeLocation(ATTRIBUTE_POS));
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(1 * sizeof(Vec3)));
-	glEnableVertexArrayAttrib(meshData.vao, m_material.shader->GetAttributeLocation(ATTRIBUTE_NORMAL));
+	glEnableVertexArrayAttrib(meshData.vao, material.shader->GetAttributeLocation(ATTRIBUTE_NORMAL));
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(2 * sizeof(Vec3)));
-	glEnableVertexArrayAttrib(meshData.vao, m_material.shader->GetAttributeLocation(ATTRIBUTE_UV));
+	glEnableVertexArrayAttrib(meshData.vao, material.shader->GetAttributeLocation(ATTRIBUTE_UV));
 	
 	if (bones.size() > 0)
 	{
 		glVertexAttribIPointer(3, 4, GL_INT, sizeof(VertexBoneData), (void*)0);
-		glEnableVertexArrayAttrib(meshData.vertexBonesO, m_material.shader->GetAttributeLocation(ATTRIBUTE_BONE_IDS));
+		glEnableVertexArrayAttrib(meshData.vertexBonesO, material.shader->GetAttributeLocation(ATTRIBUTE_BONE_IDS));
 
 		glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, sizeof(VertexBoneData), (void*)(NUM_BONES_PER_VERTEX * sizeof(float)));
-		glEnableVertexArrayAttrib(meshData.vertexBonesO, m_material.shader->GetAttributeLocation(ATTRIBUTE_BONE_WEIGHTS));
+		glEnableVertexArrayAttrib(meshData.vertexBonesO, material.shader->GetAttributeLocation(ATTRIBUTE_BONE_WEIGHTS));
 
 	}
 	//for animation?
@@ -63,15 +64,35 @@ MeshData::MeshData(std::vector<Vertex> verts, std::vector<unsigned int> indices,
 void MeshData::Draw(Matrix4& proj, Matrix4& view, Matrix4& model)
 {
 	//TODO: SORT BY MATERIAL TO REDUCE STATE TRANSITION!
-	//set the texture & use the shader
-	m_material.Use();
+	//set the texture & use the shader. TODO: THIS WILL BE ASSIGNED BY RENDER QUEUE
+	//m_material.Use();
+	
+	MaterialData& material = MaterialLoader::GetMaterialById(m_matId);
 	//set the uniform
-	m_material.shader->SetUniformMat4x4("projection", proj);
-	m_material.shader->SetUniformMat4x4("view", view);
-	m_material.shader->SetUniformMat4x4("model", model);
+	material.shader->SetUniformMat4x4("projection", proj);
+	material.shader->SetUniformMat4x4("view", view);
+	material.shader->SetUniformMat4x4("model", model);
 	//draw the object
 	glBindVertexArray(m_meshData.vao);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_meshData.ibo);
 	glDrawElements(GL_TRIANGLES, m_meshData.indexSize, GL_UNSIGNED_INT, nullptr);
 	
+}
+
+std::vector<MeshData> MeshLoader::m_meshCaches;
+
+MeshId MeshLoader::LoadMesh(MeshData data)
+{
+	m_meshCaches.push_back(data);
+	return m_meshCaches.size();
+}
+
+MeshData& MeshLoader::GetMesh(MeshId id)
+{
+	if (id < 0 || id > m_meshCaches.size())
+	{
+		PRINT("ERROR", "meshId out of range! id", id);
+		throw std::exception("mesh out of range");
+	}
+	return m_meshCaches[id];
 }

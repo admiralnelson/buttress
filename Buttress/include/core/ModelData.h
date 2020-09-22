@@ -45,7 +45,7 @@ private:
 	void ProcessNode(aiNode *node, const aiScene *scene);
 	MeshData ProcessMesh(aiMesh *mesh, const aiScene *scene);
 	MaterialData ProcessMaterial(aiMaterial *material,  std::string name);
-	std::vector<MeshId> m_meshes;
+	std::vector<unsigned int> m_meshes;
 	std::string m_path;
 	std::shared_ptr<Shader> m_shader;
 	std::map<std::string, unsigned int> m_boneNameToIndex;
