@@ -98,7 +98,7 @@ void Buttress::Start(Universe *universe)
 	double lastTime = 0;
 	double accumulateDt = 0;
 	int frameCount = 0;
-	glEnable(GL_DEPTH_TEST);
+	int FRAME_RATE = 60;
 	while (!glfwWindowShouldClose(m_window.get()))
 	{
 		currentTime = glfwGetTime();
@@ -111,15 +111,15 @@ void Buttress::Start(Universe *universe)
 			frameCount = 0;
 			accumulateDt = 0;
 		}
-
-		glClearColor(0.3, 0.4, 0.3, 1.0);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
 		m_universe->Render(delta);
 
 		glfwSwapBuffers(m_window.get());
 		glfwPollEvents();
 		lastTime = currentTime;
+		std::chrono::duration<double, std::milli> sleepTime(1000.0 / FRAME_RATE - delta * 1000);
+		std::this_thread::sleep_for(sleepTime);
+
 	}
 	Shutdown();
 }

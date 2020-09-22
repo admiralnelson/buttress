@@ -5,12 +5,12 @@ std::shared_ptr<Shader> ModelData::defaultShader;
 ModelData::ModelData(std::string path)
 {
 	m_path = path;
-	Assimp::Importer importer;
-	const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
+	m_importer.reset(new Assimp::Importer());
+	const aiScene* scene = m_importer->ReadFile(path, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
 	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
 	{
 		PRINT("ERROR", "unable to load file", path);
-		PRINT("     ", "reason:", importer.GetErrorString());
+		PRINT("     ", "reason:", m_importer->GetErrorString());
 		return;
 	}
 	

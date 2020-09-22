@@ -160,9 +160,6 @@
     <ClInclude Include="include\components\Camera.h">
       <Filter>include\component</Filter>
     </ClInclude>
-    <ClInclude Include="include\components\Mesh.h">
-      <Filter>include\component</Filter>
-    </ClInclude>
     <ClInclude Include="include\ecs\EventManager.h">
       <Filter>include\ecs</Filter>
     </ClInclude>
@@ -198,6 +195,9 @@
     </ClInclude>
     <ClInclude Include="include\core\Types.h">
       <Filter>include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\components\Model.h">
+      <Filter>include\component</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -13,7 +13,7 @@
 #include <components\Camera.h>
 #include <ecs\ECS.h>
 #include <components\EntityName.h>
-#include <components\Mesh.h>
+#include <components\Model.h>
 
 int main()
 {
@@ -53,17 +53,17 @@ int main()
 			ent.Debug();
 
 			Entity backpack = universe.CreateEntity("a backpack");
-			Mesh mesh;
-			mesh.objectPath = "../../resource/full_model/backpack.obj";
-			backpack.AddComponent<Mesh>(mesh);
+			Model model;
+			model.objectPath = "../../resource/full_model/backpack.obj";
+			backpack.AddComponent<Model>(model);
 			backpack.Debug();
 			backpack.GetComponent<Transform>().RotateDeg({ 0, 0, 180 });
 			backpack.GetComponent<Transform>().scale = { 0.5, 0.5, 0.5 };
 
 			Entity gun = universe.CreateEntity("a backpack 2");
-			Mesh gunMesh;
+			Model gunMesh;
 			gunMesh.objectPath = "../../resource/gun_model/Handgun_obj.obj";
-			gun.AddComponent<Mesh>(gunMesh);
+			gun.AddComponent<Model>(gunMesh);
 			gun.GetComponent<Transform>().position = { 1, 1, 1 };
 			//backpack2.GetComponent<Transform>().RotateDeg({ 0, 0, 190});
 

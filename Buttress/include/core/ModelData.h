@@ -36,6 +36,7 @@ class MeshLoader;
 class ModelData
 {
 	friend class RenderSystem;
+	friend class AnimationSystem;
 public:
 	ModelData() {}
 	ModelData(std::string path);
@@ -52,4 +53,5 @@ private:
 	std::vector<BoneInfo> m_boneInfos;
 	unsigned int m_numberOfBones = 0;
 	RenderSystem* m_renderer;
+	std::shared_ptr<Assimp::Importer> m_importer;
 };

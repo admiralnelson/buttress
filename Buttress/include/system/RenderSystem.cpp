@@ -14,6 +14,12 @@ void RenderSystem::Tick()
 		CameraSystem *cam = m_universe->GetSystem<CameraSystem>();
 		m_camera = cam->FindPrimaryCamera();
 		m_isFirstTick = false;
+
+		glEnable(GL_DEPTH_TEST);
+		glEnable(GL_CULL_FACE);
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glCullFace(GL_BACK);
 	}
 	for (auto& e : m_entity)
 	{
@@ -56,17 +62,17 @@ bool RenderSystem::TraverseGraphForRender(EntityId e, Matrix4 model)
 		TraverseGraphForRender(n.GetId(), model * childModel);
 	}
 
-	Mesh &mesh = m_universe->QueryByEntityId(e).GetComponent<Mesh>();
-	if (mesh.id < 0 || mesh.id > m_modelsPaths.size())
+	Model &modelComp = m_universe->QueryByEntityId(e).GetComponent<Model>();
+	if (modelComp.id < 0 || modelComp.id > m_modelsPaths.size())
 	{
-		m_modelsPaths.push_back(mesh.objectPath);
-		mesh.id = (ModelId) m_modelsPaths.size() - 1;
-		m_models.push_back(ModelData(mesh.objectPath));
+		m_modelsPaths.push_back(modelComp.objectPath);
+		modelComp.id = (ModelId) m_modelsPaths.size() - 1;
+		m_models.push_back(ModelData(modelComp.objectPath));
 	}
 	//set the camera projection & view
 	Matrix4 projection = m_universe->GetSystem<CameraSystem>()->Projection(m_camera);
 	Matrix4 view = m_universe->GetSystem<CameraSystem>()->View(m_camera);
-	for (auto& meshId : m_models[mesh.id].m_meshes)
+	for (auto& meshId : m_models[modelComp.id].m_meshes)
 	{
 		MeshData& mesh = MeshLoader::GetMesh(meshId);
 		MaterialData& mat = MaterialLoader::GetMaterialById(mesh.GetMaterialId());
@@ -83,6 +89,8 @@ bool RenderSystem::TraverseGraphForRender(EntityId e, Matrix4 model)
 
 void RenderSystem::RenderTheQueue()
 {
+	glClearColor(0.3, 0.4, 0.3, 1.0);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	for (auto &i : m_renderqueues)
 	{
 		i.first->Use();
@@ -91,7 +99,6 @@ void RenderSystem::RenderTheQueue()
 			MaterialLoader::GetMaterialById(j.first).Use();
 			for (auto& k : j.second)
 			{
-
 				{
 					MeshLoader::GetMesh(k.meshId).Draw(k.projection, k.view, k.model);
 				}

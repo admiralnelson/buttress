@@ -45,7 +45,7 @@ Universe::Universe()
 {
 	m_componentManager->RegisterComponent<EntityName>();
 	m_componentManager->RegisterComponent<Transform>();
-	m_componentManager->RegisterComponent<Mesh>();
+	m_componentManager->RegisterComponent<Model>();
 	m_componentManager->RegisterComponent<Camera>();
 	m_componentManager->RegisterComponent<Node>();
 	//for name check
@@ -58,7 +58,7 @@ Universe::Universe()
 	m_systemManager->RegisterSystem<RenderSystem>(this);
 	ComponentSignature nameSig2;
 	nameSig2.set(m_componentManager->GetComponentType<Transform>());
-	nameSig2.set(m_componentManager->GetComponentType<Mesh>());
+	nameSig2.set(m_componentManager->GetComponentType<Model>());
 	nameSig2.set(m_componentManager->GetComponentType<Node>());
 	m_systemManager->SetSignature<RenderSystem>(nameSig2);
 

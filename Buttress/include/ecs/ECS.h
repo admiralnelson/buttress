@@ -42,7 +42,7 @@ public:
 	}
 
 	template<typename SYSTEM_TYPE>
-	SYSTEM_TYPE* GetSystem()
+	SYSTEM_TYPE* GetSystem() const
 	{
 		return m_systemManager->GetSystem<SYSTEM_TYPE>();
 	}
