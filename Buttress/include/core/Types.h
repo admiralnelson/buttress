@@ -16,3 +16,8 @@ const ComponentTypeId MAX_COMPONENTS = 32;
 typedef std::bitset<MAX_COMPONENTS> ComponentSignature;
 
 typedef unsigned int EventId;
+const EventId INVALID_EVENT = -1;
+const EventId INVALID_EVENTPARAM = -1;
+
+typedef unsigned int ModelId;
+const ModelId INVALID_MODEL = -1;

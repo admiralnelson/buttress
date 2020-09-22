@@ -9,5 +9,6 @@ struct Mesh
 	friend class RenderSystem;
 	std::string objectPath;
 	std::unordered_map<std::string, std::shared_ptr<MaterialData>> meshMaterialOverrides;
-
+private:
+	ModelId id = INVALID_MODEL;
 };

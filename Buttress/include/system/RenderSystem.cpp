@@ -15,7 +15,6 @@ void RenderSystem::Tick()
 		m_camera = cam->FindPrimaryCamera();
 		m_isFirstTick = false;
 	}
-	
 	for (auto& e : m_entity)
 	{
 		Transform& transform = m_universe->QueryByEntityId(e).GetComponent<Transform>();
@@ -26,7 +25,11 @@ void RenderSystem::Tick()
 			TraverseGraphForRender(e, transform.GetTransform());
 		}
 	}
+	auto t1 = std::chrono::high_resolution_clock::now();
 	RenderTheQueue();
+	auto t2 = std::chrono::high_resolution_clock::now();
+	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1).count();
+	//PRINT("render time (ms)", duration);
 }
 
 MaterialId RenderSystem::GetMaterialId(MaterialData materialData)
@@ -53,17 +56,17 @@ bool RenderSystem::TraverseGraphForRender(EntityId e, Matrix4 model)
 		TraverseGraphForRender(n.GetId(), model * childModel);
 	}
 
-	Mesh mesh = m_universe->QueryByEntityId(e).GetComponent<Mesh>();
-	if (m_models.find(mesh.objectPath) == m_models.end())
+	Mesh &mesh = m_universe->QueryByEntityId(e).GetComponent<Mesh>();
+	if (mesh.id < 0 || mesh.id > m_modelsPaths.size())
 	{
-		m_models[mesh.objectPath] = ModelData(mesh.objectPath);
+		m_modelsPaths.push_back(mesh.objectPath);
+		mesh.id = (ModelId) m_modelsPaths.size() - 1;
+		m_models.push_back(ModelData(mesh.objectPath));
 	}
 	//set the camera projection & view
-	Matrix4 projection;
-	projection = m_universe->GetSystem<CameraSystem>()->Projection(m_camera);
-	Matrix4 view;
-	view = m_universe->GetSystem<CameraSystem>()->View(m_camera);
-	for (auto& meshId : m_models[mesh.objectPath].m_meshes)
+	Matrix4 projection = m_universe->GetSystem<CameraSystem>()->Projection(m_camera);
+	Matrix4 view = m_universe->GetSystem<CameraSystem>()->View(m_camera);
+	for (auto& meshId : m_models[mesh.id].m_meshes)
 	{
 		MeshData& mesh = MeshLoader::GetMesh(meshId);
 		MaterialData& mat = MaterialLoader::GetMaterialById(mesh.GetMaterialId());
@@ -88,6 +91,7 @@ void RenderSystem::RenderTheQueue()
 			MaterialLoader::GetMaterialById(j.first).Use();
 			for (auto& k : j.second)
 			{
+
 				{
 					MeshLoader::GetMesh(k.meshId).Draw(k.projection, k.view, k.model);
 				}

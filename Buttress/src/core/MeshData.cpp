@@ -11,7 +11,7 @@ MeshData::MeshData(std::vector<Vertex> verts, std::vector<unsigned int> indices,
 		PRINT("WARNING", "shader", material.shader->name, " is not ready");
 		return;
 	}
-	meshData.indexSize = indices.size();
+	meshData.indexSize = (GLuint)indices.size();
 	glGenVertexArrays(1, &meshData.vao);
 	glGenBuffers(1, &meshData.vbo);
 	glGenBuffers(1, &meshData.ibo);
@@ -62,11 +62,7 @@ MeshData::MeshData(std::vector<Vertex> verts, std::vector<unsigned int> indices,
 }
 
 void MeshData::Draw(Matrix4& proj, Matrix4& view, Matrix4& model)
-{
-	//TODO: SORT BY MATERIAL TO REDUCE STATE TRANSITION!
-	//set the texture & use the shader. TODO: THIS WILL BE ASSIGNED BY RENDER QUEUE
-	//m_material.Use();
-	
+{	
 	MaterialData& material = MaterialLoader::GetMaterialById(m_matId);
 	//set the uniform
 	material.shader->SetUniformMat4x4("projection", proj);
@@ -84,7 +80,7 @@ std::vector<MeshData> MeshLoader::m_meshCaches;
 MeshId MeshLoader::LoadMesh(MeshData data)
 {
 	m_meshCaches.push_back(data);
-	return m_meshCaches.size() - 1;
+	return (MeshId) m_meshCaches.size() - 1;
 }
 
 MeshData& MeshLoader::GetMesh(MeshId id)

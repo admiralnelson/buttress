@@ -197,7 +197,7 @@
       <Filter>include\core</Filter>
     </ClInclude>
     <ClInclude Include="include\core\Types.h">
-      <Filter>Header Files</Filter>
+      <Filter>include\core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

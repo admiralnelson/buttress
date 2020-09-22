@@ -60,9 +60,11 @@ int main()
 			backpack.GetComponent<Transform>().RotateDeg({ 0, 0, 180 });
 			backpack.GetComponent<Transform>().scale = { 0.5, 0.5, 0.5 };
 
-			Entity backpack2 = universe.CreateEntity("a backpack 2");
-			backpack2.AddComponent<Mesh>(mesh);
-			backpack2.GetComponent<Transform>().position = { 1, 1, 1 };
+			Entity gun = universe.CreateEntity("a backpack 2");
+			Mesh gunMesh;
+			gunMesh.objectPath = "../../resource/gun_model/Handgun_obj.obj";
+			gun.AddComponent<Mesh>(gunMesh);
+			gun.GetComponent<Transform>().position = { 1, 1, 1 };
 			//backpack2.GetComponent<Transform>().RotateDeg({ 0, 0, 190});
 
 			//backpack.AttachChild(backpack2);
@@ -85,18 +87,18 @@ int main()
 				PRINT("mouse move, x", x, "y", y);
 			});
 
-			universe.AddEventListener(KEYBOARD_EVENT::KEYBOARD_PRESS, [&backpack, &backpack2](Event& e)
+			universe.AddEventListener(KEYBOARD_EVENT::KEYBOARD_PRESS, [&backpack, &gun](Event& e)
 			{
 				unsigned int key = e.GetParam<unsigned int>(KEYBOARD_EVENT::PARAMS::KEYBOARD_BUTTON);
 				if (key == GLFW_KEY_T)
 				{
-					backpack.AttachChild(backpack2);
-					backpack2.GetComponent<Transform>().scale = { 0.1, 0.1, 0.1 };
+					backpack.AttachChild(gun);
+					gun.GetComponent<Transform>().scale = { 0.1, 0.1, 0.1 };
 				}
 				if (key == GLFW_KEY_Y)
 				{
-					backpack.RemoveChild(backpack2);
-					backpack2.GetComponent<Transform>().scale = { 1, 1, 1 };
+					backpack.RemoveChild(gun);
+					gun.GetComponent<Transform>().scale = { 1, 1, 1 };
 				}
 			});
 

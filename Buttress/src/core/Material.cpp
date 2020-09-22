@@ -9,15 +9,6 @@ MaterialData::MaterialData(std::string name, std::shared_ptr<Shader> shader)
 
 void MaterialData::Use()
 {
-	if (shader != nullptr)
-	{
-		shader->Use();
-	}
-	else
-	{
-		PRINT("WARNING", "material", name, "shader is not assigned!");
-		return;
-	}
 	if (diffuse != nullptr && shader->IsUniformDefined(UNIFORM_SAMPLER2D_DIFFUSE))
 	{
 		shader->SetUniformValueI(UNIFORM_SAMPLER2D_DIFFUSE, 0);
@@ -63,11 +54,11 @@ MaterialId MaterialLoader::LoadMaterial(MaterialData mat)
 	auto it = std::find(m_materialCaches.begin(), m_materialCaches.end(), mat);
 	if (it != m_materialCaches.end())
 	{
-		return std::distance(m_materialCaches.begin(), it);
+		return (MaterialId)std::distance(m_materialCaches.begin(), it);
 	}
 	PRINT("loaded material:", mat.name);
 	m_materialCaches.push_back(mat);
-	return m_materialCaches.size() - 1;
+	return (MaterialId)m_materialCaches.size() - 1;
 }
 
 MaterialData& MaterialLoader::GetMaterialById(MaterialId id)

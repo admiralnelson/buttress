@@ -32,7 +32,8 @@ public:
 private:
 	bool TraverseGraphForRender(EntityId e, Matrix4 model);
 	void RenderTheQueue();
-	std::unordered_map<std::string, ModelData> m_models;
+	std::vector<std::string> m_modelsPaths;
+	std::vector<ModelData> m_models;
 	Entity m_camera;
 	bool m_isFirstTick = true;
 	std::unordered_map <std::shared_ptr<Shader>, std::unordered_map<MaterialId, std::deque<MeshQueue>>> m_renderqueues;

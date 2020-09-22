@@ -265,7 +265,7 @@ public:
 		PRINT("INFO", "entity name:", name);
 		auto entityComponents = m_universe->m_entityManager->GetSignature(id);
 		PRINT("INFO", "attached components lists");
-		for (size_t i = 0; i < MAX_COMPONENTS; i++)
+		for (ComponentTypeId i = 0; i < MAX_COMPONENTS; i++)
 		{
 			if (entityComponents.test(i))
 			{
@@ -273,7 +273,7 @@ public:
 			}
 		}
 		PRINT("INFO", "attached systems list");
-		for(size_t i = 0; i < MAX_COMPONENTS; i++ )
+		for(ComponentTypeId i = 0; i < MAX_COMPONENTS; i++ )
 		{
 			if (entityComponents.test(i))
 			{
