@@ -84,7 +84,7 @@ std::vector<MeshData> MeshLoader::m_meshCaches;
 MeshId MeshLoader::LoadMesh(MeshData data)
 {
 	m_meshCaches.push_back(data);
-	return m_meshCaches.size();
+	return m_meshCaches.size() - 1;
 }
 
 MeshData& MeshLoader::GetMesh(MeshId id)

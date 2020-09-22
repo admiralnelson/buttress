@@ -3,7 +3,6 @@
 
 MaterialData::MaterialData(std::string name, std::shared_ptr<Shader> shader)
 {
-	PRINT("loaded material:", name);
 	this->name = name;
 	this->shader = shader;
 }
@@ -66,8 +65,9 @@ MaterialId MaterialLoader::LoadMaterial(MaterialData mat)
 	{
 		return std::distance(m_materialCaches.begin(), it);
 	}
+	PRINT("loaded material:", mat.name);
 	m_materialCaches.push_back(mat);
-	return m_materialCaches.size();
+	return m_materialCaches.size() - 1;
 }
 
 MaterialData& MaterialLoader::GetMaterialById(MaterialId id)
