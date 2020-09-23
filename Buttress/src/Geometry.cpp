@@ -19,15 +19,33 @@ Vec3 Quaternion2RotationEulerDeg(Quaternion& input)
 	return Vec3{ glm::degrees(glm::eulerAngles(input)) };
 }
 
-glm::mat4 aiMatrix4x4ToMatrix4(const aiMatrix4x4& from)
+Quaternion aiQuaternionToQuaternion(const aiQuaternion& q)
 {
-	glm::mat4 to;
+	 return glm::quat(q.w, q.x, q.y, q.z); 
+}
 
-	to[0][0] = (float)from.a1; to[0][1] = (float)from.b1;  to[0][2] = (float)from.c1; to[0][3] = (float)from.d1;
-	to[1][0] = (float)from.a2; to[1][1] = (float)from.b2;  to[1][2] = (float)from.c2; to[1][3] = (float)from.d2;
-	to[2][0] = (float)from.a3; to[2][1] = (float)from.b3;  to[2][2] = (float)from.c3; to[2][3] = (float)from.d3;
-	to[3][0] = (float)from.a4; to[3][1] = (float)from.b4;  to[3][2] = (float)from.c4; to[3][3] = (float)from.d4;
+Matrix4 aiMatrix4x4ToMatrix4(const aiMatrix4x4& from)
+{
+	return glm::transpose(glm::make_mat4(&from.a1));
+}
 
-	return to;
+Matrix4 aiMatrix3x3ToMatrix4(const aiMatrix3x3& m)
+{
+	return glm::transpose(glm::make_mat3(&m.a1));
+}
+
+Matrix4 QuaternionToMatrix4(Quaternion& input)
+{
+	return glm::make_mat4x4(&input);
+}
+
+Matrix4 ScaleToMatrix4(Vec3& v)
+{
+	return glm::scale(v);
+}
+
+Matrix4 TranslationToMatrix4(Vec3& v)
+{
+	return glm::translate(v);
 }
 
