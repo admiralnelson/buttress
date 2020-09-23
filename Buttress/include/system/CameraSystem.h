@@ -27,7 +27,7 @@ public:
 	Matrix4 Projection(Entity ent);
 	Vec2 windowDimension = { 0, 0 };
 	float sensitivity = 0.1;
-	float speed = 2.5;
+	float speed = 2000;
 	float fov = 45;
 	bool allowMouseLook = false;
 private:

@@ -64,6 +64,7 @@ MeshData::MeshData(std::vector<Vertex> verts, std::vector<unsigned int> indices,
 void MeshData::Draw(Matrix4& proj, Matrix4& view, Matrix4& model)
 {	
 	MaterialData& material = MaterialLoader::GetMaterialById(m_matId);
+	
 	//set the uniform
 	material.shader->SetUniformMat4x4("projection", proj);
 	material.shader->SetUniformMat4x4("view", view);

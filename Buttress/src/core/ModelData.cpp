@@ -145,11 +145,6 @@ MeshData ModelData::ProcessMesh(aiMesh* mesh, const aiScene* scene, Entity &e)
 
 MaterialData ModelData::ProcessMaterial(aiMaterial* material, std::string name)
 {
-	//if no material name supplied, we must assume it as unqiue material!
-	if (name == "")
-	{
-		name = "nameless_mat:" + RandomString(5);
-	}
 	//load diffuse
 	std::shared_ptr<TextureData> diffuse = nullptr;
 	aiString path;
