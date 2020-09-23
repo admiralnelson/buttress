@@ -8,7 +8,7 @@ ModelData::ModelData(std::string path, Entity& e)
 {
 	m_path = path;
 	m_importer.reset(new Assimp::Importer());
-	const aiScene* scene = m_importer->ReadFile(path, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
+	const aiScene* scene = m_importer->ReadFile(path, aiProcess_Triangulate | aiProcess_GenSmoothNormals  | aiProcess_CalcTangentSpace);
 	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
 	{
 		PRINT("ERROR", "unable to load file", path);

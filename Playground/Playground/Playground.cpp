@@ -111,7 +111,7 @@ int main()
 
 			universe.AddEventListener(KEYBOARD_EVENT::KEYBOARD_PRESS, [&](Event &e)
 			{
-				float speed = 2.5;
+				float speed = 200.5;
 				float dt = universe.GetLastDeltaTime();
 				unsigned int keyPress = e.GetParam<unsigned int>(KEYBOARD_EVENT::PARAMS::KEYBOARD_BUTTON);
 				Transform& transform = ent.GetComponent<Transform>();
