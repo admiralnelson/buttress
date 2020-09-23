@@ -32,3 +32,18 @@ std::vector<unsigned char> ReadFileAsByte(std::string path)
 	}	
 	return buffer;
 }
+
+std::string RandomString(int n)
+{
+	std::string out;
+	static const char alphanum[] =
+		"0123456789"
+		"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+		"abcdefghijklmnopqrstuvwxyz";
+
+	for (size_t i = 0; i < n; i++)
+	{
+		out += alphanum[rand() % (sizeof(alphanum) - 1)];
+	}
+	return out;
+}

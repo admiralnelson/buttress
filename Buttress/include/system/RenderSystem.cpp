@@ -55,7 +55,8 @@ MaterialId RenderSystem::GetMaterialId(MaterialData materialData)
 bool RenderSystem::TraverseGraphForRender(EntityId e, Matrix4 model)
 {
 	//travel recursively (DFS)
-	Node &node = m_universe->QueryByEntityId(e).GetComponent<Node>();
+	Node& node = m_universe->QueryByEntityId(e).GetComponent<Node>();
+	Entity ent = m_universe->QueryByEntityId(e);
 	for (auto n : node.childs)
 	{
 		Matrix4 childModel = m_universe->QueryByEntityId(n.GetId()).GetComponent<Transform>().GetTransform();
@@ -67,7 +68,7 @@ bool RenderSystem::TraverseGraphForRender(EntityId e, Matrix4 model)
 	{
 		m_modelsPaths.push_back(modelComp.objectPath);
 		modelComp.id = (ModelId) m_modelsPaths.size() - 1;
-		m_models.push_back(ModelData(modelComp.objectPath));
+		m_models.push_back(ModelData(modelComp.objectPath, ent));
 	}
 	//set the camera projection & view
 	Matrix4 projection = m_universe->GetSystem<CameraSystem>()->Projection(m_camera);

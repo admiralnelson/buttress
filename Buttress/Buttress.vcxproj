@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Buttress.h" />
+    <ClInclude Include="include\components\Animation.h" />
     <ClInclude Include="include\components\Camera.h" />
     <ClInclude Include="include\components\EntityName.h" />
     <ClInclude Include="include\components\Model.h" />

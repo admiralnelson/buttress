@@ -2,6 +2,7 @@
 #include "system/AnimationSystem.h"
 #include "system/RenderSystem.h"
 #include "components/Model.h"
+#include "components/Animation.h"
 
 void AnimationSystem::Init(Universe* universe)
 {
@@ -15,7 +16,7 @@ bool AnimationSystem::CalculateBoneTransform(float atTime, EntityId e, std::vect
 	RenderSystem* render = m_universe->GetSystem<RenderSystem>();
 	Model& model = ent.GetComponent<Model>();
 	ModelData& modelData = render->m_models[model.id];
-
+	Animation& anim = ent.GetComponent<Animation>();
 	const aiScene* scene = modelData.m_importer->GetScene();
 	float tickPerSecond = 25;
 	if (scene->mAnimations[0]->mTicksPerSecond)
@@ -25,10 +26,10 @@ bool AnimationSystem::CalculateBoneTransform(float atTime, EntityId e, std::vect
 	float timeInTicks = atTime * tickPerSecond;
 	float animationTime = fmod(timeInTicks, (float)scene->mAnimations[0]->mDuration);
 	ReadNodeHierarchy(scene, animationTime, scene->mRootNode, identity);
-	results.resize(modelData.m_numberOfBones);
-	for (size_t i = 0; i < modelData.m_numberOfBones; i++)
+	results.resize(anim.numberOfBones);
+	for (size_t i = 0; i < anim.numberOfBones; i++)
 	{
-		results[i] = modelData.m_boneInfos[i].finalTransformation;
+		results[i] = anim.boneInfo[i].finalTransformation;
 	}
 	return true;
 }

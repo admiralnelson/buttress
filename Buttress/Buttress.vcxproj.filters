@@ -199,5 +199,8 @@
     <ClInclude Include="include\components\Model.h">
       <Filter>include\component</Filter>
     </ClInclude>
+    <ClInclude Include="include\components\Animation.h">
+      <Filter>include\component</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

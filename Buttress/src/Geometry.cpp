@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Geometry.h"
+#include "glm/gtx/matrix_decompose.hpp"
 
 Matrix4 Rotate(Matrix4 &input, Vec3 rotation)
 {
@@ -34,18 +35,23 @@ Matrix4 aiMatrix3x3ToMatrix4(const aiMatrix3x3& m)
 	return glm::transpose(glm::make_mat3(&m.a1));
 }
 
-Matrix4 QuaternionToMatrix4(Quaternion& input)
+Matrix4 QuaternionToMatrix4(const Quaternion& input)
 {
-	return glm::make_mat4x4(&input);
+	return glm::toMat4(input);
 }
 
 Matrix4 ScaleToMatrix4(Vec3& v)
 {
-	return glm::scale(v);
+	return glm::scale(Matrix4(1), v);
 }
 
 Matrix4 TranslationToMatrix4(Vec3& v)
 {
-	return glm::translate(v);
+	return glm::translate(Matrix4(1), v);
+}
+
+void DecomposeMatrix4(Matrix4& mat, Vec3& outScale, Quaternion& outRot, Vec3& outTrans, Vec3& outSkew, Vec4& outPers)
+{
+	glm::decompose(mat, outScale, outRot, outTrans, outSkew, outPers);
 }
 

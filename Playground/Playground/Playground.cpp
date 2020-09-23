@@ -60,14 +60,14 @@ int main()
 			backpack.GetComponent<Transform>().RotateDeg({ 0, 0, 180 });
 			backpack.GetComponent<Transform>().scale = { 0.5, 0.5, 0.5 };
 
-			Entity gun = universe.CreateEntity("a backpack 2");
+			Entity gun = universe.CreateEntity("a guard");
 			Model gunMesh;
-			gunMesh.objectPath = "../../resource/gun_model/Handgun_obj.obj";
+			gunMesh.objectPath = "../../resource/bob_lamp/bob_lamp.md5mesh";
 			gun.AddComponent<Model>(gunMesh);
-			gun.GetComponent<Transform>().position = { 1, 1, 1 };
-			//backpack2.GetComponent<Transform>().RotateDeg({ 0, 0, 190});
+			gun.GetComponent<Transform>().position = { 0.0000001, 0.0000001, 0.0000001 };
+			
 
-			//backpack.AttachChild(backpack2);
+			backpack.AttachChild(gun);
 			backpack.GetComponent<Transform>().scale = { 1, 1, 1 };
 
 			universe.MemoryDebug();

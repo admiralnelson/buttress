@@ -25,6 +25,7 @@ Vec3 Quaternion2RotationEulerDeg(Quaternion &input);
 Quaternion aiQuaternionToQuaternion(const aiQuaternion& q);
 Matrix4 aiMatrix4x4ToMatrix4(const aiMatrix4x4& m);
 Matrix4 aiMatrix3x3ToMatrix4(const aiMatrix3x3& m);
-Matrix4 QuaternionToMatrix4(Quaternion& input);
+Matrix4 QuaternionToMatrix4(const Quaternion& input);
 Matrix4 ScaleToMatrix4(Vec3& v);
 Matrix4 TranslationToMatrix4(Vec3& v);
+void DecomposeMatrix4(Matrix4& mat, Vec3& outScale, Quaternion& outRot, Vec3& outTrans, Vec3& outSkew, Vec4& outPers);

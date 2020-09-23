@@ -122,6 +122,12 @@ public:
 	//}
 
 	// id could be stale!
+
+	Entity CreateEntity(std::string name)
+	{
+		return m_universe->CreateEntity(name);
+	}
+
 	bool IsValid()
 	{
 		return id != INVALID_ENTITY && m_universe != nullptr;
@@ -188,6 +194,7 @@ public:
 		objectCompSig = objectCompSig | m_universe->m_systemManager->GetSignature<SYSTEM_TYPE>();
 		m_universe->m_entityManager->SetSignature(id, objectCompSig);
 	}
+	
 
 	void AttachChild(Entity entity)
 	{

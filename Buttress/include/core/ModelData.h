@@ -25,11 +25,7 @@ struct VertexBoneData
 	std::array<float, NUM_BONES_PER_VERTEX> weights;
 };
 
-struct BoneInfo
-{
-	Matrix4 boneOffset = Matrix4();
-	Matrix4 finalTransformation = Matrix4();
-};
+
 
 class MeshData;
 class MeshLoader;
@@ -39,19 +35,16 @@ class ModelData
 	friend class AnimationSystem;
 public:
 	ModelData() {}
-	ModelData(std::string path);
+	ModelData(std::string path, Entity &e);
 	void Draw(Matrix4 proj, Matrix4 view, Matrix4 model);
 	static std::shared_ptr<Shader> defaultShader;
 private:
-	void ProcessNode(aiNode *node, const aiScene *scene);
-	MeshData ProcessMesh(aiMesh *mesh, const aiScene *scene);
+	void ProcessNode(aiNode *node, const aiScene *scene, Entity &e);
+	MeshData ProcessMesh(aiMesh *mesh, const aiScene *scene, Entity &e);
 	MaterialData ProcessMaterial(aiMaterial *material,  std::string name);
 	std::vector<unsigned int> m_meshes;
 	std::string m_path;
 	std::shared_ptr<Shader> m_shader;
-	std::map<std::string, unsigned int> m_boneNameToIndex;
-	std::vector<BoneInfo> m_boneInfos;
-	unsigned int m_numberOfBones = 0;
 	RenderSystem* m_renderer;
 	std::shared_ptr<Assimp::Importer> m_importer;
 };
