@@ -38,8 +38,16 @@ int main()
 		lampIndicatorShader->Validate();
 		lampIndicatorShader->Debug();
 
-		ModelData::defaultShader = baseShader;
+		std::shared_ptr<Shader> animationShader;
+		animationShader.reset(new Shader("animationShader"));
+		animationShader->AddVertexShader(ReadFileAsString("../../resource/shader/core_animation.txt"));
+		animationShader->AddFragmentShader(ReadFileAsString("../../resource/shader/core_material.txt"));
+		animationShader->CompileShader();
+		animationShader->Validate();
+		animationShader->Debug();
 
+		ModelData::defaultShader = baseShader;
+		ModelData::defaultAnimatedShader = animationShader;
 		//ECS TEST
 		{
 			universe.GetSystem<CameraSystem>()->windowDimension = { b.Width(), b.Height() };
@@ -62,13 +70,19 @@ int main()
 
 			Entity gun = universe.CreateEntity("a guard");
 			Model gunMesh;
-			gunMesh.objectPath = "../../resource/full_model/backpack.obj";;
-			gun.AddComponent<Model>(gunMesh);
+			//gunMesh.objectPath = "../../resource/full_model/backpack.obj";;
+			//gun.AddComponent<Model>(gunMesh);
 			gun.GetComponent<Transform>().position = { 1, 1, 1};
-			
+			Entity gun2 = gun.CreateEntity("child of gun");
+			Entity gun3 = gun.CreateEntity("child of gun 2");
+			gun.AttachChild(gun2);
+			gun.AttachChild(gun3);
+			gun2.AttachChild(gun.CreateEntity("child of child of gun"));
 
 			backpack.AttachChild(gun);
 			backpack.GetComponent<Transform>().scale = { 1, 1, 1 };
+
+			backpack.Debug();
 
 			universe.MemoryDebug();
 
@@ -84,7 +98,7 @@ int main()
 			{
 				double x = e.GetParam<double>(MOUSE_EVENT::PARAMS::MOUSE_X);
 				double y = e.GetParam<double>(MOUSE_EVENT::PARAMS::MOUSE_Y);
-				PRINT("mouse move, x", x, "y", y);
+				//PRINT("mouse move, x", x, "y", y);
 			});
 
 			universe.AddEventListener(KEYBOARD_EVENT::KEYBOARD_PRESS, [&backpack, &gun](Event& e)
@@ -106,7 +120,7 @@ int main()
 			universe.AddEventListener(KEYBOARD_EVENT::KEYBOARD_PRESS, [](Event& e)
 			{
 				unsigned int key = e.GetParam<unsigned int>(KEYBOARD_EVENT::PARAMS::KEYBOARD_BUTTON);
-				PRINT("keyboard press", key);
+				//PRINT("keyboard press", key);
 			});
 
 			universe.AddEventListener(KEYBOARD_EVENT::KEYBOARD_PRESS, [&](Event &e)

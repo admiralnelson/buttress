@@ -182,6 +182,17 @@ public:
 		return m_universe->m_componentManager->GetComponent<COMPONENT_TYPE>(id);
 	}
 
+	template<typename COMPONENT_TYPE>
+	bool IsComponentExist()
+	{
+		if (id == INVALID_ENTITY)
+		{
+			PRINT("ERROR", "INVALID ENTITY!");
+			throw std::exception("invalid entity");
+		}
+		return m_universe->m_componentManager->IsComponentExistForEntity<COMPONENT_TYPE>(id);
+	}
+
 	template<typename SYSTEM_TYPE>
 	void AttachToSystem()
 	{
@@ -203,6 +214,14 @@ public:
 		if (ContainChild(entity))
 		{
 			return;
+		}
+		if (parentNode.mainParent == INVALID_ENTITY)
+		{
+			childNode.mainParent = id;
+		}
+		else
+		{
+			childNode.mainParent = parentNode.mainParent;
 		}
 		childNode.parent = id; //set parent in the child
 		parentNode.childs.push_back(entity); //then push the child to parent child list
@@ -279,22 +298,26 @@ public:
 				PRINT("    ", m_universe->m_componentManager->GetComponentTypeName(i));
 			}
 		}
-		PRINT("INFO", "attached systems list");
-		for(ComponentTypeId i = 0; i < MAX_COMPONENTS; i++ )
-		{
-			if (entityComponents.test(i))
-			{
-				//PRINT("    ", "for components:", m_universe->m_componentManager->GetComponentTypeName(i));
-				ComponentSignature sig;
-				sig.set(i);
-				std::string systems = m_universe->m_systemManager->GetAttachedSystemNames(id, sig);
-				PRINT("    ", systems);
-			}
-			
-		}
+		PRINT("INFO", "trees");
+		PrintNodeRecursively(*this, 0);
 	}
 
 private:
+	void PrintNodeRecursively(Entity& e, int indent)
+	{
+		Node& node = e.GetComponent<Node>();
+		for (size_t i = 0; i < node.childs.size(); i++)
+		{
+			e.PrintNodeRecursively(node.childs[i], indent + 1);
+		}
+		std::string name = e.GetComponent<EntityName>().name;
+		std::string spacer;
+		for (size_t i = 0; i < indent; i++)
+		{
+			spacer += "-";
+		}
+		PRINT("    ", spacer, name);
+	}
 	Entity(Universe* universe, EntityId _id) : m_universe(universe), id(_id) {}
 	EntityId id = INVALID_ENTITY;
 	Universe* m_universe = nullptr;

@@ -76,6 +76,15 @@ public:
 		return m_componentArray[m_entityToIndexMap[entity]];
 	}
 
+	bool IsComponentExist(EntityId id)
+	{
+		if (m_entityToIndexMap.find(id) == m_entityToIndexMap.end())
+		{
+			return false;
+		}
+		return true;
+	}
+
 	void MemoryDebug()
 	{
 		PRINT("MEMORY: ECS", this, "object. m_componentArray allocates", sizeof(std::vector<TYPE>) + (sizeof(TYPE) * m_componentArray.size()), "for component type of" + typeid(TYPE).name());
@@ -151,6 +160,12 @@ public:
 	COMPONENT_TYPE& GetComponent(EntityId entity)
 	{
 		return GetComponentArray<COMPONENT_TYPE>()->GetData(entity);
+	}
+
+	template<typename COMPONENT_TYPE>
+	bool IsComponentExistForEntity(EntityId entity)
+	{
+		return GetComponentArray<COMPONENT_TYPE>()->IsComponentExist(entity);
 	}
 
 	void EntityDestroyed(EntityId entity) 

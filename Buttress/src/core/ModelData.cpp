@@ -4,6 +4,7 @@
 #include "Util.h"
 
 std::shared_ptr<Shader> ModelData::defaultShader;
+std::shared_ptr<Shader> ModelData::defaultAnimatedShader;
 ModelData::ModelData(std::string path, Entity& e)
 {
 	m_path = path;
@@ -89,11 +90,17 @@ MeshData ModelData::ProcessMesh(aiMesh* mesh, const aiScene* scene, Entity &e)
 
 	//TODO: PARSE the bones.
 	//bones
-	if (0)
+	if (mesh->mNumBones)
 	{
+		bones.resize(mesh->mNumVertices);
 		Entity child = e.CreateEntity(RandomString(5));
 		e.AttachChild(child);
-		Animation& anim = e.GetComponent<Animation>(); //TODO: we need THE ROOT entity to store the animation!
+		if (!e.IsComponentExist<Animation>())
+		{
+			Animation animation;
+			e.AddComponent<Animation>(animation);
+		}
+		Animation& anim = e.GetComponent<Animation>();
 		anim.numberOfBones = 0;
 		for (size_t i = 0; i < mesh->mNumBones; i++)
 		{
@@ -126,9 +133,8 @@ MeshData ModelData::ProcessMesh(aiMesh* mesh, const aiScene* scene, Entity &e)
 			for (size_t j = 0; j < mesh->mBones[i]->mNumWeights; j++)
 			{
 				float weight = mesh->mBones[i]->mWeights[j].mWeight;
-				boneData.ids[j] = mesh->mBones[i]->mWeights[j].mVertexId;
-				boneData.weights[j] = mesh->mBones[i]->mWeights[j].mWeight;
-				bones.push_back(boneData);
+				unsigned int vertexId = mesh->mBones[i]->mWeights[j].mVertexId;
+				bones[vertexId].AddBoneData(boneIdx, weight);
 			}
 		}
 	}
@@ -138,7 +144,14 @@ MeshData ModelData::ProcessMesh(aiMesh* mesh, const aiScene* scene, Entity &e)
 	aiMaterial* aimaterial = scene->mMaterials[mesh->mMaterialIndex];
 	MaterialId matId = MaterialLoader::LoadMaterial(ProcessMaterial(aimaterial, aimaterial->GetName().C_Str()));
 	MaterialData& material = MaterialLoader::GetMaterialById(matId);
-	material.shader = defaultShader;
+	if (mesh->mNumBones)
+	{
+		material.shader = defaultAnimatedShader; 
+	}
+	else
+	{
+		material.shader = defaultShader;
+	}
 	
 	return MeshData(vertices, indices, bones, matId);
 }

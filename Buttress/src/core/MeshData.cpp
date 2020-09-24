@@ -28,12 +28,6 @@ MeshData::MeshData(std::vector<Vertex> verts, std::vector<unsigned int> indices,
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, meshData.ibo);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(int) * indices.size(), indices.data(), GL_STATIC_DRAW);
 
-	if (bones.size() > 0)
-	{
-		glBindBuffer(GL_ARRAY_BUFFER, meshData.vertexBonesO);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(bones[0]) * bones.size(), bones.data(), GL_STATIC_DRAW);
-	}
-
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
 	glEnableVertexArrayAttrib(meshData.vao, material.shader->GetAttributeLocation(ATTRIBUTE_POS));
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(1 * sizeof(Vec3)));
@@ -43,11 +37,23 @@ MeshData::MeshData(std::vector<Vertex> verts, std::vector<unsigned int> indices,
 	
 	if (bones.size() > 0)
 	{
+		glBindBuffer(GL_ARRAY_BUFFER, meshData.vertexBonesO);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(VertexBoneData) * bones.size(), bones.data(), GL_STATIC_DRAW);
+	}
+
+	int err = 0;
+	if (bones.size() > 0)
+	{
+		err = glGetError();
 		glVertexAttribIPointer(3, 4, GL_INT, sizeof(VertexBoneData), (void*)0);
-		glEnableVertexArrayAttrib(meshData.vertexBonesO, material.shader->GetAttributeLocation(ATTRIBUTE_BONE_IDS));
+		err = glGetError();
+		glEnableVertexArrayAttrib(meshData.vao, material.shader->GetAttributeLocation(ATTRIBUTE_BONE_IDS));
+		err = glGetError();
 
 		glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, sizeof(VertexBoneData), (void*)(NUM_BONES_PER_VERTEX * sizeof(float)));
-		glEnableVertexArrayAttrib(meshData.vertexBonesO, material.shader->GetAttributeLocation(ATTRIBUTE_BONE_WEIGHTS));
+		err = glGetError();
+		glEnableVertexArrayAttrib(meshData.vao, material.shader->GetAttributeLocation(ATTRIBUTE_BONE_WEIGHTS));
+		err = glGetError();
 
 	}
 	//for animation?

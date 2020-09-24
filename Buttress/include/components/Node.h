@@ -10,4 +10,5 @@ struct Node
 private:
 	std::vector<Entity> childs;
 	EntityId parent = INVALID_ENTITY;
+	EntityId mainParent = INVALID_ENTITY;
 };

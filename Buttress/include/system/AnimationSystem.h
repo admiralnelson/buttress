@@ -8,7 +8,7 @@ class AnimationSystem : public System
 {
 	friend class RenderSystem;
 public:
-	void Init(Universe* universe);
+	void Init(Universe* universe) override;
 	bool CalculateBoneTransform(float atTime, EntityId e, std::vector<Matrix4>& results);
 private:
 	void RegisterAnimatedModel(std::string modelPath, const aiNode* modelRootNode);

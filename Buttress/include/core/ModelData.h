@@ -23,6 +23,16 @@ struct VertexBoneData
 {
 	std::array<unsigned int, NUM_BONES_PER_VERTEX> ids;
 	std::array<float, NUM_BONES_PER_VERTEX> weights;
+	void AddBoneData(unsigned int id, float weight)
+	{
+		for (unsigned int i = 0; i < ARRAY_SIZE_IN_ELEMENTS(ids); i++) {
+			if (weights[i] == 0.0) {
+				ids[i] = id;
+				weights[i] = weight;
+				return;
+			}
+		}
+	}
 };
 
 
@@ -38,6 +48,7 @@ public:
 	ModelData(std::string path, Entity &e);
 	void Draw(Matrix4 proj, Matrix4 view, Matrix4 model);
 	static std::shared_ptr<Shader> defaultShader;
+	static std::shared_ptr<Shader> defaultAnimatedShader;
 private:
 	void ProcessNode(aiNode *node, const aiScene *scene, Entity &e);
 	MeshData ProcessMesh(aiMesh *mesh, const aiScene *scene, Entity &e);

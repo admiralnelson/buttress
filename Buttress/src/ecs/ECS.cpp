@@ -4,7 +4,9 @@
 #include "components/Camera.h"
 #include "components/Transform.h"
 #include "components/Node.h"
+#include "components/Animation.h"
 #include "system/RenderSystem.h"
+#include "system/AnimationSystem.h"
 #include "system/EntityNameCheckSystem.h"
 
 Entity Universe::CreateEntity(std::string name)
@@ -48,6 +50,7 @@ Universe::Universe()
 	m_componentManager->RegisterComponent<Model>();
 	m_componentManager->RegisterComponent<Camera>();
 	m_componentManager->RegisterComponent<Node>();
+	m_componentManager->RegisterComponent<Animation>();
 	//for name check
 	m_systemManager->RegisterSystem<EntityNameCheckSystem>(this);
 	ComponentSignature nameSig;
@@ -62,11 +65,21 @@ Universe::Universe()
 	nameSig2.set(m_componentManager->GetComponentType<Node>());
 	m_systemManager->SetSignature<RenderSystem>(nameSig2);
 
-	//for camera system
-	m_systemManager->RegisterSystem<CameraSystem>(this);
+	//for animation
+	m_systemManager->RegisterSystem<AnimationSystem>(this);
 	ComponentSignature nameSig3;
 	nameSig3.set(m_componentManager->GetComponentType<Transform>());
-	nameSig3.set(m_componentManager->GetComponentType<Camera>());
-	m_systemManager->SetSignature<CameraSystem>(nameSig3);
+	nameSig3.set(m_componentManager->GetComponentType<Model>());
+	nameSig3.set(m_componentManager->GetComponentType<Node>());
+	nameSig3.set(m_componentManager->GetComponentType<Animation>());
+	m_systemManager->SetSignature<RenderSystem>(nameSig3);
+
+
+	//for camera system
+	m_systemManager->RegisterSystem<CameraSystem>(this);
+	ComponentSignature nameSig4;
+	nameSig4.set(m_componentManager->GetComponentType<Transform>());
+	nameSig4.set(m_componentManager->GetComponentType<Camera>());
+	m_systemManager->SetSignature<CameraSystem>(nameSig4);
 
 }

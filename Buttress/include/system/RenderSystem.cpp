@@ -63,6 +63,11 @@ bool RenderSystem::TraverseGraphForRender(EntityId e, Matrix4 model)
 		TraverseGraphForRender(n.GetId(), model * childModel);
 	}
 
+	
+	if (!m_universe->QueryByEntityId(e).IsComponentExist<Model>())
+	{
+		return false;
+	}
 	Model &modelComp = m_universe->QueryByEntityId(e).GetComponent<Model>();
 	if (modelComp.id < 0 || modelComp.id > m_modelsPaths.size())
 	{

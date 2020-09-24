@@ -26,9 +26,10 @@ void main()
 	vec4 bonedPos = boneTransform * vec4(aPos, 1.0);
 	gl_Position = projection * view * model * bonedPos;
 
-	vec4 bonedNormal = boneTransform * aNormal;
+	vec4 bonedNormal = boneTransform * vec4(aNormal, 1.0);
 	passedNormal = mat3(transpose(inverse(model))) * bonedNormal.xyz; 
 
+	//passedNormal = aNormal; 
 
 	passedTexCoord = aUv;
 };
