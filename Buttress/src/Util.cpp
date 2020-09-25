@@ -1,7 +1,6 @@
 #include "pch.h"
 #include "Util.h"
 #include "Logger.h"
-
 static std::mutex mutexLogger;
 
 void Print(std::stringstream& s)
@@ -46,4 +45,10 @@ std::string RandomString(int n)
 		out += alphanum[rand() % (sizeof(alphanum) - 1)];
 	}
 	return out;
+}
+
+long long GetCurrentTime()
+{
+	using namespace std::chrono;
+	return duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
 }

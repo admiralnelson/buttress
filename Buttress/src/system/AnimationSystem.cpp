@@ -3,18 +3,21 @@
 #include "system/RenderSystem.h"
 #include "components/Model.h"
 #include "components/Animation.h"
+#include "Util.h"
 
 void AnimationSystem::Init(Universe* universe)
 {
 	m_universe = universe;
+	m_startTime = GetCurrentTime();
 }
 
 void AnimationSystem::Tick(float dt)
 {
+	float runningTime = (float)((double)GetCurrentTime() - (double)m_startTime) / 1000.0f;
 	for (auto& e : m_entity)
 	{
 		Entity theEnt = m_universe->QueryByEntityId(e);
-		CalculateBoneTransform(theEnt, dt);
+		CalculateBoneTransform(theEnt, runningTime);
 	}
 }
 
