@@ -29,3 +29,4 @@ Matrix4 QuaternionToMatrix4(const Quaternion& input);
 Matrix4 ScaleToMatrix4(Vec3& v);
 Matrix4 TranslationToMatrix4(Vec3& v);
 void DecomposeMatrix4(Matrix4& mat, Vec3& outScale, Quaternion& outRot, Vec3& outTrans, Vec3& outSkew, Vec4& outPers);
+Matrix4 Inverse(Matrix4& in);

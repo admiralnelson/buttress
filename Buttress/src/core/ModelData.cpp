@@ -98,6 +98,8 @@ MeshData ModelData::ProcessMesh(aiMesh* mesh, const aiScene* scene, Entity &e)
 		if (!e.IsComponentExist<Animation>())
 		{
 			Animation animation;
+			Matrix4 modelRootTransform = aiMatrix4x4ToMatrix4(scene->mRootNode->mTransformation);
+			animation.modelInverseTransform = Inverse(modelRootTransform);
 			e.AddComponent<Animation>(animation);
 		}
 		Animation& anim = e.GetComponent<Animation>();

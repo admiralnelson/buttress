@@ -9,10 +9,18 @@ void AnimationSystem::Init(Universe* universe)
 	m_universe = universe;
 }
 
-bool AnimationSystem::CalculateBoneTransform(float atTime, EntityId e, std::vector<Matrix4>& results)
+void AnimationSystem::Tick(float dt)
+{
+	for (auto& e : m_entity)
+	{
+		Entity theEnt = m_universe->QueryByEntityId(e);
+		CalculateBoneTransform(theEnt, dt);
+	}
+}
+
+bool AnimationSystem::CalculateBoneTransform(Entity ent, float atTimeInSeconds)
 {
 	Matrix4 identity = Matrix4();
-	Entity ent = m_universe->QueryByEntityId(e);
 	RenderSystem* render = m_universe->GetSystem<RenderSystem>();
 	Model& model = ent.GetComponent<Model>();
 	ModelData& modelData = render->m_models[model.id];
@@ -23,22 +31,19 @@ bool AnimationSystem::CalculateBoneTransform(float atTime, EntityId e, std::vect
 	{
 		tickPerSecond = (float)scene->mAnimations[0]->mTicksPerSecond;
 	}
-	float timeInTicks = atTime * tickPerSecond;
+	float timeInTicks = atTimeInSeconds * tickPerSecond;
 	float animationTime = fmod(timeInTicks, (float)scene->mAnimations[0]->mDuration);
-	ReadNodeHierarchy(scene, animationTime, scene->mRootNode, identity);
-	results.resize(anim.numberOfBones);
+	ReadNodeHierarchy(ent, scene, animationTime, scene->mRootNode, identity);
+	anim.calculatedBonesMatrix.resize(anim.numberOfBones);
 	for (size_t i = 0; i < anim.numberOfBones; i++)
 	{
-		results[i] = anim.boneInfo[i].finalTransformation;
+		anim.calculatedBonesMatrix[i] = anim.boneInfo[i].finalTransformation;
 	}
 	return true;
 }
 
-void AnimationSystem::RegisterAnimatedModel(std::string modelPath, const aiNode* modelRootNode)
-{
-}
 
-void AnimationSystem::ReadNodeHierarchy(const aiScene* model, float atTime, const aiNode* node, Matrix4 parentTransform)
+void AnimationSystem::ReadNodeHierarchy(Entity ent, const aiScene* model, float atTime, const aiNode* node, Matrix4 parentTransform)
 {
 	std::string nodeName(node->mName.data);
 	const aiAnimation* animation = model->mAnimations[0];
@@ -62,13 +67,19 @@ void AnimationSystem::ReadNodeHierarchy(const aiScene* model, float atTime, cons
 
 	Matrix4 globalTransform = parentTransform * nodeTransform;
 
-	/*BIG TO DO: MOVE THE BONE INFO AS COMPONENT!
-	 
-    if (m_BoneMapping.find(NodeName) != m_BoneMapping.end()) {
-        uint BoneIndex = m_BoneMapping[NodeName];
-        m_BoneInfo[BoneIndex].FinalTransformation = m_GlobalInverseTransform * GlobalTransformation * m_BoneInfo[BoneIndex].BoneOffset;
-}
-	*/
+	Animation& anim = ent.GetComponent<Animation>();
+	if (anim.boneNameToIndex.find(nodeName) != anim.boneNameToIndex.end())
+	{
+		unsigned int boneIndex = anim.boneNameToIndex[nodeName];
+		Matrix4& rootMat = anim.modelInverseTransform;
+		anim.boneInfo[boneIndex].finalTransformation = rootMat * globalTransform * anim.boneInfo[boneIndex].boneOffset;
+		//TODO: REPOSITION THE CHILD ENTITIES WHICH ATTACHED TO THE MODEL!
+	}
+
+	for (size_t i = 0; i < node->mNumChildren; i++)
+	{
+		ReadNodeHierarchy(ent, model, atTime, node->mChildren[i], globalTransform);
+	}
 }
 
 Vec3 AnimationSystem::CalcInterpolatedScaling(float atTime, const aiNodeAnim* nodeAnim)
@@ -86,7 +97,7 @@ Vec3 AnimationSystem::CalcInterpolatedScaling(float atTime, const aiNodeAnim* no
 		PRINT("ERROR", "next scalling index out of range, aiNodeAnim ptr", nodeAnim);
 		throw std::exception("next scalling index out of range");
 	}
-	float deltaTime = (float)(nodeAnim->mScalingKeys[scallingIndex].mTime - nodeAnim->mScalingKeys[nextScallingIndex].mTime);
+	float deltaTime = (float)(nodeAnim->mScalingKeys[nextScallingIndex].mTime - nodeAnim->mScalingKeys[scallingIndex].mTime);
 	float factor = (atTime - (float)nodeAnim->mScalingKeys[scallingIndex].mTime) / deltaTime;
 	if (factor < 0 || factor > 1)
 	{
@@ -107,14 +118,14 @@ Vec3 AnimationSystem::CalcInterpolatedPosition(float atTime, const aiNodeAnim* n
 		return { positionKey.x, positionKey.y, positionKey.z };
 	}
 
-	unsigned int positionIndex = FindScaling(atTime, nodeAnim);
+	unsigned int positionIndex = FindPosition(atTime, nodeAnim);
 	unsigned int nextPositionIndex = positionIndex + 1;
 	if (nextPositionIndex > nodeAnim->mNumPositionKeys)
 	{
 		PRINT("ERROR", "next scalling index out of range, aiNodeAnim ptr", nodeAnim);
 		throw std::exception("next scalling index out of range");
 	}
-	float deltaTime = (float)(nodeAnim->mPositionKeys[positionIndex].mTime - nodeAnim->mPositionKeys[nextPositionIndex].mTime);
+	float deltaTime = (float)(nodeAnim->mPositionKeys[nextPositionIndex].mTime - nodeAnim->mPositionKeys[positionIndex].mTime);
 	float factor = (atTime - (float)nodeAnim->mPositionKeys[positionIndex].mTime) / deltaTime;
 	if (factor < 0 || factor > 1)
 	{
@@ -142,7 +153,7 @@ Quaternion AnimationSystem::CalcInterpolatedRotation(float atTime, const aiNodeA
 		PRINT("ERROR", "next rotation index out of range, aiNodeAnim ptr", nodeAnim);
 		throw std::exception("next scalling index out of range");
 	}
-	float deltaTime = (float)(nodeAnim->mRotationKeys[rotationIndex].mTime - nodeAnim->mRotationKeys[rotationIndex].mTime);
+	float deltaTime = (float)(nodeAnim->mRotationKeys[nextRotationIndex].mTime - nodeAnim->mRotationKeys[rotationIndex].mTime);
 	float factor = (atTime - (float)nodeAnim->mRotationKeys[rotationIndex].mTime) / deltaTime;
 	if (factor < 0 || factor > 1)
 	{
@@ -172,7 +183,7 @@ const aiNodeAnim* AnimationSystem::FindNodeAnim(const aiAnimation* anim, std::st
 
 unsigned int AnimationSystem::FindScaling(float atTime, const aiNodeAnim* nodeAnim)
 {
-	if (nodeAnim->mNumScalingKeys == 0)
+	if (nodeAnim->mNumScalingKeys <= 0)
 	{
 		PRINT("ERROR", "unable to find scalling index for nodeAnim:", nodeAnim->mNodeName.data, "at ptr", nodeAnim, "it is empty");
 		throw std::exception("there is no scaling keys!");
@@ -181,7 +192,7 @@ unsigned int AnimationSystem::FindScaling(float atTime, const aiNodeAnim* nodeAn
 
 	for (unsigned int i = 0; i < nodeAnim->mNumScalingKeys - 1; i++)
 	{
-		if (atTime < (float)nodeAnim->mScalingKeys[i + 1].mTime)
+		if (atTime <= (float)nodeAnim->mScalingKeys[i + 1].mTime)
 		{
 			return i;
 		}
@@ -218,7 +229,7 @@ unsigned int AnimationSystem::FindPosition(float atTime, const aiNodeAnim* nodeA
 {
 	for (unsigned int i = 0; i < nodeAnim->mNumPositionKeys - 1; i++)
 	{
-		if (atTime < (float)nodeAnim->mPositionKeys[i + 1].mTime)
+		if (atTime <= (float)nodeAnim->mPositionKeys[i + 1].mTime)
 		{
 			return i;
 		}

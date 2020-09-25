@@ -39,8 +39,11 @@ Entity Universe::QueryByEntityId(EntityId id)
 void Universe::Render(float dt)
 {
 	std::lock_guard<std::mutex> lock(m_mutex);
-	m_lastDt = dt;
+	auto t1 = std::chrono::high_resolution_clock::now();
 	m_systemManager->GetSystem<RenderSystem>()->Tick();
+	auto t2 = std::chrono::high_resolution_clock::now();
+	std::chrono::duration<float> duration = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1);
+	m_systemManager->GetSystem<AnimationSystem>()->Tick(duration.count());
 }
 
 Universe::Universe()
@@ -57,13 +60,6 @@ Universe::Universe()
 	nameSig.set(m_componentManager->GetComponentType<EntityName>());
 	m_systemManager->SetSignature<EntityNameCheckSystem>(nameSig);
 
-	//for mesh render
-	m_systemManager->RegisterSystem<RenderSystem>(this);
-	ComponentSignature nameSig2;
-	nameSig2.set(m_componentManager->GetComponentType<Transform>());
-	nameSig2.set(m_componentManager->GetComponentType<Model>());
-	nameSig2.set(m_componentManager->GetComponentType<Node>());
-	m_systemManager->SetSignature<RenderSystem>(nameSig2);
 
 	//for animation
 	m_systemManager->RegisterSystem<AnimationSystem>(this);
@@ -72,7 +68,16 @@ Universe::Universe()
 	nameSig3.set(m_componentManager->GetComponentType<Model>());
 	nameSig3.set(m_componentManager->GetComponentType<Node>());
 	nameSig3.set(m_componentManager->GetComponentType<Animation>());
-	m_systemManager->SetSignature<RenderSystem>(nameSig3);
+	m_systemManager->SetSignature<AnimationSystem>(nameSig3);
+
+
+	//for mesh render
+	m_systemManager->RegisterSystem<RenderSystem>(this);
+	ComponentSignature nameSig2;
+	nameSig2.set(m_componentManager->GetComponentType<Transform>());
+	nameSig2.set(m_componentManager->GetComponentType<Model>());
+	nameSig2.set(m_componentManager->GetComponentType<Node>());
+	m_systemManager->SetSignature<RenderSystem>(nameSig2);
 
 
 	//for camera system

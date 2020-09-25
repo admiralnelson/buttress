@@ -446,6 +446,23 @@ bool Shader::IsUniformDefined(std::string name)
 	return false;
 }
 
+bool Shader::IsUniformArrayDefined(std::string name)
+{
+	std::regex reg("(\\w+)\\[(\\d+)\\.\\.(\\d+)\\]");
+	std::smatch result;
+	if (std::regex_match(name, result, reg))
+	{
+		int indexBegin = std::stoi(result[2].str()); //to remove leading zeros if they exist
+		int indexEnd = std::stoi(result[3].str()); 
+		std::string begin = result[1];
+		std::string end = result[1];
+		begin = begin + "[" + std::to_string(indexBegin) + "]";
+		end = end + "[" + std::to_string(indexEnd) + "]";
+		return IsUniformDefined(begin) && IsUniformDefined(end);
+	}
+	return false;
+}
+
 bool Shader::IsAttributeDefined(std::string name)
 {
 	return m_attributes.find(name) != m_attributes.end();

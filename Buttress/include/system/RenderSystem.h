@@ -16,6 +16,7 @@ struct MeshQueue
 	Matrix4 view;
 	Matrix4 model;
 	Matrix4 projection;
+	std::vector<Matrix4> bonesTransformations;
 };
 
 class ModelData;

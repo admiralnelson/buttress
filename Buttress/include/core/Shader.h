@@ -11,6 +11,8 @@
 #define UNIFORM_SAMPLER2D_DIFFUSE "material.diffuse"
 #define UNIFORM_SAMPLER2D_SPECULAR "material.specular"
 #define UNIFORM_FLOAT_SHININESS "material.shininess"
+#define UNIFORM_ARRAY_MATRIX4_BONES "bones[0..99]"
+#define UNIFORM_ARRAY_MATRIX4_BONE "bones"
 
 
 class Shader
@@ -46,6 +48,7 @@ public:
 	bool Validate();
 	bool IsButtressConstantDefined(std::string name);
 	bool IsUniformDefined(std::string _name);
+	bool IsUniformArrayDefined(std::string name);
 	bool IsAttributeDefined(std::string _name);
 	bool IsStructExist(std::string name);
 	~Shader();

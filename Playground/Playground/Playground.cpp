@@ -14,6 +14,7 @@
 #include <ecs\ECS.h>
 #include <components\EntityName.h>
 #include <components\Model.h>
+#include <components\Animation.h>
 
 int main()
 {
@@ -62,7 +63,7 @@ int main()
 
 			Entity backpack = universe.CreateEntity("a backpack");
 			Model model;
-			model.objectPath = "../../resource/bob_lamp/bob_lamp.md5mesh";
+			model.objectPath = "../../resource/bob_lamp/boblampclean.md5mesh";
 			backpack.AddComponent<Model>(model);
 			backpack.Debug();
 			backpack.GetComponent<Transform>().RotateDeg({ 0, 0, 180 });
@@ -85,6 +86,16 @@ int main()
 			backpack.Debug();
 
 			universe.MemoryDebug();
+
+			universe.AddEventListener(KEYBOARD_EVENT::KEYBOARD_PRESS, [&backpack](Event & event)
+			{
+				unsigned int key = event.GetParam<unsigned int>(KEYBOARD_EVENT::PARAMS::KEYBOARD_BUTTON);
+				if (key == GLFW_KEY_P)
+				{
+					Animation& anim = backpack.GetComponent<Animation>();
+					PRINT("check anim value");
+				}
+			});
 
 			//register an event listener
 			universe.AddEventListener(WINDOW_EVENT::WINDOW_RESIZE, [](Event& e)

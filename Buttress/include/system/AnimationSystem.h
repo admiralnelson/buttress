@@ -9,10 +9,10 @@ class AnimationSystem : public System
 	friend class RenderSystem;
 public:
 	void Init(Universe* universe) override;
-	bool CalculateBoneTransform(float atTime, EntityId e, std::vector<Matrix4>& results);
+	void Tick(float deltaT);
+	bool CalculateBoneTransform(Entity ent, float atTimeInSeconds);
 private:
-	void RegisterAnimatedModel(std::string modelPath, const aiNode* modelRootNode);
-	void ReadNodeHierarchy(const aiScene* model, float atTime, const aiNode* node, Matrix4 parentTransform);
+	void ReadNodeHierarchy(Entity ent, const aiScene* model, float atTime, const aiNode* node, Matrix4 parentTransform);
 
 	Vec3 CalcInterpolatedScaling(float atTime, const aiNodeAnim* nodeAnim);
 	Vec3 CalcInterpolatedPosition(float atTime, const aiNodeAnim* nodeAnim);

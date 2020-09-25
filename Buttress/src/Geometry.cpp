@@ -55,3 +55,8 @@ void DecomposeMatrix4(Matrix4& mat, Vec3& outScale, Quaternion& outRot, Vec3& ou
 	glm::decompose(mat, outScale, outRot, outTrans, outSkew, outPers);
 }
 
+Matrix4 Inverse(Matrix4& in)
+{
+	return glm::inverse(in);
+}
+

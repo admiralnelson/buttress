@@ -1,6 +1,9 @@
 #include "pch.h"
 #include "RenderSystem.h"
 #include "components/Node.h"
+#include "components/Animation.h"
+
+static int freeMem;
 
 void RenderSystem::Init(Universe* universe)
 {
@@ -9,6 +12,7 @@ void RenderSystem::Init(Universe* universe)
 
 void RenderSystem::Tick()
 {
+
 	if (m_isFirstTick)
 	{
 		CameraSystem *cam = m_universe->GetSystem<CameraSystem>();
@@ -20,6 +24,9 @@ void RenderSystem::Tick()
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glCullFace(GL_BACK);
+
+		glGetIntegerv(GL_TEXTURE_FREE_MEMORY_ATI, &freeMem);
+		PRINT("INFO", "free mem is:", freeMem);
 	}
 	for (auto& e : m_entity)
 	{
@@ -83,6 +90,11 @@ bool RenderSystem::TraverseGraphForRender(EntityId e, Matrix4 model)
 		MeshData& mesh = MeshLoader::GetMesh(meshId);
 		MaterialData& mat = MaterialLoader::GetMaterialById(mesh.GetMaterialId());
 		MeshQueue queue;
+		if (ent.IsComponentExist<Animation>())
+		{
+			Animation& anim = ent.GetComponent<Animation>();
+			queue.bonesTransformations = std::vector<Matrix4>(anim.calculatedBonesMatrix);
+		}
 		queue.meshId = meshId;
 		queue.model = model;
 		queue.projection = projection;
@@ -97,18 +109,28 @@ void RenderSystem::RenderTheQueue()
 {
 	glClearColor(0.3, 0.4, 0.3, 1.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	for (auto &i : m_renderqueues)
+	for (auto &shader : m_renderqueues)
 	{
-		i.first->Use();
-		for (auto &j : i.second)
+		shader.first->Use();
+		for (auto &materialData : shader.second)
 		{
-			MaterialLoader::GetMaterialById(j.first).Use();
-			for (auto& k : j.second)
+			MaterialLoader::GetMaterialById(materialData.first).Use();
+			for (auto& singleMesh : materialData.second)
 			{
 				{
-					MeshLoader::GetMesh(k.meshId).Draw(k.projection, k.view, k.model);
+					//sets the animation matrix if shader has animation uniforms and queue contains animation transform
+					if (shader.first->IsUniformArrayDefined(UNIFORM_ARRAY_MATRIX4_BONES))
+					{
+						size_t len = singleMesh.bonesTransformations.size();
+						for (size_t  i = 0; i < len; i++)
+						{
+							std::string uniform = UNIFORM_ARRAY_MATRIX4_BONE"[" + std::to_string(i) + "]";
+							shader.first->SetUniformMat4x4(uniform, singleMesh.bonesTransformations[i]);
+						}
+					}
+					MeshLoader::GetMesh(singleMesh.meshId).Draw(singleMesh.projection, singleMesh.view, singleMesh.model);
 				}
-				j.second.pop_front();
+				materialData.second.pop_front();
 			}
 		}
 	}
