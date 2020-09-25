@@ -93,6 +93,10 @@ bool RenderSystem::TraverseGraphForRender(EntityId e, Matrix4 model)
 		if (ent.IsComponentExist<Animation>())
 		{
 			Animation& anim = ent.GetComponent<Animation>();
+			if (anim.calculatedBonesMatrix.size() == 0)
+			{
+				return false;
+			}
 			queue.bonesTransformations = std::vector<Matrix4>(anim.calculatedBonesMatrix);
 		}
 		queue.meshId = meshId;

@@ -20,7 +20,7 @@ void AnimationSystem::Tick(float dt)
 
 bool AnimationSystem::CalculateBoneTransform(Entity ent, float atTimeInSeconds)
 {
-	Matrix4 identity = Matrix4();
+	Matrix4 identity = Matrix4(1);
 	RenderSystem* render = m_universe->GetSystem<RenderSystem>();
 	Model& model = ent.GetComponent<Model>();
 	ModelData& modelData = render->m_models[model.id];
