@@ -44,6 +44,7 @@ void Universe::Render(float dt)
 	auto t2 = std::chrono::high_resolution_clock::now();
 	std::chrono::duration<float> duration = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1);
 	m_systemManager->GetSystem<AnimationSystem>()->Tick(duration.count());
+	m_lastDt = duration.count();
 }
 
 Universe::Universe()

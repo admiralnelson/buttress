@@ -85,6 +85,12 @@ int main()
 
 			backpack.Debug();
 
+			auto gunModel = universe.CreateEntity("gun");
+			Model gunM;
+			gunM.objectPath = "../../resource/gun_model/Handgun_obj.obj";
+			gunModel.AddComponent<Model>(gunM);
+
+
 			universe.MemoryDebug();
 
 			universe.AddEventListener(KEYBOARD_EVENT::KEYBOARD_PRESS, [&backpack](Event & event)

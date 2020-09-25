@@ -26,6 +26,15 @@ ModelData::ModelData(std::string path, Entity& e)
 	{
 		m_path = path.substr(0, path.find_last_of("\\"));
 	}
+	if (scene->mMeshes[0]->mNumBones)
+	{
+		Animation animation;
+		animation.numberOfBones = 0;
+		animation.speed = 0;
+		Matrix4 modelRootTransform = aiMatrix4x4ToMatrix4(scene->mRootNode->mTransformation);
+		animation.modelInverseTransform = Inverse(modelRootTransform);
+		e.AddComponent<Animation>(animation);
+	}
 	ProcessNode(scene->mRootNode, scene, e);
 }
 
@@ -95,15 +104,7 @@ MeshData ModelData::ProcessMesh(aiMesh* mesh, const aiScene* scene, Entity &e)
 		bones.resize(mesh->mNumVertices);
 		Entity child = e.CreateEntity(RandomString(5));
 		e.AttachChild(child);
-		if (!e.IsComponentExist<Animation>())
-		{
-			Animation animation;
-			Matrix4 modelRootTransform = aiMatrix4x4ToMatrix4(scene->mRootNode->mTransformation);
-			animation.modelInverseTransform = Inverse(modelRootTransform);
-			e.AddComponent<Animation>(animation);
-		}
 		Animation& anim = e.GetComponent<Animation>();
-		anim.numberOfBones = 0;
 		for (size_t i = 0; i < mesh->mNumBones; i++)
 		{
 			unsigned int boneIdx = 0;
