@@ -11,8 +11,7 @@ out vec3 passedNormal;
 out vec2 passedTexCoord;
 
 uniform mat4 model;
-uniform mat4 view;
-uniform mat4 projection;
+uniform mat4 pvm;
 uniform mat4 bones[BUTTRESS_CONSTANT_MAX_BONES];
 
 void main()
@@ -24,7 +23,7 @@ void main()
 	boneTransform += bones[aBoneIds[3]] * aWeights[3];
 
 	vec4 bonedPos = boneTransform * vec4(aPos, 1.0);
-	gl_Position = projection * view * model * bonedPos;
+	gl_Position = pvm * bonedPos;
 
 	vec4 bonedNormal = boneTransform * vec4(aNormal, 1.0);
 	passedNormal = mat3(transpose(inverse(model))) * bonedNormal.xyz; 

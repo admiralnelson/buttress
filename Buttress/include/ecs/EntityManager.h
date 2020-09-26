@@ -24,5 +24,5 @@ private:
 	//component signature for every entities available
 	std::vector<ComponentSignature> m_signatures{};
 	int m_entitiesCount = 0;
-
+	std::mutex m_mutex;
 };

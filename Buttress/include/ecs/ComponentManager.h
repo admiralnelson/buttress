@@ -106,6 +106,7 @@ public:
 	template<typename COMPONENT_TYPE>
 	void RegisterComponent()
 	{
+		std::lock_guard mutex(m_mutex);
 		std::string name = typeid(COMPONENT_TYPE).name();
 
 		if (m_componentTypes.find(name) != m_componentTypes.end())
@@ -123,6 +124,7 @@ public:
 	template<typename COMPONENT_TYPE>
 	ComponentTypeId GetComponentType()
 	{
+		std::lock_guard mutex(m_mutex);
 		std::string name = typeid(COMPONENT_TYPE).name();
 		if (m_componentTypes.find(name) == m_componentTypes.end())
 		{
@@ -135,6 +137,7 @@ public:
 
 	std::string GetComponentTypeName(ComponentTypeId compId)
 	{
+		std::lock_guard mutex(m_mutex);
 		if (m_componentTypeNames.find(compId) == m_componentTypeNames.end())
 		{
 			PRINT("ERROR", "component with id:", compId, "not registered!");
@@ -147,29 +150,34 @@ public:
 	template<typename COMPONENT_TYPE>
 	void AddComponent(EntityId entity, COMPONENT_TYPE component)
 	{
+		std::lock_guard mutex(m_mutex);
 		GetComponentArray<COMPONENT_TYPE>()->InsertData(entity, component);
 	}
 
 	template<typename COMPONENT_TYPE>
 	void RemoveComponent(EntityId entity)
 	{
+		std::lock_guard mutex(m_mutex);
 		GetComponentArray<COMPONENT_TYPE>()->RemoveData(entity);
 	}
 
 	template<typename COMPONENT_TYPE>
 	COMPONENT_TYPE& GetComponent(EntityId entity)
 	{
+		std::lock_guard mutex(m_mutex);
 		return GetComponentArray<COMPONENT_TYPE>()->GetData(entity);
 	}
 
 	template<typename COMPONENT_TYPE>
 	bool IsComponentExistForEntity(EntityId entity)
 	{
+		std::lock_guard mutex(m_mutex);
 		return GetComponentArray<COMPONENT_TYPE>()->IsComponentExist(entity);
 	}
 
 	void EntityDestroyed(EntityId entity) 
 	{
+		std::lock_guard mutex(m_mutex);
 		for (auto& i : m_componentArrays)
 		{
 			auto& comp = i.second;
@@ -207,5 +215,7 @@ private:
 
 		return std::static_pointer_cast<ComponentArray<COMPONENT_TYPE>>(m_componentArrays[name]);
 	}
+
+	std::mutex m_mutex;
 };
 

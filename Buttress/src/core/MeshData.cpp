@@ -72,9 +72,9 @@ void MeshData::Draw(Matrix4& proj, Matrix4& view, Matrix4& model)
 	MaterialData& material = MaterialLoader::GetMaterialById(m_matId);
 	
 	//set the uniform
-	material.shader->SetUniformMat4x4("projection", proj);
-	material.shader->SetUniformMat4x4("view", view);
-	material.shader->SetUniformMat4x4("model", model);
+	Matrix4 pvm = proj * view * model;
+	material.shader->SetUniformMat4x4(UNIFORM_MATRIX4_PVM, pvm);
+	material.shader->SetUniformMat4x4(UNIFORM_MATRIX4_MODEL, model);
 	//draw the object
 	glBindVertexArray(m_meshData.vao);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_meshData.ibo);

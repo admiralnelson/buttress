@@ -14,6 +14,9 @@
 #define UNIFORM_ARRAY_MATRIX4_BONES "bones[0..99]"
 #define UNIFORM_ARRAY_MATRIX4_BONE "bones"
 
+#define UNIFORM_MATRIX4_PVM "pvm"
+#define UNIFORM_MATRIX4_MODEL "model"
+
 
 class Shader
 {

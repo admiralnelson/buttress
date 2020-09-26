@@ -20,6 +20,7 @@ public:
 	template<typename SYSTEM_TYPE>
 	std::shared_ptr<SYSTEM_TYPE> RegisterSystem(Universe *universe)
 	{
+		std::lock_guard mutex(m_mutex);
 		std::string name = typeid(SYSTEM_TYPE).name();
 
 		if (m_systems.find(name) != m_systems.end())
@@ -36,6 +37,7 @@ public:
 	template<typename SYSTEM_TYPE>
 	SYSTEM_TYPE* GetSystem()
 	{
+		std::lock_guard mutex(m_mutex);
 		std::string name = typeid(SYSTEM_TYPE).name();
 
 		if (m_systems.find(name) == m_systems.end())
@@ -51,6 +53,7 @@ public:
 	template<typename SYSTEM_TYPE>
 	void SetSignature(ComponentSignature signature)
 	{
+		std::lock_guard mutex(m_mutex);
 		std::string name = typeid(SYSTEM_TYPE).name();
 
 		if (m_systems.find(name) == m_systems.end())
@@ -72,6 +75,7 @@ public:
 	template<typename SYSTEM_TYPE>
 	ComponentSignature GetSignature()
 	{
+		std::lock_guard mutex(m_mutex);
 		std::string name = typeid(SYSTEM_TYPE).name();
 
 		if (m_systems.find(name) == m_systems.end())
@@ -95,6 +99,7 @@ public:
 
 	void MemoryDebug()
 	{
+		std::lock_guard mutex(m_mutex);
 		PRINT("TO BE IMPLEMENTED");
 	}
 private:
@@ -104,4 +109,6 @@ private:
 	std::unordered_map<ComponentSignature, std::string> m_signaturesToName;
 	//map system name to the system itself
 	std::unordered_map<std::string, std::shared_ptr<System>> m_systems;
+
+	std::mutex m_mutex;
 };

@@ -12,7 +12,6 @@ void RenderSystem::Init(Universe* universe)
 
 void RenderSystem::Tick()
 {
-	std::lock_guard<std::mutex> mu(m_mutex);
 	if (m_isFirstTick)
 	{
 		CameraSystem *cam = m_universe->GetSystem<CameraSystem>();
