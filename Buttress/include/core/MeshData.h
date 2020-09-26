@@ -17,6 +17,7 @@ public:
 
 	MeshData(std::vector<Vertex> verts, std::vector<unsigned int> indices, std::vector<VertexBoneData> bones, MaterialId mat);
 	void Draw(Matrix4& proj, Matrix4& view, Matrix4& model);
+	void Use();
 	MaterialId GetMaterialId() const { return m_matId; }
 private:
 	MaterialId m_matId;

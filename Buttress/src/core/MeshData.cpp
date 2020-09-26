@@ -76,10 +76,15 @@ void MeshData::Draw(Matrix4& proj, Matrix4& view, Matrix4& model)
 	material.shader->SetUniformMat4x4(UNIFORM_MATRIX4_PVM, pvm);
 	material.shader->SetUniformMat4x4(UNIFORM_MATRIX4_MODEL, model);
 	//draw the object
-	glBindVertexArray(m_meshData.vao);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_meshData.ibo);
+	Use();
 	glDrawElements(GL_TRIANGLES, m_meshData.indexSize, GL_UNSIGNED_INT, nullptr);
 	
+}
+
+void MeshData::Use()
+{
+	glBindVertexArray(m_meshData.vao);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_meshData.ibo);
 }
 
 std::vector<MeshData> MeshLoader::m_meshCaches;
