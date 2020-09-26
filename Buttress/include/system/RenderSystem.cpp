@@ -19,7 +19,7 @@ void RenderSystem::Tick()
 		m_isFirstTick = false;
 
 		glEnable(GL_DEPTH_TEST);
-		///glEnable(GL_CULL_FACE);
+		glEnable(GL_CULL_FACE);
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glCullFace(GL_BACK);
@@ -38,27 +38,22 @@ void RenderSystem::Tick()
 			TraverseGraphForRender(e, transform.GetTransform());
 		}
 	}
+
+	auto sortInstance = [](const MeshQueue& a, const MeshQueue& b)
+	{
+		return  b.shader < a.shader && a.materialId < b.materialId || a.meshId < b.meshId;
+	};
+
+	std::sort(m_meshQueues.begin(), m_meshQueues.end(), sortInstance);
+
 	auto t2 = GetCurrentTime();
 	PRINT("traverse time (ms)", t2-t1);
 
 	auto trender1 = GetCurrentTime();
 	RenderTheQueue();
 	auto trender2 = GetCurrentTime();
-	
+	m_meshQueues.clear();
 	PRINT("render time (ms)", trender2 - trender1);
-}
-
-MaterialId RenderSystem::GetMaterialId(MaterialData materialData)
-{
-	for (MaterialId i = 0; i < m_materials.size(); i++)
-	{
-		if (m_materials[i] == materialData)
-		{
-			return i;
-		}
-	}
-	PRINT("WARN", "unable to find material ", materialData.name);
-	return INVALID_MATERIAL;
 }
 
 
@@ -93,6 +88,13 @@ bool RenderSystem::TraverseGraphForRender(EntityId e, Matrix4 model)
 		MeshData& mesh = MeshLoader::GetMesh(meshId);
 		MaterialData& mat = MaterialLoader::GetMaterialById(mesh.GetMaterialId());
 		MeshQueue queue;
+		
+		queue.shader = mat.shader;
+		queue.materialId = mesh.GetMaterialId();
+		queue.meshId = meshId;
+		queue.view = view;
+		queue.model = model;
+		queue.projection = projection;
 		if (ent.IsComponentExist<Animation>())
 		{
 			Animation& anim = ent.GetComponent<Animation>();
@@ -102,11 +104,7 @@ bool RenderSystem::TraverseGraphForRender(EntityId e, Matrix4 model)
 			}
 			queue.bonesTransformations = std::vector<Matrix4>(anim.calculatedBonesMatrix);
 		}
-		queue.meshId = meshId;
-		queue.model = model;
-		queue.projection = projection;
-		queue.view = view;
-		m_renderqueues[mat.shader][mesh.GetMaterialId()].push_back(queue);
+		m_meshQueues.push_back(queue);
 	}
 
 	return false;
@@ -114,48 +112,56 @@ bool RenderSystem::TraverseGraphForRender(EntityId e, Matrix4 model)
 
 static Shader* currentShader = nullptr;
 static MaterialData* currentMaterial = nullptr;
-
+static MeshData* currentMeshData = nullptr;
 void RenderSystem::RenderTheQueue()
 {
 	glClearColor(0.3, 0.4, 0.3, 1.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	for (auto &shader : m_renderqueues)
+	size_t len = m_meshQueues.size();
+	for (size_t i = 0; i < len; i++)
 	{
-		if (currentShader != shader.first.get())
-		{
-			shader.first->Use();
-			currentShader = shader.first.get();
-		}
-		
-		for (auto &materialData : shader.second)
-		{
-			//auto t1 = GetCurrentTime();
-			MaterialData* mat = &MaterialLoader::GetMaterialById(materialData.first);
-			if (currentMaterial != mat)
-			{
-				mat->Use();
-				currentMaterial = mat;
-			}
-			for (auto& singleMesh : materialData.second)
-			{
-				//sets the animation matrix if shader has animation uniforms and queue contains animation transform
-				if (shader.first->IsUniformArrayDefined(UNIFORM_ARRAY_MATRIX4_BONES))
-				{
-					size_t len = singleMesh.bonesTransformations.size();
-					shader.first->SetUniformMat4x4Array(UNIFORM_ARRAY_MATRIX4_BONE"[0]", len, singleMesh.bonesTransformations[0]);
-					//for (size_t  i = 0; i < len; i++)
-					//{
-					//	//std::string uniform = UNIFORM_ARRAY_MATRIX4_BONE"[" + std::to_string(i) + "]";
-					//	//shader.first->SetUniformMat4x4(uniform, singleMesh.bonesTransformations[i]);
-					//}
-				}
-				MeshLoader::GetMesh(singleMesh.meshId).Draw(singleMesh.projection, singleMesh.view, singleMesh.model);
-				materialData.second.pop_front();
-			}
-			//instanced rendering?
+		MeshQueue& queue = m_meshQueues[i];
 
-			//PRINT("render objects dt(ms)", GetCurrentTime() - t1);
+		if (queue.meshId == INVALID_MESH)
+		{
+			continue;
 		}
-		
+
+		if (queue.materialId == INVALID_MATERIAL)
+		{
+			continue;
+		}
+
+		if (queue.shader == nullptr)
+		{
+			continue;
+		}
+		if (queue.shader.get() != currentShader)
+		{
+			currentShader = queue.shader.get();
+			currentShader->Use();
+		}
+
+		MaterialData& material = MaterialLoader::GetMaterialById(queue.materialId);
+		if (&material != currentMaterial)
+		{
+			currentMaterial = &material;
+			material.Use();
+		}
+
+		MeshData& mesh = MeshLoader::GetMesh(queue.meshId);
+		if (&mesh != currentMeshData)
+		{
+			currentMeshData = &mesh;
+			mesh.Use();
+		}
+
+		std::vector<Matrix4>& bones = queue.bonesTransformations;
+		if (bones.size() > 0)
+		{
+			queue.shader->SetUniformMat4x4Array(UNIFORM_ARRAY_MATRIX4_BONE"[0]", bones.size(), bones[0]);
+		}
+
+		mesh.Draw(queue.projection, queue.view, queue.model);
 	}
 }

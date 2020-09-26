@@ -12,12 +12,13 @@ class Universe;
 
 struct MeshQueue
 {
-	MeshId meshId;
+	std::shared_ptr<Shader> shader;
+	MaterialId materialId = INVALID_MATERIAL;
+	MeshId meshId = INVALID_MESH;
 	Matrix4 view;
 	Matrix4 model;
 	Matrix4 projection;
 	std::vector<Matrix4> bonesTransformations;
-	unsigned int bonesTransformsId;
 };
 
 class ModelData;
@@ -40,8 +41,6 @@ private:
 	std::vector<ModelData> m_models;
 	Entity m_camera;
 	bool m_isFirstTick = true;
-	std::unordered_map <std::shared_ptr<Shader>, std::unordered_map<MaterialId, std::deque<MeshQueue>>> m_renderqueues;
-	std::vector<MaterialData> m_materials;
-	std::mutex m_mutex;
+	std::vector<MeshQueue> m_meshQueues;
 	//std::vector<unsigned int> m_bonesTransforms;
 };
