@@ -42,6 +42,6 @@ private:
 	bool m_isFirstTick = true;
 	std::unordered_map <std::shared_ptr<Shader>, std::unordered_map<MaterialId, std::deque<MeshQueue>>> m_renderqueues;
 	std::vector<MaterialData> m_materials;
-	
+	std::mutex m_mutex;
 	//std::vector<unsigned int> m_bonesTransforms;
 };

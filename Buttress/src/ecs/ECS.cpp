@@ -43,7 +43,7 @@ void Universe::Render(float dt)
 	m_systemManager->GetSystem<RenderSystem>()->Tick();
 	auto t2 = std::chrono::high_resolution_clock::now();
 	std::chrono::duration<float> duration = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1);
-	m_systemManager->GetSystem<AnimationSystem>()->Tick(duration.count());
+	
 	m_lastDt = duration.count();
 }
 
@@ -88,4 +88,11 @@ Universe::Universe()
 	nameSig4.set(m_componentManager->GetComponentType<Camera>());
 	m_systemManager->SetSignature<CameraSystem>(nameSig4);
 
+	m_animationThread = std::thread([&]()
+	{
+		while (true)
+		{
+			m_systemManager->GetSystem<AnimationSystem>()->Tick(0);
+		}
+	});
 }

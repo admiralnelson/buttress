@@ -12,7 +12,7 @@ void RenderSystem::Init(Universe* universe)
 
 void RenderSystem::Tick()
 {
-
+	std::lock_guard<std::mutex> mu(m_mutex);
 	if (m_isFirstTick)
 	{
 		CameraSystem *cam = m_universe->GetSystem<CameraSystem>();
@@ -153,6 +153,8 @@ void RenderSystem::RenderTheQueue()
 				MeshLoader::GetMesh(singleMesh.meshId).Draw(singleMesh.projection, singleMesh.view, singleMesh.model);
 				materialData.second.pop_front();
 			}
+			//instanced rendering?
+
 			//PRINT("render objects dt(ms)", GetCurrentTime() - t1);
 		}
 		
