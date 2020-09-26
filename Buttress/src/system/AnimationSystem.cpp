@@ -35,6 +35,11 @@ bool AnimationSystem::CalculateBoneTransform(Entity ent, float atTimeInSeconds)
 	}
 	ModelData& modelData = render->m_models[model.id];
 	Animation& anim = ent.GetComponent<Animation>();
+	//not ready yet
+	if (modelData.m_importer == nullptr)
+	{
+		return false;
+	}
 	const aiScene* scene = modelData.m_importer->GetScene();
 	float tickPerSecond = 25;
 	if (scene->mAnimations[0]->mTicksPerSecond)

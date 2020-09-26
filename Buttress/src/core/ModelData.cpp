@@ -53,7 +53,7 @@ void ModelData::ProcessNode(aiNode* node, const aiScene* scene, Entity& e)
 	for (size_t i = 0; i < node->mNumMeshes; i++)
 	{
 		aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
-		m_meshes.push_back(MeshLoader::LoadMesh(ProcessMesh(mesh, scene, e)));
+		m_meshes.push_back(MeshLoader::LoadMesh(mesh->mName.data, ProcessMesh(mesh, scene, e)));
 	}
 	for (size_t i = 0; i < node->mNumChildren; i++)
 	{

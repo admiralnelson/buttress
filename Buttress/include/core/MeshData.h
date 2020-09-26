@@ -38,11 +38,12 @@ class MeshLoader
 {
 	friend class RenderSystem;
 public:
-	static MeshId LoadMesh(MeshData data);
+	static MeshId LoadMesh(std::string name, MeshData data);
 	static MeshData& GetMesh(MeshId id);
 private:
 	static void ClearCache();
 
+	static std::vector<std::string> m_meshNames;
 	static std::vector<MeshData> m_meshCaches;
 };
 

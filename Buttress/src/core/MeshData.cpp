@@ -88,16 +88,26 @@ void MeshData::Use()
 }
 
 std::vector<MeshData> MeshLoader::m_meshCaches;
+std::vector<std::string> MeshLoader::m_meshNames;
 
-MeshId MeshLoader::LoadMesh(MeshData data)
+MeshId MeshLoader::LoadMesh(std::string name, MeshData data)
 {
-	m_meshCaches.push_back(data);
-	return (MeshId) m_meshCaches.size() - 1;
+	if (std::find(m_meshNames.begin(), m_meshNames.end(), name) == m_meshNames.end())
+	{
+		m_meshNames.push_back(name);
+		m_meshCaches.push_back(data);
+		return (MeshId)m_meshCaches.size() - 1;
+	}
+	else
+	{
+		auto it = std::find(m_meshNames.begin(), m_meshNames.end(), name);
+		return (MeshId)std::distance(m_meshNames.begin(), it);
+	}
 }
 
 MeshData& MeshLoader::GetMesh(MeshId id)
 {
-	if (id < 0 || id > m_meshCaches.size())
+	if (id >= m_meshCaches.size())
 	{
 		PRINT("ERROR", "meshId out of range! id", id);
 		throw std::exception("mesh out of range");
