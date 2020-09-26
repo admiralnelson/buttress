@@ -17,6 +17,7 @@ struct MeshQueue
 	Matrix4 model;
 	Matrix4 projection;
 	std::vector<Matrix4> bonesTransformations;
+	unsigned int bonesTransformsId;
 };
 
 class ModelData;
@@ -31,6 +32,7 @@ public:
 	void Init(Universe* universe) override;
 	void Tick();
 	MaterialId GetMaterialId(MaterialData materialData);
+
 private:
 	bool TraverseGraphForRender(EntityId e, Matrix4 model);
 	void RenderTheQueue();
@@ -40,4 +42,6 @@ private:
 	bool m_isFirstTick = true;
 	std::unordered_map <std::shared_ptr<Shader>, std::unordered_map<MaterialId, std::deque<MeshQueue>>> m_renderqueues;
 	std::vector<MaterialData> m_materials;
+	
+	//std::vector<unsigned int> m_bonesTransforms;
 };

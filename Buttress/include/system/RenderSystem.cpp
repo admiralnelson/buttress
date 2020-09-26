@@ -2,7 +2,7 @@
 #include "RenderSystem.h"
 #include "components/Node.h"
 #include "components/Animation.h"
-
+#include "Util.h"
 static int freeMem;
 
 void RenderSystem::Init(Universe* universe)
@@ -28,6 +28,7 @@ void RenderSystem::Tick()
 		glGetIntegerv(GL_TEXTURE_FREE_MEMORY_ATI, &freeMem);
 		PRINT("INFO", "free mem is:", freeMem);
 	}
+	auto t1 = GetCurrentTime();
 	for (auto& e : m_entity)
 	{
 		Transform& transform = m_universe->QueryByEntityId(e).GetComponent<Transform>();
@@ -38,11 +39,14 @@ void RenderSystem::Tick()
 			TraverseGraphForRender(e, transform.GetTransform());
 		}
 	}
-	auto t1 = std::chrono::high_resolution_clock::now();
+	auto t2 = GetCurrentTime();
+	PRINT("traverse time (ms)", t2-t1);
+
+	auto trender1 = GetCurrentTime();
 	RenderTheQueue();
-	auto t2 = std::chrono::high_resolution_clock::now();
-	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1).count();
-	//PRINT("render time (ms)", duration);
+	auto trender2 = GetCurrentTime();
+	
+	PRINT("render time (ms)", trender2 - trender1);
 }
 
 MaterialId RenderSystem::GetMaterialId(MaterialData materialData)

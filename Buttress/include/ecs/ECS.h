@@ -93,6 +93,8 @@ private:
 	std::unique_ptr<EventManager> m_eventManager = std::make_unique<EventManager>();
 	std::mutex m_mutex;
 	float m_lastDt = 0;
+
+	std::thread m_animationThread;
 };
 class Entity
 {

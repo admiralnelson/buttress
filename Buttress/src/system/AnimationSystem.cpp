@@ -13,12 +13,15 @@ void AnimationSystem::Init(Universe* universe)
 
 void AnimationSystem::Tick(float dt)
 {
+	auto t1 = GetCurrentTime();
+	std::lock_guard<std::mutex> secureThisBlock(m_mutex);
 	float runningTime = (float)((double)GetCurrentTime() - (double)m_startTime) / 1000.0f;
 	for (auto& e : m_entity)
 	{
 		Entity theEnt = m_universe->QueryByEntityId(e);
 		CalculateBoneTransform(theEnt, runningTime);
 	}
+	PRINT("animation time (ms)", GetCurrentTime() - t1);
 }
 
 bool AnimationSystem::CalculateBoneTransform(Entity ent, float atTimeInSeconds)
@@ -26,6 +29,10 @@ bool AnimationSystem::CalculateBoneTransform(Entity ent, float atTimeInSeconds)
 	Matrix4 identity = Matrix4(1);
 	RenderSystem* render = m_universe->GetSystem<RenderSystem>();
 	Model& model = ent.GetComponent<Model>();
+	if (render->m_models.size() <= model.id)
+	{
+		return false;
+	}
 	ModelData& modelData = render->m_models[model.id];
 	Animation& anim = ent.GetComponent<Animation>();
 	const aiScene* scene = modelData.m_importer->GetScene();

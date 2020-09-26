@@ -25,4 +25,5 @@ private:
 	std::unordered_map<std::string, aiNode*> m_modelWithAnimationCache;
 	std::unordered_map<EntityId, std::vector<Transform>> m_entityToBonesTransforms;
 	long long m_startTime = 0;
+	std::mutex m_mutex;
 };

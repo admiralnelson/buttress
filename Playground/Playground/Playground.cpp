@@ -61,44 +61,58 @@ int main()
 			PRINT("ENTITY NAME IS ", ent.GetComponent<EntityName>().name);
 			ent.Debug();
 
-			Entity backpack = universe.CreateEntity("a backpack");
+			Entity guard = universe.CreateEntity("a guard");
 			Model model;
 			model.objectPath = "../../resource/bob_lamp/boblampclean.md5mesh";
-			backpack.AddComponent<Model>(model);
-			backpack.Debug();
-			backpack.GetComponent<Transform>().RotateDeg({ 0, 0, 180 });
-			backpack.GetComponent<Transform>().scale = { 0.00000000005, 0.00000000005, 0.00000000005 };
+			guard.AddComponent<Model>(model);
+			guard.GetComponent<Transform>().RotateDeg({ -90, -90, 0 });
+			guard.Debug();
 
-			Entity gun = universe.CreateEntity("a guard");
-			Model gunMesh;
-			//gunMesh.objectPath = "../../resource/full_model/backpack.obj";;
-			//gun.AddComponent<Model>(gunMesh);
-			gun.GetComponent<Transform>().position = { 1, 1, 1};
-			Entity gun2 = gun.CreateEntity("child of gun");
-			Entity gun3 = gun.CreateEntity("child of gun 2");
-			gun.AttachChild(gun2);
-			gun.AttachChild(gun3);
-			gun2.AttachChild(gun.CreateEntity("child of child of gun"));
+			for (size_t i = 1; i < 11; i++)
+			{
+				Entity guardInstance = universe.CreateEntity("a guard" + std::to_string(i));
+				Model model;
+				model.objectPath = "../../resource/bob_lamp/boblampclean.md5mesh";
+				guardInstance.AddComponent<Model>(model);
+				guardInstance.GetComponent<Transform>().RotateDeg({ -90, -90, 0 });
+				guardInstance.GetComponent<Transform>().position = { i * 1.5, 0, 0 };
+				guardInstance.GetComponent<Transform>().scale = { 0.5, 0.5, 0.5 };
+				guardInstance.Debug();
+			}
+			
+			guard.GetComponent<Transform>().scale = { 0.2, 0.2, 0.2 };
 
-			backpack.AttachChild(gun);
-			backpack.GetComponent<Transform>().scale = { 1, 1, 1 };
+			//Entity guard2 = universe.CreateEntity("another guard");
+			//guard2.GetComponent<Transform>().position = { 10, 2, 2 };
+			//guard2.GetComponent<Transform>().RotateDeg({ -90, 90, 0 });
+			//guard2.AddComponent<Model>(model);
 
-			backpack.Debug();
+			//Entity gun = universe.CreateEntity("a gun");
+			//Model gunMesh;
+			////gunMesh.objectPath = "../../resource/full_model/backpack.obj";;
+			////gun.AddComponent<Model>(gunMesh);
+			//gun.GetComponent<Transform>().position = { 1, 1, 1};
+			//gun.GetComponent<Transform>().scale = { 107, 10, 10 };
+			//Entity gun2 = gun.CreateEntity("child of gun");
+			//Entity gun3 = gun.CreateEntity("child of gun 2");
 
-			auto gunModel = universe.CreateEntity("gun");
-			Model gunM;
-			gunM.objectPath = "../../resource/gun_model/Handgun_obj.obj";
-			gunModel.AddComponent<Model>(gunM);
+			//guard.Debug();
 
+			//auto gunModel = universe.CreateEntity("gun");
+			//Model gunM;
+			//gunM.objectPath = "../../resource/gun_model/Handgun_obj.obj";
+			//gunModel.AddComponent<Model>(gunM);
+			//
+			//
 
 			universe.MemoryDebug();
 
-			universe.AddEventListener(KEYBOARD_EVENT::KEYBOARD_PRESS, [&backpack](Event & event)
+			universe.AddEventListener(KEYBOARD_EVENT::KEYBOARD_PRESS, [&guard](Event & event)
 			{
 				unsigned int key = event.GetParam<unsigned int>(KEYBOARD_EVENT::PARAMS::KEYBOARD_BUTTON);
 				if (key == GLFW_KEY_P)
 				{
-					Animation& anim = backpack.GetComponent<Animation>();
+					Animation& anim = guard.GetComponent<Animation>();
 					PRINT("check anim value");
 				}
 			});
@@ -118,18 +132,18 @@ int main()
 				//PRINT("mouse move, x", x, "y", y);
 			});
 
-			universe.AddEventListener(KEYBOARD_EVENT::KEYBOARD_PRESS, [&backpack, &gun](Event& e)
+			universe.AddEventListener(KEYBOARD_EVENT::KEYBOARD_PRESS, [/*&guard, &gun*/](Event& e)
 			{
 				unsigned int key = e.GetParam<unsigned int>(KEYBOARD_EVENT::PARAMS::KEYBOARD_BUTTON);
 				if (key == GLFW_KEY_T)
 				{
-					backpack.AttachChild(gun);
-					gun.GetComponent<Transform>().scale = { 0.1, 0.1, 0.1 };
+					/*guard.AttachChild(gun);
+					gun.GetComponent<Transform>().scale = { 0.1, 0.1, 0.1 };*/
 				}
 				if (key == GLFW_KEY_Y)
 				{
-					backpack.RemoveChild(gun);
-					gun.GetComponent<Transform>().scale = { 1, 1, 1 };
+					/*guard.RemoveChild(gun);
+					gun.GetComponent<Transform>().scale = { 1, 1, 1 };*/
 				}
 			});
 
