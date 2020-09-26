@@ -53,7 +53,7 @@ void ModelData::ProcessNode(aiNode* node, const aiScene* scene, Entity& e)
 	for (size_t i = 0; i < node->mNumMeshes; i++)
 	{
 		aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
-		m_meshes.push_back(MeshLoader::LoadMesh(mesh->mName.data, ProcessMesh(mesh, scene, e)));
+		m_meshes.push_back(ProcessMesh(mesh, scene, e));
 	}
 	for (size_t i = 0; i < node->mNumChildren; i++)
 	{
@@ -61,7 +61,7 @@ void ModelData::ProcessNode(aiNode* node, const aiScene* scene, Entity& e)
 	}
 }
 
-MeshData ModelData::ProcessMesh(aiMesh* mesh, const aiScene* scene, Entity &e)
+MeshId ModelData::ProcessMesh(aiMesh* mesh, const aiScene* scene, Entity &e)
 {
 	std::vector<Vertex> vertices;
 	std::vector<unsigned int> indices;
@@ -156,7 +156,7 @@ MeshData ModelData::ProcessMesh(aiMesh* mesh, const aiScene* scene, Entity &e)
 		material.shader = defaultShader;
 	}
 	
-	return MeshData(vertices, indices, bones, matId);
+	return MeshLoader::LoadMesh(mesh->mName.data, vertices, indices, bones, matId);
 }
 
 MaterialData ModelData::ProcessMaterial(aiMaterial* material, std::string name)

@@ -90,7 +90,7 @@ Universe::Universe()
 
 	m_animationThread = std::thread([&]()
 	{
-		while (true)
+		while (m_running)
 		{
 			m_systemManager->GetSystem<AnimationSystem>()->Tick(0);
 		}

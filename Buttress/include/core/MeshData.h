@@ -15,7 +15,7 @@ class MeshData
 {
 public:
 
-	MeshData(std::vector<Vertex> verts, std::vector<unsigned int> indices, std::vector<VertexBoneData> bones, MaterialId mat);
+	MeshData(std::vector<Vertex>& verts, std::vector<unsigned int>& indices, std::vector<VertexBoneData>& bones, MaterialId mat);
 	void Draw(Matrix4& proj, Matrix4& view, Matrix4& model);
 	void Use();
 	MaterialId GetMaterialId() const { return m_matId; }
@@ -31,14 +31,14 @@ private:
 		GLuint indexSize;
 	};
 
-	MeshHandle m_meshData;
+	MeshHandle m_meshData = {0,0,0,0,0};
 };
 
 class MeshLoader
 {
 	friend class RenderSystem;
 public:
-	static MeshId LoadMesh(std::string name, MeshData data);
+	static MeshId LoadMesh(std::string name, std::vector<Vertex> verts, std::vector<unsigned int> indices, std::vector<VertexBoneData> bones, MaterialId mat);
 	static MeshData& GetMesh(MeshId id);
 private:
 	static void ClearCache();

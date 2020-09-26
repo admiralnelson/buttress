@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "core/MeshData.h"
 
-MeshData::MeshData(std::vector<Vertex> verts, std::vector<unsigned int> indices, std::vector<VertexBoneData> bones, MaterialId mat)
+MeshData::MeshData(std::vector<Vertex>& verts, std::vector<unsigned int>& indices, std::vector<VertexBoneData>& bones, MaterialId mat)
 {
 	MeshHandle meshData;
 	m_matId = mat;
@@ -90,10 +90,12 @@ void MeshData::Use()
 std::vector<MeshData> MeshLoader::m_meshCaches;
 std::vector<std::string> MeshLoader::m_meshNames;
 
-MeshId MeshLoader::LoadMesh(std::string name, MeshData data)
+
+MeshId MeshLoader::LoadMesh(std::string name, std::vector<Vertex> verts, std::vector<unsigned int> indices, std::vector<VertexBoneData> bones, MaterialId mat)
 {
 	if (std::find(m_meshNames.begin(), m_meshNames.end(), name) == m_meshNames.end())
 	{
+		MeshData data(verts, indices, bones, mat);
 		m_meshNames.push_back(name);
 		m_meshCaches.push_back(data);
 		return (MeshId)m_meshCaches.size() - 1;

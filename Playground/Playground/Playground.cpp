@@ -68,7 +68,7 @@ int main()
 			guard.GetComponent<Transform>().RotateDeg({ -90, -90, 0 });
 			guard.Debug();
 
-			for (size_t i = 1; i < 10; i++)
+			for (size_t i = 1; i < 20; i++)
 			{
 				Entity guardInstance = universe.CreateEntity("a guard" + std::to_string(i));
 				Model model;

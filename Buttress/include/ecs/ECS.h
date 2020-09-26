@@ -72,6 +72,8 @@ public:
 	Universe();
 	~Universe()
 	{
+		m_running = false;
+		m_animationThread.join();
 		PRINT("INFO", "the end times has come... (universe destroyed)", this);
 	}
 	void MemoryDebug()
@@ -93,7 +95,7 @@ private:
 	std::unique_ptr<EventManager> m_eventManager = std::make_unique<EventManager>();
 	std::mutex m_mutex;
 	float m_lastDt = 0;
-
+	bool m_running = true;
 	std::thread m_animationThread;
 };
 class Entity

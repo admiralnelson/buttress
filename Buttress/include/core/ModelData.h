@@ -51,7 +51,7 @@ public:
 	static std::shared_ptr<Shader> defaultAnimatedShader;
 private:
 	void ProcessNode(aiNode *node, const aiScene *scene, Entity &e);
-	MeshData ProcessMesh(aiMesh *mesh, const aiScene *scene, Entity &e);
+	MeshId ProcessMesh(aiMesh *mesh, const aiScene *scene, Entity &e);
 	MaterialData ProcessMaterial(aiMaterial *material,  std::string name);
 	std::vector<unsigned int> m_meshes;
 	std::string m_path;
