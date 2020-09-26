@@ -75,8 +75,8 @@ int main()
 				model.objectPath = "../../resource/bob_lamp/boblampclean.md5mesh";
 				guardInstance.AddComponent<Model>(model);
 				guardInstance.GetComponent<Transform>().RotateDeg({ -90, -90, 0 });
-				guardInstance.GetComponent<Transform>().position = { i * 1.5, 0, 0 };
-				guardInstance.GetComponent<Transform>().scale = { 0.5, 0.5, 0.5 };
+				guardInstance.GetComponent<Transform>().position = { 0, 0, i * 1.5 };
+				guardInstance.GetComponent<Transform>().scale = { 0.1, 0.1, 0.1 };
 				guardInstance.Debug();
 			}
 			

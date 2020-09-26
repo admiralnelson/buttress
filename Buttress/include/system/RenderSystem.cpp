@@ -113,33 +113,48 @@ bool RenderSystem::TraverseGraphForRender(EntityId e, Matrix4 model)
 	return false;
 }
 
+static Shader* currentShader = nullptr;
+static MaterialData* currentMaterial = nullptr;
+
 void RenderSystem::RenderTheQueue()
 {
 	glClearColor(0.3, 0.4, 0.3, 1.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	for (auto &shader : m_renderqueues)
 	{
-		shader.first->Use();
+		if (currentShader != shader.first.get())
+		{
+			shader.first->Use();
+			currentShader = shader.first.get();
+		}
+		
 		for (auto &materialData : shader.second)
 		{
-			MaterialLoader::GetMaterialById(materialData.first).Use();
+			//auto t1 = GetCurrentTime();
+			MaterialData* mat = &MaterialLoader::GetMaterialById(materialData.first);
+			if (currentMaterial != mat)
+			{
+				mat->Use();
+				currentMaterial = mat;
+			}
 			for (auto& singleMesh : materialData.second)
 			{
+				//sets the animation matrix if shader has animation uniforms and queue contains animation transform
+				if (shader.first->IsUniformArrayDefined(UNIFORM_ARRAY_MATRIX4_BONES))
 				{
-					//sets the animation matrix if shader has animation uniforms and queue contains animation transform
-					if (shader.first->IsUniformArrayDefined(UNIFORM_ARRAY_MATRIX4_BONES))
-					{
-						size_t len = singleMesh.bonesTransformations.size();
-						for (size_t  i = 0; i < len; i++)
-						{
-							std::string uniform = UNIFORM_ARRAY_MATRIX4_BONE"[" + std::to_string(i) + "]";
-							shader.first->SetUniformMat4x4(uniform, singleMesh.bonesTransformations[i]);
-						}
-					}
-					MeshLoader::GetMesh(singleMesh.meshId).Draw(singleMesh.projection, singleMesh.view, singleMesh.model);
+					size_t len = singleMesh.bonesTransformations.size();
+					shader.first->SetUniformMat4x4Array(UNIFORM_ARRAY_MATRIX4_BONE"[0]", len, singleMesh.bonesTransformations[0]);
+					//for (size_t  i = 0; i < len; i++)
+					//{
+					//	//std::string uniform = UNIFORM_ARRAY_MATRIX4_BONE"[" + std::to_string(i) + "]";
+					//	//shader.first->SetUniformMat4x4(uniform, singleMesh.bonesTransformations[i]);
+					//}
 				}
+				MeshLoader::GetMesh(singleMesh.meshId).Draw(singleMesh.projection, singleMesh.view, singleMesh.model);
 				materialData.second.pop_front();
 			}
+			//PRINT("render objects dt(ms)", GetCurrentTime() - t1);
 		}
+		
 	}
 }

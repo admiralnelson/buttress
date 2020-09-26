@@ -33,6 +33,7 @@ public:
 	bool SetUniformValueF(std::string _name, std::vector<float> &v);
 
 	bool SetUniformMat4x4(std::string _name, Matrix4 &mat);
+	bool SetUniformMat4x4Array(std::string _name, unsigned int size, Matrix4& mat);
 
 	bool SetUniformValueI(std::string _name, int x);
 	bool SetUniformValueI(std::string _name, int x, int y);
