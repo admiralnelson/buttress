@@ -12,7 +12,7 @@ EntityManager::EntityManager()
 
 EntityId EntityManager::CreateEntity()
 {
-	std::lock_guard mutex(m_mutex);
+	
 	if (m_entitiesCount >= MAX_ENTITIES)
 	{
 		PRINT("ERROR", "TOO MANY ENTITIES. PAST THE LIMIT OF", MAX_ENTITIES);
@@ -27,7 +27,7 @@ EntityId EntityManager::CreateEntity()
 
 void EntityManager::DestroyEntity(EntityId entity)
 {
-	std::lock_guard mutex(m_mutex);
+	
 	PRINT("destroyed entity id:", entity );
 	if (entity < 0)
 	{
@@ -41,7 +41,7 @@ void EntityManager::DestroyEntity(EntityId entity)
 
 void EntityManager::SetSignature(EntityId entity, ComponentSignature signature )
 {
-	std::lock_guard mutex(m_mutex);
+	
 	if (entity < 0 && entity >= MAX_ENTITIES)
 	{
 		PRINT("ERROR", "TOO ENTITIY OUT OF RANGE. entity was:", entity);
@@ -52,7 +52,7 @@ void EntityManager::SetSignature(EntityId entity, ComponentSignature signature )
 
 ComponentSignature EntityManager::GetSignature(EntityId entity)
 {
-	std::lock_guard mutex(m_mutex);
+	
 	if (entity < 0 && entity >= MAX_ENTITIES)
 	{
 		PRINT("ERROR", "TOO ENTITIY OUT OF RANGE. entity was:", entity);

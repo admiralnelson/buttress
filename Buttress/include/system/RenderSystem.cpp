@@ -47,13 +47,13 @@ void RenderSystem::Tick()
 	std::sort(m_meshQueues.begin(), m_meshQueues.end(), sortInstance);
 
 	auto t2 = GetCurrentTime();
-	PRINT("traverse time (ms)", t2-t1);
+	//PRINT("traverse time (ms)", t2-t1);
 
 	auto trender1 = GetCurrentTime();
 	RenderTheQueue();
 	auto trender2 = GetCurrentTime();
 	m_meshQueues.clear();
-	PRINT("render time (ms)", trender2 - trender1);
+	//PRINT("render time (ms)", trender2 - trender1);
 }
 
 
@@ -104,7 +104,7 @@ bool RenderSystem::TraverseGraphForRender(EntityId e, Matrix4 model)
 			}
 			queue.bonesTransformations = std::vector<Matrix4>(anim.calculatedBonesMatrix);
 		}
-		m_meshQueues.push_back(queue);
+		m_meshQueues.push_back(queue); 
 	}
 
 	return false;
@@ -117,10 +117,9 @@ void RenderSystem::RenderTheQueue()
 {
 	glClearColor(0.3, 0.4, 0.3, 1.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	size_t len = m_meshQueues.size();
-	for (size_t i = 0; i < len; i++)
+	while(!m_meshQueues.empty())
 	{
-		MeshQueue& queue = m_meshQueues[i];
+		MeshQueue& queue = m_meshQueues.front();
 
 		if (queue.meshId == INVALID_MESH)
 		{
@@ -163,5 +162,6 @@ void RenderSystem::RenderTheQueue()
 		}
 
 		mesh.Draw(queue.projection, queue.view, queue.model);
+		m_meshQueues.pop_front();
 	}
 }

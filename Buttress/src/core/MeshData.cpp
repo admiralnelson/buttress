@@ -76,7 +76,6 @@ void MeshData::Draw(Matrix4& proj, Matrix4& view, Matrix4& model)
 	material.shader->SetUniformMat4x4(UNIFORM_MATRIX4_PVM, pvm);
 	material.shader->SetUniformMat4x4(UNIFORM_MATRIX4_MODEL, model);
 	//draw the object
-	Use();
 	glDrawElements(GL_TRIANGLES, m_meshData.indexSize, GL_UNSIGNED_INT, nullptr);
 	
 }

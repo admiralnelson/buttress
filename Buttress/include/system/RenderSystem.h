@@ -41,6 +41,6 @@ private:
 	std::vector<ModelData> m_models;
 	Entity m_camera;
 	bool m_isFirstTick = true;
-	std::vector<MeshQueue> m_meshQueues;
+	std::deque<MeshQueue> m_meshQueues;
 	//std::vector<unsigned int> m_bonesTransforms;
 };

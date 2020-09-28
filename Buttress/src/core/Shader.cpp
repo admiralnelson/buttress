@@ -140,11 +140,11 @@ bool Shader::SetUniformValueF(std::string _name, std::vector<float> &v)
 
 bool Shader::SetUniformMat4x4(std::string _name, Matrix4 &mat)
 {
-	if (!IsUniformDefined(_name))
+	/*if (!IsUniformDefined(_name))
 	{
 		PRINT("WARNING", "undefined uniform", _name, "shader source:", this->name);
 		return false;
-	}
+	}*/
 	glUniformMatrix4fv(m_uniforms[_name].valuePos, 1, GL_FALSE, &mat[0][0]);
 	CheckError(__FUNCTION__, { "x:", glm::to_string(mat) });
 	return true;

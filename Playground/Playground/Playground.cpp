@@ -68,7 +68,7 @@ int main()
 			guard.GetComponent<Transform>().RotateDeg({ -90, -90, 0 });
 			guard.Debug();
 
-			for (size_t i = 1; i < 20; i++)
+			for (size_t i = 1; i < 10; i++)
 			{
 				Entity guardInstance = universe.CreateEntity("a guard" + std::to_string(i));
 				Model model;
@@ -80,6 +80,17 @@ int main()
 				guardInstance.Debug();
 			}
 			
+			for (size_t i = 1; i < 20; i++)
+			{
+				Entity gunInstance = universe.CreateEntity("a gun" + std::to_string(i));
+				Model model;
+				model.objectPath = "../../resource/gun_model/Handgun_obj.obj";
+				gunInstance.AddComponent<Model>(model);
+				gunInstance.GetComponent<Transform>().position = { 2, 0, i * 1.5 };
+				
+			}
+
+
 			guard.GetComponent<Transform>().scale = { 0.2, 0.2, 0.2 };
 
 			//Entity guard2 = universe.CreateEntity("another guard");
