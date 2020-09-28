@@ -16,7 +16,9 @@ class MeshData
 public:
 
 	MeshData(std::vector<Vertex>& verts, std::vector<unsigned int>& indices, std::vector<VertexBoneData>& bones, MaterialId mat);
+	//MUST BE EXECUTED ON MAIN THREAD!
 	void Draw(Matrix4& proj, Matrix4& view, Matrix4& model);
+	//MUST BE EXECUTED ON MAIN THREAD!
 	void Use();
 	MaterialId GetMaterialId() const { return m_matId; }
 private:
@@ -31,6 +33,9 @@ private:
 		GLuint indexSize;
 	};
 
+	std::vector<Vertex> m_verts;
+	std::vector<unsigned int> m_indices;
+	std::vector<VertexBoneData> m_bones;
 	MeshHandle m_meshData = {0,0,0,0,0};
 };
 

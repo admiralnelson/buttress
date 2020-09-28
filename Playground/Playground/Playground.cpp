@@ -67,6 +67,7 @@ int main()
 			guard.AddComponent<Model>(model);
 			guard.GetComponent<Transform>().RotateDeg({ -90, -90, 0 });
 			guard.Debug();
+			guard.GetComponent<Transform>().scale = { 0.2, 0.2, 0.2 };
 
 			for (size_t i = 1; i < 10; i++)
 			{
@@ -91,7 +92,6 @@ int main()
 			}
 
 
-			guard.GetComponent<Transform>().scale = { 0.2, 0.2, 0.2 };
 
 			//Entity guard2 = universe.CreateEntity("another guard");
 			//guard2.GetComponent<Transform>().position = { 10, 2, 2 };
@@ -118,15 +118,15 @@ int main()
 
 			universe.MemoryDebug();
 
-			universe.AddEventListener(KEYBOARD_EVENT::KEYBOARD_PRESS, [&guard](Event & event)
-			{
-				unsigned int key = event.GetParam<unsigned int>(KEYBOARD_EVENT::PARAMS::KEYBOARD_BUTTON);
-				if (key == GLFW_KEY_P)
-				{
-					Animation& anim = guard.GetComponent<Animation>();
-					PRINT("check anim value");
-				}
-			});
+			//universe.AddEventListener(KEYBOARD_EVENT::KEYBOARD_PRESS, [&guard](Event & event)
+			//{
+			//	unsigned int key = event.GetParam<unsigned int>(KEYBOARD_EVENT::PARAMS::KEYBOARD_BUTTON);
+			//	if (key == GLFW_KEY_P)
+			//	{
+			//		Animation& anim = guard.GetComponent<Animation>();
+			//		PRINT("check anim value");
+			//	}
+			//});
 
 			//register an event listener
 			universe.AddEventListener(WINDOW_EVENT::WINDOW_RESIZE, [](Event& e)

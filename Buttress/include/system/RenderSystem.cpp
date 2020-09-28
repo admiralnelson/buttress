@@ -52,7 +52,6 @@ void RenderSystem::Tick()
 	auto trender1 = GetCurrentTime();
 	RenderTheQueue();
 	auto trender2 = GetCurrentTime();
-	m_meshQueues.clear();
 	//PRINT("render time (ms)", trender2 - trender1);
 }
 
@@ -120,7 +119,6 @@ void RenderSystem::RenderTheQueue()
 	while(!m_meshQueues.empty())
 	{
 		MeshQueue& queue = m_meshQueues.front();
-
 		if (queue.meshId == INVALID_MESH)
 		{
 			continue;
@@ -164,4 +162,9 @@ void RenderSystem::RenderTheQueue()
 		mesh.Draw(queue.projection, queue.view, queue.model);
 		m_meshQueues.pop_front();
 	}
+}
+
+void RenderSystem::LoadTheModelQueue()
+{
+
 }

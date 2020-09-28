@@ -21,6 +21,12 @@ struct MeshQueue
 	std::vector<Matrix4> bonesTransformations;
 };
 
+struct ModelQueueToBeLoaded
+{
+	std::string path;
+	Entity entity;
+};
+
 class ModelData;
 //class MeshLoader;
 //class MaterialLoader;
@@ -37,10 +43,12 @@ public:
 private:
 	bool TraverseGraphForRender(EntityId e, Matrix4 model);
 	void RenderTheQueue();
+	void LoadTheModelQueue();
 	std::vector<std::string> m_modelsPaths;
 	std::vector<ModelData> m_models;
+	std::deque<MeshQueue> m_meshQueues;
+	std::deque<ModelQueueToBeLoaded> m_meshToBeLoaded;
 	Entity m_camera;
 	bool m_isFirstTick = true;
-	std::deque<MeshQueue> m_meshQueues;
 	//std::vector<unsigned int> m_bonesTransforms;
 };

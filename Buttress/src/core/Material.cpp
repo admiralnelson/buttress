@@ -12,8 +12,8 @@ void MaterialData::Use()
 	if (diffuse != nullptr && shader->IsUniformDefined(UNIFORM_SAMPLER2D_DIFFUSE))
 	{
 		shader->SetUniformValueI(UNIFORM_SAMPLER2D_DIFFUSE, 0);
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, diffuse->m_textureNo);
+		diffuse->Use();
+		
 	}
 	else
 	{
@@ -22,9 +22,10 @@ void MaterialData::Use()
 	}
 	if (specular != nullptr && shader->IsAttributeDefined(UNIFORM_SAMPLER2D_SPECULAR))
 	{
+		
 		shader->SetUniformValueI(UNIFORM_SAMPLER2D_SPECULAR, 1);
-		glActiveTexture(GL_TEXTURE1);
-		glBindTexture(GL_TEXTURE_2D, specular->m_textureNo);
+		specular->Use(1);
+		
 	}
 	else
 	{
@@ -34,7 +35,7 @@ void MaterialData::Use()
 
 bool MaterialData::IsReady()
 {
-	return (shader != nullptr && shader->IsShaderReady());
+	return (shader != nullptr && shader->IsShaderReady() && diffuse->IsReady());
 }
 
 void MaterialData::Debug()
@@ -42,8 +43,7 @@ void MaterialData::Debug()
 	PRINT("INFO", "material ready:", IsReady() ? "yes" : "no");
 	PRINT("    ", "material name:", name);
 	PRINT("    ", "shader name:", shader->name);
-	PRINT("    ", "diffuse name:", diffuse != nullptr ? diffuse->m_path : "none");
-	PRINT("    ", "specular name:", specular != nullptr ? specular->m_path : "none");
+	
 
 }
 
