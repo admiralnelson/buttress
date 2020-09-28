@@ -92,7 +92,7 @@ Universe::Universe()
 	{
 		while (m_running)
 		{
-			//m_systemManager->GetSystem<AnimationSystem>()->Tick(0);
+			m_systemManager->GetSystem<AnimationSystem>()->Tick(0);
 		}
 	});
 }
