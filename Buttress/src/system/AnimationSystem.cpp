@@ -14,10 +14,10 @@ void AnimationSystem::Init(Universe* universe)
 void AnimationSystem::Tick(float dt)
 {
 	auto t1 = GetCurrentTime();
-	std::lock_guard<std::mutex> secureThisBlock(m_mutex);
 	float runningTime = (float)((double)GetCurrentTime() - (double)m_startTime) / 1000.0f;
 	for (auto& e : m_entity)
 	{
+		std::lock_guard<std::mutex> secureThisBlock(m_mutex);
 		Entity theEnt = m_universe->QueryByEntityId(e);
 		CalculateBoneTransform(theEnt, runningTime);
 	}

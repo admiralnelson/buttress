@@ -196,3 +196,36 @@ MaterialData ModelData::ProcessMaterial(aiMaterial* material, std::string name)
 
 	return out;
 }
+
+std::vector<std::string> ModelLoader::m_modelNames;
+
+ModelId ModelLoader::LoadModel(std::string path, Entity& e)
+{
+	if (std::find(m_modelNames.begin(), m_modelNames.end(), path) == m_modelNames.end())
+	{
+		ModelData data(path, e);
+		m_modelNames.push_back(path);
+		m_modelCaches.push_back(data);
+		return (ModelId)m_modelCaches.size() - 1;
+	}
+	else
+	{
+		auto it = std::find(m_modelNames.begin(), m_modelNames.end(), path);
+		return (MeshId)std::distance(m_modelNames.begin(), it);
+	}
+}
+
+ModelData& ModelLoader::GetModel(ModelId id)
+{
+	if (id >= m_modelCaches.size())
+	{
+		PRINT("ERROR", "modelId out of range! id", id);
+		throw std::exception("model out of range");
+	}
+	return m_modelCaches[id];
+}
+
+bool ModelLoader::RegisterAnimation(Entity& e)
+{
+	return false;
+}

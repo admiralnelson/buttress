@@ -88,11 +88,4 @@ Universe::Universe()
 	nameSig4.set(m_componentManager->GetComponentType<Camera>());
 	m_systemManager->SetSignature<CameraSystem>(nameSig4);
 
-	m_animationThread = std::thread([&]()
-	{
-		while (m_running)
-		{
-			m_systemManager->GetSystem<AnimationSystem>()->Tick(0);
-		}
-	});
 }

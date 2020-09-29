@@ -81,7 +81,7 @@ int main()
 				guardInstance.Debug();
 			}
 			
-			for (size_t i = 1; i < 20; i++)
+			for (size_t i = 1; i < 200; i++)
 			{
 				Entity gunInstance = universe.CreateEntity("a gun" + std::to_string(i));
 				Model model;

@@ -53,9 +53,26 @@ private:
 	void ProcessNode(aiNode *node, const aiScene *scene, Entity &e);
 	MeshId ProcessMesh(aiMesh *mesh, const aiScene *scene, Entity &e);
 	MaterialData ProcessMaterial(aiMaterial *material,  std::string name);
+
+	void AnimationNode(aiNode* node, const aiScene* scene, Entity& e);
 	std::vector<unsigned int> m_meshes;
 	std::string m_path;
 	std::shared_ptr<Shader> m_shader;
 	RenderSystem* m_renderer;
 	std::shared_ptr<Assimp::Importer> m_importer;
 };
+
+class ModelLoader
+{
+	friend class RenderSystem;
+	friend class ModelData;
+public:
+	static ModelId LoadModel(std::string path, Entity &e);
+	static ModelData& GetModel(ModelId id);
+private:
+	static void ClearCache();
+	static bool RegisterAnimation(Entity& e);
+	static std::vector<std::string> m_modelNames;
+	static std::vector<ModelData> m_modelCaches;
+};
+

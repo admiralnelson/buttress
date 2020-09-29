@@ -21,11 +21,7 @@ struct MeshQueue
 	std::vector<Matrix4> bonesTransformations;
 };
 
-struct ModelQueueToBeLoaded
-{
-	std::string path;
-	Entity entity;
-};
+
 
 class ModelData;
 //class MeshLoader;
@@ -38,17 +34,21 @@ class RenderSystem : public System
 public:
 	void Init(Universe* universe) override;
 	void Tick();
-	MaterialId GetMaterialId(MaterialData materialData);
-
 private:
 	bool TraverseGraphForRender(EntityId e, Matrix4 model);
+	//main thread
 	void RenderTheQueue();
-	void LoadTheModelQueue();
+	//secondary thread
+	void TraverseTheGraph();
 	std::vector<std::string> m_modelsPaths;
 	std::vector<ModelData> m_models;
 	std::deque<MeshQueue> m_meshQueues;
-	std::deque<ModelQueueToBeLoaded> m_meshToBeLoaded;
+	std::mutex m_mutex;
+	std::thread m_traversalThread;
+	std::thread m_animationSystem;
 	Entity m_camera;
 	bool m_isFirstTick = true;
+	bool m_busy = false;
+	long long m_sceneGraphSleepForMs = 0;
 	//std::vector<unsigned int> m_bonesTransforms;
 };

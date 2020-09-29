@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "RenderSystem.h"
+#include "system/AnimationSystem.h"
 #include "components/Node.h"
 #include "components/Animation.h"
 #include "Util.h"
@@ -8,6 +9,7 @@ static int freeMem;
 void RenderSystem::Init(Universe* universe)
 {
 	m_universe = universe;
+	
 }
 
 void RenderSystem::Tick()
@@ -26,33 +28,29 @@ void RenderSystem::Tick()
 
 		glGetIntegerv(GL_TEXTURE_FREE_MEMORY_ATI, &freeMem);
 		PRINT("INFO", "free mem is:", freeMem);
-	}
-	auto t1 = GetCurrentTime();
-	for (auto& e : m_entity)
-	{
-		Transform& transform = m_universe->QueryByEntityId(e).GetComponent<Transform>();
-		Node& node = m_universe->QueryByEntityId(e).GetComponent<Node>();
-		//draw the parent
-		if (node.parent == INVALID_ENTITY)
+
+		m_traversalThread = std::thread([&]() {
+			while (true)
+			{
+				//TraverseTheGraph();
+			}
+		});
+
+		m_animationSystem = std::thread([&]()
 		{
-			TraverseGraphForRender(e, transform.GetTransform());
-		}
+			while (true)
+			{
+				if (m_busy) continue;
+				m_universe->GetSystem<AnimationSystem>()->Tick(0);
+			}
+		});
 	}
-
-	auto sortInstance = [](const MeshQueue& a, const MeshQueue& b)
-	{
-		return  b.shader < a.shader && a.materialId < b.materialId || a.meshId < b.meshId;
-	};
-
-	std::sort(m_meshQueues.begin(), m_meshQueues.end(), sortInstance);
-
-	auto t2 = GetCurrentTime();
 	//PRINT("traverse time (ms)", t2-t1);
-
+	TraverseTheGraph();
 	auto trender1 = GetCurrentTime();
 	RenderTheQueue();
 	auto trender2 = GetCurrentTime();
-	//PRINT("render time (ms)", trender2 - trender1);
+	m_sceneGraphSleepForMs = trender2 - trender1;
 }
 
 
@@ -73,12 +71,14 @@ bool RenderSystem::TraverseGraphForRender(EntityId e, Matrix4 model)
 		return false;
 	}
 	Model &modelComp = m_universe->QueryByEntityId(e).GetComponent<Model>();
-	if (modelComp.id < 0 || modelComp.id > m_modelsPaths.size())
-	{
-		m_modelsPaths.push_back(modelComp.objectPath);
-		modelComp.id = (ModelId) m_modelsPaths.size() - 1;
-		m_models.push_back(ModelData(modelComp.objectPath, ent));
-	}
+	ModelLoader::LoadModel(modelComp.objectPath, ent);
+
+	//if (modelComp.id < 0 || modelComp.id > m_modelsPaths.size())
+	//{
+	//	m_modelsPaths.push_back(modelComp.objectPath);
+	//	modelComp.id = (ModelId) m_modelsPaths.size() - 1;
+	//	m_models.push_back(ModelData(modelComp.objectPath, ent));
+	//}
 	//set the camera projection & view
 	Matrix4 projection = m_universe->GetSystem<CameraSystem>()->Projection(m_camera);
 	Matrix4 view = m_universe->GetSystem<CameraSystem>()->View(m_camera);
@@ -164,7 +164,25 @@ void RenderSystem::RenderTheQueue()
 	}
 }
 
-void RenderSystem::LoadTheModelQueue()
+void RenderSystem::TraverseTheGraph()
 {
 
+	m_busy = true;
+	for (auto& e : m_entity)
+	{
+		Transform& transform = m_universe->QueryByEntityId(e).GetComponent<Transform>();
+		Node& node = m_universe->QueryByEntityId(e).GetComponent<Node>();
+		if (node.parent == INVALID_ENTITY)
+		{
+			TraverseGraphForRender(e, transform.GetTransform());
+		}
+	}
+
+	auto sortInstance = [](const MeshQueue& a, const MeshQueue& b)
+	{
+		return  b.shader < a.shader && a.materialId < b.materialId || a.meshId < b.meshId;
+	};
+
+	std::sort(m_meshQueues.begin(), m_meshQueues.end(), sortInstance);
+	m_busy = false;
 }
