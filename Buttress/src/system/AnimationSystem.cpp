@@ -13,15 +13,15 @@ void AnimationSystem::Init(Universe* universe)
 
 void AnimationSystem::Tick(float dt)
 {
+	std::lock_guard<std::mutex> secureThisBlock(m_mutex);
 	auto t1 = GetCurrentTime();
 	float runningTime = (float)((double)GetCurrentTime() - (double)m_startTime) / 1000.0f;
 	for (auto& e : m_entity)
 	{
-		std::lock_guard<std::mutex> secureThisBlock(m_mutex);
 		Entity theEnt = m_universe->QueryByEntityId(e);
 		CalculateBoneTransform(theEnt, runningTime);
 	}
-	PRINT("animation time (ms)", GetCurrentTime() - t1);
+	//PRINT("animation time (ms)", GetCurrentTime() - t1);
 }
 
 bool AnimationSystem::CalculateBoneTransform(Entity ent, float atTimeInSeconds)
@@ -29,11 +29,11 @@ bool AnimationSystem::CalculateBoneTransform(Entity ent, float atTimeInSeconds)
 	Matrix4 identity = Matrix4(1);
 	RenderSystem* render = m_universe->GetSystem<RenderSystem>();
 	Model& model = ent.GetComponent<Model>();
-	if (render->m_models.size() <= model.id)
+	if (!ModelLoader::IsModelLoaded(model.id))
 	{
 		return false;
 	}
-	ModelData& modelData = render->m_models[model.id];
+	ModelData& modelData = ModelLoader::GetModel(model.id);
 	Animation& anim = ent.GetComponent<Animation>();
 	//not ready yet
 	if (modelData.m_importer == nullptr)
@@ -188,7 +188,7 @@ const aiNodeAnim* AnimationSystem::FindNodeAnim(const aiAnimation* anim, std::st
 	for (size_t i = 0; i < anim->mNumChannels; i++)
 	{
 		const aiNodeAnim* nodeAnim = anim->mChannels[i];
-		if (std::string(nodeAnim->mNodeName.data) == nodeName)
+		if (strcmp(nodeAnim->mNodeName.data, nodeName.data()) == 0)
 		{
 			return nodeAnim;
 		}

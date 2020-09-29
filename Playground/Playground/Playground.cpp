@@ -69,7 +69,7 @@ int main()
 			guard.Debug();
 			guard.GetComponent<Transform>().scale = { 0.2, 0.2, 0.2 };
 
-			for (size_t i = 1; i < 10; i++)
+			for (size_t i = 1; i < 40; i++)
 			{
 				Entity guardInstance = universe.CreateEntity("a guard" + std::to_string(i));
 				Model model;
@@ -81,7 +81,7 @@ int main()
 				guardInstance.Debug();
 			}
 			
-			for (size_t i = 1; i < 200; i++)
+			for (size_t i = 1; i < 10; i++)
 			{
 				Entity gunInstance = universe.CreateEntity("a gun" + std::to_string(i));
 				Model model;

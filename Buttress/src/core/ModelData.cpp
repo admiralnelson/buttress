@@ -197,7 +197,84 @@ MaterialData ModelData::ProcessMaterial(aiMaterial* material, std::string name)
 	return out;
 }
 
+void ModelData::AttachAnimationToEntity(Entity& e)
+{
+	const aiScene* scene = m_importer->GetScene();
+	if (scene->mMeshes[0]->mNumBones)
+	{
+		if (!e.IsComponentExist<Animation>())
+		{
+			Animation animation;
+			animation.numberOfBones = 0;
+			animation.speed = 0;
+			Matrix4 modelRootTransform = aiMatrix4x4ToMatrix4(scene->mRootNode->mTransformation);
+			animation.modelInverseTransform = Inverse(modelRootTransform);
+			e.AddComponent<Animation>(animation);
+		}
+		AttachAnimationRecursively(scene->mRootNode, scene, e);
+	}
+	else
+	{
+		return;
+	}
+}
+
+void ModelData::AttachAnimationRecursively(aiNode* node, const aiScene* scene, Entity& e)
+{
+	for (size_t i = 0; i < node->mNumMeshes; i++)
+	{
+		aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
+		PopulateBoneData(mesh, scene, e);
+	}
+	for (size_t i = 0; i < node->mNumChildren; i++)
+	{
+		AttachAnimationRecursively(node->mChildren[i], scene, e);
+	}
+}
+
+void ModelData::PopulateBoneData(aiMesh* mesh, const aiScene* scene, Entity& e)
+{
+	if (mesh->mNumBones)
+	{
+		Entity child = e.CreateEntity(RandomString(5));
+		e.AttachChild(child);
+		Animation& anim = e.GetComponent<Animation>();
+		for (size_t i = 0; i < mesh->mNumBones; i++)
+		{
+			unsigned int boneIdx = 0;
+			std::string boneName = mesh->mBones[i]->mName.C_Str();
+			if (anim.boneNameToIndex.find(boneName) == anim.boneNameToIndex.end())
+			{
+				boneIdx = anim.numberOfBones;
+				anim.numberOfBones++;
+				Animation::BoneInfo info;
+				anim.boneInfo.push_back(info);
+				anim.boneInfo[boneIdx].boneOffset = aiMatrix4x4ToMatrix4(mesh->mBones[i]->mOffsetMatrix);
+				anim.boneNameToIndex[boneName] = boneIdx;
+				Transform& refChildTransform = child.GetComponent<Transform>();
+				child.GetComponent<EntityName>().name += boneName;
+				Vec3 dummy;
+				Vec4 dummy2;
+				Matrix4 rootMatrix = e.GetComponent<Transform>().GetTransform();
+				Matrix4 relativeToRoot = rootMatrix * anim.boneInfo[boneIdx].boneOffset;
+				DecomposeMatrix4(relativeToRoot, refChildTransform.scale, refChildTransform.localRotation, refChildTransform.position, dummy, dummy2);
+			}
+			else
+			{
+				boneIdx = anim.boneNameToIndex[boneName];
+			}
+
+		}
+	}
+}
+
 std::vector<std::string> ModelLoader::m_modelNames;
+std::vector<ModelData> ModelLoader::m_modelCaches;
+
+bool ModelLoader::IsModelLoaded(ModelId id)
+{
+	return (id < m_modelCaches.size());
+}
 
 ModelId ModelLoader::LoadModel(std::string path, Entity& e)
 {
@@ -211,7 +288,11 @@ ModelId ModelLoader::LoadModel(std::string path, Entity& e)
 	else
 	{
 		auto it = std::find(m_modelNames.begin(), m_modelNames.end(), path);
-		return (MeshId)std::distance(m_modelNames.begin(), it);
+		ModelId id = (ModelId)std::distance(m_modelNames.begin(), it);
+		ModelData& model = GetModel(id);
+		model.AttachAnimationToEntity(e);
+
+		return id;
 	}
 }
 

@@ -47,6 +47,8 @@ public:
 	ModelData() {}
 	ModelData(std::string path, Entity &e);
 	void Draw(Matrix4 proj, Matrix4 view, Matrix4 model);
+	//only called for entity with loaded model but not animation
+	void AttachAnimationToEntity(Entity& e);
 	static std::shared_ptr<Shader> defaultShader;
 	static std::shared_ptr<Shader> defaultAnimatedShader;
 private:
@@ -54,7 +56,11 @@ private:
 	MeshId ProcessMesh(aiMesh *mesh, const aiScene *scene, Entity &e);
 	MaterialData ProcessMaterial(aiMaterial *material,  std::string name);
 
-	void AnimationNode(aiNode* node, const aiScene* scene, Entity& e);
+
+	//auxiliary method
+	void AttachAnimationRecursively(aiNode *node, const aiScene *scene, Entity& e);
+	void PopulateBoneData(aiMesh* mesh, const aiScene* scene, Entity& e);
+
 	std::vector<unsigned int> m_meshes;
 	std::string m_path;
 	std::shared_ptr<Shader> m_shader;
@@ -67,6 +73,7 @@ class ModelLoader
 	friend class RenderSystem;
 	friend class ModelData;
 public:
+	static bool IsModelLoaded(ModelId id);
 	static ModelId LoadModel(std::string path, Entity &e);
 	static ModelData& GetModel(ModelId id);
 private:

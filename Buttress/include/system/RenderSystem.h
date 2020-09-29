@@ -40,8 +40,6 @@ private:
 	void RenderTheQueue();
 	//secondary thread
 	void TraverseTheGraph();
-	std::vector<std::string> m_modelsPaths;
-	std::vector<ModelData> m_models;
 	std::deque<MeshQueue> m_meshQueues;
 	std::mutex m_mutex;
 	std::thread m_traversalThread;
@@ -49,6 +47,7 @@ private:
 	Entity m_camera;
 	bool m_isFirstTick = true;
 	bool m_busy = false;
+	bool m_render = false;
 	long long m_sceneGraphSleepForMs = 0;
 	//std::vector<unsigned int> m_bonesTransforms;
 };

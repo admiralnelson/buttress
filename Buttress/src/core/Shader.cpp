@@ -146,7 +146,7 @@ bool Shader::SetUniformMat4x4(std::string _name, Matrix4 &mat)
 		return false;
 	}*/
 	glUniformMatrix4fv(m_uniforms[_name].valuePos, 1, GL_FALSE, &mat[0][0]);
-	CheckError(__FUNCTION__, { "x:", glm::to_string(mat) });
+	//CheckError(__FUNCTION__, { "x:", glm::to_string(mat) });
 	return true;
 }
 
@@ -158,7 +158,7 @@ bool Shader::SetUniformMat4x4Array(std::string _name, unsigned int size, Matrix4
 		return false;
 	}
 	glUniformMatrix4fv(m_uniforms[_name].valuePos, size, GL_FALSE, &mat[0][0]);
-	CheckError(__FUNCTION__, { "x:", glm::to_string(mat) });
+	//CheckError(__FUNCTION__, { "x:", glm::to_string(mat) });
 	return true;
 }
 
