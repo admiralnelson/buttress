@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "core/MeshData.h"
-
+#include "util.h"
 MeshData::MeshData(std::vector<Vertex>& verts, std::vector<unsigned int>& indices, std::vector<VertexBoneData>& bones, MaterialId mat)
 {
 	std::copy(verts.begin(), verts.end(), std::back_inserter(m_verts));
@@ -115,6 +115,7 @@ std::vector<std::string> MeshLoader::m_meshNames;
 
 MeshId MeshLoader::LoadMesh(std::string name, std::vector<Vertex> verts, std::vector<unsigned int> indices, std::vector<VertexBoneData> bones, MaterialId mat)
 {
+	name = RandomString(5);
 	if (std::find(m_meshNames.begin(), m_meshNames.end(), name) == m_meshNames.end())
 	{
 		MeshData data(verts, indices, bones, mat);

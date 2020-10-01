@@ -18,7 +18,7 @@ private:
 	Vec3 CalcInterpolatedPosition(float atTime, const aiNodeAnim* nodeAnim);
 	Quaternion CalcInterpolatedRotation(float atTime, const aiNodeAnim* nodeAnim);
 
-	const aiNodeAnim* FindNodeAnim(const aiAnimation* anim, std::string nodeName);
+	const aiNodeAnim* FindNodeAnim(const aiAnimation* anim, std::string& nodeName);
 	unsigned int FindScaling(float atTime, const aiNodeAnim* nodeAnim);
 	unsigned int FindRotation(float atTime, const aiNodeAnim* nodeAnim);
 	unsigned int FindPosition(float atTime, const aiNodeAnim* nodeAnim);
@@ -26,4 +26,6 @@ private:
 	std::unordered_map<EntityId, std::vector<Transform>> m_entityToBonesTransforms;
 	long long m_startTime = 0;
 	std::mutex m_mutex;
+
+	std::unordered_map<EntityId, Animation> m_animationDataCaches;
 };

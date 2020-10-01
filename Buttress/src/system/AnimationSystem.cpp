@@ -13,7 +13,6 @@ void AnimationSystem::Init(Universe* universe)
 
 void AnimationSystem::Tick(float dt)
 {
-	std::lock_guard<std::mutex> secureThisBlock(m_mutex);
 	auto t1 = GetCurrentTime();
 	float runningTime = (float)((double)GetCurrentTime() - (double)m_startTime) / 1000.0f;
 	for (auto& e : m_entity)
@@ -26,6 +25,11 @@ void AnimationSystem::Tick(float dt)
 
 bool AnimationSystem::CalculateBoneTransform(Entity ent, float atTimeInSeconds)
 {
+	std::lock_guard<std::mutex> secureThisBlock(m_mutex);
+	if (!ent.IsComponentExist<Animation>())
+	{
+		return false;
+	}
 	Matrix4 identity = Matrix4(1);
 	RenderSystem* render = m_universe->GetSystem<RenderSystem>();
 	Model& model = ent.GetComponent<Model>();
@@ -60,6 +64,11 @@ bool AnimationSystem::CalculateBoneTransform(Entity ent, float atTimeInSeconds)
 
 void AnimationSystem::ReadNodeHierarchy(Entity ent, const aiScene* model, float atTime, const aiNode* node, Matrix4 parentTransform)
 {
+	if (!ent.IsComponentExist<Animation>())
+	{
+		return;
+	}
+
 	std::string nodeName(node->mName.data);
 	const aiAnimation* animation = model->mAnimations[0];
 	Matrix4 nodeTransform = aiMatrix4x4ToMatrix4(node->mTransformation);
@@ -183,7 +192,7 @@ Quaternion AnimationSystem::CalcInterpolatedRotation(float atTime, const aiNodeA
 	return aiQuaternionToQuaternion(out);
 }
 
-const aiNodeAnim* AnimationSystem::FindNodeAnim(const aiAnimation* anim, std::string nodeName)
+const aiNodeAnim* AnimationSystem::FindNodeAnim(const aiAnimation* anim, std::string& nodeName)
 {
 	for (size_t i = 0; i < anim->mNumChannels; i++)
 	{
