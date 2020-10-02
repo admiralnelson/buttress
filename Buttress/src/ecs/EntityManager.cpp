@@ -50,6 +50,11 @@ void EntityManager::SetSignature(EntityId entity, ComponentSignature signature )
 	m_signatures[entity] = signature;
 }
 
+unsigned int EntityManager::GetTotalEntities()
+{
+	return m_entitiesCount;
+}
+
 ComponentSignature EntityManager::GetSignature(EntityId entity)
 {
 	

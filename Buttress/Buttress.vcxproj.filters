@@ -110,6 +110,9 @@
     <ClCompile Include="src\core\ModelData.cpp">
       <Filter>src\core</Filter>
     </ClCompile>
+    <ClCompile Include="src\core\Threading.cpp">
+      <Filter>src\ecs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\pch.h">
@@ -201,6 +204,9 @@
     </ClInclude>
     <ClInclude Include="include\components\Animation.h">
       <Filter>include\component</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\Threading.h">
+      <Filter>include\ecs</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

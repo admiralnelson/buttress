@@ -28,6 +28,7 @@
     <ClCompile Include="src\core\ModelData.cpp" />
     <ClCompile Include="src\core\Shader.cpp" />
     <ClCompile Include="src\core\Texture.cpp" />
+    <ClCompile Include="src\core\Threading.cpp" />
     <ClCompile Include="src\ecs\ECS.cpp" />
     <ClCompile Include="src\ecs\EntityManager.cpp" />
     <ClCompile Include="src\ecs\EventManager.cpp" />
@@ -54,6 +55,7 @@
     <ClInclude Include="include\core\ModelData.h" />
     <ClInclude Include="include\core\Shader.h" />
     <ClInclude Include="include\core\Texture.h" />
+    <ClInclude Include="include\core\Threading.h" />
     <ClInclude Include="include\core\Types.h" />
     <ClInclude Include="include\ecs\ComponentManager.h" />
     <ClInclude Include="include\ecs\EntityManager.h" />

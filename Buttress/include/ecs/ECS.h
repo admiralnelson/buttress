@@ -6,6 +6,7 @@
 #include "EventManager.h"
 #include "components/EntityName.h"
 #include "components/Node.h"
+#include "ecs/ECSThreading.h"
 
 #ifdef __INTELLISENSE__
 #pragma diag_suppress 26444
@@ -73,7 +74,6 @@ public:
 	~Universe()
 	{
 		m_running = false;
-		m_animationThread.join();
 		PRINT("INFO", "the end times has come... (universe destroyed)", this);
 	}
 	void MemoryDebug()
@@ -86,17 +86,19 @@ public:
 
 	float GetLastDeltaTime() const { return m_lastDt; }
 
+	unsigned int GetTotalEntities() { return m_entityManager->GetTotalEntities(); }
+
+	std::shared_ptr<ECSThreading> GetThreading() { return m_threading; }
+
 private:
 	void Render(float dt);
-
+	std::shared_ptr<ECSThreading> m_threading = std::make_shared<ECSThreading>();
 	std::unique_ptr<ComponentManager> m_componentManager = std::make_unique<ComponentManager>();
 	std::unique_ptr<EntityManager> m_entityManager       = std::make_unique<EntityManager>();
 	std::unique_ptr<SystemManager> m_systemManager       = std::make_unique<SystemManager>();
 	std::unique_ptr<EventManager> m_eventManager = std::make_unique<EventManager>();
-	std::mutex m_mutex;
 	float m_lastDt = 0;
 	bool m_running = true;
-	std::thread m_animationThread;
 };
 class Entity
 {

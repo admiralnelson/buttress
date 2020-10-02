@@ -171,7 +171,7 @@ bool Shader::SetUniformValueI(std::string _name, int x)
 		return false;
 	}
 	glUniform1i(m_uniforms[_name].valuePos, x);
-	CheckError(__FUNCTION__, { "x:", std::to_string(x) });
+	//CheckError(__FUNCTION__, { "x:", std::to_string(x) });
 	return true;
 }
 

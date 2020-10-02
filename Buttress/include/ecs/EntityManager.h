@@ -8,6 +8,7 @@ public:
 	EntityId CreateEntity();
 	void DestroyEntity(EntityId entity);
 	void SetSignature(EntityId entity, ComponentSignature signature);
+	unsigned int GetTotalEntities();
 	ComponentSignature GetSignature(EntityId entity);
 	~EntityManager()
 	{

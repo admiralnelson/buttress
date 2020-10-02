@@ -117,7 +117,7 @@ void Buttress::Start(Universe *universe)
 		glfwSwapBuffers(m_window.get());
 		glfwPollEvents();
 		lastTime = currentTime;
-		std::chrono::duration<double, std::milli> sleepTime(1000.0 / FRAME_RATE - delta * 1000);
+		std::chrono::duration<double, std::milli> sleepTime(1000 / 60);
 		std::this_thread::sleep_for(sleepTime);
 
 	}

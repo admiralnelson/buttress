@@ -4,6 +4,7 @@
 #include "components/Node.h"
 #include "components/Animation.h"
 #include "Util.h"
+
 static int freeMem;
 
 void RenderSystem::Init(Universe* universe)
@@ -12,11 +13,15 @@ void RenderSystem::Init(Universe* universe)
 	
 }
 
+void RenderSystem::ProcessJob(unsigned int entityIndexStart, unsigned int entityIndexEnds)
+{
+}
+
 void RenderSystem::Tick()
 {
 	if (m_isFirstTick)
 	{
-		CameraSystem *cam = m_universe->GetSystem<CameraSystem>();
+		CameraSystem* cam = m_universe->GetSystem<CameraSystem>();
 		m_camera = cam->FindPrimaryCamera();
 		m_isFirstTick = false;
 
@@ -28,27 +33,11 @@ void RenderSystem::Tick()
 
 		glGetIntegerv(GL_TEXTURE_FREE_MEMORY_ATI, &freeMem);
 		PRINT("INFO", "free mem is:", freeMem);
-		m_busy = true;
-		m_animationSystem = std::thread([&]()
-		{
-			while (true)
-			{
-				if (m_busy) continue;
-				m_universe->GetSystem<AnimationSystem>()->Tick(0);
-				std::this_thread::sleep_for(std::chrono::milliseconds(m_sceneGraphSleepForMs));
-			}
-		});
 	}
-	//PRINT("traverse time (ms)", t2-t1);
 
-	std::lock_guard<std::mutex> lock(m_mutex);
-	m_busy = true;
-	auto trender1 = GetCurrentTime();
+	m_universe->GetSystem<AnimationSystem>()->Tick(0);
 	TraverseTheGraph();
 	RenderTheQueue();
-	m_busy = false;
-	auto trender2 = GetCurrentTime();
-	m_sceneGraphSleepForMs = trender2 - trender1;
 }
 
 
@@ -166,6 +155,7 @@ void RenderSystem::RenderTheQueue()
 		mesh.Draw(queue.projection, queue.view, queue.model);
 		m_meshQueues.pop_front();
 	}
+	
 }
 
 void RenderSystem::TraverseTheGraph()
@@ -179,7 +169,6 @@ void RenderSystem::TraverseTheGraph()
 			TraverseGraphForRender(e, transform.GetTransform());
 		}
 	}
-
 	auto sortInstance = [](const MeshQueue& a, const MeshQueue& b)
 	{
 		return  b.shader < a.shader && a.materialId < b.materialId || a.meshId < b.meshId;

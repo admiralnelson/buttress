@@ -1,16 +1,21 @@
 #pragma once
 #include "pch.h"
 #include "ecs/ECS.h"
-#include "components/Transform.h"
 #include "assimp/scene.h"
+#include "components/Transform.h"
+#include "components/Animation.h"
+#include "system/RenderSystem.h"
 
 class AnimationSystem : public System
 {
 	friend class RenderSystem;
 public:
 	void Init(Universe* universe) override;
+	void Start();
+	void ProcessJob(unsigned int entityIndexStart, unsigned int entityIndexEnds);
 	void Tick(float deltaT);
 	bool CalculateBoneTransform(Entity ent, float atTimeInSeconds);
+	void PushAnimationData(EntityId ent, Animation animationData);
 private:
 	void ReadNodeHierarchy(Entity ent, const aiScene* model, float atTime, const aiNode* node, Matrix4 parentTransform);
 
@@ -18,7 +23,7 @@ private:
 	Vec3 CalcInterpolatedPosition(float atTime, const aiNodeAnim* nodeAnim);
 	Quaternion CalcInterpolatedRotation(float atTime, const aiNodeAnim* nodeAnim);
 
-	const aiNodeAnim* FindNodeAnim(const aiAnimation* anim, std::string& nodeName);
+	const aiNodeAnim* FindNodeAnim(const aiAnimation* anim, const char* nodeName);
 	unsigned int FindScaling(float atTime, const aiNodeAnim* nodeAnim);
 	unsigned int FindRotation(float atTime, const aiNodeAnim* nodeAnim);
 	unsigned int FindPosition(float atTime, const aiNodeAnim* nodeAnim);
@@ -27,5 +32,7 @@ private:
 	long long m_startTime = 0;
 	std::mutex m_mutex;
 
-	std::unordered_map<EntityId, Animation> m_animationDataCaches;
+	std::deque<std::pair<EntityId, Animation>> m_entitiesToProcess;
+
+	RenderSystem* renderer = nullptr;
 };

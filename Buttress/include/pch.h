@@ -31,8 +31,10 @@
 #include <bitset>
 #include <any>
 #include <chrono>
+#include <atomic>
 #include "Geometry.h"
 #include "Logger.h"
+
 #define _CRTDBG_MAP_ALLOC
 #include <cstdlib>
 #include <crtdbg.h>

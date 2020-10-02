@@ -9,41 +9,52 @@ void AnimationSystem::Init(Universe* universe)
 {
 	m_universe = universe;
 	m_startTime = GetCurrentTime();
+
+}
+
+void AnimationSystem::Start()
+{
+
+}
+
+void AnimationSystem::ProcessJob(unsigned int entityIndexStart, unsigned int entityIndexEnds)
+{
+	float runningTime = (float)((double)GetCurrentTime() - (double)m_startTime) / 1000.0f;
+	for (unsigned int i = entityIndexStart; i < entityIndexEnds; i++)
+	{
+		EntityId id = *std::next(m_entity.begin(), i);
+		Entity theEnt = m_universe->QueryByEntityId(id);
+		CalculateBoneTransform(theEnt, runningTime);
+	}
 }
 
 void AnimationSystem::Tick(float dt)
 {
-	auto t1 = GetCurrentTime();
+	if (renderer == nullptr)
+	{
+		renderer = m_universe->GetSystem<RenderSystem>();
+	}
+	
 	float runningTime = (float)((double)GetCurrentTime() - (double)m_startTime) / 1000.0f;
 	for (auto& e : m_entity)
 	{
 		Entity theEnt = m_universe->QueryByEntityId(e);
 		CalculateBoneTransform(theEnt, runningTime);
 	}
-	//PRINT("animation time (ms)", GetCurrentTime() - t1);
+	
 }
 
 bool AnimationSystem::CalculateBoneTransform(Entity ent, float atTimeInSeconds)
 {
-	std::lock_guard<std::mutex> secureThisBlock(m_mutex);
-	if (!ent.IsComponentExist<Animation>())
+	if (renderer->IsBusy())
 	{
 		return false;
 	}
 	Matrix4 identity = Matrix4(1);
 	RenderSystem* render = m_universe->GetSystem<RenderSystem>();
 	Model& model = ent.GetComponent<Model>();
-	if (!ModelLoader::IsModelLoaded(model.id))
-	{
-		return false;
-	}
 	ModelData& modelData = ModelLoader::GetModel(model.id);
 	Animation& anim = ent.GetComponent<Animation>();
-	//not ready yet
-	if (modelData.m_importer == nullptr)
-	{
-		return false;
-	}
 	const aiScene* scene = modelData.m_importer->GetScene();
 	float tickPerSecond = 25;
 	if (scene->mAnimations[0]->mTicksPerSecond)
@@ -61,15 +72,20 @@ bool AnimationSystem::CalculateBoneTransform(Entity ent, float atTimeInSeconds)
 	return true;
 }
 
+void AnimationSystem::PushAnimationData(EntityId ent, Animation animationData)
+{
+	auto pair = std::pair<EntityId, Animation>(ent, animationData);
+	m_entitiesToProcess.push_back(pair);
+}
+
 
 void AnimationSystem::ReadNodeHierarchy(Entity ent, const aiScene* model, float atTime, const aiNode* node, Matrix4 parentTransform)
 {
-	if (!ent.IsComponentExist<Animation>())
+	if (renderer->IsBusy())
 	{
 		return;
 	}
-
-	std::string nodeName(node->mName.data);
+	const char* nodeName = node->mName.data;
 	const aiAnimation* animation = model->mAnimations[0];
 	Matrix4 nodeTransform = aiMatrix4x4ToMatrix4(node->mTransformation);
 	const aiNodeAnim* nodeAnim = FindNodeAnim(animation, nodeName);
@@ -92,6 +108,7 @@ void AnimationSystem::ReadNodeHierarchy(Entity ent, const aiScene* model, float 
 	Matrix4 globalTransform = parentTransform * nodeTransform;
 
 	Animation& anim = ent.GetComponent<Animation>();
+	
 	if (anim.boneNameToIndex.find(nodeName) != anim.boneNameToIndex.end())
 	{
 		unsigned int boneIndex = anim.boneNameToIndex[nodeName];
@@ -192,12 +209,12 @@ Quaternion AnimationSystem::CalcInterpolatedRotation(float atTime, const aiNodeA
 	return aiQuaternionToQuaternion(out);
 }
 
-const aiNodeAnim* AnimationSystem::FindNodeAnim(const aiAnimation* anim, std::string& nodeName)
+const aiNodeAnim* AnimationSystem::FindNodeAnim(const aiAnimation* anim, const char* nodeName)
 {
 	for (size_t i = 0; i < anim->mNumChannels; i++)
 	{
 		const aiNodeAnim* nodeAnim = anim->mChannels[i];
-		if (strcmp(nodeAnim->mNodeName.data, nodeName.data()) == 0)
+		if (strcmp(nodeAnim->mNodeName.data, nodeName) == 0)
 		{
 			return nodeAnim;
 		}
