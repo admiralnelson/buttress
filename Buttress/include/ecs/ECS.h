@@ -4,9 +4,9 @@
 #include "ComponentManager.h"
 #include "SystemManager.h"
 #include "EventManager.h"
+#include "ECSThreading.h"
 #include "components/EntityName.h"
 #include "components/Node.h"
-#include "ecs/ECSThreading.h"
 
 #ifdef __INTELLISENSE__
 #pragma diag_suppress 26444
@@ -86,19 +86,25 @@ public:
 
 	float GetLastDeltaTime() const { return m_lastDt; }
 
-	unsigned int GetTotalEntities() { return m_entityManager->GetTotalEntities(); }
+	unsigned int GetTotalEntities() 
+	{ 
+		return m_entityManager->GetTotalEntities(); 
+	}
 
 	std::shared_ptr<ECSThreading> GetThreading() { return m_threading; }
 
 private:
 	void Render(float dt);
-	std::shared_ptr<ECSThreading> m_threading = std::make_shared<ECSThreading>();
+	std::shared_ptr<ECSThreading> m_threading = std::make_shared<ECSThreading>(this);
 	std::unique_ptr<ComponentManager> m_componentManager = std::make_unique<ComponentManager>();
 	std::unique_ptr<EntityManager> m_entityManager       = std::make_unique<EntityManager>();
 	std::unique_ptr<SystemManager> m_systemManager       = std::make_unique<SystemManager>();
 	std::unique_ptr<EventManager> m_eventManager = std::make_unique<EventManager>();
+	std::condition_variable m_wakeCondition;
+	std::mutex m_mutex;
 	float m_lastDt = 0;
 	bool m_running = true;
+	bool m_readyForThreading = false;
 };
 class Entity
 {
@@ -131,7 +137,16 @@ public:
 
 	Entity CreateEntity(std::string name)
 	{
-		return m_universe->CreateEntity(name);
+		Entity e;
+		std::unique_lock<std::mutex> lock(m_universe->m_mutex);
+		lock.lock();
+		{
+			m_universe->m_readyForThreading = true;
+			e = m_universe->CreateEntity(name);
+		}
+		lock.unlock();
+		m_universe->m_wakeCondition.notify_all();
+		return e;
 	}
 
 	bool IsValid()
@@ -141,56 +156,72 @@ public:
 	template<typename COMPONENT_TYPE>
 	void AddComponent(COMPONENT_TYPE component)
 	{
-		if (id == INVALID_ENTITY)
+		std::unique_lock<std::mutex> lock(m_universe->m_mutex);
+		lock.lock();
 		{
-			PRINT("ERROR", "INVALID ENTITY!");
-			throw std::exception("invalid entity");
+			if (id == INVALID_ENTITY)
+			{
+				PRINT("ERROR", "INVALID ENTITY!");
+				throw std::exception("invalid entity");
+			}
+			m_universe->m_componentManager->AddComponent<COMPONENT_TYPE>(id, component);
+
+			auto signature = m_universe->m_entityManager->GetSignature(id);
+			signature.set(m_universe->m_componentManager->GetComponentType<COMPONENT_TYPE>(), true);
+			m_universe->m_entityManager->SetSignature(id, signature);
+			m_universe->m_systemManager->EntitySignatureChanged(id, signature);
+			
+			m_universe->m_readyForThreading = true;
 		}
-		m_universe->m_componentManager->AddComponent<COMPONENT_TYPE>(id, component);
-
-		auto signature = m_universe->m_entityManager->GetSignature(id);
-		signature.set(m_universe->m_componentManager->GetComponentType<COMPONENT_TYPE>(), true);
-		m_universe->m_entityManager->SetSignature(id, signature);
-
-		m_universe->m_systemManager->EntitySignatureChanged(id, signature);
+		m_universe->m_wakeCondition.notify_all();
+		lock.unlock();
 	}
 
 	template<typename COMPONENT_TYPE>
 	void RemoveComponent()
 	{
-		if (id == INVALID_ENTITY)
 		{
-			PRINT("ERROR", "INVALID ENTITY!");
-			throw std::exception("invalid entity");
-		}
-		if (strcmp(typeid(COMPONENT_TYPE).name(), typeid(EntityName).name()) == 0)
-		{
-			PRINT("ERROR", "attempt to remove core component (EntityName) from entity! entity id:", id);
-			throw std::exception("attempt to remove core system from entity");
-		}
-		m_universe->m_componentManager->RemoveComponent<COMPONENT_TYPE>(id);
+			std::lock_guard<std::mutex> lock(m_universe->m_mutex);
+			if (id == INVALID_ENTITY)
+			{
+				PRINT("ERROR", "INVALID ENTITY!");
+				throw std::exception("invalid entity");
+			}
+			if (strcmp(typeid(COMPONENT_TYPE).name(), typeid(EntityName).name()) == 0)
+			{
+				PRINT("ERROR", "attempt to remove core component (EntityName) from entity! entity id:", id);
+				throw std::exception("attempt to remove core system from entity");
+			}
+			m_universe->m_componentManager->RemoveComponent<COMPONENT_TYPE>(id);
 
-		auto signature = m_universe->m_entityManager->GetSignature(id);
-		signature.set(m_universe->m_componentManager->GetComponentType<COMPONENT_TYPE>(), false);
-		m_universe->m_entityManager->SetSignature(id, signature);
+			auto signature = m_universe->m_entityManager->GetSignature(id);
+			signature.set(m_universe->m_componentManager->GetComponentType<COMPONENT_TYPE>(), false);
+			m_universe->m_entityManager->SetSignature(id, signature);
 
-		m_universe->m_systemManager->EntitySignatureChanged(id, signature);
+			m_universe->m_systemManager->EntitySignatureChanged(id, signature);
+			m_universe->m_readyForThreading = true;
+		}
+		m_universe->m_wakeCondition.notify_all();
 	}
 
 	template<typename COMPONENT_TYPE>
 	COMPONENT_TYPE& GetComponent()
 	{
-		if (id == INVALID_ENTITY)
 		{
-			PRINT("ERROR", "INVALID ENTITY!");
-			throw std::exception("invalid entity");
+			std::lock_guard<std::mutex> lock(m_universe->m_mutex);
+			if (id == INVALID_ENTITY)
+			{
+				PRINT("ERROR", "INVALID ENTITY!");
+				throw std::exception("invalid entity");
+			}
+			return m_universe->m_componentManager->GetComponent<COMPONENT_TYPE>(id);
 		}
-		return m_universe->m_componentManager->GetComponent<COMPONENT_TYPE>(id);
 	}
 
 	template<typename COMPONENT_TYPE>
 	bool IsComponentExist()
 	{
+		std::lock_guard<std::mutex> lock(m_universe->m_mutex);
 		if (id == INVALID_ENTITY)
 		{
 			PRINT("ERROR", "INVALID ENTITY!");
@@ -202,6 +233,7 @@ public:
 	template<typename SYSTEM_TYPE>
 	void AttachToSystem()
 	{
+		std::lock_guard<std::mutex> lock(m_universe->m_mutex);
 		if (id == INVALID_ENTITY)
 		{
 			PRINT("ERROR", "INVALID ENTITY!");
@@ -215,6 +247,12 @@ public:
 
 	void AttachChild(Entity entity)
 	{
+		std::lock_guard<std::mutex> lock(m_universe->m_mutex);
+		if (entity.id == INVALID_ENTITY)
+		{
+			PRINT("ERROR", "invalid entity is attached!");
+			throw std::exception("invalid entity");
+		}
 		Node& parentNode = GetComponent<Node>();
 		Node& childNode = entity.GetComponent<Node>();
 		if (ContainChild(entity))
@@ -235,6 +273,12 @@ public:
 
 	void RemoveChild(Entity entity)
 	{
+		std::lock_guard<std::mutex> lock(m_universe->m_mutex);
+		if (entity.id == INVALID_ENTITY)
+		{
+			PRINT("ERROR", "invalid entity is removed!");
+			throw std::exception("invalid entity");
+		}
 		Node& parentNode = GetComponent<Node>();
 		Node& childNode = entity.GetComponent<Node>();
 		if (!ContainChild(entity))
@@ -248,6 +292,7 @@ public:
 	template<typename SYSTEM_TYPE>
 	void RemoveFromSystem()
 	{
+		std::lock_guard<std::mutex> lock(m_universe->m_mutex);
 		if (id == INVALID_ENTITY)
 		{
 			PRINT("ERROR", "INVALID ENTITY!");
@@ -280,6 +325,7 @@ public:
 
 	void Destroy()
 	{
+		std::lock_guard<std::mutex> lock(m_universe->m_mutex);
 		Node &parentNode = GetComponent<Node>();
 		for (auto child : parentNode.childs)
 		{

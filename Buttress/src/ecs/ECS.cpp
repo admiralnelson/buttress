@@ -38,13 +38,12 @@ Entity Universe::QueryByEntityId(EntityId id)
 
 void Universe::Render(float dt)
 {
-	std::lock_guard<std::mutex> lock(m_mutex);
-	auto t1 = std::chrono::high_resolution_clock::now();
-	m_systemManager->GetSystem<RenderSystem>()->Tick();
-	auto t2 = std::chrono::high_resolution_clock::now();
-	std::chrono::duration<float> duration = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1);
+	m_threading->Pause();
 	
-	m_lastDt = duration.count();
+	m_systemManager->GetSystem<RenderSystem>()->Tick();
+	
+	m_threading->Resume();
+	
 }
 
 Universe::Universe()
@@ -88,7 +87,11 @@ Universe::Universe()
 	nameSig4.set(m_componentManager->GetComponentType<Camera>());
 	m_systemManager->SetSignature<CameraSystem>(nameSig4);
 
+	std::vector<std::function<void(unsigned int, unsigned int)>> tasks;
 
+	tasks.push_back(std::bind(&AnimationSystem::ProcessJob, m_systemManager->GetSystem<AnimationSystem>(), std::placeholders::_1, std::placeholders::_2));
+	tasks.push_back(std::bind(&RenderSystem::ProcessJob, m_systemManager->GetSystem<RenderSystem>(), std::placeholders::_1, std::placeholders::_2));
 
-
+	m_threading->InitialiseThreads(3, tasks, nullptr);
+	m_threading->StartTheJobs();
 }

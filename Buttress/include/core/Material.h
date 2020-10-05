@@ -31,12 +31,14 @@ class MaterialLoader
 {
 	friend class RenderSystem;
 public:
-	static MaterialId LoadMaterial(MaterialData mat);
-	static MaterialData& GetMaterialById(MaterialId id);
+	static MaterialLoader& Instance();
+	MaterialId LoadMaterial(MaterialData mat);
+	MaterialData& GetMaterialById(MaterialId id);
 
 private:
+	MaterialLoader() {}
 	void Clear();
 
-	static std::vector<MaterialData> m_materialCaches;
+	std::vector<MaterialData> m_materialCaches;
 };
 

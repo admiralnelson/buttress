@@ -73,13 +73,14 @@ class ModelLoader
 	friend class RenderSystem;
 	friend class ModelData;
 public:
-	static bool IsModelLoaded(ModelId id);
-	static ModelId LoadModel(std::string path, Entity &e);
-	static ModelData& GetModel(ModelId id);
+	static ModelLoader& Instance();
+	bool IsModelLoaded(ModelId id);
+	ModelId LoadModel(std::string path, Entity &e);
+	ModelData& GetModel(ModelId id);
 private:
-	static void ClearCache();
-	static bool RegisterAnimation(Entity& e);
-	static std::vector<std::string> m_modelNames;
-	static std::vector<ModelData> m_modelCaches;
+	void ClearCache();
+	bool RegisterAnimation(Entity& e);
+	std::vector<std::string> m_modelNames;
+	std::vector<ModelData> m_modelCaches;
 };
 

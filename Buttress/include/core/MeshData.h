@@ -43,12 +43,14 @@ class MeshLoader
 {
 	friend class RenderSystem;
 public:
-	static MeshId LoadMesh(std::string name, std::vector<Vertex> verts, std::vector<unsigned int> indices, std::vector<VertexBoneData> bones, MaterialId mat);
-	static MeshData& GetMesh(MeshId id);
+	static MeshLoader& Instance();
+	MeshId LoadMesh(std::string name, std::vector<Vertex> verts, std::vector<unsigned int> indices, std::vector<VertexBoneData> bones, MaterialId mat);
+	MeshData& GetMesh(MeshId id);
 private:
-	static void ClearCache();
+	MeshLoader() {}
+	void ClearCache();
 
-	static std::vector<std::string> m_meshNames;
-	static std::vector<MeshData> m_meshCaches;
+	std::vector<std::string> m_meshNames;
+	std::vector<MeshData> m_meshCaches;
 };
 

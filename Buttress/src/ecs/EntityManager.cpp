@@ -7,7 +7,7 @@ EntityManager::EntityManager()
 	{
 		m_entities.push(i);
 	}
-	m_signatures.resize(MAX_ENTITIES);
+	m_signatures.reserve(MAX_ENTITIES);
 }
 
 EntityId EntityManager::CreateEntity()
@@ -27,7 +27,6 @@ EntityId EntityManager::CreateEntity()
 
 void EntityManager::DestroyEntity(EntityId entity)
 {
-	
 	PRINT("destroyed entity id:", entity );
 	if (entity < 0)
 	{

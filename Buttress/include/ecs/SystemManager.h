@@ -109,6 +109,4 @@ private:
 	std::unordered_map<ComponentSignature, std::string> m_signaturesToName;
 	//map system name to the system itself
 	std::unordered_map<std::string, std::shared_ptr<System>> m_systems;
-
-	std::mutex m_mutex;
 };

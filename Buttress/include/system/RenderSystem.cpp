@@ -15,6 +15,17 @@ void RenderSystem::Init(Universe* universe)
 
 void RenderSystem::ProcessJob(unsigned int entityIndexStart, unsigned int entityIndexEnds)
 {
+	if (m_entity.size() < entityIndexEnds) return;
+	for (unsigned int i = entityIndexStart; i < entityIndexEnds; i++)
+	{
+		EntityId id = *std::next(m_entity.begin(), i);
+		Transform& transform = m_universe->QueryByEntityId(id).GetComponent<Transform>();
+		Node& node = m_universe->QueryByEntityId(id).GetComponent<Node>();
+		if (node.parent == INVALID_ENTITY)
+		{
+			TraverseGraphForRender(id, transform.GetTransform());
+		}
+	}
 }
 
 void RenderSystem::Tick()
@@ -35,14 +46,27 @@ void RenderSystem::Tick()
 		PRINT("INFO", "free mem is:", freeMem);
 	}
 
-	m_universe->GetSystem<AnimationSystem>()->Tick(0);
-	TraverseTheGraph();
-	RenderTheQueue();
+	//m_universe->GetSystem<AnimationSystem>()->Tick(0);
+	//TraverseTheGraph();
+	if (m_universe->GetThreading()->AreWorkersCompleted())
+	{
+		auto sortInstance = [](const MeshQueue& a, const MeshQueue& b)
+		{
+			return  b.shader < a.shader && a.materialId < b.materialId || a.meshId < b.meshId;
+		};
+
+		std::sort(m_meshQueues.begin(), m_meshQueues.end(), sortInstance);
+		RenderTheQueue();
+	}
 }
 
 
 bool RenderSystem::TraverseGraphForRender(EntityId e, Matrix4 model)
 {
+	if (!m_camera.IsValid())
+	{
+		return false;
+	}
 	//travel recursively (DFS)
 	Node& node = m_universe->QueryByEntityId(e).GetComponent<Node>();
 	Entity ent = m_universe->QueryByEntityId(e);
@@ -58,10 +82,10 @@ bool RenderSystem::TraverseGraphForRender(EntityId e, Matrix4 model)
 		return false;
 	}
 	Model &modelComp = m_universe->QueryByEntityId(e).GetComponent<Model>();
-	if (!ModelLoader::IsModelLoaded(modelComp.id))
+	if (!ModelLoader::Instance().IsModelLoaded(modelComp.id))
 	{
 		m_busy = true;
-		modelComp.id = ModelLoader::LoadModel(modelComp.objectPath, ent);
+		modelComp.id = ModelLoader::Instance().LoadModel(modelComp.objectPath, ent);
 		m_busy = false;
 	}
 
@@ -74,12 +98,12 @@ bool RenderSystem::TraverseGraphForRender(EntityId e, Matrix4 model)
 	//set the camera projection & view
 	Matrix4 projection = m_universe->GetSystem<CameraSystem>()->Projection(m_camera);
 	Matrix4 view = m_universe->GetSystem<CameraSystem>()->View(m_camera);
-	ModelData& modelData = ModelLoader::GetModel(modelComp.id);
+	ModelData& modelData = ModelLoader::Instance().GetModel(modelComp.id);
 	bool sort = false;
 	for (auto& meshId : modelData.m_meshes)
 	{
-		MeshData& mesh = MeshLoader::GetMesh(meshId);
-		MaterialData& mat = MaterialLoader::GetMaterialById(mesh.GetMaterialId());
+		MeshData& mesh = MeshLoader::Instance().GetMesh(meshId);
+		MaterialData& mat = MaterialLoader::Instance().GetMaterialById(mesh.GetMaterialId());
 		MeshQueue queue;
 
 		if (ent.IsComponentExist<Animation>())
@@ -132,14 +156,14 @@ void RenderSystem::RenderTheQueue()
 			currentShader->Use();
 		}
 
-		MaterialData& material = MaterialLoader::GetMaterialById(queue.materialId);
+		MaterialData& material = MaterialLoader::Instance().GetMaterialById(queue.materialId);
 		if (&material != currentMaterial)
 		{
 			currentMaterial = &material;
 			material.Use();
 		}
 
-		MeshData& mesh = MeshLoader::GetMesh(queue.meshId);
+		MeshData& mesh = MeshLoader::Instance().GetMesh(queue.meshId);
 		if (&mesh != currentMeshData)
 		{
 			currentMeshData = &mesh;
@@ -169,10 +193,5 @@ void RenderSystem::TraverseTheGraph()
 			TraverseGraphForRender(e, transform.GetTransform());
 		}
 	}
-	auto sortInstance = [](const MeshQueue& a, const MeshQueue& b)
-	{
-		return  b.shader < a.shader && a.materialId < b.materialId || a.meshId < b.meshId;
-	};
 
-	std::sort(m_meshQueues.begin(), m_meshQueues.end(), sortInstance);
 }

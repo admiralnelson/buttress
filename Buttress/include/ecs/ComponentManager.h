@@ -66,7 +66,7 @@ public:
 	}
 
 	TYPE& GetData(EntityId entity)
-	{
+	{	
 		if (m_entityToIndexMap.find(entity) == m_entityToIndexMap.end())
 		{
 			std::string typeName = typeid(TYPE).name();
@@ -150,21 +150,18 @@ public:
 	template<typename COMPONENT_TYPE>
 	void AddComponent(EntityId entity, COMPONENT_TYPE component)
 	{
-		
 		GetComponentArray<COMPONENT_TYPE>()->InsertData(entity, component);
 	}
 
 	template<typename COMPONENT_TYPE>
 	void RemoveComponent(EntityId entity)
 	{
-		
 		GetComponentArray<COMPONENT_TYPE>()->RemoveData(entity);
 	}
 
 	template<typename COMPONENT_TYPE>
 	COMPONENT_TYPE& GetComponent(EntityId entity)
 	{
-		
 		return GetComponentArray<COMPONENT_TYPE>()->GetData(entity);
 	}
 
@@ -216,6 +213,5 @@ private:
 		return std::static_pointer_cast<ComponentArray<COMPONENT_TYPE>>(m_componentArrays[name]);
 	}
 
-	std::mutex m_mutex;
 };
 

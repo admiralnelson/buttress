@@ -145,8 +145,8 @@ MeshId ModelData::ProcessMesh(aiMesh* mesh, const aiScene* scene, Entity &e)
 
 	//materials
 	aiMaterial* aimaterial = scene->mMaterials[mesh->mMaterialIndex];
-	MaterialId matId = MaterialLoader::LoadMaterial(ProcessMaterial(aimaterial, aimaterial->GetName().C_Str()));
-	MaterialData& material = MaterialLoader::GetMaterialById(matId);
+	MaterialId matId = MaterialLoader::Instance().LoadMaterial(ProcessMaterial(aimaterial, aimaterial->GetName().C_Str()));
+	MaterialData& material = MaterialLoader::Instance().GetMaterialById(matId);
 	if (mesh->mNumBones)
 	{
 		material.shader = defaultAnimatedShader; 
@@ -156,7 +156,7 @@ MeshId ModelData::ProcessMesh(aiMesh* mesh, const aiScene* scene, Entity &e)
 		material.shader = defaultShader;
 	}
 	
-	return MeshLoader::LoadMesh(mesh->mName.data, vertices, indices, bones, matId);
+	return MeshLoader::Instance().LoadMesh(mesh->mName.data, vertices, indices, bones, matId);
 }
 
 MaterialData ModelData::ProcessMaterial(aiMaterial* material, std::string name)
@@ -268,8 +268,11 @@ void ModelData::PopulateBoneData(aiMesh* mesh, const aiScene* scene, Entity& e)
 	}
 }
 
-std::vector<std::string> ModelLoader::m_modelNames;
-std::vector<ModelData> ModelLoader::m_modelCaches;
+ModelLoader& ModelLoader::Instance()
+{
+	static ModelLoader loader;
+	return loader;
+}
 
 bool ModelLoader::IsModelLoaded(ModelId id)
 {

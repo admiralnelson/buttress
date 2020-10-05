@@ -6,7 +6,7 @@ static std::mutex mutexLogger;
 void Print(std::stringstream& s)
 {
 	std::lock_guard<std::mutex> guard(mutexLogger);
-	std::cout << s.str() << std::endl;
+	std::cout << " THREAD " << std::this_thread::get_id() << s.str() << std::endl;
 }
 
 std::string ReadFileAsString(std::string path)

@@ -47,7 +47,12 @@ void MaterialData::Debug()
 
 }
 
-std::vector<MaterialData> MaterialLoader::m_materialCaches;
+
+MaterialLoader& MaterialLoader::Instance()
+{
+	static MaterialLoader loader;
+	return loader;
+}
 
 MaterialId MaterialLoader::LoadMaterial(MaterialData mat)
 {

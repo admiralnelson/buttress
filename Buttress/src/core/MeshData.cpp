@@ -12,7 +12,7 @@ MeshData::MeshData(std::vector<Vertex>& verts, std::vector<unsigned int>& indice
 
 void MeshData::Draw(Matrix4& proj, Matrix4& view, Matrix4& model)
 {	
-	MaterialData& material = MaterialLoader::GetMaterialById(m_matId);
+	MaterialData& material = MaterialLoader::Instance().GetMaterialById(m_matId);
 	
 	//set the uniform
 	Matrix4 pvm = proj * view * model;
@@ -31,7 +31,7 @@ void MeshData::Use()
 	if (m_meshData.vao == 0)
 	{
 		MeshHandle meshData;
-		MaterialData& material = MaterialLoader::GetMaterialById(m_matId);
+		MaterialData& material = MaterialLoader::Instance().GetMaterialById(m_matId);
 		if (!material.shader && !material.shader->IsShaderReady())
 		{
 			PRINT("WARNING", "shader", material.shader->name, " is not ready");
@@ -109,9 +109,11 @@ void MeshData::Use()
 	
 }
 
-std::vector<MeshData> MeshLoader::m_meshCaches;
-std::vector<std::string> MeshLoader::m_meshNames;
-
+MeshLoader& MeshLoader::Instance()
+{
+	static MeshLoader loader;
+	return loader;
+}
 
 MeshId MeshLoader::LoadMesh(std::string name, std::vector<Vertex> verts, std::vector<unsigned int> indices, std::vector<VertexBoneData> bones, MaterialId mat)
 {

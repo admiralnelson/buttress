@@ -14,11 +14,17 @@ void AnimationSystem::Init(Universe* universe)
 
 void AnimationSystem::Start()
 {
-
+	std::vector<std::thread> test;
+	test.emplace_back([] {});
 }
+
+//TODO: COPY ALL THE DATA FROM ECS TO THIS SYSTEM.
+//then process them.
+//after done, wait the Universe to synchronise accross other system (possibily in sequence) and update the components
 
 void AnimationSystem::ProcessJob(unsigned int entityIndexStart, unsigned int entityIndexEnds)
 {
+	if (m_entity.size() < entityIndexEnds) return;
 	float runningTime = (float)((double)GetCurrentTime() - (double)m_startTime) / 1000.0f;
 	for (unsigned int i = entityIndexStart; i < entityIndexEnds; i++)
 	{
@@ -27,6 +33,9 @@ void AnimationSystem::ProcessJob(unsigned int entityIndexStart, unsigned int ent
 		CalculateBoneTransform(theEnt, runningTime);
 	}
 }
+
+//void AnimationSystem::Synchronise()
+//{}
 
 void AnimationSystem::Tick(float dt)
 {
@@ -53,7 +62,7 @@ bool AnimationSystem::CalculateBoneTransform(Entity ent, float atTimeInSeconds)
 	Matrix4 identity = Matrix4(1);
 	RenderSystem* render = m_universe->GetSystem<RenderSystem>();
 	Model& model = ent.GetComponent<Model>();
-	ModelData& modelData = ModelLoader::GetModel(model.id);
+	ModelData& modelData = ModelLoader::Instance().GetModel(model.id);
 	Animation& anim = ent.GetComponent<Animation>();
 	const aiScene* scene = modelData.m_importer->GetScene();
 	float tickPerSecond = 25;
