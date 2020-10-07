@@ -69,7 +69,7 @@ int main()
 			guard.Debug();
 			guard.GetComponent<Transform>().scale = { 0.2, 0.2, 0.2 };
 
-			for (size_t i = 1; i < 80; i++)
+			for (size_t i = 1; i < 40; i++)
 			{
 				Entity guardInstance = universe.CreateEntity("a guard" + std::to_string(i));
 				Model model;
@@ -189,6 +189,7 @@ int main()
 				default:
 					break;
 				}
+				PRINT("cam pos ", glm::to_string(transform.position));
 			});
 			
 

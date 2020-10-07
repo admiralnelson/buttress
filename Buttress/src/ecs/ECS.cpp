@@ -8,18 +8,19 @@
 #include "system/RenderSystem.h"
 #include "system/AnimationSystem.h"
 #include "system/EntityNameCheckSystem.h"
+#include <Util.h>
 
 Entity Universe::CreateEntity(std::string name)
 {
 #pragma warning (push)
 #pragma warning (disable : 26444) 
 	auto entityChecker = m_systemManager->GetSystem<EntityNameCheckSystem>();
-	if (entityChecker->CheckNow(name))
+	/*if (entityChecker->CheckNow(name))
 	{
 		PRINT("ERROR", "duplicate entity name:", name);
 		Entity ent(nullptr, INVALID_ENTITY);
 		return ent;
-	}
+	}*/
 	Entity ent(this, m_entityManager->CreateEntity());
 	EntityName entityName = { name };
 	Transform t;
@@ -38,17 +39,22 @@ Entity Universe::QueryByEntityId(EntityId id)
 
 void Universe::Render(float dt)
 {
-	m_workers.PushJob([&](ThreadNr nr, NrOfThreads threads)
-	{
-		auto renderer = m_systemManager->GetSystem<RenderSystem>();
-		renderer->ProcessJob(nr, threads);
-	});
+	auto t1 = GetCurrentTime();
 	m_workers.PushJob([&](ThreadNr nr, NrOfThreads threads)
 	{
 		auto animation = m_systemManager->GetSystem<AnimationSystem>();
 		animation->ProcessJob(nr, threads);
 	});
+	m_workers.PushJob([&](ThreadNr nr, NrOfThreads threads)
+	{
+		auto renderer = m_systemManager->GetSystem<RenderSystem>();
+		renderer->ProcessJob(nr, threads);
+	});
+	
 	m_workers.BlockUntilFinished();
+	auto t2 = GetCurrentTime();
+	PRINT("delta ", t2 - t1);
+	m_lastDt = dt;
 	m_systemManager->GetSystem<RenderSystem>()->Tick();
 	
 }

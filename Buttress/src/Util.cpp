@@ -9,6 +9,13 @@ void Print(std::stringstream& s)
 	std::cout << " THREAD " << std::this_thread::get_id() << s.str() << std::endl;
 }
 
+int Random(const int min, const int max)
+{
+	static thread_local std::mt19937 generator;
+	std::uniform_int_distribution<int> distribution(min, max);
+	return distribution(generator);
+}
+
 std::string ReadFileAsString(std::string path)
 {
 	std::ifstream t(path);
@@ -42,7 +49,7 @@ std::string RandomString(int n)
 
 	for (size_t i = 0; i < n; i++)
 	{
-		out += alphanum[rand() % (sizeof(alphanum) - 1)];
+		out += alphanum[Random(0, (sizeof(alphanum) - 1))];
 	}
 	return out;
 }

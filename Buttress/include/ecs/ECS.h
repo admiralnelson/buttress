@@ -105,7 +105,7 @@ private:
 	std::unique_ptr<SystemManager> m_systemManager       = std::make_unique<SystemManager>();
 	std::unique_ptr<EventManager> m_eventManager = std::make_unique<EventManager>();
 	std::condition_variable m_wakeCondition;
-	std::mutex m_mutex;
+	std::recursive_mutex m_mutex;
 	float m_lastDt = 0;
 	bool m_running = true;
 	bool m_readyForThreading = false;
@@ -141,13 +141,17 @@ public:
 
 	Entity CreateEntity(std::string name)
 	{
+		std::lock_guard<std::recursive_mutex> lock(m_universe->m_mutex);
 		Entity e;
-		std::lock_guard<std::mutex> lock(m_universe->m_mutex);
 		{
 			m_universe->m_readyForThreading = true;
 			e = m_universe->CreateEntity(name);
 		}
-		m_universe->m_wakeCondition.notify_all();
+		if (e.id == INVALID_ENTITY)
+		{
+			PRINT("ERROR", "ERROR SPAWNING ENTITY");
+			throw std::runtime_error("error spawning entitiy");
+		}
 		return e;
 	}
 
@@ -158,6 +162,7 @@ public:
 	template<typename COMPONENT_TYPE>
 	void AddComponent(COMPONENT_TYPE component)
 	{
+		std::lock_guard<std::recursive_mutex> lock(m_universe->m_mutex);
 		if (id == INVALID_ENTITY)
 		{
 			PRINT("ERROR", "INVALID ENTITY!");
@@ -177,28 +182,26 @@ public:
 	template<typename COMPONENT_TYPE>
 	void RemoveComponent()
 	{
+		std::lock_guard<std::recursive_mutex> lock(m_universe->m_mutex);
+		if (id == INVALID_ENTITY)
 		{
-			std::lock_guard<std::mutex> lock(m_universe->m_mutex);
-			if (id == INVALID_ENTITY)
-			{
-				PRINT("ERROR", "INVALID ENTITY!");
-				throw std::runtime_error("invalid entity");
-			}
-			if (strcmp(typeid(COMPONENT_TYPE).name(), typeid(EntityName).name()) == 0)
-			{
-				PRINT("ERROR", "attempt to remove core component (EntityName) from entity! entity id:", id);
-				throw std::runtime_error("attempt to remove core system from entity");
-			}
-			m_universe->m_componentManager->RemoveComponent<COMPONENT_TYPE>(id);
-
-			auto signature = m_universe->m_entityManager->GetSignature(id);
-			signature.set(m_universe->m_componentManager->GetComponentType<COMPONENT_TYPE>(), false);
-			m_universe->m_entityManager->SetSignature(id, signature);
-
-			m_universe->m_systemManager->EntitySignatureChanged(id, signature);
-			m_universe->m_readyForThreading = true;
+			PRINT("ERROR", "INVALID ENTITY!");
+			throw std::runtime_error("invalid entity");
 		}
-		m_universe->m_wakeCondition.notify_all();
+		if (strcmp(typeid(COMPONENT_TYPE).name(), typeid(EntityName).name()) == 0)
+		{
+			PRINT("ERROR", "attempt to remove core component (EntityName) from entity! entity id:", id);
+			throw std::runtime_error("attempt to remove core system from entity");
+		}
+		m_universe->m_componentManager->RemoveComponent<COMPONENT_TYPE>(id);
+
+		auto signature = m_universe->m_entityManager->GetSignature(id);
+		signature.set(m_universe->m_componentManager->GetComponentType<COMPONENT_TYPE>(), false);
+		m_universe->m_entityManager->SetSignature(id, signature);
+
+		m_universe->m_systemManager->EntitySignatureChanged(id, signature);
+		m_universe->m_readyForThreading = true;
+
 	}
 
 	template<typename COMPONENT_TYPE>
@@ -226,7 +229,7 @@ public:
 	template<typename SYSTEM_TYPE>
 	void AttachToSystem()
 	{
-		std::lock_guard<std::mutex> lock(m_universe->m_mutex);
+		std::lock_guard<std::recursive_mutex> lock(m_universe->m_mutex);
 		if (id == INVALID_ENTITY)
 		{
 			PRINT("ERROR", "INVALID ENTITY!");
@@ -240,7 +243,7 @@ public:
 
 	void AttachChild(Entity entity)
 	{
-		std::lock_guard<std::mutex> lock(m_universe->m_mutex);
+		std::lock_guard<std::recursive_mutex> lock(m_universe->m_mutex);
 		if (entity.id == INVALID_ENTITY)
 		{
 			PRINT("ERROR", "invalid entity is attached!");
@@ -266,7 +269,7 @@ public:
 
 	void RemoveChild(Entity entity)
 	{
-		std::lock_guard<std::mutex> lock(m_universe->m_mutex);
+		std::lock_guard<std::recursive_mutex> lock(m_universe->m_mutex);
 		if (entity.id == INVALID_ENTITY)
 		{
 			PRINT("ERROR", "invalid entity is removed!");
@@ -285,7 +288,7 @@ public:
 	template<typename SYSTEM_TYPE>
 	void RemoveFromSystem()
 	{
-		std::lock_guard<std::mutex> lock(m_universe->m_mutex);
+		std::lock_guard<std::recursive_mutex> lock(m_universe->m_mutex);
 		if (id == INVALID_ENTITY)
 		{
 			PRINT("ERROR", "INVALID ENTITY!");
@@ -318,7 +321,7 @@ public:
 
 	void Destroy()
 	{
-		std::lock_guard<std::mutex> lock(m_universe->m_mutex);
+		std::lock_guard<std::recursive_mutex> lock(m_universe->m_mutex);
 		Node &parentNode = GetComponent<Node>();
 		for (auto child : parentNode.childs)
 		{
