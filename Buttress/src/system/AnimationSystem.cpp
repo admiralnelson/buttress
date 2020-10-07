@@ -22,11 +22,14 @@ void AnimationSystem::Start()
 //then process them.
 //after done, wait the Universe to synchronise accross other system (possibily in sequence) and update the components
 
-void AnimationSystem::ProcessJob(unsigned int entityIndexStart, unsigned int entityIndexEnds)
+void AnimationSystem::ProcessJob(ThreadNr jobIndex, NrOfThreads totalThreads)
 {
-	if (m_entity.size() < entityIndexEnds) return;
+	const int nrOfitems = m_entity.size();
+	const int start = jobIndex * nrOfitems / totalThreads;
+	const int finish = (jobIndex + 1) * nrOfitems / totalThreads;
+	if (m_entity.size() < finish) return;
 	float runningTime = (float)((double)GetCurrentTime() - (double)m_startTime) / 1000.0f;
-	for (unsigned int i = entityIndexStart; i < entityIndexEnds; i++)
+	for (unsigned int i = start; i < finish; i++)
 	{
 		EntityId id = *std::next(m_entity.begin(), i);
 		Entity theEnt = m_universe->QueryByEntityId(id);
@@ -55,10 +58,6 @@ void AnimationSystem::Tick(float dt)
 
 bool AnimationSystem::CalculateBoneTransform(Entity ent, float atTimeInSeconds)
 {
-	if (renderer->IsBusy())
-	{
-		return false;
-	}
 	Matrix4 identity = Matrix4(1);
 	RenderSystem* render = m_universe->GetSystem<RenderSystem>();
 	Model& model = ent.GetComponent<Model>();
@@ -90,10 +89,6 @@ void AnimationSystem::PushAnimationData(EntityId ent, Animation animationData)
 
 void AnimationSystem::ReadNodeHierarchy(Entity ent, const aiScene* model, float atTime, const aiNode* node, Matrix4 parentTransform)
 {
-	if (renderer->IsBusy())
-	{
-		return;
-	}
 	const char* nodeName = node->mName.data;
 	const aiAnimation* animation = model->mAnimations[0];
 	Matrix4 nodeTransform = aiMatrix4x4ToMatrix4(node->mTransformation);
@@ -145,14 +140,14 @@ Vec3 AnimationSystem::CalcInterpolatedScaling(float atTime, const aiNodeAnim* no
 	if (nextScallingIndex > nodeAnim->mNumScalingKeys)
 	{
 		PRINT("ERROR", "next scalling index out of range, aiNodeAnim ptr", nodeAnim);
-		throw std::exception("next scalling index out of range");
+		throw std::runtime_error("next scalling index out of range");
 	}
 	float deltaTime = (float)(nodeAnim->mScalingKeys[nextScallingIndex].mTime - nodeAnim->mScalingKeys[scallingIndex].mTime);
 	float factor = (atTime - (float)nodeAnim->mScalingKeys[scallingIndex].mTime) / deltaTime;
 	if (factor < 0 || factor > 1)
 	{
 		PRINT("ERROR", "factor is out of range [0..1] aiNodeAnim ptr", nodeAnim, "factor value", factor);
-		throw std::exception("factor is out of range");
+		throw std::runtime_error("factor is out of range");
 	}
 	aiVector3D& start = nodeAnim->mScalingKeys[scallingIndex].mValue;
 	aiVector3D& end = nodeAnim->mScalingKeys[nextScallingIndex].mValue;
@@ -173,14 +168,14 @@ Vec3 AnimationSystem::CalcInterpolatedPosition(float atTime, const aiNodeAnim* n
 	if (nextPositionIndex > nodeAnim->mNumPositionKeys)
 	{
 		PRINT("ERROR", "next scalling index out of range, aiNodeAnim ptr", nodeAnim);
-		throw std::exception("next scalling index out of range");
+		throw std::runtime_error("next scalling index out of range");
 	}
 	float deltaTime = (float)(nodeAnim->mPositionKeys[nextPositionIndex].mTime - nodeAnim->mPositionKeys[positionIndex].mTime);
 	float factor = (atTime - (float)nodeAnim->mPositionKeys[positionIndex].mTime) / deltaTime;
 	if (factor < 0 || factor > 1)
 	{
 		PRINT("ERROR", "factor is out of range [0..1] aiNodeAnim ptr", nodeAnim, "factor value", factor);
-		throw std::exception("factor is out of range");
+		throw std::runtime_error("factor is out of range");
 	}
 	aiVector3D& start = nodeAnim->mPositionKeys[positionIndex].mValue;
 	aiVector3D& end = nodeAnim->mPositionKeys[nextPositionIndex].mValue;
@@ -201,14 +196,14 @@ Quaternion AnimationSystem::CalcInterpolatedRotation(float atTime, const aiNodeA
 	if (nextRotationIndex > nodeAnim->mNumRotationKeys)
 	{
 		PRINT("ERROR", "next rotation index out of range, aiNodeAnim ptr", nodeAnim);
-		throw std::exception("next scalling index out of range");
+		throw std::runtime_error("next scalling index out of range");
 	}
 	float deltaTime = (float)(nodeAnim->mRotationKeys[nextRotationIndex].mTime - nodeAnim->mRotationKeys[rotationIndex].mTime);
 	float factor = (atTime - (float)nodeAnim->mRotationKeys[rotationIndex].mTime) / deltaTime;
 	if (factor < 0 || factor > 1)
 	{
 		PRINT("ERROR", "factor is out of range [0..1] aiNodeAnim ptr", nodeAnim, "factor value", factor);
-		throw std::exception("factor is out of range");
+		throw std::runtime_error("factor is out of range");
 	}
 	const aiQuaternion& StartRotationQ = nodeAnim->mRotationKeys[rotationIndex].mValue;
 	const aiQuaternion& EndRotationQ = nodeAnim->mRotationKeys[nextRotationIndex].mValue;
@@ -236,7 +231,7 @@ unsigned int AnimationSystem::FindScaling(float atTime, const aiNodeAnim* nodeAn
 	if (nodeAnim->mNumScalingKeys <= 0)
 	{
 		PRINT("ERROR", "unable to find scalling index for nodeAnim:", nodeAnim->mNodeName.data, "at ptr", nodeAnim, "it is empty");
-		throw std::exception("there is no scaling keys!");
+		throw std::runtime_error("there is no scaling keys!");
 		return -1;
 	}
 
@@ -249,7 +244,7 @@ unsigned int AnimationSystem::FindScaling(float atTime, const aiNodeAnim* nodeAn
 	}
 
 	PRINT("ERROR", "unable to find scalling index for nodeAnim:", nodeAnim->mNodeName.data, "at ptr", nodeAnim, "it is cannot be found");
-	throw std::exception("cannot find the scalling position");
+	throw std::runtime_error("cannot find the scalling position");
 	return -1;
 }
 
@@ -258,7 +253,7 @@ unsigned int AnimationSystem::FindRotation(float atTime, const aiNodeAnim* nodeA
 	if (nodeAnim->mNumRotationKeys == 0)
 	{
 		PRINT("ERROR", "unable to find rotation index for nodeAnim:", nodeAnim->mNodeName.data, "at ptr", nodeAnim, "it is empty");
-		throw std::exception("there is no rotation keys!");
+		throw std::runtime_error("there is no rotation keys!");
 		return -1;
 	}
 
@@ -271,7 +266,7 @@ unsigned int AnimationSystem::FindRotation(float atTime, const aiNodeAnim* nodeA
 	}
 
 	PRINT("ERROR", "unable to find rotation index for nodeAnim:", nodeAnim->mNodeName.data, "at ptr", nodeAnim, "it is cannot be found");
-	throw std::exception("cannot find the rotation index");
+	throw std::runtime_error("cannot find the rotation index");
 	return -1;
 }
 
@@ -286,6 +281,6 @@ unsigned int AnimationSystem::FindPosition(float atTime, const aiNodeAnim* nodeA
 	}
 
 	PRINT("ERROR", "unable to find position index for nodeAnim:", nodeAnim->mNodeName.data, "at ptr", nodeAnim, "it is cannot be found");
-	throw std::exception("cannot find the position index");
+	throw std::runtime_error("cannot find the position index");
 	return -1;
 }

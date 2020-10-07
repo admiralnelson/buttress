@@ -38,11 +38,18 @@ Entity Universe::QueryByEntityId(EntityId id)
 
 void Universe::Render(float dt)
 {
-	m_threading->Pause();
-	
+	m_workers.PushJob([&](ThreadNr nr, NrOfThreads threads)
+	{
+		auto renderer = m_systemManager->GetSystem<RenderSystem>();
+		renderer->ProcessJob(nr, threads);
+	});
+	m_workers.PushJob([&](ThreadNr nr, NrOfThreads threads)
+	{
+		auto animation = m_systemManager->GetSystem<AnimationSystem>();
+		animation->ProcessJob(nr, threads);
+	});
+	m_workers.BlockUntilFinished();
 	m_systemManager->GetSystem<RenderSystem>()->Tick();
-	
-	m_threading->Resume();
 	
 }
 
@@ -87,11 +94,6 @@ Universe::Universe()
 	nameSig4.set(m_componentManager->GetComponentType<Camera>());
 	m_systemManager->SetSignature<CameraSystem>(nameSig4);
 
-	std::vector<std::function<void(unsigned int, unsigned int)>> tasks;
 
-	tasks.push_back(std::bind(&AnimationSystem::ProcessJob, m_systemManager->GetSystem<AnimationSystem>(), std::placeholders::_1, std::placeholders::_2));
-	tasks.push_back(std::bind(&RenderSystem::ProcessJob, m_systemManager->GetSystem<RenderSystem>(), std::placeholders::_1, std::placeholders::_2));
-
-	m_threading->InitialiseThreads(3, tasks, nullptr);
-	m_threading->StartTheJobs();
+	m_workers.Start();
 }

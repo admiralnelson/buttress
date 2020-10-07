@@ -18,7 +18,7 @@ void TextureData::Load(std::string path)
 	if (m_data == nullptr)
 	{
 		PRINT("ERROR", "unable to load file", path);
-		throw std::exception("texture fail to load", -1);
+		throw std::runtime_error("texture fail to load");
 	}
 	PRINT("INFO", "texture type 2D has been loaded to RAM. filename: ", m_path);
 }
@@ -43,7 +43,7 @@ void TextureData::Use(unsigned int glTextureIndex)
 			break;
 		default:
 			PRINT("ERROR", "unsupported nr of channel. expected 4 or 3 got", m_channel, "filename:", m_path);
-			throw std::exception("texture fail to load", -1);
+			throw std::runtime_error("texture fail to load");
 			break;
 		}
 

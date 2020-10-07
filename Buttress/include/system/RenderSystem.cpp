@@ -13,10 +13,12 @@ void RenderSystem::Init(Universe* universe)
 	
 }
 
-void RenderSystem::ProcessJob(unsigned int entityIndexStart, unsigned int entityIndexEnds)
+void RenderSystem::ProcessJob(ThreadNr jobIndex, NrOfThreads totalThreads)
 {
-	if (m_entity.size() < entityIndexEnds) return;
-	for (unsigned int i = entityIndexStart; i < entityIndexEnds; i++)
+	const int nrOfitems = m_entity.size();
+	const int start = jobIndex * nrOfitems / totalThreads;
+	const int finish = (jobIndex + 1) * nrOfitems / totalThreads;
+	for (unsigned int i = start; i < finish; i++)
 	{
 		EntityId id = *std::next(m_entity.begin(), i);
 		Transform& transform = m_universe->QueryByEntityId(id).GetComponent<Transform>();
@@ -46,18 +48,13 @@ void RenderSystem::Tick()
 		PRINT("INFO", "free mem is:", freeMem);
 	}
 
-	//m_universe->GetSystem<AnimationSystem>()->Tick(0);
-	//TraverseTheGraph();
-	if (m_universe->GetThreading()->AreWorkersCompleted())
+	auto sortInstance = [](const MeshQueue& a, const MeshQueue& b)
 	{
-		auto sortInstance = [](const MeshQueue& a, const MeshQueue& b)
-		{
-			return  b.shader < a.shader && a.materialId < b.materialId || a.meshId < b.meshId;
-		};
+		return  b.shader < a.shader && a.materialId < b.materialId || a.meshId < b.meshId;
+	};
 
-		std::sort(m_meshQueues.begin(), m_meshQueues.end(), sortInstance);
-		RenderTheQueue();
-	}
+	std::sort(m_meshQueues.begin(), m_meshQueues.end(), sortInstance);
+	RenderTheQueue();
 }
 
 

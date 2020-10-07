@@ -4,7 +4,7 @@
 #include "ComponentManager.h"
 #include "SystemManager.h"
 #include "EventManager.h"
-#include "ECSThreading.h"
+#include "core/GroupWorker.h"
 #include "components/EntityName.h"
 #include "components/Node.h"
 
@@ -91,11 +91,15 @@ public:
 		return m_entityManager->GetTotalEntities(); 
 	}
 
-	std::shared_ptr<ECSThreading> GetThreading() { return m_threading; }
+	GroupWorker& WorkerInstance()
+	{
+		return m_workers;
+	}
+	
 
 private:
 	void Render(float dt);
-	std::shared_ptr<ECSThreading> m_threading = std::make_shared<ECSThreading>(this);
+	GroupWorker m_workers = GroupWorker(4);
 	std::unique_ptr<ComponentManager> m_componentManager = std::make_unique<ComponentManager>();
 	std::unique_ptr<EntityManager> m_entityManager       = std::make_unique<EntityManager>();
 	std::unique_ptr<SystemManager> m_systemManager       = std::make_unique<SystemManager>();
@@ -138,13 +142,11 @@ public:
 	Entity CreateEntity(std::string name)
 	{
 		Entity e;
-		std::unique_lock<std::mutex> lock(m_universe->m_mutex);
-		lock.lock();
+		std::lock_guard<std::mutex> lock(m_universe->m_mutex);
 		{
 			m_universe->m_readyForThreading = true;
 			e = m_universe->CreateEntity(name);
 		}
-		lock.unlock();
 		m_universe->m_wakeCondition.notify_all();
 		return e;
 	}
@@ -156,25 +158,20 @@ public:
 	template<typename COMPONENT_TYPE>
 	void AddComponent(COMPONENT_TYPE component)
 	{
-		std::unique_lock<std::mutex> lock(m_universe->m_mutex);
-		lock.lock();
+		if (id == INVALID_ENTITY)
 		{
-			if (id == INVALID_ENTITY)
-			{
-				PRINT("ERROR", "INVALID ENTITY!");
-				throw std::exception("invalid entity");
-			}
-			m_universe->m_componentManager->AddComponent<COMPONENT_TYPE>(id, component);
-
-			auto signature = m_universe->m_entityManager->GetSignature(id);
-			signature.set(m_universe->m_componentManager->GetComponentType<COMPONENT_TYPE>(), true);
-			m_universe->m_entityManager->SetSignature(id, signature);
-			m_universe->m_systemManager->EntitySignatureChanged(id, signature);
-			
-			m_universe->m_readyForThreading = true;
+			PRINT("ERROR", "INVALID ENTITY!");
+			throw std::runtime_error("invalid entity");
 		}
-		m_universe->m_wakeCondition.notify_all();
-		lock.unlock();
+		m_universe->m_componentManager->AddComponent<COMPONENT_TYPE>(id, component);
+
+		auto signature = m_universe->m_entityManager->GetSignature(id);
+		signature.set(m_universe->m_componentManager->GetComponentType<COMPONENT_TYPE>(), true);
+		m_universe->m_entityManager->SetSignature(id, signature);
+		m_universe->m_systemManager->EntitySignatureChanged(id, signature);
+			
+		m_universe->m_readyForThreading = true;
+
 	}
 
 	template<typename COMPONENT_TYPE>
@@ -185,12 +182,12 @@ public:
 			if (id == INVALID_ENTITY)
 			{
 				PRINT("ERROR", "INVALID ENTITY!");
-				throw std::exception("invalid entity");
+				throw std::runtime_error("invalid entity");
 			}
 			if (strcmp(typeid(COMPONENT_TYPE).name(), typeid(EntityName).name()) == 0)
 			{
 				PRINT("ERROR", "attempt to remove core component (EntityName) from entity! entity id:", id);
-				throw std::exception("attempt to remove core system from entity");
+				throw std::runtime_error("attempt to remove core system from entity");
 			}
 			m_universe->m_componentManager->RemoveComponent<COMPONENT_TYPE>(id);
 
@@ -207,25 +204,21 @@ public:
 	template<typename COMPONENT_TYPE>
 	COMPONENT_TYPE& GetComponent()
 	{
+		if (id == INVALID_ENTITY)
 		{
-			std::lock_guard<std::mutex> lock(m_universe->m_mutex);
-			if (id == INVALID_ENTITY)
-			{
-				PRINT("ERROR", "INVALID ENTITY!");
-				throw std::exception("invalid entity");
-			}
-			return m_universe->m_componentManager->GetComponent<COMPONENT_TYPE>(id);
+			PRINT("ERROR", "INVALID ENTITY!");
+			throw std::runtime_error("invalid entity");
 		}
+		return m_universe->m_componentManager->GetComponent<COMPONENT_TYPE>(id);
 	}
 
 	template<typename COMPONENT_TYPE>
 	bool IsComponentExist()
 	{
-		std::lock_guard<std::mutex> lock(m_universe->m_mutex);
 		if (id == INVALID_ENTITY)
 		{
 			PRINT("ERROR", "INVALID ENTITY!");
-			throw std::exception("invalid entity");
+			throw std::runtime_error("invalid entity");
 		}
 		return m_universe->m_componentManager->IsComponentExistForEntity<COMPONENT_TYPE>(id);
 	}
@@ -237,7 +230,7 @@ public:
 		if (id == INVALID_ENTITY)
 		{
 			PRINT("ERROR", "INVALID ENTITY!");
-			throw std::exception("invalid entity");
+			throw std::runtime_error("invalid entity");
 		}
 		ComponentSignature objectCompSig = m_universe->m_entityManager->GetSignature(id);
 		objectCompSig = objectCompSig | m_universe->m_systemManager->GetSignature<SYSTEM_TYPE>();
@@ -251,7 +244,7 @@ public:
 		if (entity.id == INVALID_ENTITY)
 		{
 			PRINT("ERROR", "invalid entity is attached!");
-			throw std::exception("invalid entity");
+			throw std::runtime_error("invalid entity");
 		}
 		Node& parentNode = GetComponent<Node>();
 		Node& childNode = entity.GetComponent<Node>();
@@ -277,7 +270,7 @@ public:
 		if (entity.id == INVALID_ENTITY)
 		{
 			PRINT("ERROR", "invalid entity is removed!");
-			throw std::exception("invalid entity");
+			throw std::runtime_error("invalid entity");
 		}
 		Node& parentNode = GetComponent<Node>();
 		Node& childNode = entity.GetComponent<Node>();
@@ -296,12 +289,12 @@ public:
 		if (id == INVALID_ENTITY)
 		{
 			PRINT("ERROR", "INVALID ENTITY!");
-			throw std::exception("invalid entity");
+			throw std::runtime_error("invalid entity");
 		}
 		if (strcmp(typeid(SYSTEM_TYPE).name(), typeid(EntityNameCheckSystem).name()) == 0)
 		{
 			PRINT("ERROR", "attempt to remove core system (EntityNameCheckSystem) from entity! entity id:", id);
-			throw std::exception("attempt to remove core system from entity");
+			throw std::runtime_error("attempt to remove core system from entity");
 		}
 		ComponentSignature objectCompSig = m_universe->m_entityManager->GetSignature(id);
 		objectCompSig = objectCompSig & m_universe->m_systemManager->GetSignature<SYSTEM_TYPE>();

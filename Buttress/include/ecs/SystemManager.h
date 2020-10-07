@@ -26,7 +26,7 @@ public:
 		if (m_systems.find(name) != m_systems.end())
 		{
 			PRINT("ERROR", "system", name, "has been already registered");
-			throw std::exception("double register system ");
+			throw std::runtime_error("double register system ");
 		}
 		auto system = std::make_shared<SYSTEM_TYPE>();
 		system->Init(universe);
@@ -43,7 +43,7 @@ public:
 		if (m_systems.find(name) == m_systems.end())
 		{
 			PRINT("ERROR", "system", name, "is not registered");
-			throw std::exception("system not registered");
+			throw std::runtime_error("system not registered");
 		}
 		//return m_systems[name];
 		auto ptr = dynamic_cast<SYSTEM_TYPE*>(m_systems[name].get());
@@ -59,7 +59,7 @@ public:
 		if (m_systems.find(name) == m_systems.end())
 		{
 			PRINT("ERROR", "cannot find system", name, "it is not registered");
-			throw std::exception("attempt to use non exsiting system ");
+			throw std::runtime_error("attempt to use non exsiting system ");
 		}
 		m_signatures.insert({ name, signature });
 		//keep it 1-to-1
@@ -81,7 +81,7 @@ public:
 		if (m_systems.find(name) == m_systems.end())
 		{
 			PRINT("ERROR", "cannot find system", name, "it is not registered");
-			throw std::exception("attempt to use non exsiting system ");
+			throw std::runtime_error("attempt to use non exsiting system ");
 		}
 
 		return m_signatures[name];

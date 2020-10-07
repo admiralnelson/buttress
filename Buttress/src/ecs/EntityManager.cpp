@@ -7,7 +7,7 @@ EntityManager::EntityManager()
 	{
 		m_entities.push(i);
 	}
-	m_signatures.reserve(MAX_ENTITIES);
+	m_signatures.resize(MAX_ENTITIES);
 }
 
 EntityId EntityManager::CreateEntity()
@@ -16,7 +16,7 @@ EntityId EntityManager::CreateEntity()
 	if (m_entitiesCount >= MAX_ENTITIES)
 	{
 		PRINT("ERROR", "TOO MANY ENTITIES. PAST THE LIMIT OF", MAX_ENTITIES);
-		throw std::exception("too many entities");
+		throw std::runtime_error("too many entities");
 	}
 	EntityId id = m_entities.front();
 	m_entities.pop();
@@ -31,7 +31,7 @@ void EntityManager::DestroyEntity(EntityId entity)
 	if (entity < 0)
 	{
 		PRINT("ERROR", "TOO ENTITIY OUT OF RANGE. entity was:", entity);
-		throw std::exception("entity out of range");
+		throw std::runtime_error("entity out of range");
 	}
 	m_signatures[entity].reset();
 	m_entities.push(entity);
@@ -44,7 +44,7 @@ void EntityManager::SetSignature(EntityId entity, ComponentSignature signature )
 	if (entity < 0 && entity >= MAX_ENTITIES)
 	{
 		PRINT("ERROR", "TOO ENTITIY OUT OF RANGE. entity was:", entity);
-		throw std::exception("entity out of range");
+		throw std::runtime_error("entity out of range");
 	}
 	m_signatures[entity] = signature;
 }
@@ -60,7 +60,7 @@ ComponentSignature EntityManager::GetSignature(EntityId entity)
 	if (entity < 0 && entity >= MAX_ENTITIES)
 	{
 		PRINT("ERROR", "TOO ENTITIY OUT OF RANGE. entity was:", entity);
-		throw std::exception("entity out of range");
+		throw std::runtime_error("entity out of range");
 	}
 	return m_signatures[entity];
 }

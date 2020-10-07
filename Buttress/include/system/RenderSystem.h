@@ -6,6 +6,7 @@
 #include "core/Material.h"
 #include "core/ModelData.h"
 #include "core/MeshData.h"
+#include "core/GroupWorker.h"
 #include "glad/glad.h"
 #include "components/Transform.h"
 class Universe;
@@ -33,7 +34,7 @@ class RenderSystem : public System
 	friend class AnimationSystem;
 public:
 	void Init(Universe* universe) override;
-	void ProcessJob(unsigned int entityIndexStart, unsigned int entityIndexEnds);
+	void ProcessJob(ThreadNr jobIndex, NrOfThreads totalThreads);
 	void Tick();
 	bool IsBusy() { return m_busy; }
 private:
@@ -43,13 +44,10 @@ private:
 	//secondary thread
 	void TraverseTheGraph();
 	std::deque<MeshQueue> m_meshQueues;
-	std::mutex m_mutex;
-	std::thread m_traversalThread;
-	std::thread m_animationSystem;
 	Entity m_camera;
 	bool m_isFirstTick = true;
 	std::atomic<bool> m_busy = false;
 	std::atomic<bool> m_render = false;
 	long long m_sceneGraphSleepForMs = 0;
-	//std::vector<unsigned int> m_bonesTransforms;
+	
 };

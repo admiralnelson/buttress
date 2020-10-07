@@ -137,7 +137,7 @@ MeshData& MeshLoader::GetMesh(MeshId id)
 	if (id >= m_meshCaches.size())
 	{
 		PRINT("ERROR", "meshId out of range! id", id);
-		throw std::exception("mesh out of range");
+		throw std::runtime_error("mesh out of range");
 	}
 	return m_meshCaches[id];
 }

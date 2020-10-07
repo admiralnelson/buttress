@@ -21,7 +21,7 @@ public:
 		if (m_entityToIndexMap.find(entity) != m_entityToIndexMap.end())
 		{
 			PRINT("ERROR", "a component assigned to the same entity twice! component type:", typeid(TYPE).name());
-			throw std::exception("duplicate component assigment");
+			throw std::runtime_error("duplicate component assigment");
 		}
 		size_t newIndex = m_alive;
 		m_entityToIndexMap[entity] = newIndex;
@@ -34,7 +34,7 @@ public:
 		if (m_entityToIndexMap.find(entity) == m_entityToIndexMap.end())
 		{
 			PRINT("ERROR", "attempt to remove non existing entity");
-			throw std::exception("removing non existing enitty");
+			throw std::runtime_error("removing non existing enitty");
 		}
 
 		//shift the component array
@@ -71,7 +71,7 @@ public:
 		{
 			std::string typeName = typeid(TYPE).name();
 			PRINT("ERROR", "attempt to retrieve non existing component:", typeName  ," from entity id:", entity);
-			throw std::exception("attempt to retrieve non existing component");
+			throw std::runtime_error("attempt to retrieve non existing component");
 		}
 		return m_componentArray[m_entityToIndexMap[entity]];
 	}
@@ -112,7 +112,7 @@ public:
 		if (m_componentTypes.find(name) != m_componentTypes.end())
 		{
 			PRINT("ERROR", "registering the same component! component:", name);
-			throw std::exception("same component registered ");
+			throw std::runtime_error("same component registered ");
 		}
 		m_componentTypes.insert({ name, m_nextComponentType });
 		m_componentTypeNames.insert({ m_nextComponentType, name });
@@ -129,7 +129,7 @@ public:
 		if (m_componentTypes.find(name) == m_componentTypes.end())
 		{
 			PRINT("ERROR", "component", name, "not registered!");
-			throw std::exception("component  was not registered");
+			throw std::runtime_error("component  was not registered");
 		}
 
 		return m_componentTypes[name];
@@ -141,7 +141,7 @@ public:
 		if (m_componentTypeNames.find(compId) == m_componentTypeNames.end())
 		{
 			PRINT("ERROR", "component with id:", compId, "not registered!");
-			throw std::exception("component  was not registered");
+			throw std::runtime_error("component  was not registered");
 		}
 		return m_componentTypeNames[compId];
 	}
@@ -207,7 +207,7 @@ private:
 		if (m_componentTypes.find(name) == m_componentTypes.end())
 		{
 			PRINT("ERROR", "component", name, "is not registered");
-			throw std::exception("component  not registered");
+			throw std::runtime_error("component  not registered");
 		}
 
 		return std::static_pointer_cast<ComponentArray<COMPONENT_TYPE>>(m_componentArrays[name]);

@@ -304,7 +304,7 @@ ModelData& ModelLoader::GetModel(ModelId id)
 	if (id >= m_modelCaches.size())
 	{
 		PRINT("ERROR", "modelId out of range! id", id);
-		throw std::exception("model out of range");
+		throw std::runtime_error("model out of range");
 	}
 	return m_modelCaches[id];
 }

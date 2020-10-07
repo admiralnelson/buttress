@@ -28,6 +28,7 @@
 #include <mutex>
 #include <shared_mutex>
 #include <condition_variable> 
+#include <future>
 #include <thread>
 #include <bitset>
 #include <any>

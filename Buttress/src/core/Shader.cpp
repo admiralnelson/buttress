@@ -14,7 +14,7 @@ Shader::Shader(std::string _name)
 		{
 			PRINT("   ", "name ", s.first, " location :", s.second);
 		}
-		throw std::exception("shader error", -1);
+		throw std::runtime_error("shader error");
 	}
 	m_program = glCreateProgram();
 	PRINT("INFO", "shader program has been created:", this->name, "program nr:", m_program);
@@ -26,7 +26,7 @@ void Shader::Use()
 	if (!IsShaderReady())
 	{
 		PRINT("ERROR", "shader is not compiled", this->name);
-		throw std::exception("shader error", -1);
+		throw std::runtime_error("shader error");
 	}
 	glUseProgram(m_program);
 }
@@ -284,7 +284,7 @@ void Shader::CompileShader()
 		
 
 		PRINT("ERROR LINKAGE INFO", std::string(errorLog.begin(), errorLog.end()));		
-		throw  std::exception("program shader error", -1);
+		throw  std::runtime_error("program shader error");
 	}
 	glGetProgramiv(m_program, GL_VALIDATE_STATUS, &status);
 	if (!status)
@@ -297,7 +297,7 @@ void Shader::CompileShader()
 
 
 		PRINT("ERROR VALIDATION INFO", std::string(errorLog.begin(), errorLog.end()));
-		throw  std::exception("program shader error", -1);
+		throw  std::runtime_error("program shader error");
 	}
 	m_isReady = true;
 }
@@ -498,7 +498,7 @@ void Shader::AddProgram(std::string source, int type)
 	if (!shader)
 	{
 		PRINT("ERROR", "shader type", type, "is not compilable.", "faulting shader:", this->name);
-		throw new std::exception("shader error", -1);
+		throw new std::runtime_error("shader error");
 	}
 	const char* data[1] = { source.c_str() };
 	glShaderSource(shader, 1, data, 0);
@@ -516,7 +516,7 @@ void Shader::AddProgram(std::string source, int type)
 		glDeleteShader(shader);		
 
 		PRINT("ERROR COMPILATION INFO", std::string(errorLog.begin(), errorLog.end()));
-		throw new std::exception("shader error", -1);
+		throw new std::runtime_error("shader error");
 	}
 	glAttachShader(m_program, shader);
 	glDeleteShader(shader);
@@ -583,7 +583,7 @@ void Shader::FindAndLocateStructs(std::string source)
 					else
 					{
 						std::string errmsg = "array size must be followed by BUTTRESS_CONSTANT_, unable to find BUTTRESS_CONSTANT_ macro of " + result[3].str();
-						throw std::exception(errmsg.c_str(), -1);
+						throw std::runtime_error(errmsg.c_str());
 
 						////if()
 						//ShaderKeyValue member;
@@ -641,7 +641,7 @@ void Shader::FindAndLocateUniforms(std::string source)
 				else
 				{
 					std::string errmsg = "array size must be followed by BUTTRESS_CONSTANT_, unable to find BUTTRESS_CONSTANT_ macro of " + result[3].str();
-					throw std::exception(errmsg.c_str(), -1);
+					throw std::runtime_error(errmsg.c_str());
 				}
 			}
 			else
