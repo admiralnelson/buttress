@@ -53,7 +53,7 @@ void Universe::Render(float dt)
 	
 	m_workers.BlockUntilFinished();
 	auto t2 = GetCurrentTime();
-	PRINT("delta ", t2 - t1);
+	//PRINT("delta ", t2 - t1);
 	m_lastDt = dt;
 	m_systemManager->GetSystem<RenderSystem>()->Tick();
 	

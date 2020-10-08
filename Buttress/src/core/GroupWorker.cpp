@@ -36,6 +36,12 @@ void GroupWorker::BlockUntilFinished()
 	}
 	std::unique_lock<std::mutex> lock(m_queueMutex);
 	m_cvTasksDone.wait(lock, [this]() { return m_tasks.empty() && (m_busyCounter == 0); });
+	
+}
+
+bool GroupWorker::IsJobCompleted()
+{
+	return m_tasks.empty() && (m_busyCounter == 0);
 }
 
 void GroupWorker::DoWork(ThreadNr threadNr)

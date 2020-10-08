@@ -13,6 +13,7 @@ public:
 	bool IsReady();
 	void PushJob(std::function<void(ThreadNr, NrOfThreads)> task);
 	void BlockUntilFinished();
+	bool IsJobCompleted();
 private:
 	void DoWork(ThreadNr thread);
 

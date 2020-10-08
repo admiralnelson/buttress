@@ -69,7 +69,7 @@ int main()
 			guard.Debug();
 			guard.GetComponent<Transform>().scale = { 0.2, 0.2, 0.2 };
 
-			for (size_t i = 1; i < 40; i++)
+			for (size_t i = 1; i < 100; i++)
 			{
 				Entity guardInstance = universe.CreateEntity("a guard" + std::to_string(i));
 				Model model;
@@ -172,6 +172,7 @@ int main()
 				unsigned int keyPress = e.GetParam<unsigned int>(KEYBOARD_EVENT::PARAMS::KEYBOARD_BUTTON);
 				Transform& transform = ent.GetComponent<Transform>();
 				float velocity = speed * dt;
+				//PRINT("velocity", velocity, "dt", dt);
 				switch (keyPress)
 				{
 				case GLFW_KEY_W:

@@ -17,10 +17,14 @@ void RenderSystem::ProcessJob(ThreadNr jobIndex, NrOfThreads totalThreads)
 {
 	const int nrOfitems = m_entity.size();
 	const int start = jobIndex * nrOfitems / totalThreads;
-	const int finish = (jobIndex + 1) * nrOfitems / totalThreads;
+	const int finish = std::min((jobIndex + 1) * nrOfitems / totalThreads, (unsigned int)m_entity.size());
 	for (unsigned int i = start; i < finish; i++)
 	{
 		EntityId id = *std::next(m_entity.begin(), i);
+		if (id == 0)
+		{
+			PRINT("WARNING!");
+		}
 		Transform& transform = m_universe->QueryByEntityId(id).GetComponent<Transform>();
 		Node& node = m_universe->QueryByEntityId(id).GetComponent<Node>();
 		if (node.parent == INVALID_ENTITY)

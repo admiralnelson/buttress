@@ -99,7 +99,7 @@ public:
 
 private:
 	void Render(float dt);
-	GroupWorker m_workers = GroupWorker(4);
+	GroupWorker m_workers = GroupWorker(8);
 	std::unique_ptr<ComponentManager> m_componentManager = std::make_unique<ComponentManager>();
 	std::unique_ptr<EntityManager> m_entityManager       = std::make_unique<EntityManager>();
 	std::unique_ptr<SystemManager> m_systemManager       = std::make_unique<SystemManager>();

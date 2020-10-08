@@ -46,7 +46,7 @@ void CameraSystem::MouseLook(Vec2 deltaPos, bool lockPitch)
 {
 	if (m_mainCamera.IsValid())
 	{
-		PRINT("deltaX", deltaPos.x, "deltaY", deltaPos.y);
+		//PRINT("deltaX", deltaPos.x, "deltaY", deltaPos.y);
 
 		deltaPos.x *= sensitivity;
 		deltaPos.y *= sensitivity;

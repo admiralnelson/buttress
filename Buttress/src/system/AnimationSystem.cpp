@@ -26,7 +26,7 @@ void AnimationSystem::ProcessJob(ThreadNr jobIndex, NrOfThreads totalThreads)
 {
 	const int nrOfitems = m_entity.size();
 	const int start = jobIndex * nrOfitems / totalThreads;
-	const int finish = (jobIndex + 1) * nrOfitems / totalThreads;
+	const int finish = std::min((jobIndex + 1) * nrOfitems / totalThreads, (unsigned int) m_entity.size());
 	if (m_entity.size() < finish) return;
 	float runningTime = (float)((double)GetCurrentTime() - (double)m_startTime) / 1000.0f;
 	for (unsigned int i = start; i < finish; i++)
@@ -61,6 +61,10 @@ bool AnimationSystem::CalculateBoneTransform(Entity ent, float atTimeInSeconds)
 	Matrix4 identity = Matrix4(1);
 	RenderSystem* render = m_universe->GetSystem<RenderSystem>();
 	Model& model = ent.GetComponent<Model>();
+	if (!ModelLoader::Instance().IsModelLoaded(model.id))
+	{
+		return false;
+	}
 	ModelData& modelData = ModelLoader::Instance().GetModel(model.id);
 	Animation& anim = ent.GetComponent<Animation>();
 	const aiScene* scene = modelData.m_importer->GetScene();
