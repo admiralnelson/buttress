@@ -54,7 +54,7 @@ std::string RandomString(int n)
 	return out;
 }
 
-long long GetCurrentTime()
+long long GetSystemTime()
 {
 	using namespace std::chrono;
 	return duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();

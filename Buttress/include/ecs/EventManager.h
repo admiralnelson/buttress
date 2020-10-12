@@ -10,7 +10,7 @@ namespace WINDOW_EVENT
 		const EventId PARAM_HEIGHT = 2;
 	}
 }
-namespace MOUSE_EVENT
+namespace MOUSE_INPUT_EVENT
 {
 	const EventId MOUSE_MOVE = 3;
 	namespace PARAMS

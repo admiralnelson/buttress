@@ -4,13 +4,15 @@
 #include "ComponentManager.h"
 #include "SystemManager.h"
 #include "EventManager.h"
-#include "core/GroupWorker.h"
+#include "core/JobSystem.h"
 #include "components/EntityName.h"
 #include "components/Node.h"
 
 #ifdef __INTELLISENSE__
 #pragma diag_suppress 26444
 #endif
+
+const unsigned MAX_JOB = 4;
 
 class Entity;
 class EntityNameCheckSystem;
@@ -91,15 +93,14 @@ public:
 		return m_entityManager->GetTotalEntities(); 
 	}
 
-	GroupWorker& WorkerInstance()
-	{
-		return m_workers;
-	}
 	
-
 private:
 	void Render(float dt);
-	GroupWorker m_workers = GroupWorker(8);
+	jobsystem::JobManagerDescriptor m_jobNames;
+	jobsystem::JobManager m_jobManager;
+	jobsystem::JobChainBuilder<8> m_workers = jobsystem::JobChainBuilder<8>(m_jobManager);
+	jobsystem::JobDelegate m_sceneGraphLoop;
+	jobsystem::JobDelegate m_animationLoop;
 	std::unique_ptr<ComponentManager> m_componentManager = std::make_unique<ComponentManager>();
 	std::unique_ptr<EntityManager> m_entityManager       = std::make_unique<EntityManager>();
 	std::unique_ptr<SystemManager> m_systemManager       = std::make_unique<SystemManager>();

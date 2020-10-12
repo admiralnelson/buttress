@@ -31,6 +31,7 @@ public:
 	}
 	void RemoveData(EntityId entity)
 	{
+		std::lock_guard<std::recursive_mutex> lock(m_eraseGuard);
 		if (m_entityToIndexMap.find(entity) == m_entityToIndexMap.end())
 		{
 			PRINT("ERROR", "attempt to remove non existing entity");
@@ -46,8 +47,8 @@ public:
 		m_entityToIndexMap[entityOfLastElement] = indexOfRemovedEntity;
 		m_indexToEntityMap[indexOfRemovedEntity] = entityOfLastElement;
 
-		m_entityToIndexMap.erase(entity);
-		m_indexToEntityMap.erase(indexOfLastElement);
+		m_entityToIndexMap.unsafe_erase(entity);
+		m_indexToEntityMap.unsafe_erase(indexOfLastElement);
 
 		m_alive--;
 	}
@@ -87,16 +88,17 @@ public:
 
 	void MemoryDebug()
 	{
-		PRINT("MEMORY: ECS", this, "object. m_componentArray allocates", sizeof(std::vector<TYPE>) + (sizeof(TYPE) * m_componentArray.size()), "for component type of" + typeid(TYPE).name());
+		//PRINT("MEMORY: ECS", this, "object. m_componentArray allocates", sizeof(std::vector<TYPE>) + (sizeof(TYPE) * m_componentArray.size()), "for component type of" + typeid(TYPE).name());
 	}
 
 private:
+	std::recursive_mutex m_eraseGuard;
 	//alocates component container with total element of MAX_ENTITIES, each entity can lookup a single component through here
-	std::vector<TYPE> m_componentArray = {};
+	tbb::concurrent_vector<TYPE> m_componentArray;
 	//maps entityId to its component index
-	std::unordered_map<EntityId, size_t> m_entityToIndexMap = {};
+	tbb::concurrent_unordered_map<EntityId, size_t, std::hash<EntityId>> m_entityToIndexMap;
 	//maps component index to its corresponding entityId
-	std::unordered_map<size_t, EntityId> m_indexToEntityMap = {};
+	tbb::concurrent_unordered_map<size_t, EntityId, std::hash<size_t>> m_indexToEntityMap;
 	int m_alive = 0;
 };
 
@@ -192,10 +194,10 @@ public:
 	}
 private:
 	//maps component name to its typeId
-	std::unordered_map<std::string, ComponentTypeId> m_componentTypes = {};
-	std::unordered_map<ComponentTypeId, std::string> m_componentTypeNames = {};
+	tbb::concurrent_unordered_map<std::string, ComponentTypeId, std::hash<std::string>> m_componentTypes;
+	tbb::concurrent_unordered_map<ComponentTypeId, std::string, std::hash<ComponentTypeId>> m_componentTypeNames;
 	//maps component name to its container
-	std::unordered_map<std::string, std::shared_ptr<IComponentArray>> m_componentArrays = {};
+	tbb::concurrent_unordered_map<std::string, std::shared_ptr<IComponentArray>, std::hash<std::string>> m_componentArrays;
 	//next id of next registered component
 	ComponentTypeId m_nextComponentType;
 	//get component container based on its type

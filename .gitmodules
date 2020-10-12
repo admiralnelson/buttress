@@ -17,3 +17,6 @@
 	path = external/assimp
 	url = https://github.com/assimp/assimp.git
 	branch = assimp_5.0_release
+[submodule "external/tbb"]
+	path = external/tbb
+	url = https://github.com/oneapi-src/oneTBB.git

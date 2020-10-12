@@ -110,7 +110,7 @@
     <ClCompile Include="src\core\ModelData.cpp">
       <Filter>src\core</Filter>
     </ClCompile>
-    <ClCompile Include="src\core\GroupWorker.cpp">
+    <ClCompile Include="src\core\JobSystem.cpp">
       <Filter>src\core</Filter>
     </ClCompile>
   </ItemGroup>
@@ -205,10 +205,7 @@
     <ClInclude Include="include\components\Animation.h">
       <Filter>include\component</Filter>
     </ClInclude>
-    <ClInclude Include="include\core\ThreadPool.h">
-      <Filter>include\core</Filter>
-    </ClInclude>
-    <ClInclude Include="include\core\GroupWorker.h">
+    <ClInclude Include="include\core\JobSystem.h">
       <Filter>include\core</Filter>
     </ClInclude>
   </ItemGroup>

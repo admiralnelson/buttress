@@ -39,20 +39,21 @@ Entity Universe::QueryByEntityId(EntityId id)
 
 void Universe::Render(float dt)
 {
-	auto t1 = GetCurrentTime();
-	m_workers.PushJob([&](ThreadNr nr, NrOfThreads threads)
-	{
-		auto animation = m_systemManager->GetSystem<AnimationSystem>();
-		animation->ProcessJob(nr, threads);
-	});
-	m_workers.PushJob([&](ThreadNr nr, NrOfThreads threads)
-	{
-		auto renderer = m_systemManager->GetSystem<RenderSystem>();
-		renderer->ProcessJob(nr, threads);
-	});
+	auto t1 = GetSystemTime();
+
+	m_workers
+		.Do(m_animationLoop, 'a')
+		.Then()
+		.Do(m_sceneGraphLoop, 'b')
+		.Then()
+		.Together();
+
+	m_workers
+		.Go()
+		.AssistAndWaitForAll();
 	
-	m_workers.BlockUntilFinished();
-	auto t2 = GetCurrentTime();
+	//m_workers.BlockUntilFinished();
+	auto t2 = GetSystemTime();
 	//PRINT("delta ", t2 - t1);
 	m_lastDt = dt;
 	m_systemManager->GetSystem<RenderSystem>()->Tick();
@@ -100,6 +101,30 @@ Universe::Universe()
 	nameSig4.set(m_componentManager->GetComponentType<Camera>());
 	m_systemManager->SetSignature<CameraSystem>(nameSig4);
 
+	m_jobNames.m_workers.push_back("SceneGraph1");
+	m_jobNames.m_workers.push_back("Animation1");
 
-	m_workers.Start();
+	m_jobNames.m_workers.push_back("SceneGraph2");
+	m_jobNames.m_workers.push_back("Animation2");
+
+	m_jobNames.m_workers.push_back("SceneGraph3");
+	m_jobNames.m_workers.push_back("Animation3");
+
+	m_jobNames.m_workers.push_back("SceneGraph4");
+	m_jobNames.m_workers.push_back("Animation4");
+
+	m_jobManager.Create(m_jobNames);
+
+	m_animationLoop = ([&](jobsystem::ThreadNr threadNr, jobsystem::NrOfThreads numberOfThreads)
+	{
+		auto animation = m_systemManager->GetSystem<AnimationSystem>();
+		animation->ProcessJob(threadNr, numberOfThreads);
+	});
+	m_sceneGraphLoop = ([&](jobsystem::ThreadNr threadNr, jobsystem::NrOfThreads numberOfThreads)
+	{
+		auto renderer = m_systemManager->GetSystem<RenderSystem>();
+		renderer->ProcessJob(threadNr, numberOfThreads);
+	});
+
+
 }

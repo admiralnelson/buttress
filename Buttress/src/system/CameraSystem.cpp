@@ -7,10 +7,10 @@ void CameraSystem::Init(Universe* universe)
 	static bool firstMouse = false;
 	static double lastX = 0;
 	static double lastY = 0;
-	universe->AddEventListener(MOUSE_EVENT::MOUSE_MOVE, [&](Event& e)
+	universe->AddEventListener(MOUSE_INPUT_EVENT::MOUSE_MOVE, [&](Event& e)
 	{
-		double x = e.GetParam<double>(MOUSE_EVENT::PARAMS::MOUSE_X);
-		double y = e.GetParam<double>(MOUSE_EVENT::PARAMS::MOUSE_Y);
+		double x = e.GetParam<double>(MOUSE_INPUT_EVENT::PARAMS::MOUSE_X);
+		double y = e.GetParam<double>(MOUSE_INPUT_EVENT::PARAMS::MOUSE_Y);
 		if (firstMouse)
 		{
 			lastX = x;

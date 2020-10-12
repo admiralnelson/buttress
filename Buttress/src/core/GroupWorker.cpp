@@ -35,7 +35,7 @@ void GroupWorker::BlockUntilFinished()
 		throw std::runtime_error("GROUP WORKER IS NOT STARTED!");
 	}
 	std::unique_lock<std::mutex> lock(m_queueMutex);
-	m_cvTasksDone.wait(lock, [this]() { return m_tasks.empty() && (m_busyCounter == 0); });
+	m_cvTasksDone.wait(lock, [this]() { return  (m_busyCounter == 0); });
 	
 }
 
@@ -48,23 +48,22 @@ void GroupWorker::DoWork(ThreadNr threadNr)
 {
 	while (m_isRunning)
 	{
-		std::unique_lock<std::mutex> lock(m_queueMutex);
-		m_cvTasks.wait(lock, [this]() { return !m_isRunning || !m_tasks.empty(); });
-		if (!m_tasks.empty())
+		size_t len = m_tasks.size();
+		for (size_t i = 0; i < len; i++)
 		{
 			m_busyCounter++;
 
-			auto function = m_tasks.front();
-			m_tasks.pop_front();
+			auto function = m_tasks[i]; //m_tasks.front();
+			//m_tasks.pop_front();
 
-			lock.unlock();
+			//lock.unlock();
 
 			function(threadNr, m_nrThreads);
 			m_processed++;
 
-			lock.lock();
+			//lock.lock();
+			//m_cvTasksDone.notify_one();
 			m_busyCounter--;
-			m_cvTasksDone.notify_one();
 		}
 	}
 }

@@ -7,6 +7,8 @@
 #ifndef PCH_H
 #define PCH_H
 
+#define TBB_PREVIEW_CONCURRENT_ORDERED_CONTAINERS 1
+
 // add headers that you want to pre-compile here
 #include <memory>
 #include <string>
@@ -35,8 +37,28 @@
 #include <chrono>
 #include <atomic>
 #include <random>
+#include <stdio.h>
+#include <string.h>
+#include <inttypes.h>
+#include <tbb/tbb.h>
 #include "Geometry.h"
 #include "Logger.h"
+
+
+#if defined(WIN32) || defined(WIN64)
+#   define WINDOWS
+#elif defined(__unix__)
+#   define LINUX
+#endif
+
+#ifdef WINDOWS
+#   define NOMINMAX
+#   define STRICT
+#	define NOGDI
+#	define VC_EXTRALEAN
+#   define WIN32_LEAN_AND_MEAN
+#   include "windows.h"
+#endif
 
 #define _CRTDBG_MAP_ALLOC
 #include <cstdlib>

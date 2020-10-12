@@ -8,7 +8,7 @@
 void AnimationSystem::Init(Universe* universe)
 {
 	m_universe = universe;
-	m_startTime = GetCurrentTime();
+	m_startTime = GetSystemTime();
 
 }
 
@@ -22,13 +22,13 @@ void AnimationSystem::Start()
 //then process them.
 //after done, wait the Universe to synchronise accross other system (possibily in sequence) and update the components
 
-void AnimationSystem::ProcessJob(ThreadNr jobIndex, NrOfThreads totalThreads)
+void AnimationSystem::ProcessJob(jobsystem::ThreadNr jobIndex, jobsystem::NrOfThreads totalThreads)
 {
 	const int nrOfitems = m_entity.size();
 	const int start = jobIndex * nrOfitems / totalThreads;
 	const int finish = std::min((jobIndex + 1) * nrOfitems / totalThreads, (unsigned int) m_entity.size());
 	if (m_entity.size() < finish) return;
-	float runningTime = (float)((double)GetCurrentTime() - (double)m_startTime) / 1000.0f;
+	float runningTime = (float)((double)GetSystemTime() - (double)m_startTime) / 1000.0f;
 	for (unsigned int i = start; i < finish; i++)
 	{
 		EntityId id = *std::next(m_entity.begin(), i);
@@ -47,7 +47,7 @@ void AnimationSystem::Tick(float dt)
 		renderer = m_universe->GetSystem<RenderSystem>();
 	}
 	
-	float runningTime = (float)((double)GetCurrentTime() - (double)m_startTime) / 1000.0f;
+	float runningTime = (float)((double)GetSystemTime() - (double)m_startTime) / 1000.0f;
 	for (auto& e : m_entity)
 	{
 		Entity theEnt = m_universe->QueryByEntityId(e);

@@ -5,7 +5,7 @@
 #include "components/Transform.h"
 #include "components/Animation.h"
 #include "system/RenderSystem.h"
-#include "core/GroupWorker.h"
+#include "core/JobSystem.h"
 
 class AnimationSystem : public System
 {
@@ -13,7 +13,7 @@ class AnimationSystem : public System
 public:
 	void Init(Universe* universe) override;
 	void Start();
-	void ProcessJob(ThreadNr threadNr, NrOfThreads totalThreads);
+	void ProcessJob(jobsystem::ThreadNr jobIndex, jobsystem::NrOfThreads totalThreads);
 	void Tick(float deltaT);
 	bool CalculateBoneTransform(Entity ent, float atTimeInSeconds);
 	void PushAnimationData(EntityId ent, Animation animationData);

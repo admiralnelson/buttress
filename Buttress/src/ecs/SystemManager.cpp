@@ -5,7 +5,7 @@
 
 std::string SystemManager::GetAttachedSystemNames(EntityId entity, ComponentSignature componentSignature)
 {
-	std::vector<std::string> out;
+	/*std::vector<std::string> out;
 	for (auto& i : m_systems)
 	{
 		auto& type = i.first;
@@ -18,6 +18,7 @@ std::string SystemManager::GetAttachedSystemNames(EntityId entity, ComponentSign
 		}
 
 	}
+	return "";*/
 	return "";
 }
 

@@ -13,7 +13,7 @@ void RenderSystem::Init(Universe* universe)
 	
 }
 
-void RenderSystem::ProcessJob(ThreadNr jobIndex, NrOfThreads totalThreads)
+void RenderSystem::ProcessJob(jobsystem::ThreadNr jobIndex, jobsystem::NrOfThreads totalThreads)
 {
 	const int nrOfitems = m_entity.size();
 	const int start = jobIndex * nrOfitems / totalThreads;
@@ -57,7 +57,11 @@ void RenderSystem::Tick()
 		return  b.shader < a.shader && a.materialId < b.materialId || a.meshId < b.meshId;
 	};
 
-	std::sort(m_meshQueues.begin(), m_meshQueues.end(), sortInstance);
+	//try deque the queue
+	//insert to the real render queu!
+	//then sort it
+	//std::sort(m_meshQueues.begin(), m_meshQueues.end(), sortInstance);
+
 	RenderTheQueue();
 }
 
@@ -122,7 +126,7 @@ bool RenderSystem::TraverseGraphForRender(EntityId e, Matrix4 model)
 		queue.view = view;
 		queue.model = model;
 		queue.projection = projection;
-		m_meshQueues.push_back(queue);
+		m_meshQueues.emplace(queue);
 	}
 	return false;
 }
@@ -136,7 +140,12 @@ void RenderSystem::RenderTheQueue()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	while(!m_meshQueues.empty())
 	{
-		MeshQueue& queue = m_meshQueues.front();
+		MeshQueue queue;
+		if (!m_meshQueues.try_pop(queue))
+		{
+			continue;
+		}
+
 		if (queue.meshId == INVALID_MESH)
 		{
 			continue;
@@ -178,7 +187,7 @@ void RenderSystem::RenderTheQueue()
 		}
 
 		mesh.Draw(queue.projection, queue.view, queue.model);
-		m_meshQueues.pop_front();
+		
 	}
 	
 }

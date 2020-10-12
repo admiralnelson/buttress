@@ -136,10 +136,10 @@ int main()
 				PRINT("window on resize, w", width, "h", height);
 			});
 
-			universe.AddEventListener(MOUSE_EVENT::MOUSE_MOVE, [](Event& e)
+			universe.AddEventListener(MOUSE_INPUT_EVENT::MOUSE_MOVE, [](Event& e)
 			{
-				double x = e.GetParam<double>(MOUSE_EVENT::PARAMS::MOUSE_X);
-				double y = e.GetParam<double>(MOUSE_EVENT::PARAMS::MOUSE_Y);
+				double x = e.GetParam<double>(MOUSE_INPUT_EVENT::PARAMS::MOUSE_X);
+				double y = e.GetParam<double>(MOUSE_INPUT_EVENT::PARAMS::MOUSE_Y);
 				//PRINT("mouse move, x", x, "y", y);
 			});
 

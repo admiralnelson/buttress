@@ -65,9 +65,9 @@ void Buttress::Start(Universe *universe)
 	auto mouseEvent = [](GLFWwindow* window, double x, double y)
 	{
 		Buttress* instance = reinterpret_cast<Buttress*>(glfwGetWindowUserPointer(window));
-		Event event(MOUSE_EVENT::MOUSE_MOVE);
-		event.SetParam<double>(MOUSE_EVENT::PARAMS::MOUSE_X, x);
-		event.SetParam<double>(MOUSE_EVENT::PARAMS::MOUSE_Y, y);
+		Event event(MOUSE_INPUT_EVENT::MOUSE_MOVE);
+		event.SetParam<double>(MOUSE_INPUT_EVENT::PARAMS::MOUSE_X, x);
+		event.SetParam<double>(MOUSE_INPUT_EVENT::PARAMS::MOUSE_Y, y);
 		instance->GetUniverse()->SendEvent(event);
 	};
 	glfwSetCursorPosCallback(m_window.get(), mouseEvent);

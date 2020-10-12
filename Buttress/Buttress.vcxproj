@@ -23,7 +23,7 @@
     <ClCompile Include="include\pch.cpp" />
     <ClCompile Include="include\system\RenderSystem.cpp" />
     <ClCompile Include="src\Buttress.cpp" />
-    <ClCompile Include="src\core\GroupWorker.cpp" />
+    <ClCompile Include="src\core\JobSystem.cpp" />
     <ClCompile Include="src\core\Material.cpp" />
     <ClCompile Include="src\core\MeshData.cpp" />
     <ClCompile Include="src\core\ModelData.cpp" />
@@ -50,13 +50,12 @@
     <ClInclude Include="include\components\Node.h" />
     <ClInclude Include="include\components\Transform.h" />
     <ClInclude Include="include\core\AnimationData.h" />
-    <ClInclude Include="include\core\GroupWorker.h" />
+    <ClInclude Include="include\core\JobSystem.h" />
     <ClInclude Include="include\core\Material.h" />
     <ClInclude Include="include\core\MeshData.h" />
     <ClInclude Include="include\core\ModelData.h" />
     <ClInclude Include="include\core\Shader.h" />
     <ClInclude Include="include\core\Texture.h" />
-    <ClInclude Include="include\core\ThreadPool.h" />
     <ClInclude Include="include\core\Types.h" />
     <ClInclude Include="include\ecs\ComponentManager.h" />
     <ClInclude Include="include\ecs\EntityManager.h" />
@@ -162,7 +161,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\Buttress\include\components;$(SolutionDir)..\Buttress\include\ecs;$(SolutionDir)..\Buttress\include;$(SolutionDir)..\external\glfw\include\;$(SolutionDir)..\external\assimp_project_and_configs\include\;$(SolutionDir)..\external\glad_project_and_configs\include\;$(SolutionDir)..\external\glm;$(SolutionDir)..\external\stb;$(SolutionDir)..\external\obj-loader\Source;$(SolutionDir)..\external\tcpp\source;$(SolutionDir)..\external\assimp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\Buttress\include\components;$(SolutionDir)..\Buttress\include\ecs;$(SolutionDir)..\Buttress\include;$(SolutionDir)..\external\glfw\include\;$(SolutionDir)..\external\assimp_project_and_configs\include\;$(SolutionDir)..\external\glad_project_and_configs\include\;$(SolutionDir)..\external\glm;$(SolutionDir)..\external\stb;$(SolutionDir)..\external\obj-loader\Source;$(SolutionDir)..\external\tcpp\source;$(SolutionDir)..\external\tbb\include;$(SolutionDir)..\external\assimp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>

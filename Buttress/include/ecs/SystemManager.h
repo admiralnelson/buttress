@@ -66,7 +66,7 @@ public:
 		if (m_signatures.find(name) != m_signatures.end())
 		{
 			ComponentSignature sig = m_signatures[name];
-			m_signaturesToName.erase(sig);
+			m_signaturesToName.unsafe_erase(sig);
 		}
 		m_signaturesToName.insert({ signature, name });
 
@@ -104,9 +104,9 @@ public:
 	}
 private:
 	//map system name to associated components using a bitset signature
-	std::unordered_map<std::string, ComponentSignature> m_signatures;
+	tbb::concurrent_unordered_map<std::string, ComponentSignature, std::hash<std::string>> m_signatures;
 	//map associated components to system name
-	std::unordered_map<ComponentSignature, std::string> m_signaturesToName;
+	tbb::concurrent_unordered_map<ComponentSignature, std::string, std::hash<ComponentSignature>> m_signaturesToName;
 	//map system name to the system itself
-	std::unordered_map<std::string, std::shared_ptr<System>> m_systems;
+	tbb::concurrent_unordered_map<std::string, std::shared_ptr<System>, std::hash<std::string>> m_systems;
 };

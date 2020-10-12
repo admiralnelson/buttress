@@ -18,8 +18,8 @@ EntityId EntityManager::CreateEntity()
 		PRINT("ERROR", "TOO MANY ENTITIES. PAST THE LIMIT OF", MAX_ENTITIES);
 		throw std::runtime_error("too many entities");
 	}
-	EntityId id = m_entities.front();
-	m_entities.pop();
+	EntityId id;
+	m_entities.try_pop(id);
 	m_entitiesCount++;
 	PRINT("created entity id:", id);
 	return id;
