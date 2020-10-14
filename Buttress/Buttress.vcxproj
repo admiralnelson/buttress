@@ -23,7 +23,6 @@
     <ClCompile Include="include\pch.cpp" />
     <ClCompile Include="include\system\RenderSystem.cpp" />
     <ClCompile Include="src\Buttress.cpp" />
-    <ClCompile Include="src\core\JobSystem.cpp" />
     <ClCompile Include="src\core\Material.cpp" />
     <ClCompile Include="src\core\MeshData.cpp" />
     <ClCompile Include="src\core\ModelData.cpp" />
@@ -50,7 +49,6 @@
     <ClInclude Include="include\components\Node.h" />
     <ClInclude Include="include\components\Transform.h" />
     <ClInclude Include="include\core\AnimationData.h" />
-    <ClInclude Include="include\core\JobSystem.h" />
     <ClInclude Include="include\core\Material.h" />
     <ClInclude Include="include\core\MeshData.h" />
     <ClInclude Include="include\core\ModelData.h" />
@@ -189,7 +187,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>Create</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -197,6 +195,8 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\Buttress\include\components;$(SolutionDir)..\Buttress\include\ecs;$(SolutionDir)..\Buttress\include;$(SolutionDir)..\external\glfw\include\;$(SolutionDir)..\external\assimp_project_and_configs\include\;$(SolutionDir)..\external\glad_project_and_configs\include\;$(SolutionDir)..\external\glm;$(SolutionDir)..\external\stb;$(SolutionDir)..\external\obj-loader\Source;$(SolutionDir)..\external\tcpp\source;$(SolutionDir)..\external\tbb\include;$(SolutionDir)..\external\assimp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

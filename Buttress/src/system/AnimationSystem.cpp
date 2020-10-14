@@ -18,25 +18,6 @@ void AnimationSystem::Start()
 	test.emplace_back([] {});
 }
 
-//TODO: COPY ALL THE DATA FROM ECS TO THIS SYSTEM.
-//then process them.
-//after done, wait the Universe to synchronise accross other system (possibily in sequence) and update the components
-
-void AnimationSystem::ProcessJob(jobsystem::ThreadNr jobIndex, jobsystem::NrOfThreads totalThreads)
-{
-	const int nrOfitems = m_entity.size();
-	const int start = jobIndex * nrOfitems / totalThreads;
-	const int finish = std::min((jobIndex + 1) * nrOfitems / totalThreads, (unsigned int) m_entity.size());
-	if (m_entity.size() < finish) return;
-	float runningTime = (float)((double)GetSystemTime() - (double)m_startTime) / 1000.0f;
-	for (unsigned int i = start; i < finish; i++)
-	{
-		EntityId id = *std::next(m_entity.begin(), i);
-		Entity theEnt = m_universe->QueryByEntityId(id);
-		CalculateBoneTransform(theEnt, runningTime);
-	}
-}
-
 void AnimationSystem::Process(size_t index)
 {
 	float runningTime = (float)((double)GetSystemTime() - (double)m_startTime) / 1000.0f;
@@ -83,7 +64,7 @@ bool AnimationSystem::CalculateBoneTransform(Entity ent, float atTimeInSeconds)
 	}
 	float timeInTicks = atTimeInSeconds * tickPerSecond;
 	float animationTime = fmod(timeInTicks, (float)scene->mAnimations[0]->mDuration);
-	ReadNodeHierarchy(ent, scene, animationTime, scene->mRootNode, identity);
+	ReadNodeHierarchy(ent, scene, animationTime, scene->mRootNode, identity, anim);
 	anim.calculatedBonesMatrix.resize(anim.numberOfBones);
 	for (size_t i = 0; i < anim.numberOfBones; i++)
 	{
@@ -105,12 +86,12 @@ size_t AnimationSystem::GetTotalEntity()
 
 
 
-void AnimationSystem::ReadNodeHierarchy(Entity ent, const aiScene* model, float atTime, const aiNode* node, const Matrix4& parentTransform)
+void AnimationSystem::ReadNodeHierarchy(Entity ent, const aiScene* model, float atTime, const aiNode* node, const Matrix4& parentTransform, Animation& animation)
 {
 	const char* nodeName = node->mName.data;
-	const aiAnimation* animation = model->mAnimations[0];
+	const aiAnimation* aiAnim = model->mAnimations[0];
 	Matrix4 nodeTransform = aiMatrix4x4ToMatrix4(node->mTransformation);
-	const aiNodeAnim* nodeAnim = FindNodeAnim(animation, nodeName);
+	const aiNodeAnim* nodeAnim = FindNodeAnim(aiAnim, nodeName);
 	if (nodeAnim)
 	{
 		Vec3 scalling = CalcInterpolatedScaling(atTime, nodeAnim);
@@ -128,22 +109,20 @@ void AnimationSystem::ReadNodeHierarchy(Entity ent, const aiScene* model, float 
 	}
 
 	Matrix4 globalTransform = parentTransform * nodeTransform;
-
-	Animation& anim = ent.GetComponent<Animation>();
 	
 	//OPTIMISE THIS!
 
-	if (anim.boneNameToIndex.find(nodeName) != anim.boneNameToIndex.end())
+	if (animation.boneNameToIndex.find(nodeName) != animation.boneNameToIndex.end())
 	{
-		unsigned int boneIndex = anim.boneNameToIndex[nodeName];
-		Matrix4& rootMat = anim.modelInverseTransform;
-		anim.boneInfo[boneIndex].finalTransformation = rootMat * globalTransform * anim.boneInfo[boneIndex].boneOffset;
+		unsigned int boneIndex = animation.boneNameToIndex[nodeName];
+		Matrix4& rootMat = animation.modelInverseTransform;
+		animation.boneInfo[boneIndex].finalTransformation = rootMat * globalTransform * animation.boneInfo[boneIndex].boneOffset;
 		//TODO: REPOSITION THE CHILD ENTITIES WHICH ATTACHED TO THE MODEL!
 	}
 
 	for (size_t i = 0; i < node->mNumChildren; i++)
 	{
-		ReadNodeHierarchy(ent, model, atTime, node->mChildren[i], globalTransform);
+		ReadNodeHierarchy(ent, model, atTime, node->mChildren[i], globalTransform, animation);
 	}
 }
 

@@ -37,33 +37,44 @@ Entity Universe::QueryByEntityId(EntityId id)
 	return ent;
 }
 
+static bool multiThread = true;
+
 void Universe::Render(float dt)
 {
 
 	auto renderer = m_systemManager->GetSystem<RenderSystem>();
 	auto animator = m_systemManager->GetSystem<AnimationSystem>();
-
+	
+	
 	size_t entitiesInRenderer = renderer->GetTotalEntity();
 	size_t entitiesInAnimator = animator->GetTotalEntity();
 
 
-	tbb::parallel_for(tbb::blocked_range<int>(0, entitiesInRenderer),
-		[&](tbb::blocked_range<int> r)
+	if (multiThread)
 	{
-		for (int i = r.begin(); i < r.end(); ++i)
+		tbb::parallel_for(tbb::blocked_range<int>(0, entitiesInRenderer),
+			[&](tbb::blocked_range<int> r)
 		{
-			renderer->Process(i);
-		}
-	});
+			for (int i = r.begin(); i < r.end(); ++i)
+			{
+				renderer->Process(i);
+			}
+		});
 
-	tbb::parallel_for(tbb::blocked_range<int>(0, entitiesInAnimator),
-		[&](tbb::blocked_range<int> r)
-	{
-		for (int i = r.begin(); i < r.end(); ++i)
+		tbb::parallel_for(tbb::blocked_range<int>(0, entitiesInAnimator),
+			[&](tbb::blocked_range<int> r)
 		{
-			animator->Process(i);
-		}
-	});
+			for (int i = r.begin(); i < r.end(); ++i)
+			{
+				animator->Process(i);
+			}
+		});
+	}
+	else
+	{
+		renderer->TraverseTheGraph();
+		animator->Tick(dt);
+	}
 
 	renderer->Tick();
 	//m_workers.Reset();
@@ -112,5 +123,5 @@ Universe::Universe()
 	nameSig4.set(m_componentManager->GetComponentType<Camera>());
 	m_systemManager->SetSignature<CameraSystem>(nameSig4);
 
-	m_tschedSetup = new tbb::task_scheduler_init(8);
+	m_tschedSetup = new tbb::task_scheduler_init(16);
 }

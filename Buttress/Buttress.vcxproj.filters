@@ -110,9 +110,6 @@
     <ClCompile Include="src\core\ModelData.cpp">
       <Filter>src\core</Filter>
     </ClCompile>
-    <ClCompile Include="src\core\JobSystem.cpp">
-      <Filter>src\core</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\pch.h">
@@ -204,9 +201,6 @@
     </ClInclude>
     <ClInclude Include="include\components\Animation.h">
       <Filter>include\component</Filter>
-    </ClInclude>
-    <ClInclude Include="include\core\JobSystem.h">
-      <Filter>include\core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

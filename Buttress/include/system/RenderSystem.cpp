@@ -13,26 +13,6 @@ void RenderSystem::Init(Universe* universe)
 	
 }
 
-void RenderSystem::ProcessJob(jobsystem::ThreadNr jobIndex, jobsystem::NrOfThreads totalThreads)
-{
-	const int nrOfitems = m_entity.size();
-	const int start = jobIndex * nrOfitems / totalThreads;
-	const int finish = std::min((jobIndex + 1) * nrOfitems / totalThreads, (unsigned int)m_entity.size());
-	for (unsigned int i = start; i < finish; i++)
-	{
-		EntityId id = *std::next(m_entity.begin(), i);
-		if (id == 0)
-		{
-			PRINT("WARNING!");
-		}
-		Transform& transform = m_universe->QueryByEntityId(id).GetComponent<Transform>();
-		Node& node = m_universe->QueryByEntityId(id).GetComponent<Node>();
-		if (node.parent == INVALID_ENTITY)
-		{
-			TraverseGraphForRender(id, transform.GetTransform());
-		}
-	}
-}
 
 size_t RenderSystem::GetTotalEntity()
 {
@@ -78,10 +58,19 @@ void RenderSystem::Tick()
 		return  b.shader < a.shader && a.materialId < b.materialId || a.meshId < b.meshId;
 	};
 
+	while (!m_meshQueues.empty())
+	{
+		MeshQueue queue;
+		if (!m_meshQueues.try_pop(queue))
+		{
+			continue;
+		}
+		m_sortedMeshQueues.emplace_back(queue);
+	}
 	//try deque the queue
 	//insert to the real render queu!
 	//then sort it
-	//std::sort(m_meshQueues.begin(), m_meshQueues.end(), sortInstance);
+	std::sort(m_sortedMeshQueues.begin(), m_sortedMeshQueues.end(), sortInstance);
 
 	RenderTheQueue();
 }
@@ -159,13 +148,9 @@ void RenderSystem::RenderTheQueue()
 {
 	glClearColor(0.3, 0.4, 0.3, 1.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	while(!m_meshQueues.empty())
+	while(!m_sortedMeshQueues.empty())
 	{
-		MeshQueue queue;
-		if (!m_meshQueues.try_pop(queue))
-		{
-			continue;
-		}
+		MeshQueue &queue = m_sortedMeshQueues.front();
 
 		if (queue.meshId == INVALID_MESH)
 		{
@@ -214,6 +199,7 @@ void RenderSystem::RenderTheQueue()
 
 		mesh.Draw(queue.projection, queue.view, queue.model);
 		
+		m_sortedMeshQueues.pop_front();
 	}
 	
 }

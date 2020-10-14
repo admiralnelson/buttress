@@ -5,7 +5,6 @@
 #include "components/Transform.h"
 #include "components/Animation.h"
 #include "system/RenderSystem.h"
-#include "core/JobSystem.h"
 
 class AnimationSystem : public System
 {
@@ -13,7 +12,6 @@ class AnimationSystem : public System
 public:
 	void Init(Universe* universe) override;
 	void Start();
-	void ProcessJob(jobsystem::ThreadNr jobIndex, jobsystem::NrOfThreads totalThreads);
 	void Process(size_t index);
 	void Tick(float deltaT);
 	bool CalculateBoneTransform(Entity ent, float atTimeInSeconds);
@@ -21,7 +19,7 @@ public:
 	size_t GetTotalEntity();
 
 private:
-	void ReadNodeHierarchy(Entity ent, const aiScene* model, float atTime, const aiNode* node, const Matrix4& parentTransform);
+	void ReadNodeHierarchy(Entity ent, const aiScene* model, float atTime, const aiNode* node, const Matrix4& parentTransform, Animation& animation);
 
 	Vec3 CalcInterpolatedScaling(float atTime, const aiNodeAnim* nodeAnim);
 	Vec3 CalcInterpolatedPosition(float atTime, const aiNodeAnim* nodeAnim);

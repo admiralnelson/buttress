@@ -8,7 +8,7 @@
 #define PCH_H
 
 #define TBB_PREVIEW_CONCURRENT_ORDERED_CONTAINERS 1
-
+#define  _SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING 1
 // add headers that you want to pre-compile here
 #include <memory>
 #include <string>

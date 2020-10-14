@@ -108,18 +108,16 @@ public:
 	template<typename COMPONENT_TYPE>
 	void RegisterComponent()
 	{
-		
-		std::string name = typeid(COMPONENT_TYPE).name();
-
+		auto name = typeid(COMPONENT_TYPE).hash_code();
 		if (m_componentTypes.find(name) != m_componentTypes.end())
 		{
+			std::string name = typeid(COMPONENT_TYPE).name();
 			PRINT("ERROR", "registering the same component! component:", name);
 			throw std::runtime_error("same component registered ");
 		}
 		m_componentTypes.insert({ name, m_nextComponentType });
-		m_componentTypeNames.insert({ m_nextComponentType, name });
+		m_componentTypeNames.insert({ m_nextComponentType, typeid(COMPONENT_TYPE).name() });
 		m_componentArrays.insert({ name, std::make_shared<ComponentArray<COMPONENT_TYPE>>() });
-
 		m_nextComponentType++;
 	}
 
@@ -127,9 +125,10 @@ public:
 	ComponentTypeId GetComponentType()
 	{
 		
-		std::string name = typeid(COMPONENT_TYPE).name();
+		auto name = typeid(COMPONENT_TYPE).hash_code();
 		if (m_componentTypes.find(name) == m_componentTypes.end())
 		{
+			std::string name = typeid(COMPONENT_TYPE).name();
 			PRINT("ERROR", "component", name, "not registered!");
 			throw std::runtime_error("component  was not registered");
 		}
@@ -194,21 +193,20 @@ public:
 	}
 private:
 	//maps component name to its typeId
-	tbb::concurrent_unordered_map<std::string, ComponentTypeId, std::hash<std::string>> m_componentTypes;
+	tbb::concurrent_unordered_map<unsigned long long, ComponentTypeId, std::hash<unsigned long long>> m_componentTypes;
 	tbb::concurrent_unordered_map<ComponentTypeId, std::string, std::hash<ComponentTypeId>> m_componentTypeNames;
 	//maps component name to its container
-	tbb::concurrent_unordered_map<std::string, std::shared_ptr<IComponentArray>, std::hash<std::string>> m_componentArrays;
-	tbb::concurrent_map<unsigned long long, std::string, std::hash<unsigned long long>> m_hashToComponentName;
+	tbb::concurrent_unordered_map<unsigned long long, std::shared_ptr<IComponentArray>, std::hash<unsigned long long>> m_componentArrays;
 	//next id of next registered component
 	ComponentTypeId m_nextComponentType;
 	//get component container based on its type
 	template<typename COMPONENT_TYPE>
 	std::shared_ptr<ComponentArray<COMPONENT_TYPE>> GetComponentArray() 
 	{
-		std::string name = typeid(COMPONENT_TYPE).name();
-		auto tx = typeid(COMPONENT_TYPE).hash_code();
+		auto name = typeid(COMPONENT_TYPE).hash_code();
 		if (m_componentTypes.find(name) == m_componentTypes.end())
 		{
+			std::string name = typeid(COMPONENT_TYPE).name();
 			PRINT("ERROR", "component", name, "is not registered");
 			throw std::runtime_error("component  not registered");
 		}
