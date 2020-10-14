@@ -96,20 +96,14 @@ public:
 	
 private:
 	void Render(float dt);
-	jobsystem::JobManagerDescriptor m_jobNames;
-	jobsystem::JobManager m_jobManager;
-	jobsystem::JobChainBuilder<8> m_workers = jobsystem::JobChainBuilder<8>(m_jobManager);
-	jobsystem::JobDelegate m_sceneGraphLoop;
-	jobsystem::JobDelegate m_animationLoop;
 	std::unique_ptr<ComponentManager> m_componentManager = std::make_unique<ComponentManager>();
 	std::unique_ptr<EntityManager> m_entityManager       = std::make_unique<EntityManager>();
 	std::unique_ptr<SystemManager> m_systemManager       = std::make_unique<SystemManager>();
 	std::unique_ptr<EventManager> m_eventManager = std::make_unique<EventManager>();
-	std::atomic<unsigned int> m_counter;
-	std::recursive_mutex m_mutex;
 	float m_lastDt = 0;
 	bool m_running = true;
-	bool m_readyForThreading = false;
+	tbb::task_scheduler_init* m_tschedSetup;
+	std::recursive_mutex m_mutex;
 };
 class Entity
 {
@@ -145,7 +139,6 @@ public:
 		std::lock_guard<std::recursive_mutex> lock(m_universe->m_mutex);
 		Entity e;
 		{
-			m_universe->m_readyForThreading = true;
 			e = m_universe->CreateEntity(name);
 		}
 		if (e.id == INVALID_ENTITY)
@@ -175,8 +168,6 @@ public:
 		signature.set(m_universe->m_componentManager->GetComponentType<COMPONENT_TYPE>(), true);
 		m_universe->m_entityManager->SetSignature(id, signature);
 		m_universe->m_systemManager->EntitySignatureChanged(id, signature);
-			
-		m_universe->m_readyForThreading = true;
 
 	}
 
@@ -201,7 +192,6 @@ public:
 		m_universe->m_entityManager->SetSignature(id, signature);
 
 		m_universe->m_systemManager->EntitySignatureChanged(id, signature);
-		m_universe->m_readyForThreading = true;
 
 	}
 

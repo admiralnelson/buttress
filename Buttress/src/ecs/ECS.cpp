@@ -112,4 +112,5 @@ Universe::Universe()
 	nameSig4.set(m_componentManager->GetComponentType<Camera>());
 	m_systemManager->SetSignature<CameraSystem>(nameSig4);
 
+	m_tschedSetup = new tbb::task_scheduler_init(8);
 }

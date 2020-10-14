@@ -40,7 +40,7 @@ public:
 	void Tick();
 	bool IsBusy() { return m_busy; }
 private:
-	bool TraverseGraphForRender(EntityId e, Matrix4 model);
+	bool TraverseGraphForRender(EntityId e, const Matrix4& model);
 	//main thread
 	void RenderTheQueue();
 	//secondary thread

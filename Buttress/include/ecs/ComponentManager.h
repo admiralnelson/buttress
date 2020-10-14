@@ -198,6 +198,7 @@ private:
 	tbb::concurrent_unordered_map<ComponentTypeId, std::string, std::hash<ComponentTypeId>> m_componentTypeNames;
 	//maps component name to its container
 	tbb::concurrent_unordered_map<std::string, std::shared_ptr<IComponentArray>, std::hash<std::string>> m_componentArrays;
+	tbb::concurrent_map<unsigned long long, std::string, std::hash<unsigned long long>> m_hashToComponentName;
 	//next id of next registered component
 	ComponentTypeId m_nextComponentType;
 	//get component container based on its type
@@ -205,7 +206,7 @@ private:
 	std::shared_ptr<ComponentArray<COMPONENT_TYPE>> GetComponentArray() 
 	{
 		std::string name = typeid(COMPONENT_TYPE).name();
-
+		auto tx = typeid(COMPONENT_TYPE).hash_code();
 		if (m_componentTypes.find(name) == m_componentTypes.end())
 		{
 			PRINT("ERROR", "component", name, "is not registered");
