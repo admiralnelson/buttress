@@ -54,6 +54,11 @@ MaterialLoader& MaterialLoader::Instance()
 	return loader;
 }
 
+bool MaterialLoader::IsMaterialExist(MaterialId id)
+{
+	return id < m_materialCaches.size();
+}
+
 MaterialId MaterialLoader::LoadMaterial(MaterialData mat)
 {
 	auto it = std::find(m_materialCaches.begin(), m_materialCaches.end(), mat);

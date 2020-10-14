@@ -10,7 +10,7 @@ class System
 	friend class SystemManager;
 	virtual void Init(Universe* universe) = 0;
 protected:
-	std::set<EntityId> m_entity;
+	tbb::concurrent_set<EntityId> m_entity;
 	Universe* m_universe = nullptr;
 };
 
@@ -109,4 +109,5 @@ private:
 	tbb::concurrent_unordered_map<ComponentSignature, std::string, std::hash<ComponentSignature>> m_signaturesToName;
 	//map system name to the system itself
 	tbb::concurrent_unordered_map<std::string, std::shared_ptr<System>, std::hash<std::string>> m_systems;
+	std::recursive_mutex m_mutex;
 };

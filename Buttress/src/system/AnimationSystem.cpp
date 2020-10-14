@@ -37,6 +37,14 @@ void AnimationSystem::ProcessJob(jobsystem::ThreadNr jobIndex, jobsystem::NrOfTh
 	}
 }
 
+void AnimationSystem::Process(size_t index)
+{
+	float runningTime = (float)((double)GetSystemTime() - (double)m_startTime) / 1000.0f;
+	EntityId id = *std::next(m_entity.begin(), index);
+	Entity theEnt = m_universe->QueryByEntityId(id);
+	CalculateBoneTransform(theEnt, runningTime);
+}
+
 //void AnimationSystem::Synchronise()
 //{}
 
@@ -90,8 +98,14 @@ void AnimationSystem::PushAnimationData(EntityId ent, Animation animationData)
 	m_entitiesToProcess.push_back(pair);
 }
 
+size_t AnimationSystem::GetTotalEntity()
+{
+	return m_entity.size();
+}
 
-void AnimationSystem::ReadNodeHierarchy(Entity ent, const aiScene* model, float atTime, const aiNode* node, Matrix4 parentTransform)
+
+
+void AnimationSystem::ReadNodeHierarchy(Entity ent, const aiScene* model, float atTime, const aiNode* node, const Matrix4& parentTransform)
 {
 	const char* nodeName = node->mName.data;
 	const aiAnimation* animation = model->mAnimations[0];
@@ -117,6 +131,8 @@ void AnimationSystem::ReadNodeHierarchy(Entity ent, const aiScene* model, float 
 
 	Animation& anim = ent.GetComponent<Animation>();
 	
+	//OPTIMISE THIS!
+
 	if (anim.boneNameToIndex.find(nodeName) != anim.boneNameToIndex.end())
 	{
 		unsigned int boneIndex = anim.boneNameToIndex[nodeName];

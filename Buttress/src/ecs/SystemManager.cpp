@@ -26,8 +26,9 @@ void SystemManager::EntityDestroyed(EntityId entity)
 {
 	for (auto& i : m_systems)
 	{
+		std::lock_guard<std::recursive_mutex> lock(m_mutex);
 		auto& system = i.second;
-		system->m_entity.erase(entity);
+		system->m_entity.unsafe_erase(entity);
 	}
 }
 
@@ -45,7 +46,9 @@ void SystemManager::EntitySignatureChanged(EntityId entity, ComponentSignature e
 		}
 		else
 		{
-			system->m_entity.erase(entity);
+			std::lock_guard<std::recursive_mutex> lock(m_mutex);
+			system->m_entity.unsafe_erase(entity);
 		}
 	}
 }
+

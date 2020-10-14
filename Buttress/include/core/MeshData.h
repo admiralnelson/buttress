@@ -50,7 +50,7 @@ private:
 	MeshLoader() {}
 	void ClearCache();
 
-	std::vector<std::string> m_meshNames;
-	std::vector<MeshData> m_meshCaches;
+	tbb::concurrent_vector<std::string> m_meshNames;
+	tbb::concurrent_vector<MeshData> m_meshCaches;
 };
 

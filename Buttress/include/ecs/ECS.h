@@ -105,7 +105,7 @@ private:
 	std::unique_ptr<EntityManager> m_entityManager       = std::make_unique<EntityManager>();
 	std::unique_ptr<SystemManager> m_systemManager       = std::make_unique<SystemManager>();
 	std::unique_ptr<EventManager> m_eventManager = std::make_unique<EventManager>();
-	std::condition_variable m_wakeCondition;
+	std::atomic<unsigned int> m_counter;
 	std::recursive_mutex m_mutex;
 	float m_lastDt = 0;
 	bool m_running = true;

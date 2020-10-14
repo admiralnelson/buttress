@@ -80,7 +80,7 @@ public:
 private:
 	void ClearCache();
 	bool RegisterAnimation(Entity& e);
-	std::vector<std::string> m_modelNames;
-	std::vector<ModelData> m_modelCaches;
+	tbb::concurrent_vector<std::string> m_modelNames;
+	tbb::concurrent_vector<ModelData> m_modelCaches;
 };
 

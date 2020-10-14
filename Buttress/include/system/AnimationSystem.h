@@ -14,11 +14,14 @@ public:
 	void Init(Universe* universe) override;
 	void Start();
 	void ProcessJob(jobsystem::ThreadNr jobIndex, jobsystem::NrOfThreads totalThreads);
+	void Process(size_t index);
 	void Tick(float deltaT);
 	bool CalculateBoneTransform(Entity ent, float atTimeInSeconds);
 	void PushAnimationData(EntityId ent, Animation animationData);
+	size_t GetTotalEntity();
+
 private:
-	void ReadNodeHierarchy(Entity ent, const aiScene* model, float atTime, const aiNode* node, Matrix4 parentTransform);
+	void ReadNodeHierarchy(Entity ent, const aiScene* model, float atTime, const aiNode* node, const Matrix4& parentTransform);
 
 	Vec3 CalcInterpolatedScaling(float atTime, const aiNodeAnim* nodeAnim);
 	Vec3 CalcInterpolatedPosition(float atTime, const aiNodeAnim* nodeAnim);
@@ -31,7 +34,6 @@ private:
 	std::unordered_map<std::string, aiNode*> m_modelWithAnimationCache;
 	std::unordered_map<EntityId, std::vector<Transform>> m_entityToBonesTransforms;
 	long long m_startTime = 0;
-	std::mutex m_mutex;
 
 	std::deque<std::pair<EntityId, Animation>> m_entitiesToProcess;
 

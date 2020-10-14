@@ -32,6 +32,7 @@ class MaterialLoader
 	friend class RenderSystem;
 public:
 	static MaterialLoader& Instance();
+	bool IsMaterialExist(MaterialId id);
 	MaterialId LoadMaterial(MaterialData mat);
 	MaterialData& GetMaterialById(MaterialId id);
 
@@ -39,6 +40,6 @@ private:
 	MaterialLoader() {}
 	void Clear();
 
-	std::vector<MaterialData> m_materialCaches;
+	tbb::concurrent_vector<MaterialData> m_materialCaches;
 };
 

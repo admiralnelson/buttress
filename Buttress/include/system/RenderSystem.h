@@ -35,6 +35,8 @@ class RenderSystem : public System
 public:
 	void Init(Universe* universe) override;
 	void ProcessJob(jobsystem::ThreadNr jobIndex, jobsystem::NrOfThreads totalThreads);
+	size_t GetTotalEntity();
+	void Process(size_t index);
 	void Tick();
 	bool IsBusy() { return m_busy; }
 private:

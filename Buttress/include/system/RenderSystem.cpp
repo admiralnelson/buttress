@@ -34,6 +34,27 @@ void RenderSystem::ProcessJob(jobsystem::ThreadNr jobIndex, jobsystem::NrOfThrea
 	}
 }
 
+size_t RenderSystem::GetTotalEntity()
+{
+	return m_entity.size();
+}
+
+
+void RenderSystem::Process(size_t index)
+{
+	EntityId id = *std::next(m_entity.begin(), index);
+	if (id == 0)
+	{
+		PRINT("WARNING!");
+	}
+	Transform& transform = m_universe->QueryByEntityId(id).GetComponent<Transform>();
+	Node& node = m_universe->QueryByEntityId(id).GetComponent<Node>();
+	if (node.parent == INVALID_ENTITY)
+	{
+		TraverseGraphForRender(id, transform.GetTransform());
+	}
+}
+
 void RenderSystem::Tick()
 {
 	if (m_isFirstTick)
@@ -66,7 +87,7 @@ void RenderSystem::Tick()
 }
 
 
-bool RenderSystem::TraverseGraphForRender(EntityId e, Matrix4 model)
+bool RenderSystem::TraverseGraphForRender(EntityId e, const Matrix4& model)
 {
 	if (!m_camera.IsValid())
 	{
@@ -164,6 +185,11 @@ void RenderSystem::RenderTheQueue()
 		{
 			currentShader = queue.shader.get();
 			currentShader->Use();
+		}
+
+		if (!MaterialLoader::Instance().IsMaterialExist(queue.materialId))
+		{
+			continue;
 		}
 
 		MaterialData& material = MaterialLoader::Instance().GetMaterialById(queue.materialId);

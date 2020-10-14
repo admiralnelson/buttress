@@ -39,25 +39,36 @@ Entity Universe::QueryByEntityId(EntityId id)
 
 void Universe::Render(float dt)
 {
-	auto t1 = GetSystemTime();
 
-	m_workers
-		.Do(m_animationLoop, 'a')
-		.Then()
-		.Do(m_sceneGraphLoop, 'b')
-		.Then()
-		.Together();
+	auto renderer = m_systemManager->GetSystem<RenderSystem>();
+	auto animator = m_systemManager->GetSystem<AnimationSystem>();
 
-	m_workers
-		.Go()
-		.AssistAndWaitForAll();
-	
-	//m_workers.BlockUntilFinished();
-	auto t2 = GetSystemTime();
-	//PRINT("delta ", t2 - t1);
-	m_lastDt = dt;
-	m_systemManager->GetSystem<RenderSystem>()->Tick();
-	
+	size_t entitiesInRenderer = renderer->GetTotalEntity();
+	size_t entitiesInAnimator = animator->GetTotalEntity();
+
+
+	tbb::parallel_for(tbb::blocked_range<int>(0, entitiesInRenderer),
+		[&](tbb::blocked_range<int> r)
+	{
+		for (int i = r.begin(); i < r.end(); ++i)
+		{
+			renderer->Process(i);
+		}
+	});
+
+	tbb::parallel_for(tbb::blocked_range<int>(0, entitiesInAnimator),
+		[&](tbb::blocked_range<int> r)
+	{
+		for (int i = r.begin(); i < r.end(); ++i)
+		{
+			animator->Process(i);
+		}
+	});
+
+	renderer->Tick();
+	//m_workers.Reset();
+
+	m_lastDt = dt;	
 }
 
 Universe::Universe()
@@ -100,31 +111,5 @@ Universe::Universe()
 	nameSig4.set(m_componentManager->GetComponentType<Transform>());
 	nameSig4.set(m_componentManager->GetComponentType<Camera>());
 	m_systemManager->SetSignature<CameraSystem>(nameSig4);
-
-	m_jobNames.m_workers.push_back("SceneGraph1");
-	m_jobNames.m_workers.push_back("Animation1");
-
-	m_jobNames.m_workers.push_back("SceneGraph2");
-	m_jobNames.m_workers.push_back("Animation2");
-
-	m_jobNames.m_workers.push_back("SceneGraph3");
-	m_jobNames.m_workers.push_back("Animation3");
-
-	m_jobNames.m_workers.push_back("SceneGraph4");
-	m_jobNames.m_workers.push_back("Animation4");
-
-	m_jobManager.Create(m_jobNames);
-
-	m_animationLoop = ([&](jobsystem::ThreadNr threadNr, jobsystem::NrOfThreads numberOfThreads)
-	{
-		auto animation = m_systemManager->GetSystem<AnimationSystem>();
-		animation->ProcessJob(threadNr, numberOfThreads);
-	});
-	m_sceneGraphLoop = ([&](jobsystem::ThreadNr threadNr, jobsystem::NrOfThreads numberOfThreads)
-	{
-		auto renderer = m_systemManager->GetSystem<RenderSystem>();
-		renderer->ProcessJob(threadNr, numberOfThreads);
-	});
-
 
 }
