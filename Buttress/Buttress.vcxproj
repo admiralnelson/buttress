@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="include\components\Terrain.cpp" />
     <ClCompile Include="include\components\Transform.cpp" />
     <ClCompile Include="include\pch.cpp" />
     <ClCompile Include="include\system\RenderSystem.cpp" />
@@ -38,6 +39,8 @@
     <ClCompile Include="src\system\AnimationSystem.cpp" />
     <ClCompile Include="src\system\CameraSystem.cpp" />
     <ClCompile Include="src\system\EntityNameCheckSystem.cpp" />
+    <ClCompile Include="src\system\TerrainQuadTree.cpp" />
+    <ClCompile Include="src\system\TerrainSystem.cpp" />
     <ClCompile Include="src\Util.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -47,12 +50,15 @@
     <ClInclude Include="include\components\EntityName.h" />
     <ClInclude Include="include\components\Model.h" />
     <ClInclude Include="include\components\Node.h" />
+    <ClInclude Include="include\components\Terrain.h" />
+    <ClInclude Include="include\components\TerrainNode.h" />
     <ClInclude Include="include\components\Transform.h" />
     <ClInclude Include="include\core\AnimationData.h" />
     <ClInclude Include="include\core\Material.h" />
     <ClInclude Include="include\core\MeshData.h" />
     <ClInclude Include="include\core\ModelData.h" />
     <ClInclude Include="include\core\Shader.h" />
+    <ClInclude Include="include\core\TerrainQuadTree.h" />
     <ClInclude Include="include\core\Texture.h" />
     <ClInclude Include="include\core\Types.h" />
     <ClInclude Include="include\ecs\ComponentManager.h" />
@@ -70,6 +76,7 @@
     <ClInclude Include="include\system\CameraSystem.h" />
     <ClInclude Include="include\system\EntityNameCheckSystem.h" />
     <ClInclude Include="include\system\RenderSystem.h" />
+    <ClInclude Include="include\system\TerrainSystem.h" />
     <ClInclude Include="include\Util.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

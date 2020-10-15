@@ -110,6 +110,15 @@
     <ClCompile Include="src\core\ModelData.cpp">
       <Filter>src\core</Filter>
     </ClCompile>
+    <ClCompile Include="src\system\TerrainSystem.cpp">
+      <Filter>src\system</Filter>
+    </ClCompile>
+    <ClCompile Include="include\components\Terrain.cpp">
+      <Filter>include\component</Filter>
+    </ClCompile>
+    <ClCompile Include="src\system\TerrainQuadTree.cpp">
+      <Filter>src\core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\pch.h">
@@ -200,6 +209,18 @@
       <Filter>include\component</Filter>
     </ClInclude>
     <ClInclude Include="include\components\Animation.h">
+      <Filter>include\component</Filter>
+    </ClInclude>
+    <ClInclude Include="include\system\TerrainSystem.h">
+      <Filter>include\system</Filter>
+    </ClInclude>
+    <ClInclude Include="include\components\Terrain.h">
+      <Filter>include\component</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\TerrainQuadTree.h">
+      <Filter>include\core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\components\TerrainNode.h">
       <Filter>include\component</Filter>
     </ClInclude>
   </ItemGroup>

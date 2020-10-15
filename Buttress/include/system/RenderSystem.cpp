@@ -3,6 +3,7 @@
 #include "system/AnimationSystem.h"
 #include "components/Node.h"
 #include "components/Animation.h"
+#include "components/Terrain.h"
 #include "Util.h"
 
 static int freeMem;
@@ -92,52 +93,51 @@ bool RenderSystem::TraverseGraphForRender(EntityId e, const Matrix4& model)
 	}
 
 	
-	if (!m_universe->QueryByEntityId(e).IsComponentExist<Model>())
+	if (m_universe->QueryByEntityId(e).IsComponentExist<Model>())
 	{
-		return false;
-	}
-	Model &modelComp = m_universe->QueryByEntityId(e).GetComponent<Model>();
-	if (!ModelLoader::Instance().IsModelLoaded(modelComp.id))
-	{
-		m_busy = true;
-		modelComp.id = ModelLoader::Instance().LoadModel(modelComp.objectPath, ent);
-		m_busy = false;
-	}
+		Model& modelComp = m_universe->QueryByEntityId(e).GetComponent<Model>();
+		if (!ModelLoader::Instance().IsModelLoaded(modelComp.id))
+		{
+			m_busy = true;
+			modelComp.id = ModelLoader::Instance().LoadModel(modelComp.objectPath, ent);
+			m_busy = false;
+		}
 
-	//if (modelComp.id < 0 || modelComp.id > m_modelsPaths.size())
-	//{
-	//	m_modelsPaths.push_back(modelComp.objectPath);
-	//	modelComp.id = (ModelId) m_modelsPaths.size() - 1;
-	//	m_models.push_back(ModelData(modelComp.objectPath, ent));
-	//}
-	//set the camera projection & view
-	Matrix4 projection = m_universe->GetSystem<CameraSystem>()->Projection(m_camera);
-	Matrix4 view = m_universe->GetSystem<CameraSystem>()->View(m_camera);
-	ModelData& modelData = ModelLoader::Instance().GetModel(modelComp.id);
-	bool sort = false;
-	for (auto& meshId : modelData.m_meshes)
+		//set the camera projection & view
+		Matrix4 projection = m_universe->GetSystem<CameraSystem>()->Projection(m_camera);
+		Matrix4 view = m_universe->GetSystem<CameraSystem>()->View(m_camera);
+		ModelData& modelData = ModelLoader::Instance().GetModel(modelComp.id);
+		bool sort = false;
+		for (auto& meshId : modelData.m_meshes)
+		{
+			MeshData& mesh = MeshLoader::Instance().GetMesh(meshId);
+			MaterialData& mat = MaterialLoader::Instance().GetMaterialById(mesh.GetMaterialId());
+			MeshQueue queue;
+
+			if (ent.IsComponentExist<Animation>())
+			{
+				Animation& anim = ent.GetComponent<Animation>();
+				if (anim.calculatedBonesMatrix.size() == 0)
+				{
+					return false;
+				}
+				queue.bonesTransformations = std::vector<Matrix4>(anim.calculatedBonesMatrix);
+			}
+			queue.shader = mat.shader;
+			queue.materialId = mesh.GetMaterialId();
+			queue.meshId = meshId;
+			queue.view = view;
+			queue.model = model;
+			queue.projection = projection;
+			m_meshQueues.emplace(queue);
+		}
+	}
+	else if (m_universe->QueryByEntityId(e).IsComponentExist<Terrain>())
 	{
-		MeshData& mesh = MeshLoader::Instance().GetMesh(meshId);
-		MaterialData& mat = MaterialLoader::Instance().GetMaterialById(mesh.GetMaterialId());
 		MeshQueue queue;
 
-		if (ent.IsComponentExist<Animation>())
-		{
-			Animation& anim = ent.GetComponent<Animation>();
-			if (anim.calculatedBonesMatrix.size() == 0)
-			{
-				return false;
-			}
-			queue.bonesTransformations = std::vector<Matrix4>(anim.calculatedBonesMatrix);
-		}
-		queue.shader = mat.shader;
-		queue.materialId = mesh.GetMaterialId();
-		queue.meshId = meshId;
-		queue.view = view;
-		queue.model = model;
-		queue.projection = projection;
-		m_meshQueues.emplace(queue);
 	}
+	
 	return false;
 }
 

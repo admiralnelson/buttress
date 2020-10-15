@@ -21,3 +21,5 @@ const EventId INVALID_EVENTPARAM = -1;
 
 typedef unsigned int ModelId;
 const ModelId INVALID_MODEL = -1;
+
+const unsigned int ROOT_NODES = 8;

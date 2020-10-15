@@ -5,6 +5,7 @@
 #include "components/Transform.h"
 #include "components/Node.h"
 #include "components/Animation.h"
+#include "components/Terrain.h"
 #include "system/RenderSystem.h"
 #include "system/AnimationSystem.h"
 #include "system/EntityNameCheckSystem.h"
@@ -90,6 +91,7 @@ Universe::Universe()
 	m_componentManager->RegisterComponent<Camera>();
 	m_componentManager->RegisterComponent<Node>();
 	m_componentManager->RegisterComponent<Animation>();
+	m_componentManager->RegisterComponent<Terrain>();
 	//for name check
 	m_systemManager->RegisterSystem<EntityNameCheckSystem>(this);
 	ComponentSignature nameSig;
