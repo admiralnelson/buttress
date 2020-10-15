@@ -3,9 +3,10 @@
 #include "core/TerrainQuadTree.h"
 struct TerrainNode
 {
+	friend class TerrainSystem;
 private:
 	int	lod;
 	Vec2 location;
 	float gap;
-	unsigned int quadTreeIndex;
+	TerrainQuadId quadTreeIndex;
 };

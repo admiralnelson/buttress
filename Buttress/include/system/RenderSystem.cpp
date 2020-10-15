@@ -129,13 +129,13 @@ bool RenderSystem::TraverseGraphForRender(EntityId e, const Matrix4& model)
 			queue.view = view;
 			queue.model = model;
 			queue.projection = projection;
+			queue.entity = e;
 			m_meshQueues.emplace(queue);
 		}
 	}
 	else if (m_universe->QueryByEntityId(e).IsComponentExist<Terrain>())
 	{
-		MeshQueue queue;
-
+		
 	}
 	
 	return false;
@@ -176,28 +176,46 @@ void RenderSystem::RenderTheQueue()
 		{
 			continue;
 		}
+		
+		Entity entity = m_universe->QueryByEntityId(queue.entity);
+		bool isPlainModel = entity.IsComponentExist<Model>();
+		bool isTerrain = entity.IsComponentExist<Terrain>();
 
 		MaterialData& material = MaterialLoader::Instance().GetMaterialById(queue.materialId);
-		if (&material != currentMaterial)
+		if (&material != currentMaterial && isPlainModel)
 		{
 			currentMaterial = &material;
 			material.Use();
 		}
+		else if(isTerrain)
+		{
+			Terrain& terrain = entity.GetComponent<Terrain>();
+			
+		}
 
 		MeshData& mesh = MeshLoader::Instance().GetMesh(queue.meshId);
-		if (&mesh != currentMeshData)
+		if (&mesh != currentMeshData && isPlainModel)
 		{
 			currentMeshData = &mesh;
 			mesh.Use();
 		}
-
+		
 		std::vector<Matrix4>& bones = queue.bonesTransformations;
 		if (bones.size() > 0)
 		{
 			queue.shader->SetUniformMat4x4Array(UNIFORM_ARRAY_MATRIX4_BONE"[0]", bones.size(), bones[0]);
 		}
 
-		mesh.Draw(queue.projection, queue.view, queue.model);
+		if (isPlainModel)
+		{
+			mesh.Draw(queue.projection, queue.view, queue.model);
+		}
+		else if (isTerrain)
+		{
+			Terrain& terrain = entity.GetComponent<Terrain>();
+			//terrain.Use();
+			//terrainDraw(queue.projection, queue.view, queue.model);
+		}
 		
 		m_sortedMeshQueues.pop_front();
 	}

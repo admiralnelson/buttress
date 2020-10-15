@@ -308,8 +308,3 @@ ModelData& ModelLoader::GetModel(ModelId id)
 	}
 	return m_modelCaches[id];
 }
-
-bool ModelLoader::RegisterAnimation(Entity& e)
-{
-	return false;
-}

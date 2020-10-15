@@ -19,6 +19,7 @@ struct MeshQueue
 	Matrix4 model;
 	Matrix4 projection;
 	std::vector<Matrix4> bonesTransformations;
+	EntityId entity;
 };
 
 

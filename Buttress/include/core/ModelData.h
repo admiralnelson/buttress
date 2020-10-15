@@ -70,17 +70,15 @@ private:
 
 class ModelLoader
 {
-	friend class RenderSystem;
-	friend class ModelData;
 public:
 	static ModelLoader& Instance();
 	bool IsModelLoaded(ModelId id);
 	ModelId LoadModel(std::string path, Entity &e);
 	ModelData& GetModel(ModelId id);
-private:
 	void ClearCache();
-	bool RegisterAnimation(Entity& e);
+private:
 	tbb::concurrent_vector<std::string> m_modelNames;
 	tbb::concurrent_vector<ModelData> m_modelCaches;
+	ModelLoader() {}
 };
 

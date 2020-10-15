@@ -8,6 +8,7 @@
 #include "components/Terrain.h"
 #include "system/RenderSystem.h"
 #include "system/AnimationSystem.h"
+#include "system/TerrainSystem.h"
 #include "system/EntityNameCheckSystem.h"
 #include <Util.h>
 
@@ -94,36 +95,43 @@ Universe::Universe()
 	m_componentManager->RegisterComponent<Terrain>();
 	//for name check
 	m_systemManager->RegisterSystem<EntityNameCheckSystem>(this);
-	ComponentSignature nameSig;
-	nameSig.set(m_componentManager->GetComponentType<EntityName>());
-	m_systemManager->SetSignature<EntityNameCheckSystem>(nameSig);
+	ComponentSignature entitySignature;
+	entitySignature.set(m_componentManager->GetComponentType<EntityName>());
+	m_systemManager->SetSignature<EntityNameCheckSystem>(entitySignature);
 
 
 	//for animation
 	m_systemManager->RegisterSystem<AnimationSystem>(this);
-	ComponentSignature nameSig3;
-	nameSig3.set(m_componentManager->GetComponentType<Transform>());
-	nameSig3.set(m_componentManager->GetComponentType<Model>());
-	nameSig3.set(m_componentManager->GetComponentType<Node>());
-	nameSig3.set(m_componentManager->GetComponentType<Animation>());
-	m_systemManager->SetSignature<AnimationSystem>(nameSig3);
+	ComponentSignature animationSig;
+	animationSig.set(m_componentManager->GetComponentType<Transform>());
+	animationSig.set(m_componentManager->GetComponentType<Model>());
+	animationSig.set(m_componentManager->GetComponentType<Node>());
+	animationSig.set(m_componentManager->GetComponentType<Animation>());
+	m_systemManager->SetSignature<AnimationSystem>(animationSig);
 
 
 	//for mesh render
 	m_systemManager->RegisterSystem<RenderSystem>(this);
-	ComponentSignature nameSig2;
-	nameSig2.set(m_componentManager->GetComponentType<Transform>());
-	nameSig2.set(m_componentManager->GetComponentType<Model>());
-	nameSig2.set(m_componentManager->GetComponentType<Node>());
-	m_systemManager->SetSignature<RenderSystem>(nameSig2);
+	ComponentSignature renderSig;
+	renderSig.set(m_componentManager->GetComponentType<Transform>());
+	renderSig.set(m_componentManager->GetComponentType<Model>());
+	renderSig.set(m_componentManager->GetComponentType<Node>());
+	m_systemManager->SetSignature<RenderSystem>(renderSig);
 
+	//for terrain system and render
+	m_systemManager->RegisterSystem<TerrainSystem>(this);
+	ComponentSignature terrainSig;
+	terrainSig.set(m_componentManager->GetComponentType<Transform>());
+	terrainSig.set(m_componentManager->GetComponentType<Node>());
+	terrainSig.set(m_componentManager->GetComponentType<Terrain>());
+	m_systemManager->SetSignature<RenderSystem>(terrainSig);
 
 	//for camera system
 	m_systemManager->RegisterSystem<CameraSystem>(this);
-	ComponentSignature nameSig4;
-	nameSig4.set(m_componentManager->GetComponentType<Transform>());
-	nameSig4.set(m_componentManager->GetComponentType<Camera>());
-	m_systemManager->SetSignature<CameraSystem>(nameSig4);
+	ComponentSignature cameraSig;
+	cameraSig.set(m_componentManager->GetComponentType<Transform>());
+	cameraSig.set(m_componentManager->GetComponentType<Camera>());
+	m_systemManager->SetSignature<CameraSystem>(cameraSig);
 
 	m_tschedSetup = new tbb::task_scheduler_init(16);
 }

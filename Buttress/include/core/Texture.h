@@ -27,9 +27,6 @@ private:
 
 class TextureLoader
 {
-private: 
-	std::unordered_map<std::string, std::shared_ptr<TextureData>> m_texturesList;
-	TextureLoader() {}
 public:
 	static TextureLoader& Instance()
 	{
@@ -47,4 +44,7 @@ public:
 		}
 		return m_texturesList[path];
 	}
+private: 
+	std::unordered_map<std::string, std::shared_ptr<TextureData>> m_texturesList;
+	TextureLoader() {}
 };

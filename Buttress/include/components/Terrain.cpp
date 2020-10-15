@@ -20,6 +20,10 @@ Terrain::Terrain(float _scaleY, float _scaleXZ, std::array<int, 8>& _lodRanges)
 	}
 }
 
+void Terrain::AddTexture(TerrainTexture t)
+{
+}
+
 void Terrain::SetLodRange(int idx, int lodRange)
 {
 	lodRanges[idx] = lodRange;

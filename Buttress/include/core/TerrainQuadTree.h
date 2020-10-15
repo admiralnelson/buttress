@@ -22,5 +22,11 @@ private:
 class TerrainQuadTreeStorage
 {
 public:
-	void StoreQuadTree(TerrainQuadTree& t);
+	void AddQuadTree(TerrainQuadTree t);
+	TerrainQuadTree& GetTerrainQuadById(TerrainQuadId id);
+	static TerrainQuadTreeStorage& Instance();
+	void Clear();
+private:
+	TerrainQuadTreeStorage() {}
+	tbb::concurrent_vector<TerrainQuadTree> m_caches;
 };
