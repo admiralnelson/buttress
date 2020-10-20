@@ -18,6 +18,7 @@ struct Terrain
 	TerrainTexture& GetTexture(size_t idx);
 	Terrain() {}
 private:
+	//must be called from main thread!
 	tbb::concurrent_vector<TerrainTexture> textures;
 	void SetLodRange(int idx, int lodRange);
 	int UpdateMorhpingArea(int lod);

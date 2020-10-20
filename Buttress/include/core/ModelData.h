@@ -12,12 +12,6 @@ const unsigned int MAX_BONES = 100;
 #define NUM_BONES_PER_VERTEX 4
 
 class RenderSystem;
-struct Vertex
-{
-	Vec3 position = { 0,0,0 };
-	Vec3 normal = { 0,0,0 };
-	Vec2 uv = { 0,0 };
-};
 
 struct VertexBoneData
 {

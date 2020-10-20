@@ -23,5 +23,6 @@ typedef unsigned int ModelId;
 const ModelId INVALID_MODEL = -1;
 
 const unsigned int ROOT_NODES = 8;
-typedef unsigned int TerrainQuadId;
-const ModelId INVALID_TERRAINQUAD = -1;
+typedef unsigned int TerrainDataId;
+const TerrainDataId INVALID_TERRAINQUAD = -1;
+

@@ -24,6 +24,8 @@ void Terrain::AddTexture(TerrainTexture t)
 {
 }
 
+
+
 void Terrain::SetLodRange(int idx, int lodRange)
 {
 	lodRanges[idx] = lodRange;

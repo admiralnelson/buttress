@@ -11,6 +11,8 @@ struct Node
 	{
 		return childs.size() == 0 && parent != INVALID_ENTITY;
 	}
+	Entity& GetChild(size_t idx) { return childs[idx]; }
+	size_t TotalChild() { return childs.size(); }
 private:
 	std::vector<Entity> childs;
 	EntityId parent = INVALID_ENTITY;

@@ -116,7 +116,7 @@
     <ClCompile Include="include\components\Terrain.cpp">
       <Filter>include\component</Filter>
     </ClCompile>
-    <ClCompile Include="src\system\TerrainQuadTree.cpp">
+    <ClCompile Include="src\system\TerrainData.cpp">
       <Filter>src\core</Filter>
     </ClCompile>
   </ItemGroup>
@@ -217,11 +217,11 @@
     <ClInclude Include="include\components\Terrain.h">
       <Filter>include\component</Filter>
     </ClInclude>
-    <ClInclude Include="include\core\TerrainQuadTree.h">
-      <Filter>include\core</Filter>
-    </ClInclude>
     <ClInclude Include="include\components\TerrainNode.h">
       <Filter>include\component</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\TerrainData.h">
+      <Filter>include\core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
