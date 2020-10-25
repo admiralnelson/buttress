@@ -3,7 +3,6 @@
 #include "system/AnimationSystem.h"
 #include "components/Node.h"
 #include "components/Animation.h"
-#include "components/Terrain.h"
 #include "Util.h"
 
 static int freeMem;
@@ -133,11 +132,6 @@ bool RenderSystem::TraverseGraphForRender(EntityId e, const Matrix4& model)
 			m_meshQueues.emplace(queue);
 		}
 	}
-	else if (m_universe->QueryByEntityId(e).IsComponentExist<Terrain>())
-	{
-		
-	}
-	
 	return false;
 }
 
@@ -179,18 +173,12 @@ void RenderSystem::RenderTheQueue()
 		
 		Entity entity = m_universe->QueryByEntityId(queue.entity);
 		bool isPlainModel = entity.IsComponentExist<Model>();
-		bool isTerrain = entity.IsComponentExist<Terrain>();
 
 		MaterialData& material = MaterialLoader::Instance().GetMaterialById(queue.materialId);
 		if (&material != currentMaterial && isPlainModel)
 		{
 			currentMaterial = &material;
 			material.Use();
-		}
-		else if(isTerrain)
-		{
-			Terrain& terrain = entity.GetComponent<Terrain>();
-			
 		}
 
 		MeshData& mesh = MeshLoader::Instance().GetMesh(queue.meshId);
@@ -209,12 +197,6 @@ void RenderSystem::RenderTheQueue()
 		if (isPlainModel)
 		{
 			mesh.Draw(queue.projection, queue.view, queue.model);
-		}
-		else if (isTerrain)
-		{
-			Terrain& terrain = entity.GetComponent<Terrain>();
-			//terrain.Use();
-			//terrainDraw(queue.projection, queue.view, queue.model);
 		}
 		
 		m_sortedMeshQueues.pop_front();

@@ -5,10 +5,8 @@
 #include "components/Transform.h"
 #include "components/Node.h"
 #include "components/Animation.h"
-#include "components/Terrain.h"
 #include "system/RenderSystem.h"
 #include "system/AnimationSystem.h"
-#include "system/TerrainSystem.h"
 #include "system/EntityNameCheckSystem.h"
 #include <Util.h>
 
@@ -92,7 +90,6 @@ Universe::Universe()
 	m_componentManager->RegisterComponent<Camera>();
 	m_componentManager->RegisterComponent<Node>();
 	m_componentManager->RegisterComponent<Animation>();
-	m_componentManager->RegisterComponent<Terrain>();
 	//for name check
 	m_systemManager->RegisterSystem<EntityNameCheckSystem>(this);
 	ComponentSignature entitySignature;
@@ -117,14 +114,6 @@ Universe::Universe()
 	renderSig.set(m_componentManager->GetComponentType<Model>());
 	renderSig.set(m_componentManager->GetComponentType<Node>());
 	m_systemManager->SetSignature<RenderSystem>(renderSig);
-
-	//for terrain system and render
-	m_systemManager->RegisterSystem<TerrainSystem>(this);
-	ComponentSignature terrainSig;
-	terrainSig.set(m_componentManager->GetComponentType<Transform>());
-	terrainSig.set(m_componentManager->GetComponentType<Node>());
-	terrainSig.set(m_componentManager->GetComponentType<Terrain>());
-	m_systemManager->SetSignature<RenderSystem>(terrainSig);
 
 	//for camera system
 	m_systemManager->RegisterSystem<CameraSystem>(this);
