@@ -48,6 +48,9 @@
     <Filter Include="src\system">
       <UniqueIdentifier>{3c734dcb-a2e3-4075-a732-8fbd6bf0fe29}</UniqueIdentifier>
     </Filter>
+    <Filter Include="include\terrain">
+      <UniqueIdentifier>{516fe32c-d899-421d-b78c-fcdae2ebc326}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Buttress.cpp">
@@ -201,6 +204,24 @@
     </ClInclude>
     <ClInclude Include="include\components\Animation.h">
       <Filter>include\component</Filter>
+    </ClInclude>
+    <ClInclude Include="include\terrain\TerrainConfig.h">
+      <Filter>include\terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="include\terrain\Terrain.h">
+      <Filter>include\terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="include\terrain\TerrainQuadtree.h">
+      <Filter>include\terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="include\terrain\TerrainContainer.h">
+      <Filter>include\terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="include\terrain\TerrainVBO.h">
+      <Filter>include\terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="include\terrain\TerrainNode.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

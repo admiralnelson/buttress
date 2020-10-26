@@ -70,6 +70,12 @@
     <ClInclude Include="include\system\CameraSystem.h" />
     <ClInclude Include="include\system\EntityNameCheckSystem.h" />
     <ClInclude Include="include\system\RenderSystem.h" />
+    <ClInclude Include="include\terrain\Terrain.h" />
+    <ClInclude Include="include\terrain\TerrainConfig.h" />
+    <ClInclude Include="include\terrain\TerrainContainer.h" />
+    <ClInclude Include="include\terrain\TerrainNode.h" />
+    <ClInclude Include="include\terrain\TerrainQuadtree.h" />
+    <ClInclude Include="include\terrain\TerrainVBO.h" />
     <ClInclude Include="include\Util.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
