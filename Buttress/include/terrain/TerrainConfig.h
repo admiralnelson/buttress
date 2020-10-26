@@ -39,7 +39,7 @@ private:
 	float m_scaleXZ;
 	std::shared_ptr<TextureData> m_heightMap;
 	std::shared_ptr<TextureData> m_normalMap;
-	std::shared_ptr<TextureData> m_heightMap;
+	
 	std::array<int, 8> m_lodRange;
 
 	std::array<int, 8> m_lodMorphingArea;

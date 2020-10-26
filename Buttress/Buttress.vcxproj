@@ -21,7 +21,8 @@
   <ItemGroup>
     <ClCompile Include="include\components\Transform.cpp" />
     <ClCompile Include="include\pch.cpp" />
-    <ClCompile Include="include\system\RenderSystem.cpp" />
+    <ClCompile Include="src\system\RenderSystem.cpp" />
+    <ClCompile Include="include\system\TerrainRenderSystem.h" />
     <ClCompile Include="src\Buttress.cpp" />
     <ClCompile Include="src\core\Material.cpp" />
     <ClCompile Include="src\core\MeshData.cpp" />
@@ -38,6 +39,7 @@
     <ClCompile Include="src\system\AnimationSystem.cpp" />
     <ClCompile Include="src\system\CameraSystem.cpp" />
     <ClCompile Include="src\system\EntityNameCheckSystem.cpp" />
+    <ClCompile Include="src\system\TerrainRenderSystem.cpp" />
     <ClCompile Include="src\Util.cpp" />
   </ItemGroup>
   <ItemGroup>

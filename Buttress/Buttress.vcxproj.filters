@@ -89,9 +89,6 @@
     <ClCompile Include="src\ecs\EventManager.cpp">
       <Filter>src\ecs</Filter>
     </ClCompile>
-    <ClCompile Include="include\system\RenderSystem.cpp">
-      <Filter>src\system</Filter>
-    </ClCompile>
     <ClCompile Include="src\core\Shader.cpp">
       <Filter>src\core</Filter>
     </ClCompile>
@@ -112,6 +109,15 @@
     </ClCompile>
     <ClCompile Include="src\core\ModelData.cpp">
       <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="include\system\TerrainRenderSystem.h">
+      <Filter>src\main</Filter>
+    </ClCompile>
+    <ClCompile Include="src\system\RenderSystem.cpp">
+      <Filter>src\system</Filter>
+    </ClCompile>
+    <ClCompile Include="src\system\TerrainRenderSystem.cpp">
+      <Filter>src\main</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

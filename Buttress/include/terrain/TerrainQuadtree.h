@@ -10,6 +10,7 @@ class TerrainQuadtree : public TerrainContainer
 public:
 	TerrainQuadtree(TerrainConfig config)
 	{
+		
 		TerrainVBO terrainVbo;
 		std::vector<Vec2> vertices;
 		vertices.resize(16);

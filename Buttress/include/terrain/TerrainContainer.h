@@ -2,6 +2,7 @@
 #include "pch.h"
 #include "core/Types.h"
 #include "components/Transform.h"
+#include "terrain/TerrainVBO.h"
 class TerrainContainer
 {
 public:
@@ -27,6 +28,11 @@ public:
 	void AddChild(TerrainContainer* child)
 	{
 		nodes.emplace_back(child);
+	}
+
+	TerrainContainer* GetChildren(int idx)
+	{
+		return nodes[idx];
 	}
 
 protected:

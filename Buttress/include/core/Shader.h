@@ -45,8 +45,13 @@ public:
 	bool SetUniformValueI(std::string _name, std::vector<int>& v);
 
 	void Debug();
+	void LoadShaderPack(std::string jsonString);
 	void AddVertexShader(std::string source);
+	void AddGeometryShader(std::string source);
+	void AddTesselationControlShader(std::string source);
+	void AddTesselationEvaluationShader (std::string source);
 	void AddFragmentShader(std::string source);
+	void AddComputeShader(std::string source);
 	void CompileShader();
 	bool IsShaderReady();
 	bool Validate();

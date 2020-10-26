@@ -14,9 +14,10 @@ public:
 		AddChild(new TerrainQuadtree(m_config));
 	}
 	
+	//called from mouse callback
 	void UpdateQuadTree()
 	{
-
+		dynamic_cast<TerrainQuadtree*>(GetChildren(0))->UpdateQuadtree();
 	}
 private:
 	TerrainConfig m_config;

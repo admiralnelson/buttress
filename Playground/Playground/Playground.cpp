@@ -47,6 +47,17 @@ int main()
 		animationShader->Validate();
 		animationShader->Debug();
 
+		std::shared_ptr<Shader> terrainShader;
+		terrainShader.reset(new Shader("terrainShader"));
+		terrainShader->AddVertexShader(ReadFileAsString("../../resource/shader/terrain_vs.txt"));
+		terrainShader->AddTesselationControlShader(ReadFileAsString("../../resource/shader/terrain_tc.txt"));
+		terrainShader->AddTesselationEvaluationShader(ReadFileAsString("../../resource/shader/terrain_te.txt"));
+		terrainShader->AddGeometryShader(ReadFileAsString("../../resource/shader/terrain_gs.txt"));
+		terrainShader->AddFragmentShader(ReadFileAsString("../../resource/shader/terrain_fs.txt"));
+		terrainShader->CompileShader();
+		terrainShader->Validate();
+		terrainShader->Debug();
+
 		ModelData::defaultShader = baseShader;
 		ModelData::defaultAnimatedShader = animationShader;
 		//ECS TEST

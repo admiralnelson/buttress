@@ -260,6 +260,25 @@ void Shader::AddVertexShader(std::string source)
 	FindAndLocateStructs(source);
 }
 
+void Shader::AddGeometryShader(std::string source)
+{
+	AddProgram(source, GL_GEOMETRY_SHADER);
+	FindButressConstants(source);
+	FindAndLocateUniforms(source);
+
+	FindAndLocateStructs(source);
+}
+
+void Shader::AddTesselationControlShader(std::string source)
+{
+	AddProgram(source, GL_TESS_CONTROL_SHADER);
+}
+
+void Shader::AddTesselationEvaluationShader(std::string source)
+{
+	AddProgram(source, GL_TESS_EVALUATION_SHADER);
+}
+
 void Shader::AddFragmentShader(std::string source)
 {
 	AddProgram(source, GL_FRAGMENT_SHADER);
@@ -267,6 +286,11 @@ void Shader::AddFragmentShader(std::string source)
 	FindAndLocateUniforms(source);
 	
 	FindAndLocateStructs(source);
+}
+
+void Shader::AddComputeShader(std::string source)
+{
+	AddProgram(source, GL_COMPUTE_SHADER);
 }
 
 void Shader::CompileShader()
