@@ -7,18 +7,10 @@
 class Terrain : public TerrainContainer
 {
 public:
-	Terrain(TerrainConfig config, Entity camera)
-	{
-		m_config = config;
-		m_config.camera = camera;
-		AddChild(new TerrainQuadtree(m_config));
-	}
+	Terrain(TerrainConfig config, Entity camera);
 	
 	//called from mouse callback
-	void UpdateQuadTree()
-	{
-		dynamic_cast<TerrainQuadtree*>(GetChildren(0))->UpdateQuadtree();
-	}
+	void UpdateQuadTree();
 private:
 	TerrainConfig m_config;
 };

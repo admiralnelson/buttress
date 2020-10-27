@@ -119,6 +119,21 @@
     <ClCompile Include="src\system\TerrainRenderSystem.cpp">
       <Filter>src\main</Filter>
     </ClCompile>
+    <ClCompile Include="src\terrain\Terrain.cpp">
+      <Filter>src\main</Filter>
+    </ClCompile>
+    <ClCompile Include="src\terrain\TerrainConfig.cpp">
+      <Filter>src\main</Filter>
+    </ClCompile>
+    <ClCompile Include="src\terrain\TerrainContainer.cpp">
+      <Filter>src\main</Filter>
+    </ClCompile>
+    <ClCompile Include="src\terrain\TerrainNode.cpp">
+      <Filter>src\main</Filter>
+    </ClCompile>
+    <ClCompile Include="src\terrain\TerrainQuadtree.cpp">
+      <Filter>src\main</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\pch.h">

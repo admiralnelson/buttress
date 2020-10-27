@@ -3,6 +3,7 @@
 #include "system/AnimationSystem.h"
 #include "components/Node.h"
 #include "components/Animation.h"
+#include "system/TerrainRenderSystem.h"
 #include "Util.h"
 
 static int freeMem;
@@ -51,6 +52,12 @@ void RenderSystem::Tick()
 
 		glGetIntegerv(GL_TEXTURE_FREE_MEMORY_ATI, &freeMem);
 		PRINT("INFO", "free mem is:", freeMem);
+
+		std::array<int, 8> lodRange = { 1750, 874, 386, 192, 100, 50, 0, 0 };
+
+		TerrainConfig config(0.0f, 6000, lodRange);
+
+		TerrainRenderSystem::Instance().AddTerrain(config, m_camera);
 	}
 
 	auto sortInstance = [](const MeshQueue& a, const MeshQueue& b)
@@ -73,6 +80,7 @@ void RenderSystem::Tick()
 	std::sort(m_sortedMeshQueues.begin(), m_sortedMeshQueues.end(), sortInstance);
 
 	RenderTheQueue();
+	
 }
 
 

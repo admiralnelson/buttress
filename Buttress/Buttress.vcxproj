@@ -40,6 +40,11 @@
     <ClCompile Include="src\system\CameraSystem.cpp" />
     <ClCompile Include="src\system\EntityNameCheckSystem.cpp" />
     <ClCompile Include="src\system\TerrainRenderSystem.cpp" />
+    <ClCompile Include="src\terrain\Terrain.cpp" />
+    <ClCompile Include="src\terrain\TerrainConfig.cpp" />
+    <ClCompile Include="src\terrain\TerrainContainer.cpp" />
+    <ClCompile Include="src\terrain\TerrainNode.cpp" />
+    <ClCompile Include="src\terrain\TerrainQuadtree.cpp" />
     <ClCompile Include="src\Util.cpp" />
   </ItemGroup>
   <ItemGroup>

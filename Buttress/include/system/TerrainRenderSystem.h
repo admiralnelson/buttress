@@ -3,6 +3,7 @@
 #include "terrain/TerrainConfig.h"
 #include "terrain/Terrain.h"
 #include "terrain/TerrainContainer.h"
+#include "core/Shader.h"
 
 //TODO: WARNING
 //this could be game engine bottleneck, since render/update function blocks the game execution
@@ -10,7 +11,7 @@
 class TerrainRenderSystem
 {
 public:
-	TerrainRenderSystem& Instance()
+	static TerrainRenderSystem& Instance()
 	{
 		static TerrainRenderSystem instance;
 		return instance;
@@ -21,5 +22,8 @@ public:
 	void ClearTerrain();
 private:
 	TerrainRenderSystem() {}
-	TerrainContainer* m_rootTerrain;
+	void InitShader();
+
+	TerrainContainer* m_rootTerrain = nullptr;
+	std::shared_ptr<Shader> m_terrainShader;
 };

@@ -1,5 +1,6 @@
 #pragma once
 #include "pch.h"
+#include "glad/glad.h"
 class TerrainVBO
 {
 public:

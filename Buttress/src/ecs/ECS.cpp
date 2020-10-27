@@ -8,6 +8,8 @@
 #include "system/RenderSystem.h"
 #include "system/AnimationSystem.h"
 #include "system/EntityNameCheckSystem.h"
+#include "system/TerrainRenderSystem.h"
+
 #include <Util.h>
 
 Entity Universe::CreateEntity(std::string name)
@@ -78,7 +80,7 @@ void Universe::Render(float dt)
 
 	renderer->Tick();
 	//m_workers.Reset();
-
+	TerrainRenderSystem::Instance().Render();
 	m_lastDt = dt;	
 }
 
@@ -123,4 +125,5 @@ Universe::Universe()
 	m_systemManager->SetSignature<CameraSystem>(cameraSig);
 
 	m_tschedSetup = new tbb::task_scheduler_init(16);
+
 }

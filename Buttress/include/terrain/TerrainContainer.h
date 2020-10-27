@@ -7,33 +7,16 @@ class TerrainContainer
 {
 public:
 
-	Transform transform;
+	Transform localTransform;
+	Transform worldTransform;
 
-	virtual void Update()
-	{
-		for (const auto p : nodes)
-		{
-			p->Update();
-		}
-	}
+	virtual void Update();
 
-	virtual void Render()
-	{
-		for (const auto p : nodes)
-		{
-			p->Render();
-		}
-	}
+	virtual void Render();
 
-	void AddChild(TerrainContainer* child)
-	{
-		nodes.emplace_back(child);
-	}
+	void AddChild(TerrainContainer* child);
 
-	TerrainContainer* GetChildren(int idx)
-	{
-		return nodes[idx];
-	}
+	TerrainContainer* GetChildren(int idx) { return nodes[idx]; }
 
 protected:
 	TerrainContainer* parent;
