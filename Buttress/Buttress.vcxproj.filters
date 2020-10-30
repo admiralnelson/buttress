@@ -110,28 +110,13 @@
     <ClCompile Include="src\core\ModelData.cpp">
       <Filter>src\core</Filter>
     </ClCompile>
-    <ClCompile Include="include\system\TerrainRenderSystem.h">
-      <Filter>src\main</Filter>
-    </ClCompile>
     <ClCompile Include="src\system\RenderSystem.cpp">
       <Filter>src\system</Filter>
     </ClCompile>
-    <ClCompile Include="src\system\TerrainRenderSystem.cpp">
+    <ClCompile Include="src\system\TerrainSystem.cpp">
       <Filter>src\main</Filter>
     </ClCompile>
-    <ClCompile Include="src\terrain\Terrain.cpp">
-      <Filter>src\main</Filter>
-    </ClCompile>
-    <ClCompile Include="src\terrain\TerrainConfig.cpp">
-      <Filter>src\main</Filter>
-    </ClCompile>
-    <ClCompile Include="src\terrain\TerrainContainer.cpp">
-      <Filter>src\main</Filter>
-    </ClCompile>
-    <ClCompile Include="src\terrain\TerrainNode.cpp">
-      <Filter>src\main</Filter>
-    </ClCompile>
-    <ClCompile Include="src\terrain\TerrainQuadtree.cpp">
+    <ClCompile Include="src\core\TerrainData.cpp">
       <Filter>src\main</Filter>
     </ClCompile>
   </ItemGroup>
@@ -226,22 +211,13 @@
     <ClInclude Include="include\components\Animation.h">
       <Filter>include\component</Filter>
     </ClInclude>
-    <ClInclude Include="include\terrain\TerrainConfig.h">
-      <Filter>include\terrain</Filter>
+    <ClInclude Include="include\system\TerrainSystem.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\terrain\Terrain.h">
-      <Filter>include\terrain</Filter>
+    <ClInclude Include="include\components\Terrain.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\terrain\TerrainQuadtree.h">
-      <Filter>include\terrain</Filter>
-    </ClInclude>
-    <ClInclude Include="include\terrain\TerrainContainer.h">
-      <Filter>include\terrain</Filter>
-    </ClInclude>
-    <ClInclude Include="include\terrain\TerrainVBO.h">
-      <Filter>include\terrain</Filter>
-    </ClInclude>
-    <ClInclude Include="include\terrain\TerrainNode.h">
+    <ClInclude Include="include\core\TerrainData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

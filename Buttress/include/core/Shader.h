@@ -5,6 +5,7 @@
 #define ATTRIBUTE_POS "aPos"
 #define ATTRIBUTE_NORMAL "aNormal"
 #define ATTRIBUTE_UV "aUv"
+#define ATTRIBUTE_UV2 "aUv2"
 #define ATTRIBUTE_BONE_IDS "aBoneIds"
 #define ATTRIBUTE_BONE_WEIGHTS "aWeights"
 

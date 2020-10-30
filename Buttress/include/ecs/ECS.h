@@ -309,6 +309,12 @@ public:
 		return !doesntExistInParent;
 	}
 
+	Entity GetChild(unsigned int idx)
+	{
+		Node& node = GetComponent<Node>();
+		return node.GetChild(idx);
+	}
+
 	void Destroy()
 	{
 		std::lock_guard<std::recursive_mutex> lock(m_universe->m_mutex);
@@ -319,6 +325,7 @@ public:
 		}
 
 		m_universe->m_entityManager->DestroyEntity(id);
+		id = INVALID_ENTITY;
 	}
 
 	/// O(N*2) operation!

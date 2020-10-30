@@ -16,6 +16,8 @@
 #include <components\Model.h>
 #include <components\Animation.h>
 
+#include <core\TerrainData.h>
+
 int main()
 {
 	{
@@ -47,8 +49,21 @@ int main()
 		animationShader->Validate();
 		animationShader->Debug();
 
+		std::shared_ptr<Shader> terrainShader;
+		terrainShader.reset(new Shader("terrainShader"));
+		terrainShader->AddVertexShader(ReadFileAsString("../../resource/shader/terrain_vs.txt"));
+		terrainShader->AddFragmentShader(ReadFileAsString("../../resource/shader/terrain_fs.txt"));
+		terrainShader->CompileShader();
+		terrainShader->Validate();
+		terrainShader->Debug();
+
 		ModelData::defaultShader = baseShader;
 		ModelData::defaultAnimatedShader = animationShader;
+		TerrainLoader::Instance().shader = terrainShader;
+
+		Entity terrain = universe.CreateEntity("terrain");
+		TerrainLoader::Instance().Allocate(terrain, 2, 4);
+		TerrainLoader::Instance().Debug(terrain);
 		//ECS TEST
 		{
 			universe.GetSystem<CameraSystem>()->windowDimension = { b.Width(), b.Height() };

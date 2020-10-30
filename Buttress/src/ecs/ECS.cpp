@@ -4,11 +4,11 @@
 #include "components/Camera.h"
 #include "components/Transform.h"
 #include "components/Node.h"
+#include "components/Terrain.h"
 #include "components/Animation.h"
 #include "system/RenderSystem.h"
 #include "system/AnimationSystem.h"
 #include "system/EntityNameCheckSystem.h"
-#include "system/TerrainRenderSystem.h"
 
 #include <Util.h>
 
@@ -80,7 +80,6 @@ void Universe::Render(float dt)
 
 	renderer->Tick();
 	//m_workers.Reset();
-	TerrainRenderSystem::Instance().Render();
 	m_lastDt = dt;	
 }
 
@@ -92,6 +91,8 @@ Universe::Universe()
 	m_componentManager->RegisterComponent<Camera>();
 	m_componentManager->RegisterComponent<Node>();
 	m_componentManager->RegisterComponent<Animation>();
+	m_componentManager->RegisterComponent<Terrain>();
+	m_componentManager->RegisterComponent<Terrain::TerrainNode>();
 	//for name check
 	m_systemManager->RegisterSystem<EntityNameCheckSystem>(this);
 	ComponentSignature entitySignature;
