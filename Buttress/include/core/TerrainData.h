@@ -30,7 +30,7 @@ public:
 	void Clear();
 	bool IsEntityAssociatedToTerrain(EntityId ent);
 private:
-	void AllocateRecursively(Entity mainParent, Entity node, int dimension, int lodLevel, int currentLevel, IntVec2 indexOffset);
+	void AllocateRecursively(Entity mainParent, Entity node, int dimension, int lodLevel, int currentLevel, IntVec2& indexOffset);
 	TerrainLoader() {}
 	tbb::concurrent_unordered_map<EntityId, std::vector<TerrainBuffer>, std::hash<EntityId>> m_terrainPatchesCaches;
 };

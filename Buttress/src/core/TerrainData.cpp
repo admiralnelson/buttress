@@ -16,7 +16,8 @@ void TerrainLoader::Allocate(Entity rootEntity, int lodLevel, int dimension)
 		PRINT("WARN", "entity", rootEntity.GetId(), " has a terrain alerady!");
 	}
 
-	AllocateRecursively(rootEntity, rootEntity, dimension, lodLevel, 0, { 0,0 });
+	IntVec2 v = { 0,0 };
+	AllocateRecursively(rootEntity, rootEntity, dimension, lodLevel, 0, v);
 	
 }
 
@@ -44,7 +45,8 @@ bool TerrainLoader::IsEntityAssociatedToTerrain(EntityId ent)
 	return false;
 }
 
-void TerrainLoader::AllocateRecursively(Entity mainParent, Entity parent, int dimension, int lodLevel, int currentLevel, IntVec2 indexOffset)
+Entity lastEntity;
+void TerrainLoader::AllocateRecursively(Entity mainParent, Entity parent, int dimension, int lodLevel, int currentLevel, IntVec2 &indexOffset)
 {
 
 	if (currentLevel > lodLevel) 
@@ -71,27 +73,52 @@ void TerrainLoader::AllocateRecursively(Entity mainParent, Entity parent, int di
 
 	parent.AddComponent<Terrain::TerrainNode>(node);
 
-	
+
 	for (size_t i = 0; i < 4; i++)
 	{
 		Entity child = parent.CreateEntity("terrain");
 		parent.AttachChild(child);
 	}
-	int i = 0;
-	for (size_t x = 0; x < 2; x++)
+
+
+	if (indexOffset.x > 0)
 	{
-		for (size_t y = 0; y < 2; y++)
-		{
-			Entity child = parent.GetChild(i);
-			IntVec2 newIndexOffset;
-			int newCurrentLevel = currentLevel + 1;
-			newIndexOffset.x = indexOffset.x + x;
-			newIndexOffset.y = indexOffset.y + y;
-			AllocateRecursively(mainParent, child, dimension, lodLevel, newCurrentLevel, newIndexOffset);
-			i++;
-		}
+		indexOffset.x = indexOffset.x * 2;
 	}
-	
+
+	if (indexOffset.y > 0)
+	{
+		indexOffset.y = indexOffset.y * 2;
+	}
+
+	int newCurrentLevel = currentLevel + 1;
+	Entity child = parent.GetChild(0);
+	IntVec2 newIndex;
+	newIndex.x = indexOffset.x;
+	newIndex.y = indexOffset.y;
+	AllocateRecursively(mainParent, child, dimension, lodLevel, newCurrentLevel, newIndex);
+
+	Entity child1 = parent.GetChild(1);
+	IntVec2 newIndex1;
+	newIndex1.x = indexOffset.x + 1;
+	newIndex1.y = indexOffset.y;
+	AllocateRecursively(mainParent, child1, dimension, lodLevel, newCurrentLevel, newIndex1);
+
+	Entity child2 = parent.GetChild(2);
+	IntVec2 newIndex2;
+	newIndex2.x = indexOffset.x;
+	newIndex2.y = indexOffset.y + 1;
+	AllocateRecursively(mainParent, child2, dimension, lodLevel, newCurrentLevel, newIndex2);
+
+	Entity child3 = parent.GetChild(3);
+	IntVec2 newIndex3;
+	newIndex3.x = indexOffset.x + 1;
+	newIndex3.y = indexOffset.y + 1;
+	AllocateRecursively(mainParent, child3, dimension, lodLevel, newCurrentLevel, newIndex3);
+
+	parent.GetComponent<Terrain::TerrainNode>().index.x = newIndex.x;
+	parent.GetComponent<Terrain::TerrainNode>().index.y = newIndex.y;
+
 }
 
 TerrainBuffer::TerrainBuffer(unsigned int dimension,  IntVec2 index, std::shared_ptr<Shader> terrainShader)
