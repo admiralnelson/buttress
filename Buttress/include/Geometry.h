@@ -15,7 +15,7 @@ typedef glm::tvec2<float> Vec2;
 typedef glm::tvec3<float> Vec3;
 typedef glm::tvec4<float> Vec4;
 
-typedef glm::tvec2<int> IntVec2;
+typedef glm::ivec2 IntVec2;
 
 typedef glm::quat Quaternion;
 typedef glm::mat4x4 Matrix4;

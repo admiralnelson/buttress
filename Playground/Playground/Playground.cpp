@@ -62,7 +62,7 @@ int main()
 		TerrainLoader::Instance().shader = terrainShader;
 
 		Entity terrain = universe.CreateEntity("terrain");
-		TerrainLoader::Instance().Allocate(terrain, 2, 4);
+		TerrainLoader::Instance().AllocateQuadtree(terrain, 2, 4);
 		TerrainLoader::Instance().Debug(terrain);
 		//ECS TEST
 		{

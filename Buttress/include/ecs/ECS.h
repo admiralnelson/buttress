@@ -367,4 +367,3 @@ private:
 	EntityId id = INVALID_ENTITY;
 	Universe* m_universe = nullptr;
 };
-

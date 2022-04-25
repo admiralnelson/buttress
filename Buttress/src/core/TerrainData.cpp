@@ -2,7 +2,7 @@
 #include "core/TerrainData.h"
 #include "components/Terrain.h"
 
-void TerrainLoader::Allocate(Entity rootEntity, int lodLevel, int dimension)
+void TerrainLoader::AllocateQuadtree(Entity rootEntity, int lodLevel, int dimension)
 {
 	if (shader == nullptr)
 	{
@@ -18,7 +18,14 @@ void TerrainLoader::Allocate(Entity rootEntity, int lodLevel, int dimension)
 
 	IntVec2 v = { 0,0 };
 	AllocateRecursively(rootEntity, rootEntity, dimension, lodLevel, 0, v);
+
+	//AllocateVertexes;
 	
+}
+
+void TerrainLoader::AllocateVertices(Entity rootEntity)
+{
+
 }
 
 void TerrainLoader::Debug(Entity rootEntity)
@@ -51,8 +58,8 @@ void TerrainLoader::AllocateRecursively(Entity mainParent, Entity parent, int di
 
 	if (currentLevel > lodLevel) 
 	{
-		TerrainBuffer buffer(dimension, indexOffset, TerrainLoader::Instance().shader);
-		m_terrainPatchesCaches[mainParent.GetId()].emplace_back(buffer);
+		//TerrainBuffer buffer(dimension, indexOffset, TerrainLoader::Instance().shader);
+		//m_terrainPatchesCaches[mainParent.GetId()].emplace_back(buffer);
 
 		Terrain::TerrainNode node;
 		node.index = indexOffset;
@@ -63,8 +70,8 @@ void TerrainLoader::AllocateRecursively(Entity mainParent, Entity parent, int di
 		return;
 	}
 
-	TerrainBuffer buffer(dimension, indexOffset, TerrainLoader::Instance().shader);
-	m_terrainPatchesCaches[mainParent.GetId()].emplace_back(buffer);
+	//TerrainBuffer buffer(dimension, indexOffset, TerrainLoader::Instance().shader);
+	//m_terrainPatchesCaches[mainParent.GetId()].emplace_back(buffer);
 	
 	Terrain::TerrainNode node;
 	node.index = indexOffset;

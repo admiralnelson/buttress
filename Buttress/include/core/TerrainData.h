@@ -25,7 +25,8 @@ public:
 	}
 
 	//ONLY CALL THIS ON MAIN THREAD
-	void Allocate(Entity rootEntity, int lodLevel, int dimension);
+	void AllocateQuadtree(Entity rootEntity, int lodLevel, int dimension);
+	void AllocateVertices(Entity rootEntity);
 	void Debug(Entity rootEntity);
 	void Clear();
 	bool IsEntityAssociatedToTerrain(EntityId ent);
