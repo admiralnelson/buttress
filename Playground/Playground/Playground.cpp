@@ -23,7 +23,7 @@ int main()
 	{
 		Universe universe;
 		Buttress b;
-		b.Init(800, 600, "tetst");
+		b.Init(1980, 1080, "tetst");
 
 		std::shared_ptr<Shader> baseShader;
 		baseShader.reset(new Shader("test"));
@@ -64,6 +64,7 @@ int main()
 		Entity terrain = universe.CreateEntity("terrain");
 		TerrainLoader::Instance().AllocateQuadtree(terrain, 2, 4);
 		TerrainLoader::Instance().Debug(terrain);
+		universe.MemoryDebug();
 		//ECS TEST
 		{
 			universe.GetSystem<CameraSystem>()->windowDimension = { b.Width(), b.Height() };
@@ -84,7 +85,13 @@ int main()
 			guard.Debug();
 			guard.GetComponent<Transform>().scale = { 0.2, 0.2, 0.2 };
 
-			for (size_t i = 1; i < 400; i++)
+#ifdef DEBUG
+			int max = 100;
+#else
+			int max = 512;
+#endif
+
+			for (size_t i = 1; i < max; i++)
 			{
 				Entity guardInstance = universe.CreateEntity("a guard" + std::to_string(i));
 				Model model;

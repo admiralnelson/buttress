@@ -1,0 +1,30 @@
+ code/Common/Exporter.cpp | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/code/Common/Exporter.cpp b/code/Common/Exporter.cpp
+index 34d49c47..6de814d1 100644
+--- a/code/Common/Exporter.cpp
++++ b/code/Common/Exporter.cpp
+@@ -104,6 +104,11 @@ void ExportSceneFBXA(const char*, IOSystem*, const aiScene*, const ExportPropert
+ void ExportScene3MF( const char*, IOSystem*, const aiScene*, const ExportProperties* );
+ void ExportAssimp2Json(const char* , IOSystem*, const aiScene* , const Assimp::ExportProperties*);
+ 
++void ExportNone(const char*, IOSystem*, const aiScene*, const Assimp::ExportProperties*)
++{
++
++}
++
+ // ------------------------------------------------------------------------------------------------
+ // global array of all export formats which Assimp supports in its current build
+ Exporter::ExportFormatEntry gExporters[] =
+@@ -184,8 +189,9 @@ Exporter::ExportFormatEntry gExporters[] =
+ #endif
+ 
+ #ifndef ASSIMP_BUILD_NO_ASSJSON_EXPORTER
+-    Exporter::ExportFormatEntry( "assjson", "Assimp JSON Document", "json", &ExportAssimp2Json, 0)
++    Exporter::ExportFormatEntry( "assjson", "Assimp JSON Document", "json", &ExportAssimp2Json, 0),
+ #endif
++    Exporter::ExportFormatEntry( "none", "none", "none", &ExportNone, 0) //msvc compiler fix
+ };
+ 
+ #define ASSIMP_NUM_EXPORTERS (sizeof(gExporters)/sizeof(gExporters[0]))

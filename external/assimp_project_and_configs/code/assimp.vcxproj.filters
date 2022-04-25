@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="F:\my_game_engine\external\assimp\code\Common\Assimp.cpp">
       <Filter>Source Files</Filter>
@@ -81,6 +81,12 @@
     </ClCompile>
     <ClCompile Include="F:\my_game_engine\external\assimp\code\Common\DefaultLogger.cpp">
       <Filter>Logging</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\code\Common\Exporter.cpp">
+      <Filter>Exporter</Filter>
+    </ClCompile>
+    <ClCompile Include="F:\my_game_engine\external\assimp\code\CApi\AssimpCExport.cpp">
+      <Filter>Exporter</Filter>
     </ClCompile>
     <ClCompile Include="F:\my_game_engine\external\assimp\code\PostProcessing\CalcTangentsProcess.cpp">
       <Filter>PostProcessing</Filter>
@@ -644,6 +650,9 @@
     </ClInclude>
     <ClInclude Include="F:\my_game_engine\external\assimp\code\Common\StdOStreamLogStream.h">
       <Filter>Logging</Filter>
+    </ClInclude>
+    <ClInclude Include="F:\my_game_engine\external\assimp\include\assimp\BlobIOSystem.h">
+      <Filter>Exporter</Filter>
     </ClInclude>
     <ClInclude Include="F:\my_game_engine\external\assimp\code\PostProcessing\CalcTangentsProcess.h">
       <Filter>PostProcessing</Filter>
@@ -1458,9 +1467,6 @@
     <ClInclude Include="F:\my_game_engine\external\assimp\include\assimp\CreateAnimMesh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="F:\my_game_engine\external\assimp\include\assimp\BlobIOSystem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="F:\my_game_engine\external\assimp\include\assimp\MathFunctions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1560,6 +1566,9 @@
     </Filter>
     <Filter Include="DXF">
       <UniqueIdentifier>{D25308A0-9A08-3924-9030-4E96AABF92B2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Exporter">
+      <UniqueIdentifier>{9896CFE3-565A-3F86-B6DA-2446EA8B9346}</UniqueIdentifier>
     </Filter>
     <Filter Include="FBX">
       <UniqueIdentifier>{E2DA953F-D5F8-319B-8B72-028B5A9BDC74}</UniqueIdentifier>

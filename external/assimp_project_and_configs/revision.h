@@ -20,9 +20,9 @@
 #endif
 
 #ifdef  NDEBUG
-#define VER_ORIGINAL_FILENAME_STR   "assimp-vc141-mt.dll"
+#define VER_ORIGINAL_FILENAME_STR   "assimp-vc142-mt.dll"
 #else
-#define VER_ORIGINAL_FILENAME_STR   "assimp-vc141-mtd.dll"
+#define VER_ORIGINAL_FILENAME_STR   "assimp-vc142-mtd.dll"
 #endif //  NDEBUG
 
 #endif // ASSIMP_REVISION_H_INC

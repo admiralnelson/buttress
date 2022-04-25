@@ -42,22 +42,22 @@ if(MSVC)
     # Import target "assimp::assimp" for configuration "Debug"
     set_property(TARGET assimp::assimp APPEND PROPERTY IMPORTED_CONFIGURATIONS DEBUG)
     set_target_properties(assimp::assimp PROPERTIES
-      IMPORTED_IMPLIB_DEBUG "c:/Program Files (x86)/Assimp/lib/${importLibraryName}"
-      IMPORTED_LOCATION_DEBUG "c:/Program Files (x86)/Assimp/bin/${sharedLibraryName}"
+      IMPORTED_IMPLIB_DEBUG "C:/Program Files (x86)/Assimp/lib/${importLibraryName}"
+      IMPORTED_LOCATION_DEBUG "C:/Program Files (x86)/Assimp/bin/${sharedLibraryName}"
     )
     list(APPEND _IMPORT_CHECK_TARGETS assimp::assimp )
-    list(APPEND _IMPORT_CHECK_FILES_FOR_assimp::assimp "c:/Program Files (x86)/Assimp/lib/${importLibraryName}")
-    list(APPEND _IMPORT_CHECK_FILES_FOR_assimp::assimp "c:/Program Files (x86)/Assimp/bin/${sharedLibraryName}" )
+    list(APPEND _IMPORT_CHECK_FILES_FOR_assimp::assimp "C:/Program Files (x86)/Assimp/lib/${importLibraryName}")
+    list(APPEND _IMPORT_CHECK_FILES_FOR_assimp::assimp "C:/Program Files (x86)/Assimp/bin/${sharedLibraryName}" )
   else()
     set(staticLibraryName "assimp${ASSIMP_LIBRARY_SUFFIX}d.lib")
 
     # Import target "assimp::assimp" for configuration "Debug"
     set_property(TARGET assimp::assimp APPEND PROPERTY IMPORTED_CONFIGURATIONS DEBUG)
     set_target_properties(assimp::assimp PROPERTIES
-      IMPORTED_LOCATION_DEBUG "c:/Program Files (x86)/Assimp/lib/${staticLibraryName}"
+      IMPORTED_LOCATION_DEBUG "C:/Program Files (x86)/Assimp/lib/${staticLibraryName}"
     )
     list(APPEND _IMPORT_CHECK_TARGETS assimp::assimp )
-    list(APPEND _IMPORT_CHECK_FILES_FOR_assimp::assimp "c:/Program Files (x86)/Assimp/lib/${staticLibraryName}")
+    list(APPEND _IMPORT_CHECK_FILES_FOR_assimp::assimp "C:/Program Files (x86)/Assimp/lib/${staticLibraryName}")
   endif()
 
 else()
@@ -66,17 +66,17 @@ else()
     set(sharedLibraryName "libassimp${ASSIMP_LIBRARY_SUFFIX}d.dll.5")
     set_target_properties(assimp::assimp PROPERTIES
       IMPORTED_SONAME_DEBUG "${sharedLibraryName}"
-      IMPORTED_LOCATION_DEBUG "c:/Program Files (x86)/Assimp/lib/${sharedLibraryName}"
+      IMPORTED_LOCATION_DEBUG "C:/Program Files (x86)/Assimp/lib/${sharedLibraryName}"
     )
     list(APPEND _IMPORT_CHECK_TARGETS assimp::assimp )
-    list(APPEND _IMPORT_CHECK_FILES_FOR_assimp::assimp "c:/Program Files (x86)/Assimp/lib/${sharedLibraryName}" )
+    list(APPEND _IMPORT_CHECK_FILES_FOR_assimp::assimp "C:/Program Files (x86)/Assimp/lib/${sharedLibraryName}" )
   else()
     set(staticLibraryName "libassimp${ASSIMP_LIBRARY_SUFFIX}d.lib")
     set_target_properties(assimp::assimp PROPERTIES
-      IMPORTED_LOCATION_DEBUG "c:/Program Files (x86)/Assimp/lib/${staticLibraryName}"
+      IMPORTED_LOCATION_DEBUG "C:/Program Files (x86)/Assimp/lib/${staticLibraryName}"
     )
     list(APPEND _IMPORT_CHECK_TARGETS assimp::assimp )
-    list(APPEND _IMPORT_CHECK_FILES_FOR_assimp::assimp "c:/Program Files (x86)/Assimp/lib/${staticLibraryName}" )
+    list(APPEND _IMPORT_CHECK_FILES_FOR_assimp::assimp "C:/Program Files (x86)/Assimp/lib/${staticLibraryName}" )
   endif()
 endif()
 
@@ -86,7 +86,7 @@ endif()
 # Commands beyond this point should not need to know the version.
 set(CMAKE_IMPORT_FILE_VERSION)
 
-get_filename_component(ASSIMP_ROOT_DIR "c:/Program Files (x86)/Assimp" REALPATH)
+get_filename_component(ASSIMP_ROOT_DIR "C:/Program Files (x86)/Assimp" REALPATH)
 set( ASSIMP_CXX_FLAGS ) # dynamically linked library
 set( ASSIMP_LINK_FLAGS "" )
 set( ASSIMP_LIBRARY_DIRS "${ASSIMP_ROOT_DIR}/lib")

@@ -42,14 +42,14 @@ if(MSVC)
     set(importLibraryName "assimp${ASSIMP_LIBRARY_SUFFIX}.lib")
 
     set_target_properties(assimp::assimp PROPERTIES
-      IMPORTED_IMPLIB_RELEASE "c:/Program Files (x86)/Assimp/lib/${importLibraryName}"
-      IMPORTED_LOCATION_RELEASE "c:/Program Files (x86)/Assimp/bin/${sharedLibraryName}"
+      IMPORTED_IMPLIB_RELEASE "C:/Program Files (x86)/Assimp/lib/${importLibraryName}"
+      IMPORTED_LOCATION_RELEASE "C:/Program Files (x86)/Assimp/bin/${sharedLibraryName}"
     )
     list(APPEND _IMPORT_CHECK_FILES_FOR_assimp::assimp "${_IMPORT_PREFIX}/lib/${importLibraryName}")
     list(APPEND _IMPORT_CHECK_FILES_FOR_assimp::assimp "${_IMPORT_PREFIX}/bin/${sharedLibraryName}" )
     list(APPEND _IMPORT_CHECK_TARGETS assimp::assimp )
-    list(APPEND _IMPORT_CHECK_FILES_FOR_assimp::assimp "c:/Program Files (x86)/Assimp/lib/${importLibraryName}")
-    list(APPEND _IMPORT_CHECK_FILES_FOR_assimp::assimp "c:/Program Files (x86)/Assimp/bin/${sharedLibraryName}" )
+    list(APPEND _IMPORT_CHECK_FILES_FOR_assimp::assimp "C:/Program Files (x86)/Assimp/lib/${importLibraryName}")
+    list(APPEND _IMPORT_CHECK_FILES_FOR_assimp::assimp "C:/Program Files (x86)/Assimp/bin/${sharedLibraryName}" )
   else()
     set(staticLibraryName "assimp${ASSIMP_LIBRARY_SUFFIX}.lib")
 
@@ -59,7 +59,7 @@ if(MSVC)
     )
     list(APPEND _IMPORT_CHECK_FILES_FOR_assimp::assimp "${_IMPORT_PREFIX}/lib/${staticLibraryName}")
     list(APPEND _IMPORT_CHECK_TARGETS assimp::assimp )
-    list(APPEND _IMPORT_CHECK_FILES_FOR_assimp::assimp "c:/Program Files (x86)/Assimp/lib/${staticLibraryName}")
+    list(APPEND _IMPORT_CHECK_FILES_FOR_assimp::assimp "C:/Program Files (x86)/Assimp/lib/${staticLibraryName}")
   endif()
 
 else()
@@ -72,19 +72,19 @@ else()
     endif()
     set_target_properties(assimp::assimp PROPERTIES
       IMPORTED_SONAME_RELEASE "${sharedLibraryName}"
-      IMPORTED_LOCATION_RELEASE "c:/Program Files (x86)/Assimp/lib/${sharedLibraryName}"
+      IMPORTED_LOCATION_RELEASE "C:/Program Files (x86)/Assimp/lib/${sharedLibraryName}"
     )
     list(APPEND _IMPORT_CHECK_FILES_FOR_assimp::assimp "${_IMPORT_PREFIX}/lib/${sharedLibraryName}" )
     list(APPEND _IMPORT_CHECK_TARGETS assimp::assimp )
-    list(APPEND _IMPORT_CHECK_FILES_FOR_assimp::assimp "c:/Program Files (x86)/Assimp/lib/${sharedLibraryName}" )
+    list(APPEND _IMPORT_CHECK_FILES_FOR_assimp::assimp "C:/Program Files (x86)/Assimp/lib/${sharedLibraryName}" )
   else()
     set(staticLibraryName "libassimp${ASSIMP_LIBRARY_SUFFIX}.lib")
     set_target_properties(assimp::assimp PROPERTIES
-      IMPORTED_LOCATION_RELEASE "c:/Program Files (x86)/Assimp/lib/${staticLibraryName}"
+      IMPORTED_LOCATION_RELEASE "C:/Program Files (x86)/Assimp/lib/${staticLibraryName}"
     )
     list(APPEND _IMPORT_CHECK_FILES_FOR_assimp::assimp "${_IMPORT_PREFIX}/lib/${staticLibraryName}" )
     list(APPEND _IMPORT_CHECK_TARGETS assimp::assimp )
-    list(APPEND _IMPORT_CHECK_FILES_FOR_assimp::assimp "c:/Program Files (x86)/Assimp/lib/${staticLibraryName}" )
+    list(APPEND _IMPORT_CHECK_FILES_FOR_assimp::assimp "C:/Program Files (x86)/Assimp/lib/${staticLibraryName}" )
   endif()
 endif()
 
@@ -93,7 +93,7 @@ list(APPEND _IMPORT_CHECK_TARGETS assimp::assimp )
 # Commands beyond this point should not need to know the version.
 set(CMAKE_IMPORT_FILE_VERSION)
 
-get_filename_component(ASSIMP_ROOT_DIR "c:/Program Files (x86)/Assimp" REALPATH)
+get_filename_component(ASSIMP_ROOT_DIR "C:/Program Files (x86)/Assimp" REALPATH)
 
 set( ASSIMP_CXX_FLAGS ) # dynamically linked library
 set( ASSIMP_LINK_FLAGS "" )

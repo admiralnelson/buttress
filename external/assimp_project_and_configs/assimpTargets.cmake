@@ -50,7 +50,7 @@ endif()
 set_target_properties(assimp::assimp PROPERTIES
   COMPATIBLE_INTERFACE_STRING "assimp_MAJOR_VERSION"
   INTERFACE_assimp_MAJOR_VERSION "1"
-  INTERFACE_INCLUDE_DIRECTORIES "c:/Program Files (x86)/Assimp/include"
+  INTERFACE_INCLUDE_DIRECTORIES "C:/Program Files (x86)/Assimp/include"
   #INTERFACE_LINK_LIBRARIES "TxtUtils::TxtUtils;MealyMachine::MealyMachine"
 )
 
